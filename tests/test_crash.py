@@ -195,6 +195,7 @@ SUMMARY: ThreadSanitizer: data race /src/current.c:3 in write_counter
     "first_report",
     [
         "==1==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x1\n",
+        ("ERROR: AddressSanitizer\n    #0 0x1111 in unrelated /src/unrelated.c:1:1\n"),
         "/src/first.c:4:2: runtime error: signed integer overflow\n",
     ],
 )

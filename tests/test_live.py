@@ -6,7 +6,7 @@ import pytest
 
 from reproof.arvo import ArvoRepository
 from reproof.claims import MODEL, PRICE_SOURCE, extract_claim
-from reproof.crash import looks_clean, parse_crash
+from reproof.crash import is_conclusive_crash, looks_clean, parse_crash
 from reproof.dup import OsvIndex
 from reproof.sandbox import SandboxRunner
 
@@ -39,10 +39,10 @@ def test_live_contree_reproduction_pair() -> None:
     fixed_checkpoint = runner.ensure_checkpoint(TASK_ID, "fix", fix_dir)
     vulnerable, fixed = runner.run_pair(TASK_ID, vulnerable_checkpoint, fixed_checkpoint)
     print(f"ConTree operations vul={vulnerable.operation_uuid} fix={fixed.operation_uuid}")
-    measured = parse_crash("\n".join((vulnerable.stdout, vulnerable.stderr)))
+    measured = parse_crash(vulnerable.stderr)
+    fixed_measured = parse_crash(fixed.stderr)
     assert task.project == "jq"
-    assert measured.crashed
-    assert vulnerable.exit_code != 0
-    assert looks_clean(fixed.exit_code, "\n".join((fixed.stdout, fixed.stderr)))
+    assert is_conclusive_crash(vulnerable.exit_code, measured)
+    assert looks_clean(fixed.exit_code, fixed.stderr) and not fixed_measured.state
     assert vulnerable.operation_uuid
     assert fixed.operation_uuid

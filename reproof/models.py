@@ -49,7 +49,7 @@ class ModelCall(StrictModel):
 
 
 class CrashEvidence(StrictModel):
-    crash_type: str
+    crash_type: str = Field(min_length=1)
     crash_state: list[str] = Field(min_length=1)
     sanitizer_excerpt: str = Field(min_length=1)
     sanitizer_kind: str = Field(min_length=1)

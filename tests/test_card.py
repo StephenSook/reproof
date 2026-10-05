@@ -166,6 +166,19 @@ def test_card_schema_rejects_crash_evidence_without_saved_trace() -> None:
         TriageCard.model_validate(payload)
 
 
+def test_card_schema_rejects_blank_crash_type() -> None:
+    payload = valid_card()
+    payload["verdict"] = "REPRODUCED"
+    payload["evidence"]["crash"] = {  # type: ignore[index]
+        "crash_type": "",
+        "crash_state": ["parse_item"],
+        "sanitizer_excerpt": "ERROR: AddressSanitizer",
+        "sanitizer_kind": "AddressSanitizer",
+    }
+    with pytest.raises(ValidationError, match="at least 1 character"):
+        TriageCard.model_validate(payload)
+
+
 @pytest.mark.parametrize("failure", ["deadly signal", "timeout after 60 seconds"])
 def test_card_requires_needs_info_for_unsanitized_fatal_run(failure: str) -> None:
     payload = valid_card()

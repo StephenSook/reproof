@@ -69,7 +69,8 @@ class CrashSignature:
     @property
     def crashed(self) -> bool:
         return (
-            bool(self.state)
+            bool(self.crash_type.strip())
+            and bool(self.state)
             and self.state != ("NULL",)
             and bool(self.inline_groups)
             and self.sanitizer_kind is not None
