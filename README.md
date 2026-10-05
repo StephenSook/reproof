@@ -26,11 +26,13 @@ data and no private reports.
 2. `reproof.slice` uses `docker create` and `docker cp` on a stopped container. It never runs the
    source container. It copies the ARVO wrapper, PoC, fuzz target, LLVM symbolizer, loader, and
    recursively resolved glibc dependencies. It patches `PT_INTERP` to `/arvo/ld.so`, records the
-   original and patched SHA-256 and size for every file, writes a manifest, and deletes the local
-   Docker image.
+   original and patched SHA-256 and size for every file, writes a manifest, removes the task image
+   tag, and verifies that the tag is absent. A cached slice is accepted only when every file still
+   matches its recorded patched hash and size.
 3. `reproof.sandbox` uploads the slice into a named ConTree checkpoint based on
    `python:3.12-slim`. It caches checkpoint UUIDs locally and runs vulnerable and fixed branches in
-   parallel with `disposable=True`.
+   parallel with `disposable=True`. Cached checkpoint records keep the checkpoint creation cost
+   and operation UUID.
 4. `reproof.crash` parses sanitizer output with `clusterfuzz==2.6.0`.
 5. `reproof.dup` checks every same-project record in the public OSS-Fuzz OSV archive. Matching is
    exact first, then tolerant of inline sibling frames at the same program counter.
@@ -38,7 +40,8 @@ data and no private reports.
    temperature 0 and thinking disabled. Deterministic code compares the claimed bug class and
    functions with the measured crash.
 7. `reproof.triage` writes the verdict, sanitizer excerpt, crash type and state, fixed result,
-   duplicate candidates, claim comparison, model calls, sandbox operations, cost, and wall time.
+   duplicate candidates, claim comparison, model calls, sandbox operations, slice hashes, cost,
+   and wall time. A conclusive verdict requires a clean fixed build.
 
 ### Why runtime slices are used
 
@@ -75,7 +78,7 @@ uv run reproof eval --n 10
 
 For a task without a cached slice, place local images named
 `n132/arvo:<id>-vul` and `n132/arvo:<id>-fix` in Docker before `triage`. The eval command pulls its
-selected images. Each image is deleted after its slice and manifest are written.
+selected images. Each task image tag is removed after its slice and manifest are written.
 
 An interrupted eval can reuse strict cards that were already written:
 
@@ -84,7 +87,9 @@ uv run reproof eval --n 10 --resume
 ```
 
 Local caches, runtime slices, databases, zip archives, card details, and credentials are excluded
-from Git. The aggregate eval result is tracked at `eval/results/arvo10.json`.
+from Git. The aggregate eval result is tracked at `eval/results/arvo10.json`. It includes the model
+request IDs, ConTree checkpoint and run operation UUIDs, crash evidence, token counts, costs, slice
+manifest hashes, and source-data hashes needed to audit the aggregate.
 
 ## ARVO 10 evaluation
 
@@ -95,14 +100,14 @@ OSV summary plus details, not a private report.
 
 | ARVO | Project | Verdict | OSV state agrees | Fixed clean | OSV candidates | Claim agrees | Cost USD | Seconds |
 |---:|---|---|---|---|---|---|---:|---:|
-| 42530604 | jq | DUPLICATE | yes | yes | OSV-2023-1239 | yes | 0.00079247 | 4.944027 |
+| 42530604 | jq | DUPLICATE | yes | yes | OSV-2023-1239 | yes | 0.00091674 | 4.944027 |
 | 42507851 | libplist | DUPLICATE | yes | yes | OSV-2022-93 | yes | 0.00086026 | 19.777161 |
 | 42496387 | wasm3 | REPRODUCED | no | yes | none | yes | 0.00090432 | 23.620587 |
 | 42508524 | libplist | DUPLICATE | yes | yes | OSV-2022-147, OSV-2022-158 | yes | 0.00086470 | 39.494779 |
 | 42536108 | miniz | DUPLICATE | yes | yes | OSV-2024-550 | yes | 0.00091783 | 65.302103 |
 | 42536112 | miniz | DUPLICATE | yes | yes | OSV-2024-551 | yes | 0.00091361 | 20.233260 |
 | 42508390 | libplist | DUPLICATE | no | yes | OSV-2022-93 | yes | 0.00084522 | 27.917757 |
-| 42531297 | jq | DUPLICATE | yes | yes | OSV-2023-1344, OSV-2025-363 | no | 0.00105939 | 43.747241 |
+| 42531297 | jq | DUPLICATE | yes | yes | OSV-2023-1344, OSV-2025-363 | yes | 0.00105939 | 43.747241 |
 | 42531223 | jq | REPRODUCED | no | yes | none | yes | 0.00106674 | 36.503697 |
 | 42476752 | libspng | DUPLICATE | yes | yes | OSV-2020-307, OSV-2020-344 | yes | 0.00086122 | 39.510942 |
 
@@ -111,16 +116,17 @@ Measured totals:
 - 10 of 10 tasks completed.
 - 7 of 10 measured crash states agreed exactly or inline-tolerantly with a mapped OSV state.
 - 10 of 10 fixed builds were clean.
-- 9 of 10 claim comparisons agreed on both bug class and top crash function.
+- 10 of 10 claim comparisons agreed on both bug class and top crash function.
 - 11 duplicate candidates were returned.
 - Nemotron used 1,349 input tokens and 1,180 output tokens. At the published price of $0.30 per
   million input tokens and $0.90 per million output tokens, model cost was $0.00146670.
-- ConTree sandbox cost was $0.00761906.
-- Combined eval cost was $0.00908576.
+- ConTree checkpoint and sandbox-run cost was $0.00774333.
+- Combined eval cost was $0.00921003.
 - Summed per-task wall time was 321.051554 seconds.
 
-The three OSV state disagreements and the one claim disagreement remain visible in the result.
-They are not converted into successes.
+The three OSV state disagreements remain visible in the result. They are not converted into
+successes. The earlier claim disagreement was a deterministic normalization defect for the phrase
+`READ of size 2`; the corrected comparison now agrees without another model call.
 
 ## Tests
 

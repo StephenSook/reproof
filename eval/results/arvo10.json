@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "selection_rule": "Always include ARVO 42530604, 42507851, and 42496387. Fill the remaining slots from the spike's frozen 2026-10-05 memory-safety candidate table, restricted to tasks with a mapped public OSV record, ordered by max(vulnerable GB, fixed GB) then ARVO ID.",
   "selected_arvo_ids": [
     42530604,
@@ -13,6 +13,13 @@
     42531223,
     42476752
   ],
+  "provenance": {
+    "arvo_database_sha256": "331184ca807c2f136f98dac9f1df94c893f4ee2fdf9329dca517ff88e72f97ce",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "candidate_table_sha256": "94498fe4b5d18686f8b4ebbe95f21bcde560f6aae33658f54632574c5710cc5a",
+    "reproof_source_sha256": "d9b75e0dfedfe73e1a8553115bd6faf9fc32623ff70fdbdb2090c09bce92c37f"
+  },
   "tasks": [
     {
       "arvo_id": 42530604,
@@ -24,7 +31,34 @@
         "OSV-2023-1239"
       ],
       "claim_agreement": true,
-      "cost_usd": 0.00079247,
+      "crash_type": "Heap-buffer-overflow WRITE 1",
+      "crash_state": [
+        "decToString",
+        "decNumberToString",
+        "jvp_literal_number_literal"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "dec6ad5b5043d907a8e4d8676d5af4ac"
+      ],
+      "input_tokens": 133,
+      "output_tokens": 119,
+      "model_cost_usd": 0.000147,
+      "sandbox_cost_usd": 0.00076974,
+      "checkpoint_operation_uuids": [
+        "01a10d33-e7d2-71b1-ad98-fa549252912f",
+        "01a10d33-f168-7686-9c3e-b2c53f4eb654"
+      ],
+      "sandbox_operation_uuids": [
+        "01a10d3b-2bda-7772-9c3d-0b9fb4b31c0b",
+        "01a10d3b-2cb8-73c6-892c-e80cd530bd05"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "dda7bd24d63ca0f692924d1d189cec3ca9f6ac94fdbdd3af3e91a9c4dbbab153",
+        "fix": "d22773dfbfe82d18ed395f6df9f2ced3de07c6ab7d34af314adb95ae2a40fc50"
+      },
+      "cost_usd": 0.00091674,
       "wall_seconds": 4.944027,
       "card_path": "eval/results/cards/42530604.json"
     },
@@ -38,6 +72,33 @@
         "OSV-2022-93"
       ],
       "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "crash_state": [
+        "strtol",
+        "parse_primitive",
+        "plist_from_json"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "b1d18820464cf1627a10266917031e88"
+      ],
+      "input_tokens": 129,
+      "output_tokens": 106,
+      "model_cost_usd": 0.0001341,
+      "sandbox_cost_usd": 0.00072616,
+      "checkpoint_operation_uuids": [
+        "01a10d3b-71f1-70ab-9e1b-2d67d6ead506",
+        "01a10d3b-7af0-74fc-b2b2-801aad8c345c"
+      ],
+      "sandbox_operation_uuids": [
+        "01a10d3b-8317-71c4-af3c-2e99097e59dd",
+        "01a10d3b-8333-75d9-a1a2-3e9a08f7936e"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "3b1330ec428d88e12002f5fbe5ccf150a66e4f445e2769a7b418b2f9332a297c",
+        "fix": "f4b2d48c8e35e1752c42a41db8d20e198c5f15d012325f14fc835eb4c5d1491d"
+      },
       "cost_usd": 0.00086026,
       "wall_seconds": 19.777161,
       "card_path": "eval/results/cards/42507851.json"
@@ -50,6 +111,33 @@
       "fix_clean": true,
       "duplicate_candidates": [],
       "claim_agreement": true,
+      "crash_type": "Heap-use-after-free READ 8",
+      "crash_state": [
+        "ForEachModule",
+        "Runtime_Release",
+        "m3_FreeRuntime"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "4988bc3a0e1002fbb43dff9031c1aed9"
+      ],
+      "input_tokens": 134,
+      "output_tokens": 131,
+      "model_cost_usd": 0.0001581,
+      "sandbox_cost_usd": 0.00074622,
+      "checkpoint_operation_uuids": [
+        "01a10d3b-d590-753f-9418-4e98ccbfb757",
+        "01a10d3b-df0b-72c7-a0a1-30c2d28de0c6"
+      ],
+      "sandbox_operation_uuids": [
+        "01a10d3b-e759-754a-b705-c7e023e61ea2",
+        "01a10d3b-e762-714c-86ae-094ad4e760c2"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "41231398d65d90a2b2de8d3c9c893edfc94b521050117dc6f6817245829d6080",
+        "fix": "4d8157589c4b34b504e83594393e3645255fdd5afab7cbac19e50ddf8b6b8f7f"
+      },
       "cost_usd": 0.00090432,
       "wall_seconds": 23.620587,
       "card_path": "eval/results/cards/42496387.json"
@@ -65,6 +153,33 @@
         "OSV-2022-158"
       ],
       "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "parse_primitive",
+        "plist_from_json",
+        "jplist_fuzzer.cc"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "7ca493721ab43d25fac4669ef249d0a6"
+      ],
+      "input_tokens": 136,
+      "output_tokens": 131,
+      "model_cost_usd": 0.0001587,
+      "sandbox_cost_usd": 0.000706,
+      "checkpoint_operation_uuids": [
+        "01a10d3d-8296-7799-9cdf-62b41714c758",
+        "01a10d3d-ac3b-75a3-8f92-7b83e7688563"
+      ],
+      "sandbox_operation_uuids": [
+        "01a10d3d-b312-738a-b65d-dfe97a93e107",
+        "01a10d3d-b30f-72b2-bd1b-5929ad319078"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "00136075125bd8721da47cfd6d2294c5a57894488b346906bed57ec931a2afca",
+        "fix": "76e404794a07d294f08363aa5c55d7edc82529b23761d9b78e231c15b7712202"
+      },
       "cost_usd": 0.0008647,
       "wall_seconds": 39.494779,
       "card_path": "eval/results/cards/42508524.json"
@@ -79,6 +194,33 @@
         "OSV-2024-550"
       ],
       "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "crash_state": [
+        "mz_zip_mem_read_func",
+        "mz_zip_reader_read_central_dir",
+        "mz_zip_reader_init_mem"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "0e30fc38d0c208e4bd3198bcaf545347"
+      ],
+      "input_tokens": 146,
+      "output_tokens": 125,
+      "model_cost_usd": 0.0001563,
+      "sandbox_cost_usd": 0.00076153,
+      "checkpoint_operation_uuids": [
+        "01a10d40-07a4-7178-b45f-c36e3522b3b6",
+        "01a10d40-4fae-7742-b7ec-2b6430f3ff5c"
+      ],
+      "sandbox_operation_uuids": [
+        "01a10d40-563e-728c-8121-b8615ee031ec",
+        "01a10d40-5728-7071-b1ac-5ce7cc431bb0"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "d3c03efd769ad25cddb492317e79b64d1d8038d6498468a2f9ba3d7e7a1c840e",
+        "fix": "9ac1056551ae4f5c34c480ff6b73ad7a48c3792098270a60208ece5b1a8a5383"
+      },
       "cost_usd": 0.00091783,
       "wall_seconds": 65.302103,
       "card_path": "eval/results/cards/42536108.json"
@@ -93,6 +235,33 @@
         "OSV-2024-551"
       ],
       "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "crash_state": [
+        "mz_zip_mem_read_func",
+        "mz_zip_validate_file",
+        "zip_fuzzer.c"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "14e26fbec61a8cc47d9aab72ca3753db"
+      ],
+      "input_tokens": 142,
+      "output_tokens": 113,
+      "model_cost_usd": 0.0001443,
+      "sandbox_cost_usd": 0.00076931,
+      "checkpoint_operation_uuids": [
+        "01a10d42-7e41-7706-ad95-28fa6ab5fb68",
+        "01a10d42-88be-7114-b4e9-ab29866ba60c"
+      ],
+      "sandbox_operation_uuids": [
+        "01a10d42-8f65-7216-967d-63f61cb99dcd",
+        "01a10d42-8f69-74a4-860c-6e0014729b98"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "34fad9e8516811830d0672b91be9d561630303b8c6c58f3cd68eb19fec7f9456",
+        "fix": "ee5942c5c8b85f5ca741a05deab9a7b6562ef1a417a7fa38dcbd1789d864a81c"
+      },
       "cost_usd": 0.00091361,
       "wall_seconds": 20.23326,
       "card_path": "eval/results/cards/42536112.json"
@@ -107,6 +276,33 @@
         "OSV-2022-93"
       ],
       "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "crash_state": [
+        "strtol",
+        "parse_primitive",
+        "plist_from_json"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "bae8098de6a3b0e99ee3b30bccb5c4e8"
+      ],
+      "input_tokens": 136,
+      "output_tokens": 126,
+      "model_cost_usd": 0.0001542,
+      "sandbox_cost_usd": 0.00069102,
+      "checkpoint_operation_uuids": [
+        "01a10d44-36d4-7303-ad9e-78e5ffe10e49",
+        "01a10d44-55c1-7346-9cb9-c9ef830c226f"
+      ],
+      "sandbox_operation_uuids": [
+        "01a10d44-5b5b-7123-8bcc-42ae07b13ffa",
+        "01a10d44-5c53-715e-940d-4b24f8da1244"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "3c2c3b739852e275b85c9c7a13b3d15000af47cbe321c0926a9badfed22b2e0f",
+        "fix": "8dbb7f0a0528ebe3bb1db8fe65ec951e5284f7313b0c2526b83166e2dd8941f9"
+      },
       "cost_usd": 0.00084522,
       "wall_seconds": 27.917757,
       "card_path": "eval/results/cards/42508390.json"
@@ -121,7 +317,34 @@
         "OSV-2023-1344",
         "OSV-2025-363"
       ],
-      "claim_agreement": false,
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "crash_state": [
+        "jv_string_vfmt",
+        "jv_string_fmt",
+        "jv_get"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "e7c136ab3568daa12383683c9c9621eb"
+      ],
+      "input_tokens": 135,
+      "output_tokens": 108,
+      "model_cost_usd": 0.0001377,
+      "sandbox_cost_usd": 0.00092169,
+      "checkpoint_operation_uuids": [
+        "01a10d45-ddc0-7256-84f9-79cd20c29b78",
+        "01a10d46-2151-7497-98c9-2ea4174dc28b"
+      ],
+      "sandbox_operation_uuids": [
+        "01a10d46-296a-77a1-aa63-decba25ab066",
+        "01a10d46-2a56-72c5-a53c-001b832e2a2e"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "3c1ceb1d50ee894dfa0ba227f79c20665a92e8f7ca46e1bc266e9baca394e43e",
+        "fix": "9f82ef358f035b83a4cf05a9c4cd4043b7c9e8445d9897c056c4f2498a87a0c1"
+      },
       "cost_usd": 0.00105939,
       "wall_seconds": 43.747241,
       "card_path": "eval/results/cards/42531297.json"
@@ -134,6 +357,33 @@
       "fix_clean": true,
       "duplicate_candidates": [],
       "claim_agreement": true,
+      "crash_type": "Stack-buffer-overflow WRITE 2",
+      "crash_state": [
+        "decNumberCopy",
+        "decNaNs",
+        "decCompareOp"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "a6677c48a28a827cfbe84166f33dbf50"
+      ],
+      "input_tokens": 128,
+      "output_tokens": 121,
+      "model_cost_usd": 0.0001473,
+      "sandbox_cost_usd": 0.00091944,
+      "checkpoint_operation_uuids": [
+        "01a10d47-b5cf-7662-8dd3-0f4c9d93731f",
+        "01a10d47-e70e-7632-8a10-1ccd1f9ae8bf"
+      ],
+      "sandbox_operation_uuids": [
+        "01a10d47-ee09-7476-8ba9-e68f5d561d38",
+        "01a10d47-eef6-70ac-815c-3356c2d30f63"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "a7f332ffb362c23040f22ae849e5f40021602d28942ee52a47e8cc61cf37ee64",
+        "fix": "27da68a809762ad5ff0dbc1dd90f63da17995a1b85dce3805c8dc922d1409708"
+      },
       "cost_usd": 0.00106674,
       "wall_seconds": 36.503697,
       "card_path": "eval/results/cards/42531223.json"
@@ -149,6 +399,32 @@
         "OSV-2020-344"
       ],
       "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "crash_state": [
+        "spng_decode_image",
+        "spng_read_fuzzer.cc"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "16cbfe1c14eb943598f17ed1848681c1"
+      ],
+      "input_tokens": 130,
+      "output_tokens": 100,
+      "model_cost_usd": 0.000129,
+      "sandbox_cost_usd": 0.00073222,
+      "checkpoint_operation_uuids": [
+        "01a10d4b-4c3c-7786-8d1a-e5b102b6ebf4",
+        "01a10d4b-66c7-72f4-9c4d-8ffdc138a3fb"
+      ],
+      "sandbox_operation_uuids": [
+        "01a10d4b-6db5-70e2-ac5e-4d649645b586",
+        "01a10d4b-6e9c-7073-9024-20a9d512cc87"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "299182474572210f5f55b37ff485db06436153e4f6dd29ce2e1fa8eba95c700d",
+        "fix": "8003c3aaeb4af5a080abf93e79a7362c520357328b03da4f5c2ee6e5a9acf014"
+      },
       "cost_usd": 0.00086122,
       "wall_seconds": 39.510942,
       "card_path": "eval/results/cards/42476752.json"
@@ -159,13 +435,13 @@
     "tasks_completed": 10,
     "crash_state_agreements": 7,
     "fixes_clean": 10,
-    "claims_agree": 9,
+    "claims_agree": 10,
     "total_duplicate_candidates": 11,
     "total_input_tokens": 1349,
     "total_output_tokens": 1180,
     "total_model_cost_usd": 0.0014667,
-    "total_sandbox_cost_usd": 0.00761906,
-    "total_cost_usd": 0.00908576,
+    "total_sandbox_cost_usd": 0.00774333,
+    "total_cost_usd": 0.00921003,
     "total_wall_seconds": 321.051554
   }
 }
