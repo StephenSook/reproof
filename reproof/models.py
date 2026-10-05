@@ -39,6 +39,7 @@ class ModelCall(StrictModel):
     total_tokens: int = Field(ge=0)
     input_price_per_million: float = Field(ge=0)
     output_price_per_million: float = Field(ge=0)
+    price_source: str
     cost_usd: float = Field(ge=0)
     request_id: str | None
 
@@ -60,12 +61,16 @@ class SandboxOperation(StrictModel):
     task_id: int
     kind: str
     checkpoint_uuid: str
+    checkpoint_operation_uuid: str | None
+    checkpoint_wall_seconds: float = Field(ge=0)
+    checkpoint_cost_usd: float = Field(ge=0)
     operation_uuid: str | None
     exit_code: int
     stdout: str
     stderr: str
     wall_seconds: float = Field(ge=0)
     server_elapsed_seconds: float | None = Field(default=None, ge=0)
+    cost_usd: float | None = Field(default=None, ge=0)
     disposable: bool = True
 
 
@@ -83,6 +88,7 @@ class TriageEvidence(StrictModel):
     fixed_exit_code: int
     duplicate_candidates: list[DuplicateCandidate]
     claim_vs_evidence: list[ClaimComparisonRow]
+    inputs_tried: list[str]
 
 
 class TriageCard(StrictModel):
@@ -96,6 +102,8 @@ class TriageCard(StrictModel):
     evidence: TriageEvidence
     model_calls: list[ModelCall]
     sandbox_operations: list[SandboxOperation]
+    model_cost_usd: float = Field(ge=0)
+    sandbox_cost_usd: float = Field(ge=0)
     total_cost_usd: float = Field(ge=0)
     wall_seconds: float = Field(ge=0)
 
