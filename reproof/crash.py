@@ -11,7 +11,18 @@ from types import MappingProxyType
 from clusterfuzz import stacktraces  # type: ignore[import-untyped]
 
 ANSI = re.compile(r"\x1b\[[0-9;]*m")
-FRAME = re.compile(r"^\s*#(\d+)\s+(0x[0-9a-f]+)\s+in\s+(.+?)\s+(?:/|\(|[A-Za-z]:)", re.M)
+FRAME_WITH_IN = re.compile(
+    r"^\s*#(?P<index>\d+)\s+(?P<pc>0x[0-9a-f]+)\s+in\s+"
+    r"(?P<function>.+?)\s+(?:/|\(|[A-Za-z]:)"
+)
+FRAME_MODULE_OFFSET = re.compile(
+    r"^\s*#(?P<index>\d+)\s+(?P<pc>0x[0-9a-f]+)\s+"
+    r"\((?P<function>[^+()\s]+)\+0x[0-9a-f]+\)"
+)
+FRAME_SYMBOL_PATH = re.compile(
+    r"^\s*#(?P<index>\d+)\s+(?P<function>\S(?:.*?\S)?)\s+"
+    r"(?P<path>(?:[A-Za-z]:)?[/\\]\S+?):\d+(?::\d+)?(?:\s+\(|$)"
+)
 SANITIZER_ERROR = re.compile(
     r"(?:ERROR|WARNING):\s+(?P<header>AddressSanitizer|LeakSanitizer|MemorySanitizer|"
     r"ThreadSanitizer|UndefinedBehaviorSanitizer)|(?P<ubsan>runtime error:)"
@@ -19,7 +30,13 @@ SANITIZER_ERROR = re.compile(
 DIRTY_FIX_DETAIL = "The fixed build did not exit cleanly; inspect its captured stdout and stderr."
 
 
-def ambiguous_vulnerable_detail(exit_code: int) -> str:
+def ambiguous_vulnerable_detail(exit_code: int, sanitizer_kind: str | None = None) -> str:
+    if sanitizer_kind is not None:
+        return (
+            f"The vulnerable build produced a recognized {sanitizer_kind} report but no usable "
+            f"resolved crash frames (exit code {exit_code}); inspect its captured stdout and "
+            "stderr."
+        )
     return (
         "The vulnerable build did not produce a recognized sanitizer trace and did not "
         f"complete cleanly (exit code {exit_code}); inspect its captured stdout and stderr."
@@ -36,12 +53,7 @@ class CrashSignature:
 
     @property
     def crashed(self) -> bool:
-        return (
-            bool(self.state)
-            and self.state != ("NULL",)
-            and bool(self.inline_groups)
-            and self.sanitizer_kind is not None
-        )
+        return bool(self.state) and self.state != ("NULL",) and self.sanitizer_kind is not None
 
 
 def _sanitizer_kind(log: str) -> str | None:
@@ -51,16 +63,30 @@ def _sanitizer_kind(log: str) -> str | None:
     return match.group("header") or "UndefinedBehaviorSanitizer"
 
 
-def _inline_groups(log: str) -> Mapping[str, frozenset[str]]:
+def _frames(log: str) -> list[tuple[str, str, str]]:
+    frames: list[tuple[str, str, str]] = []
+    for line in log.splitlines():
+        match = FRAME_WITH_IN.match(line) or FRAME_MODULE_OFFSET.match(line)
+        if match is not None:
+            function = re.sub(r"\(.*", "", match.group("function")).strip()
+            frames.append((match.group("index"), match.group("pc"), function))
+            continue
+        match = FRAME_SYMBOL_PATH.match(line)
+        if match is not None:
+            function = re.sub(r"\(.*", "", match.group("function")).strip()
+            frames.append((match.group("index"), f"frame:{match.group('index')}", function))
+    return frames
+
+
+def _inline_groups(frames: list[tuple[str, str, str]]) -> Mapping[str, frozenset[str]]:
     by_pc: dict[str, list[str]] = collections.defaultdict(list)
     first_stack_seen = False
-    for match in FRAME.finditer(log):
-        if match.group(1) == "0":
+    for index, pc, function in frames:
+        if index == "0":
             if first_stack_seen:
                 break
             first_stack_seen = True
-        function = re.sub(r"\(.*", "", match.group(3)).strip()
-        by_pc[match.group(2)].append(function)
+        by_pc[pc].append(function)
     groups: dict[str, frozenset[str]] = {}
     for functions in by_pc.values():
         siblings = frozenset(functions)
@@ -79,10 +105,13 @@ def parse_crash(log: str) -> CrashSignature:
     parsed = parser.parse(cleaned)
     crash_type = " ".join(parsed.crash_type.split())
     state = tuple(line.strip() for line in parsed.crash_state.splitlines() if line.strip())
+    frames = _frames(cleaned)
+    if state == ("NULL",) and frames:
+        state = tuple(function for _, _, function in frames[:3])
     return CrashSignature(
         crash_type=crash_type,
         state=state,
-        inline_groups=_inline_groups(cleaned),
+        inline_groups=_inline_groups(frames),
         cleaned_log=cleaned,
         sanitizer_kind=_sanitizer_kind(cleaned),
     )

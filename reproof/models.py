@@ -230,7 +230,9 @@ class TriageCard(StrictModel):
                 f"verdict {self.verdict} does not match measured evidence {expected_verdict}"
             )
         if not measured_vulnerable_clean and not measured_crash.crashed:
-            required_detail = ambiguous_vulnerable_detail(vulnerable.exit_code)
+            required_detail = ambiguous_vulnerable_detail(
+                vulnerable.exit_code, measured_crash.sanitizer_kind
+            )
             if required_detail not in self.missing_details:
                 raise ValueError(
                     "missing details do not describe the ambiguous vulnerable execution"
@@ -289,6 +291,7 @@ class EvalTaskResult(StrictModel):
     crash_type: str
     crash_state: list[str]
     sanitizer_kind: str | None
+    vulnerable_clean: bool
     vulnerable_exit_code: int
     fixed_exit_code: int
     model_request_ids: list[str]
@@ -317,15 +320,23 @@ class EvalTaskResult(StrictModel):
             for digest in self.slice_manifest_sha256.values()
         ):
             raise ValueError("eval slice hashes must contain vul and fix SHA-256 values")
-        has_state = bool(self.crash_state) and all(frame.strip() for frame in self.crash_state)
+        has_state = (
+            bool(self.crash_state)
+            and self.crash_state != ["NULL"]
+            and all(frame.strip() for frame in self.crash_state)
+        )
         has_type = bool(self.crash_type.strip())
         has_sanitizer = bool(self.sanitizer_kind and self.sanitizer_kind.strip())
         if len({has_state, has_type, has_sanitizer}) != 1:
             raise ValueError("eval crash state, type, and sanitizer must be present together")
         if self.fix_clean and self.fixed_exit_code != 0:
             raise ValueError("a clean eval fix must have exit code zero")
+        if self.vulnerable_clean and self.vulnerable_exit_code != 0:
+            raise ValueError("a clean eval vulnerable run must have exit code zero")
+        if has_state and self.vulnerable_clean:
+            raise ValueError("a conclusive eval crash cannot be a clean vulnerable run")
         duplicate_count = len(self.duplicate_candidates)
-        if not self.fix_clean or (not has_state and self.vulnerable_exit_code != 0):
+        if not self.fix_clean or (not has_state and not self.vulnerable_clean):
             expected_verdict = Verdict.NEEDS_INFO
         elif has_state and duplicate_count:
             expected_verdict = Verdict.DUPLICATE
@@ -391,7 +402,7 @@ class EvalProvenance(StrictModel):
 
 
 class EvalReport(StrictModel):
-    schema_version: Literal["1.4"] = "1.4"
+    schema_version: Literal["1.5"] = "1.5"
     selection_rule: str
     selected_arvo_ids: list[int]
     provenance: EvalProvenance

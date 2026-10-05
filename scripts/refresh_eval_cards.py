@@ -112,7 +112,9 @@ async def refresh(legacy_execution_source_sha256: str | None = None) -> None:
             )
         ]
         if not measured.crashed and not vulnerable_clean:
-            missing_details.append(ambiguous_vulnerable_detail(int(vulnerable["exit_code"])))
+            missing_details.append(
+                ambiguous_vulnerable_detail(int(vulnerable["exit_code"]), measured.sanitizer_kind)
+            )
         if not fixed_clean:
             missing_details.append(DIRTY_FIX_DETAIL)
 

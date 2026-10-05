@@ -191,7 +191,7 @@ def test_card_requires_needs_info_for_unsanitized_fatal_run(failure: str) -> Non
         row.model_dump() for row in compare_claim(claim, measured)
     ]
     payload["verdict"] = "NEEDS_INFO"
-    payload["missing_details"] = [ambiguous_vulnerable_detail(1)]
+    payload["missing_details"] = [ambiguous_vulnerable_detail(1, measured.sanitizer_kind)]
     TriageCard.model_validate(payload)
 
     payload["verdict"] = "NOT_REPRODUCED"
@@ -206,3 +206,30 @@ def test_card_binds_needs_info_detail_to_ambiguous_run() -> None:
     payload["missing_details"] = ["affected version is missing"]
     with pytest.raises(ValidationError, match="ambiguous vulnerable execution"):
         TriageCard.model_validate(payload)
+
+
+def test_card_describes_recognized_sanitizer_without_frames() -> None:
+    payload = valid_card()
+    log = "==1==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x1\n"
+    measured = parse_crash(log)
+    claim = Claim(
+        project="demo",
+        bug_class=measured.crash_type,
+        functions=[],
+        files=[],
+        trigger="input",
+        poc_attached=True,
+        affected_version="1.0",
+        missing_details=[],
+    )
+    payload["sandbox_operations"][0]["exit_code"] = 1  # type: ignore[index]
+    payload["sandbox_operations"][0]["stderr"] = log  # type: ignore[index]
+    payload["evidence"]["claim_vs_evidence"] = [  # type: ignore[index]
+        row.model_dump() for row in compare_claim(claim, measured)
+    ]
+    payload["verdict"] = "NEEDS_INFO"
+    payload["missing_details"] = [ambiguous_vulnerable_detail(1, measured.sanitizer_kind)]
+
+    card = TriageCard.model_validate(payload)
+    assert "recognized AddressSanitizer report" in card.missing_details[0]
+    assert "no usable resolved crash frames" in card.missing_details[0]

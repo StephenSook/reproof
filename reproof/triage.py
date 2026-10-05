@@ -248,7 +248,9 @@ def _complete_triage(
     comparison = compare_claim(claim, measured)
     missing_details = list(dict.fromkeys(claim.missing_details))
     if not measured.crashed and not vulnerable_clean:
-        missing_details.append(ambiguous_vulnerable_detail(vulnerable.exit_code))
+        missing_details.append(
+            ambiguous_vulnerable_detail(vulnerable.exit_code, measured.sanitizer_kind)
+        )
     if not fixed_clean:
         missing_details.append(DIRTY_FIX_DETAIL)
 

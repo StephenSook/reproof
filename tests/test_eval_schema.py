@@ -46,7 +46,7 @@ def test_eval_schema_rejects_invalid_global_digest() -> None:
 def test_eval_schema_rejects_unknown_version() -> None:
     payload = eval_payload()
     payload["schema_version"] = "999"
-    with pytest.raises(ValidationError, match=r"Input should be '1\.4'"):
+    with pytest.raises(ValidationError, match=r"Input should be '1\.5'"):
         EvalReport.model_validate(payload)
 
 
@@ -98,6 +98,7 @@ def test_eval_schema_rejects_no_crash_positive_agreement(agreement_field: str) -
             "crash_type": "",
             "crash_state": [],
             "sanitizer_kind": None,
+            "vulnerable_clean": True,
             "vulnerable_exit_code": 0,
             "duplicate_candidates": [],
             "crash_state_agreement_with_osv": False,
@@ -124,7 +125,15 @@ def test_eval_schema_rejects_blank_crash_evidence(field: str, value: object) -> 
         EvalReport.model_validate(payload)
 
 
-def test_eval_serializes_unsanitized_fatal_as_ambiguous_needs_info() -> None:
+def test_eval_schema_rejects_clusterfuzz_null_state() -> None:
+    payload = eval_payload()
+    payload["tasks"][0]["crash_state"] = ["NULL"]  # type: ignore[index]
+    with pytest.raises(ValidationError, match="must be present together"):
+        EvalReport.model_validate(payload)
+
+
+@pytest.mark.parametrize("exit_code", [0, 1])
+def test_eval_serializes_unsanitized_fatal_as_ambiguous_needs_info(exit_code: int) -> None:
     measured = parse_crash(
         "==1== ERROR: libFuzzer: deadly signal\n"
         "    #0 0x1234 in parse_item /src/demo.c:3:2\n"
@@ -141,7 +150,8 @@ def test_eval_serializes_unsanitized_fatal_as_ambiguous_needs_info() -> None:
             "crash_type": crash_type,
             "crash_state": crash_state,
             "sanitizer_kind": sanitizer_kind,
-            "vulnerable_exit_code": 1,
+            "vulnerable_clean": False,
+            "vulnerable_exit_code": exit_code,
             "duplicate_candidates": [],
             "crash_state_agreement_with_osv": False,
             "claim_agreement": False,

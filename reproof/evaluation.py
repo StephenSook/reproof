@@ -259,7 +259,11 @@ def run_eval(
         vulnerable = next(
             operation for operation in card.sandbox_operations if operation.kind == "vul"
         )
-        measured = parse_crash("\n".join((vulnerable.stdout, vulnerable.stderr)))
+        vulnerable_output = "\n".join((vulnerable.stdout, vulnerable.stderr))
+        measured = parse_crash(vulnerable_output)
+        vulnerable_clean = (
+            looks_clean(vulnerable.exit_code, vulnerable_output) and not measured.state
+        )
         crash_type, crash_state, sanitizer_kind = _eval_crash_evidence(measured)
         model_calls = card.model_calls
         results.append(
@@ -278,6 +282,7 @@ def run_eval(
                 crash_type=crash_type,
                 crash_state=crash_state,
                 sanitizer_kind=sanitizer_kind,
+                vulnerable_clean=vulnerable_clean,
                 vulnerable_exit_code=vulnerable.exit_code,
                 fixed_exit_code=card.evidence.fixed_exit_code,
                 model_request_ids=[

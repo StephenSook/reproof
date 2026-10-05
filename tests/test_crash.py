@@ -132,3 +132,26 @@ def test_header_only_sanitizer_is_not_a_conclusive_crash(header: str) -> None:
     assert parsed.sanitizer_kind is not None
     assert not parsed.crashed
     assert sanitizer_excerpt(parsed) == ""
+
+
+@pytest.mark.parametrize(
+    "log",
+    [
+        """==1==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x1
+    #0 0x1234 (/out/fuzzer+0x1234)
+SUMMARY: AddressSanitizer: heap-buffer-overflow (/out/fuzzer+0x1234)
+""",
+        """WARNING: ThreadSanitizer: data race (pid=7)
+  Write of size 4 at 0x1234 by thread T1:
+    #0 update_counter /src/demo.c:3 (demo+0x1234)
+SUMMARY: ThreadSanitizer: data race /src/demo.c:3 in update_counter
+""",
+    ],
+)
+def test_clusterfuzz_real_frame_formats_are_conclusive(log: str) -> None:
+    parsed = parse_crash(log)
+    assert parsed.state
+    assert parsed.state != ("NULL",)
+    assert parsed.sanitizer_kind is not None
+    assert parsed.crashed
+    assert "#0" in sanitizer_excerpt(parsed)
