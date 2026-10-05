@@ -180,8 +180,16 @@ seconds. Vercel's function limits, updated 2026-08-24, set a 500 MB uncompressed
 and a 300 second Hobby maximum, and duration includes a streamed response
 (https://vercel.com/docs/functions/limitations). 120 seconds is under that Hobby maximum. The
 sandbox command timeout in `reproof/sandbox.py` is 600 seconds, so the platform can end a hung call
-before the sandbox returns. The account plan was not queried. A container is not used. Nothing has
-been deployed.
+before the sandbox returns. The account plan was not queried. A container is not used.
+
+The door is deployed at https://reproof-web.vercel.app (Vercel project `reproof-web`, deployed
+2026-10-05). A Vercel function can write only under `/tmp`, so the first deployment answered every
+triage with HTTP 500 (`Read-only file system: '.cache'`). The production environment sets four
+variables: `NEBIUS_API_KEY` and `NEBIUS_PROJECT_ID` as secrets, plus `REPROOF_LIMITS_PATH`
+(`/tmp/reproof/door-limits.json`) and `REPROOF_CACHE_DIR` (`/tmp/reproof`). After that change, a live
+triage of ARVO 42530604 through the deployed page returned `REPRODUCED` with both sandbox operation
+ids at a total cost of 0.00090867 USD. `/tmp` is per instance and short-lived, so the caps are best
+effort, as stated above.
 
 Locally, start the Python service and the web app. The Next.js route proxies `/api/triage` to
 `http://127.0.0.1:8765` unless `REPROOF_DOOR_ORIGIN` is set. On Vercel, `vercel.json` sends
