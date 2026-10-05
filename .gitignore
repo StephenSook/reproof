@@ -45,3 +45,6 @@ service-account*.json
 .DS_Store
 Thumbs.db
 *.log
+
+# Vercel CLI link (machine-local)
+.vercel
