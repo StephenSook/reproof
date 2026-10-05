@@ -19,19 +19,17 @@
     "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
     "candidate_table_sha256": "94498fe4b5d18686f8b4ebbe95f21bcde560f6aae33658f54632574c5710cc5a",
     "execution_source_sha256": "740c512643d3ee036ef659014c14fa20ba0c360b1cb704c282841acbd19dd106",
-    "derivation_source_sha256": "b068a8de65376f88b706a1c17d78f1a7dc921f75aea818887c5168a411675322",
+    "derivation_source_sha256": "61dc3b0aa6c49598ee0b765c6d8fa3516418cd7edad9ff674f8c6a36a92fe76c",
     "derivation_method": "saved-output-refresh"
   },
   "tasks": [
     {
       "arvo_id": 42530604,
       "project": "jq",
-      "verdict": "DUPLICATE",
+      "verdict": "REPRODUCED",
       "crash_state_agreement_with_osv": true,
       "fix_clean": true,
-      "duplicate_candidates": [
-        "OSV-2023-1239"
-      ],
+      "duplicate_candidates": [],
       "claim_agreement": true,
       "crash_type": "Heap-buffer-overflow WRITE 1",
       "crash_state": [
@@ -68,7 +66,7 @@
         "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
         "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
         "execution_source_sha256": "740c512643d3ee036ef659014c14fa20ba0c360b1cb704c282841acbd19dd106",
-        "derivation_source_sha256": "b068a8de65376f88b706a1c17d78f1a7dc921f75aea818887c5168a411675322",
+        "derivation_source_sha256": "61dc3b0aa6c49598ee0b765c6d8fa3516418cd7edad9ff674f8c6a36a92fe76c",
         "derivation_method": "saved-output-refresh",
         "osv_record_id": "OSV-2023-1239"
       },
@@ -79,12 +77,10 @@
     {
       "arvo_id": 42507851,
       "project": "libplist",
-      "verdict": "DUPLICATE",
+      "verdict": "REPRODUCED",
       "crash_state_agreement_with_osv": true,
       "fix_clean": true,
-      "duplicate_candidates": [
-        "OSV-2022-93"
-      ],
+      "duplicate_candidates": [],
       "claim_agreement": true,
       "crash_type": "Heap-buffer-overflow READ 2",
       "crash_state": [
@@ -121,7 +117,7 @@
         "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
         "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
         "execution_source_sha256": "740c512643d3ee036ef659014c14fa20ba0c360b1cb704c282841acbd19dd106",
-        "derivation_source_sha256": "b068a8de65376f88b706a1c17d78f1a7dc921f75aea818887c5168a411675322",
+        "derivation_source_sha256": "61dc3b0aa6c49598ee0b765c6d8fa3516418cd7edad9ff674f8c6a36a92fe76c",
         "derivation_method": "saved-output-refresh",
         "osv_record_id": "OSV-2022-93"
       },
@@ -172,7 +168,7 @@
         "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
         "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
         "execution_source_sha256": "740c512643d3ee036ef659014c14fa20ba0c360b1cb704c282841acbd19dd106",
-        "derivation_source_sha256": "b068a8de65376f88b706a1c17d78f1a7dc921f75aea818887c5168a411675322",
+        "derivation_source_sha256": "61dc3b0aa6c49598ee0b765c6d8fa3516418cd7edad9ff674f8c6a36a92fe76c",
         "derivation_method": "saved-output-refresh",
         "osv_record_id": "OSV-2021-701"
       },
@@ -187,8 +183,7 @@
       "crash_state_agreement_with_osv": true,
       "fix_clean": true,
       "duplicate_candidates": [
-        "OSV-2022-147",
-        "OSV-2022-158"
+        "OSV-2022-147"
       ],
       "claim_agreement": true,
       "crash_type": "Heap-buffer-overflow READ 1",
@@ -226,7 +221,7 @@
         "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
         "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
         "execution_source_sha256": "740c512643d3ee036ef659014c14fa20ba0c360b1cb704c282841acbd19dd106",
-        "derivation_source_sha256": "b068a8de65376f88b706a1c17d78f1a7dc921f75aea818887c5168a411675322",
+        "derivation_source_sha256": "61dc3b0aa6c49598ee0b765c6d8fa3516418cd7edad9ff674f8c6a36a92fe76c",
         "derivation_method": "saved-output-refresh",
         "osv_record_id": "OSV-2022-158"
       },
@@ -237,12 +232,10 @@
     {
       "arvo_id": 42536108,
       "project": "miniz",
-      "verdict": "DUPLICATE",
+      "verdict": "REPRODUCED",
       "crash_state_agreement_with_osv": true,
       "fix_clean": true,
-      "duplicate_candidates": [
-        "OSV-2024-550"
-      ],
+      "duplicate_candidates": [],
       "claim_agreement": true,
       "crash_type": "Heap-buffer-overflow READ {*}",
       "crash_state": [
@@ -279,7 +272,7 @@
         "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
         "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
         "execution_source_sha256": "740c512643d3ee036ef659014c14fa20ba0c360b1cb704c282841acbd19dd106",
-        "derivation_source_sha256": "b068a8de65376f88b706a1c17d78f1a7dc921f75aea818887c5168a411675322",
+        "derivation_source_sha256": "61dc3b0aa6c49598ee0b765c6d8fa3516418cd7edad9ff674f8c6a36a92fe76c",
         "derivation_method": "saved-output-refresh",
         "osv_record_id": "OSV-2024-550"
       },
@@ -290,12 +283,10 @@
     {
       "arvo_id": 42536112,
       "project": "miniz",
-      "verdict": "DUPLICATE",
+      "verdict": "REPRODUCED",
       "crash_state_agreement_with_osv": true,
       "fix_clean": true,
-      "duplicate_candidates": [
-        "OSV-2024-551"
-      ],
+      "duplicate_candidates": [],
       "claim_agreement": true,
       "crash_type": "Heap-buffer-overflow READ {*}",
       "crash_state": [
@@ -332,7 +323,7 @@
         "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
         "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
         "execution_source_sha256": "740c512643d3ee036ef659014c14fa20ba0c360b1cb704c282841acbd19dd106",
-        "derivation_source_sha256": "b068a8de65376f88b706a1c17d78f1a7dc921f75aea818887c5168a411675322",
+        "derivation_source_sha256": "61dc3b0aa6c49598ee0b765c6d8fa3516418cd7edad9ff674f8c6a36a92fe76c",
         "derivation_method": "saved-output-refresh",
         "osv_record_id": "OSV-2024-551"
       },
@@ -385,7 +376,7 @@
         "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
         "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
         "execution_source_sha256": "740c512643d3ee036ef659014c14fa20ba0c360b1cb704c282841acbd19dd106",
-        "derivation_source_sha256": "b068a8de65376f88b706a1c17d78f1a7dc921f75aea818887c5168a411675322",
+        "derivation_source_sha256": "61dc3b0aa6c49598ee0b765c6d8fa3516418cd7edad9ff674f8c6a36a92fe76c",
         "derivation_method": "saved-output-refresh",
         "osv_record_id": "OSV-2022-147"
       },
@@ -400,7 +391,6 @@
       "crash_state_agreement_with_osv": true,
       "fix_clean": true,
       "duplicate_candidates": [
-        "OSV-2023-1344",
         "OSV-2025-363"
       ],
       "claim_agreement": true,
@@ -439,7 +429,7 @@
         "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
         "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
         "execution_source_sha256": "740c512643d3ee036ef659014c14fa20ba0c360b1cb704c282841acbd19dd106",
-        "derivation_source_sha256": "b068a8de65376f88b706a1c17d78f1a7dc921f75aea818887c5168a411675322",
+        "derivation_source_sha256": "61dc3b0aa6c49598ee0b765c6d8fa3516418cd7edad9ff674f8c6a36a92fe76c",
         "derivation_method": "saved-output-refresh",
         "osv_record_id": "OSV-2023-1344"
       },
@@ -490,7 +480,7 @@
         "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
         "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
         "execution_source_sha256": "740c512643d3ee036ef659014c14fa20ba0c360b1cb704c282841acbd19dd106",
-        "derivation_source_sha256": "b068a8de65376f88b706a1c17d78f1a7dc921f75aea818887c5168a411675322",
+        "derivation_source_sha256": "61dc3b0aa6c49598ee0b765c6d8fa3516418cd7edad9ff674f8c6a36a92fe76c",
         "derivation_method": "saved-output-refresh",
         "osv_record_id": "OSV-2023-1329"
       },
@@ -505,8 +495,7 @@
       "crash_state_agreement_with_osv": true,
       "fix_clean": true,
       "duplicate_candidates": [
-        "OSV-2020-307",
-        "OSV-2020-344"
+        "OSV-2020-307"
       ],
       "claim_agreement": true,
       "crash_type": "Heap-buffer-overflow READ {*}",
@@ -543,7 +532,7 @@
         "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
         "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
         "execution_source_sha256": "740c512643d3ee036ef659014c14fa20ba0c360b1cb704c282841acbd19dd106",
-        "derivation_source_sha256": "b068a8de65376f88b706a1c17d78f1a7dc921f75aea818887c5168a411675322",
+        "derivation_source_sha256": "61dc3b0aa6c49598ee0b765c6d8fa3516418cd7edad9ff674f8c6a36a92fe76c",
         "derivation_method": "saved-output-refresh",
         "osv_record_id": "OSV-2020-344"
       },
@@ -558,7 +547,7 @@
     "crash_state_agreements": 7,
     "fixes_clean": 10,
     "claims_agree": 10,
-    "total_duplicate_candidates": 11,
+    "total_duplicate_candidates": 4,
     "total_input_tokens": 1349,
     "total_output_tokens": 1125,
     "total_model_cost_usd": 0.0014172,
