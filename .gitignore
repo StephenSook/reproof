@@ -12,6 +12,9 @@ build/
 node_modules/
 .next/
 *.tsbuildinfo
+web/test-results/
+web/playwright-report/
+web/blob-report/
 
 # Local benchmark data and generated artifacts
 .cache/
