@@ -6,7 +6,7 @@ import pytest
 from pydantic import ValidationError
 
 from reproof.claims import compare_claim
-from reproof.crash import ambiguous_vulnerable_detail, parse_crash
+from reproof.crash import DIRTY_FIX_DETAIL, ambiguous_vulnerable_detail, parse_crash
 from reproof.models import Claim, TriageCard
 
 
@@ -233,3 +233,17 @@ def test_card_describes_recognized_sanitizer_without_frames() -> None:
     card = TriageCard.model_validate(payload)
     assert "recognized AddressSanitizer report" in card.missing_details[0]
     assert "no usable resolved crash frames" in card.missing_details[0]
+
+
+def test_card_rejects_exit_zero_fixed_fatal_as_clean() -> None:
+    payload = valid_card()
+    payload["sandbox_operations"][1]["stderr"] = (  # type: ignore[index]
+        "==1== ERROR: libFuzzer: timeout after 60 seconds\n"
+    )
+    with pytest.raises(ValidationError, match="fixed clean evidence does not match"):
+        TriageCard.model_validate(payload)
+
+    payload["verdict"] = "NEEDS_INFO"
+    payload["missing_details"] = [DIRTY_FIX_DETAIL]
+    payload["evidence"]["fix_clean"] = False  # type: ignore[index]
+    TriageCard.model_validate(payload)

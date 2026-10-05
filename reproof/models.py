@@ -185,7 +185,9 @@ class TriageCard(StrictModel):
         vulnerable = operations["vul"]
         fixed = operations["fix"]
         fixed_output = "\n".join(part for part in (fixed.stdout, fixed.stderr) if part)
-        measured_fix_clean = looks_clean(fixed.exit_code, fixed_output)
+        measured_fix_clean = (
+            looks_clean(fixed.exit_code, fixed_output) and not parse_crash(fixed_output).state
+        )
         if self.evidence.fixed_exit_code != fixed.exit_code:
             raise ValueError("fixed exit evidence does not match the saved fix operation")
         if self.evidence.fix_clean != measured_fix_clean:

@@ -117,8 +117,10 @@ async def refresh(legacy_execution_source_sha256: str | None = None) -> None:
         vulnerable_clean = (
             looks_clean(int(vulnerable["exit_code"]), vulnerable_output) and not measured.state
         )
-        fixed_clean = looks_clean(
-            int(fixed["exit_code"]), "\n".join((fixed["stdout"], fixed["stderr"]))
+        fixed_output = "\n".join((fixed["stdout"], fixed["stderr"]))
+        fixed_clean = (
+            looks_clean(int(fixed["exit_code"]), fixed_output)
+            and not parse_crash(fixed_output).state
         )
         duplicates = index.find_candidates(str(raw["project"]), measured)
         comparison = compare_claim(_claim_from_rows(raw), measured)

@@ -242,8 +242,9 @@ def _complete_triage(
     vulnerable_output = _combined(vulnerable.stdout, vulnerable.stderr)
     fixed_output = _combined(fixed.stdout, fixed.stderr)
     measured = parse_crash(vulnerable_output)
+    fixed_measured = parse_crash(fixed_output)
     vulnerable_clean = looks_clean(vulnerable.exit_code, vulnerable_output) and not measured.state
-    fixed_clean = looks_clean(fixed.exit_code, fixed_output)
+    fixed_clean = looks_clean(fixed.exit_code, fixed_output) and not fixed_measured.state
     duplicates = index.find_candidates(task.project, measured)
     comparison = compare_claim(claim, measured)
     missing_details = list(dict.fromkeys(claim.missing_details))

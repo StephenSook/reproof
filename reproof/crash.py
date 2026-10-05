@@ -53,6 +53,7 @@ class CrashSignature:
     state: tuple[str, ...]
     inline_groups: Mapping[str, frozenset[str]]
     cleaned_log: str
+    sanitizer_report: str
     sanitizer_kind: str | None
 
     @property
@@ -96,17 +97,18 @@ def _frames(log: str) -> list[tuple[str, str, str]]:
     return frames
 
 
-def _sanitizer_segment(log: str) -> str:
-    match = SANITIZER_ERROR.search(log)
-    if match is None:
-        return ""
+def _sanitizer_segments(log: str) -> list[str]:
     lines = log.splitlines()
-    start = log[: match.start()].count("\n")
-    end = next(
-        (index + 1 for index in range(start, len(lines)) if lines[index].startswith("SUMMARY:")),
-        min(len(lines), start + 80),
-    )
-    return "\n".join(lines[start:end])
+    starts = sorted({log[: match.start()].count("\n") for match in SANITIZER_ERROR.finditer(log)})
+    segments: list[str] = []
+    for position, start in enumerate(starts):
+        limit = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        end = next(
+            (index + 1 for index in range(start, limit) if lines[index].startswith("SUMMARY:")),
+            min(limit, start + 80),
+        )
+        segments.append("\n".join(lines[start:end]))
+    return segments
 
 
 def _inline_groups(frames: list[tuple[str, str, str]]) -> Mapping[str, frozenset[str]]:
@@ -133,26 +135,44 @@ def parse_crash(log: str) -> CrashSignature:
         detect_ooms_and_hangs=True,
         include_ubsan=True,
     )
+    segments = _sanitizer_segments(cleaned)
+    for segment in segments:
+        parsed = parser.parse(segment)
+        crash_type = " ".join(parsed.crash_type.split())
+        state = tuple(line.strip() for line in parsed.crash_state.splitlines() if line.strip())
+        frames = _frames(segment)
+        inline_groups = _inline_groups(frames)
+        if frames and (state == ("NULL",) or not any(frame in inline_groups for frame in state)):
+            state = tuple(function for _, _, function in frames[:3])
+        signature = CrashSignature(
+            crash_type=crash_type,
+            state=state,
+            inline_groups=inline_groups,
+            cleaned_log=cleaned,
+            sanitizer_report=segment,
+            sanitizer_kind=_sanitizer_kind(segment),
+        )
+        if signature.crashed:
+            return signature
+
     parsed = parser.parse(cleaned)
     crash_type = " ".join(parsed.crash_type.split())
     state = tuple(line.strip() for line in parsed.crash_state.splitlines() if line.strip())
-    frames = _frames(_sanitizer_segment(cleaned))
-    inline_groups = _inline_groups(frames)
-    if frames and (state == ("NULL",) or not any(frame in inline_groups for frame in state)):
-        state = tuple(function for _, _, function in frames[:3])
+    report = segments[0] if segments else ""
     return CrashSignature(
         crash_type=crash_type,
         state=state,
-        inline_groups=inline_groups,
+        inline_groups=MappingProxyType({}),
         cleaned_log=cleaned,
-        sanitizer_kind=_sanitizer_kind(cleaned),
+        sanitizer_report=report,
+        sanitizer_kind=_sanitizer_kind(report),
     )
 
 
 def sanitizer_excerpt(signature: CrashSignature, max_chars: int = 8000) -> str:
     if not signature.crashed:
         return ""
-    excerpt = _sanitizer_segment(signature.cleaned_log)
+    excerpt = signature.sanitizer_report
     if len(excerpt) <= max_chars:
         return excerpt
     return excerpt[: max_chars - 24] + "\n[excerpt truncated]\n"

@@ -189,3 +189,28 @@ SUMMARY: ThreadSanitizer: data race /src/current.c:3 in write_counter
     parsed = parse_crash(log)
     assert parsed.state == ("write_counter",)
     assert parsed.crashed
+
+
+@pytest.mark.parametrize(
+    "first_report",
+    [
+        "==1==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x1\n",
+        "/src/first.c:4:2: runtime error: signed integer overflow\n",
+    ],
+)
+def test_later_framed_sanitizer_report_is_selected(first_report: str) -> None:
+    log = (
+        first_report
+        + "==2==ERROR: AddressSanitizer: heap-use-after-free on address 0x2\n"
+        + "    #0 0x5678 in real_target /src/target.c:8:2\n"
+        + "SUMMARY: AddressSanitizer: heap-use-after-free /src/target.c:8 in real_target\n"
+    )
+    parsed = parse_crash(log)
+    excerpt = sanitizer_excerpt(parsed)
+
+    assert parsed.crashed
+    assert parsed.crash_type == "Heap-use-after-free"
+    assert parsed.state == ("real_target",)
+    assert parsed.sanitizer_kind == "AddressSanitizer"
+    assert excerpt.startswith("==2==ERROR: AddressSanitizer")
+    assert "real_target" in excerpt
