@@ -28,6 +28,10 @@ SANITIZER_ERROR = re.compile(
     r"ThreadSanitizer|UndefinedBehaviorSanitizer)|(?P<ubsan>runtime error:)"
 )
 DIRTY_FIX_DETAIL = "The fixed build did not exit cleanly; inspect its captured stdout and stderr."
+AMBIGUOUS_VULNERABLE_DETAIL_PREFIXES = (
+    "The vulnerable build did not produce a recognized sanitizer trace",
+    "The vulnerable build produced a recognized ",
+)
 
 
 def ambiguous_vulnerable_detail(exit_code: int, sanitizer_kind: str | None = None) -> str:
@@ -53,7 +57,12 @@ class CrashSignature:
 
     @property
     def crashed(self) -> bool:
-        return bool(self.state) and self.state != ("NULL",) and self.sanitizer_kind is not None
+        return (
+            bool(self.state)
+            and self.state != ("NULL",)
+            and bool(self.inline_groups)
+            and self.sanitizer_kind is not None
+        )
 
 
 def _sanitizer_kind(log: str) -> str | None:
@@ -65,17 +74,39 @@ def _sanitizer_kind(log: str) -> str | None:
 
 def _frames(log: str) -> list[tuple[str, str, str]]:
     frames: list[tuple[str, str, str]] = []
+    first_stack_seen = False
     for line in log.splitlines():
         match = FRAME_WITH_IN.match(line) or FRAME_MODULE_OFFSET.match(line)
         if match is not None:
+            if match.group("index") == "0":
+                if first_stack_seen:
+                    break
+                first_stack_seen = True
             function = re.sub(r"\(.*", "", match.group("function")).strip()
             frames.append((match.group("index"), match.group("pc"), function))
             continue
         match = FRAME_SYMBOL_PATH.match(line)
         if match is not None:
+            if match.group("index") == "0":
+                if first_stack_seen:
+                    break
+                first_stack_seen = True
             function = re.sub(r"\(.*", "", match.group("function")).strip()
             frames.append((match.group("index"), f"frame:{match.group('index')}", function))
     return frames
+
+
+def _sanitizer_segment(log: str) -> str:
+    match = SANITIZER_ERROR.search(log)
+    if match is None:
+        return ""
+    lines = log.splitlines()
+    start = log[: match.start()].count("\n")
+    end = next(
+        (index + 1 for index in range(start, len(lines)) if lines[index].startswith("SUMMARY:")),
+        min(len(lines), start + 80),
+    )
+    return "\n".join(lines[start:end])
 
 
 def _inline_groups(frames: list[tuple[str, str, str]]) -> Mapping[str, frozenset[str]]:
@@ -105,13 +136,14 @@ def parse_crash(log: str) -> CrashSignature:
     parsed = parser.parse(cleaned)
     crash_type = " ".join(parsed.crash_type.split())
     state = tuple(line.strip() for line in parsed.crash_state.splitlines() if line.strip())
-    frames = _frames(cleaned)
-    if state == ("NULL",) and frames:
+    frames = _frames(_sanitizer_segment(cleaned))
+    inline_groups = _inline_groups(frames)
+    if frames and (state == ("NULL",) or not any(frame in inline_groups for frame in state)):
         state = tuple(function for _, _, function in frames[:3])
     return CrashSignature(
         crash_type=crash_type,
         state=state,
-        inline_groups=_inline_groups(frames),
+        inline_groups=inline_groups,
         cleaned_log=cleaned,
         sanitizer_kind=_sanitizer_kind(cleaned),
     )
@@ -120,16 +152,7 @@ def parse_crash(log: str) -> CrashSignature:
 def sanitizer_excerpt(signature: CrashSignature, max_chars: int = 8000) -> str:
     if not signature.crashed:
         return ""
-    lines = signature.cleaned_log.splitlines()
-    sanitizer_match = SANITIZER_ERROR.search(signature.cleaned_log)
-    if sanitizer_match is None:
-        return ""
-    start = signature.cleaned_log[: sanitizer_match.start()].count("\n")
-    end = next(
-        (index + 1 for index in range(start, len(lines)) if lines[index].startswith("SUMMARY:")),
-        min(len(lines), start + 80),
-    )
-    excerpt = "\n".join(lines[start:end])
+    excerpt = _sanitizer_segment(signature.cleaned_log)
     if len(excerpt) <= max_chars:
         return excerpt
     return excerpt[: max_chars - 24] + "\n[excerpt truncated]\n"

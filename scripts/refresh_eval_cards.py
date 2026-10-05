@@ -13,6 +13,7 @@ from contree_sdk import ContreeSync
 from reproof.arvo import ArvoRepository
 from reproof.claims import compare_claim
 from reproof.crash import (
+    AMBIGUOUS_VULNERABLE_DETAIL_PREFIXES,
     DIRTY_FIX_DETAIL,
     ambiguous_vulnerable_detail,
     looks_clean,
@@ -31,6 +32,24 @@ from reproof.sandbox import CheckpointRegistry, manifest_digest
 from reproof.triage import _verdict, write_card
 
 CARDS = Path("eval/results/cards")
+
+
+def merge_generated_details(
+    details: list[str],
+    ambiguous_detail: str | None,
+    fixed_clean: bool,
+) -> list[str]:
+    merged = [
+        detail
+        for detail in details
+        if detail != DIRTY_FIX_DETAIL
+        and not detail.startswith(AMBIGUOUS_VULNERABLE_DETAIL_PREFIXES)
+    ]
+    if ambiguous_detail is not None:
+        merged.append(ambiguous_detail)
+    if not fixed_clean:
+        merged.append(DIRTY_FIX_DETAIL)
+    return list(dict.fromkeys(merged))
 
 
 async def operation_measurement(client: ContreeSync, operation_id: str) -> tuple[float, float]:
@@ -103,20 +122,16 @@ async def refresh(legacy_execution_source_sha256: str | None = None) -> None:
         )
         duplicates = index.find_candidates(str(raw["project"]), measured)
         comparison = compare_claim(_claim_from_rows(raw), measured)
-        missing_details = [
-            detail
-            for detail in raw["missing_details"]
-            if detail != DIRTY_FIX_DETAIL
-            and not detail.startswith(
-                "The vulnerable build did not produce a recognized sanitizer trace"
-            )
-        ]
-        if not measured.crashed and not vulnerable_clean:
-            missing_details.append(
-                ambiguous_vulnerable_detail(int(vulnerable["exit_code"]), measured.sanitizer_kind)
-            )
-        if not fixed_clean:
-            missing_details.append(DIRTY_FIX_DETAIL)
+        ambiguous_detail = (
+            ambiguous_vulnerable_detail(int(vulnerable["exit_code"]), measured.sanitizer_kind)
+            if not measured.crashed and not vulnerable_clean
+            else None
+        )
+        missing_details = merge_generated_details(
+            [str(detail) for detail in raw["missing_details"]],
+            ambiguous_detail,
+            fixed_clean,
+        )
 
         task = repository.get(int(raw["arvo_id"]))
         matching_records = [

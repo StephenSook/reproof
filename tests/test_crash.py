@@ -155,3 +155,37 @@ def test_clusterfuzz_real_frame_formats_are_conclusive(log: str) -> None:
     assert parsed.sanitizer_kind is not None
     assert parsed.crashed
     assert "#0" in sanitizer_excerpt(parsed)
+
+
+@pytest.mark.parametrize(
+    "log",
+    [
+        """#0 0x1234 in unrelated /src/prelude.c:1:1
+==1==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x1
+SUMMARY: AddressSanitizer: heap-buffer-overflow
+""",
+        """==1==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x1
+SUMMARY: AddressSanitizer: heap-buffer-overflow
+#0 0x1234 in unrelated /src/after.c:1:1
+""",
+    ],
+)
+def test_frames_outside_sanitizer_segment_are_not_crash_evidence(log: str) -> None:
+    parsed = parse_crash(log)
+    assert parsed.sanitizer_kind == "AddressSanitizer"
+    assert not parsed.inline_groups
+    assert not parsed.crashed
+    assert sanitizer_excerpt(parsed) == ""
+
+
+def test_tsan_fallback_state_stops_before_second_stack() -> None:
+    log = """WARNING: ThreadSanitizer: data race (pid=7)
+  Write of size 4 at 0x1234 by thread T1:
+    #0 write_counter /src/current.c:3 (demo+0x1234)
+  Previous write of size 4 at 0x1234 by thread T2:
+    #0 prior_write /src/prior.c:9 (demo+0x5678)
+SUMMARY: ThreadSanitizer: data race /src/current.c:3 in write_counter
+"""
+    parsed = parse_crash(log)
+    assert parsed.state == ("write_counter",)
+    assert parsed.crashed
