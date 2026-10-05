@@ -146,8 +146,83 @@ $env:REPROOF_LIVE = "1"
 uv run pytest -m live
 ```
 
-CI runs Ruff, mypy, and the non-live tests on Ubuntu 24.04. Live tests make paid Token Factory and
-ConTree requests and run only when `REPROOF_LIVE=1`.
+CI runs Ruff, mypy, and the non-live Python tests on Ubuntu 24.04. A second job runs the web
+typecheck, lint, unit tests, production build, and non-live Playwright checks. Live tests make
+paid Token Factory and ConTree requests and run only when `REPROOF_LIVE=1`.
+
+## Judge door
+
+A judge opens one site, with no login and no key, picks one of the 10 public ARVO reports, and
+presses Triage. The page shows that report's public text and its source OSV id. The browser does
+not receive `NEBIUS_API_KEY` or the Nebius project id. Those values stay in the Python process.
+
+Triage streams each step as it finishes. Nemotron 3 Super extracts the claim. The vulnerable and
+fixed builds run in parallel disposable branches of that task's cached ConTree checkpoint. The
+sanitizer output is parsed. Duplicates are searched in the committed per-project OSV index, and
+the task's own issue is excluded. The verdict card shows the model calls, sandbox operation ids,
+cost, and time. If the committed checkpoint is missing, the result is `NEEDS_INFO` and the server
+does not build a replacement from a local slice.
+
+Show recorded result fills the same steps from `eval/results/arvo10.json` and labels the card
+`RECORDED`. It does not call the model or a sandbox. The Measured section is rendered from that
+file. It shows 6 `REPRODUCED`, 4 `DUPLICATE`, the saved costs, and the 2026-10-05 note that the
+phase 1 table counted four self-matches.
+
+This browser can run 1 triage at a time. This address can start 8 triages per hour. Everyone
+shares 60 triages per day. The Python service keeps the counts. On Vercel, each function instance
+keeps its own count file, and instances do not share a disk. A refused start returns HTTP 429 and
+does not invent a verdict.
+
+The triage service is a Vercel Python function beside the Next.js app, configured in `vercel.json`.
+The measured runtime tree is 166,799,055 bytes. A fresh local process imported `reproof.door` in
+3.615514 seconds. That figure is a local import, not a deployed cold start. `maxDuration` is 120
+seconds. Vercel's function limits, updated 2026-08-24, set a 500 MB uncompressed maximum for Python
+and a 300 second Hobby maximum, and duration includes a streamed response
+(https://vercel.com/docs/functions/limitations). 120 seconds is under that Hobby maximum. The
+sandbox command timeout in `reproof/sandbox.py` is 600 seconds, so the platform can end a hung call
+before the sandbox returns. The account plan was not queried. A container is not used. Nothing has
+been deployed.
+
+Locally, start the Python service and the web app. The Next.js route proxies `/api/triage` to
+`http://127.0.0.1:8765` unless `REPROOF_DOOR_ORIGIN` is set. On Vercel, `vercel.json` sends
+`/api/triage` and `/api/health` to the Python service before Next.js runs.
+
+```powershell
+uv run python -m reproof.door_asgi
+cd web
+pnpm install
+pnpm dev
+```
+
+From `web/`:
+
+```powershell
+pnpm typecheck
+pnpm lint
+pnpm test
+pnpm build
+pnpm e2e
+```
+
+`pnpm e2e` checks the picker, the recorded result, the Measured section, horizontal overflow at
+390, 768, 1024, and 1440 px, and axe. It skips the paid triage. To run that one triage, start both
+servers, then:
+
+```powershell
+$env:REPROOF_LIVE = "1"
+$env:BASE_URL = "http://127.0.0.1:3117"
+pnpm exec playwright test tests/e2e/live.spec.ts
+```
+
+`node scripts/agent-check.mjs <url>` opens that URL, runs ARVO 42530604, and fails unless the
+verdict and every step arrive, including both sandbox operation ids. A missing URL exits 2.
+`.github/workflows/live.yml` runs the probe on `ubuntu-24.04` once a day at 15:17 UTC and when
+started by hand. The URL is a required workflow input, or the repository variable
+`REPROOF_DOOR_URL`. An empty URL fails the job. Until a public URL is set, the scheduled run is
+red. GitHub can delay a scheduled run, so a green run is not a liveness guarantee.
+
+CI on Ubuntu 24.04 runs the Python gates and a separate web job for typecheck, lint, unit tests,
+the production build, and the non-live Playwright checks. CI does not set `REPROOF_LIVE`.
 
 ## License
 

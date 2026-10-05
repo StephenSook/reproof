@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Documented the judge door, including the Vercel Python function, the per-instance cap file, and the scheduled probe. The non-live Python suite is 114 tests.
 - Added Playwright checks for the report picker, the recorded step view, the Measured section, horizontal overflow, and axe. The real triage check stays off unless REPROOF_LIVE=1. CI runs the non-live web gates.
 - Added a live probe for ARVO 42530604. It fails unless the verdict and every triage step arrive, including both sandbox operation ids. The scheduled workflow requires a public door URL and fails when that URL is empty.
 - Added the judge door page and triage caps. The page lists the 10 public reports, streams one triage, and can show the saved ARVO 10 row labelled RECORDED. One browser can run one triage at a time, one address can start 8 per hour, and everyone shares 60 per day. On Vercel, each function instance keeps its own count file.
@@ -19,4 +20,4 @@
 - Hardened sanitizer excerpts, deterministic verdict validation, image-deletion verification, persistence failure IDs, failed model-call accounting, and resume provenance after independent review.
 - Required unsanitized fatal vulnerable runs to return `NEEDS_INFO` instead of `NOT_REPRODUCED`, with the exit code and missing evidence recorded.
 - Rejected header-only sanitizer output as conclusive crash evidence, supported canonical frame formats, and bound `NEEDS_INFO` details to the measured execution failure.
-- Verified the current package with 99 non-live tests, Ruff formatting, Ruff lint, mypy, and the provenance-validated ARVO 10 evaluation.
+- Verified the current package with 114 non-live tests, Ruff formatting, Ruff lint, mypy, and the provenance-validated ARVO 10 evaluation.
