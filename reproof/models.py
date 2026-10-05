@@ -128,6 +128,10 @@ class EvalTotals(StrictModel):
     fixes_clean: int = Field(ge=0)
     claims_agree: int = Field(ge=0)
     total_duplicate_candidates: int = Field(ge=0)
+    total_input_tokens: int = Field(ge=0)
+    total_output_tokens: int = Field(ge=0)
+    total_model_cost_usd: float = Field(ge=0)
+    total_sandbox_cost_usd: float = Field(ge=0)
     total_cost_usd: float = Field(ge=0)
     total_wall_seconds: float = Field(ge=0)
 

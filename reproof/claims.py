@@ -116,7 +116,7 @@ def extract_claim(report_text: str, client: OpenAI | None = None) -> tuple[Claim
         input_price_per_million=float(INPUT_PRICE_PER_MILLION),
         output_price_per_million=float(OUTPUT_PRICE_PER_MILLION),
         price_source=PRICE_SOURCE,
-        cost_usd=float(cost),
+        cost_usd=round(float(cost), 8),
         request_id=str(request_id) if request_id else None,
     )
     return claim, call

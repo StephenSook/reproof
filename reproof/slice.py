@@ -198,13 +198,28 @@ def extract_runtime_slice(
             "/bin/arvo": destination / "bin" / "arvo",
             "/tmp/poc": destination / "tmp" / "poc",
             f"/out/{fuzz_target}": destination / "out" / fuzz_target,
-            "/out/llvm-symbolizer": destination / "out" / "llvm-symbolizer",
         }
         for remote_path, local_path in initial.items():
             sources[remote_path] = _copy_from_container(container, remote_path, local_path)
 
+        symbolizer = destination / "out" / "llvm-symbolizer"
+        symbolizer_errors: list[str] = []
+        for candidate in ("/out/llvm-symbolizer", "/usr/local/bin/llvm-symbolizer"):
+            try:
+                sources["/out/llvm-symbolizer"] = _copy_from_container(
+                    container, candidate, symbolizer
+                )
+                break
+            except FileNotFoundError as error:
+                symbolizer_errors.append(str(error))
+        else:
+            raise FileNotFoundError(
+                "llvm-symbolizer was not found at either supported ARVO path; "
+                + "; ".join(symbolizer_errors)
+            )
+        initial["/out/llvm-symbolizer"] = symbolizer
+
         target = initial[f"/out/{fuzz_target}"]
-        symbolizer = initial["/out/llvm-symbolizer"]
         original_interpreter = elf_interpreter(target)
         loader = destination / "arvo" / "ld.so"
         sources["/arvo/ld.so"] = _copy_from_container(container, original_interpreter, loader)

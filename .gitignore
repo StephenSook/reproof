@@ -15,7 +15,7 @@ build/
 cache/
 data/
 slices/
-eval/results/
+eval/results/cards/
 *.db
 *.db-*
 *.sqlite
@@ -39,4 +39,3 @@ service-account*.json
 .DS_Store
 Thumbs.db
 *.log
-
