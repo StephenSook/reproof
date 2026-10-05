@@ -380,7 +380,7 @@ def test_committed_door_assets_match_the_eval() -> None:
         path = ASSETS_DIR / name
         assert path.is_file()
         completed = subprocess.run(
-            ["git.exe", "check-ignore", "-q", "--", f"reproof/assets/{name}"],
+            ["git", "check-ignore", "-q", "--", f"reproof/assets/{name}"],
             cwd=ROOT,
             check=False,
         )
