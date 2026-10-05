@@ -129,9 +129,19 @@ class SandboxRunner:
                     "cache_hit": True,
                 }
                 return checkpoint
-            except NotFoundError:
+            except NotFoundError as lookup_error:
                 del registry[key]
-                self.registry.write(registry)
+                try:
+                    self.registry.write(registry)
+                except Exception as registry_error:
+                    raise CheckpointError(
+                        "Stale checkpoint registry cleanup failed: "
+                        f"{type(registry_error).__name__}: {registry_error}",
+                        kind=kind,
+                        operation_uuid=str(cached.get("create_operation_uuid") or "") or None,
+                        checkpoint_uuid=str(cached.get("checkpoint_uuid") or "") or None,
+                        request_id=_request_id_from_error(lookup_error),
+                    ) from registry_error
             except Exception as error:
                 raise CheckpointError(
                     f"ConTree cached checkpoint lookup failed: {type(error).__name__}: {error}",

@@ -5,6 +5,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
+from contree_sdk.sdk.exceptions import NotFoundError
 
 from reproof.sandbox import (
     CheckpointError,
@@ -56,6 +57,45 @@ def test_checkpoint_cache_does_not_hide_transport_failure(tmp_path: Path) -> Non
     with pytest.raises(RuntimeError, match="transport failed"):
         runner.ensure_checkpoint(1, "vul", slice_dir)
     assert registry.read()[f"1:vul:{digest}"]["checkpoint_uuid"] == "checkpoint-test"
+
+
+def test_stale_checkpoint_cleanup_failure_preserves_cached_ids(tmp_path: Path) -> None:
+    slice_dir = tmp_path / "slice"
+    slice_dir.mkdir()
+    (slice_dir / "manifest.json").write_text('{"files":{}}', encoding="utf-8")
+    digest = manifest_digest(slice_dir)
+    key = f"1:vul:{digest}"
+
+    class FailingRegistry:
+        def read(self) -> dict[str, dict[str, object]]:
+            return {
+                key: {
+                    "checkpoint_uuid": "checkpoint-stale",
+                    "create_operation_uuid": "checkpoint-operation-stale",
+                }
+            }
+
+        def write(self, _value: dict[str, dict[str, object]]) -> None:
+            raise OSError("disk full")
+
+    class MissingImages:
+        def use(self, _reference: str, *, strict: bool) -> None:
+            assert strict
+            error = NotFoundError(error="missing")
+            error.request_id = "request-lookup"
+            raise error
+
+    runner = SandboxRunner(
+        client=SimpleNamespace(images=MissingImages()),
+        registry=FailingRegistry(),  # type: ignore[arg-type]
+    )
+    with pytest.raises(CheckpointError, match="registry cleanup failed") as captured:
+        runner.ensure_checkpoint(1, "vul", slice_dir)
+
+    error = captured.value
+    assert error.checkpoint_operation_uuids == {"vul": "checkpoint-operation-stale"}
+    assert error.checkpoint_uuids == {"vul": "checkpoint-stale"}
+    assert error.request_ids == ["request-lookup"]
 
 
 def test_pair_error_exposes_all_recovered_ids() -> None:
