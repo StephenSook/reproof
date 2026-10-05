@@ -1,0 +1,39 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "web": {
+      "root": "web/",
+      "framework": "nextjs"
+    },
+    "triage": {
+      "root": ".",
+      "entrypoint": "reproof.door_asgi:app",
+      "functions": {
+        "reproof/door_asgi.py": {
+          "maxDuration": 120,
+          "excludeFiles": "{.git/**,.venv/**,.cache/**,slices/**,web/**,tests/**,eval/results/cards/**,**/*.zip,**/*.db,**/__pycache__/**}"
+        }
+      }
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/triage",
+      "destination": {
+        "service": "triage"
+      }
+    },
+    {
+      "source": "/api/health",
+      "destination": {
+        "service": "triage"
+      }
+    },
+    {
+      "source": "/(.*)",
+      "destination": {
+        "service": "web"
+      }
+    }
+  ]
+}

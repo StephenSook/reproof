@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Chose a Vercel Python function beside the Next.js app for the judge door. The measured runtime tree is 166,799,055 bytes and the local cold import of reproof.door is 3.615514 seconds. maxDuration is 120 seconds. Nothing was deployed.
 - Added a cached-checkpoint triage entry point, a committed ConTree checkpoint manifest, and a per-project OSV index for jq, libplist, wasm3, miniz, and libspng. A missing checkpoint returns NEEDS_INFO and is not rebuilt from a local slice.
 - Added the Python 3.12 package, local-only data controls, Apache-2.0 license, and CI gates.
 - Added typed ARVO metadata access and ClusterFuzz 2.6.0 crash parsing.

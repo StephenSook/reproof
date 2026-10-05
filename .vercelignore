@@ -1,0 +1,9 @@
+.venv
+.cache
+slices
+web/node_modules
+web/.next
+eval/results/cards
+**/*.zip
+**/*.db
+**/__pycache__
