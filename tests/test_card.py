@@ -12,7 +12,7 @@ from reproof.models import Claim, TriageCard
 
 def valid_card() -> dict[str, object]:
     return {
-        "schema_version": "1.4",
+        "schema_version": "1.5",
         "arvo_id": 1,
         "project": "demo",
         "report_source": "public test fixture",
@@ -23,6 +23,7 @@ def valid_card() -> dict[str, object]:
             "crash": None,
             "fix_clean": True,
             "fixed_exit_code": 0,
+            "excluded_osv_ids": ["OSV-TEST-1"],
             "duplicate_candidates": [],
             "claim_vs_evidence": [
                 {
@@ -118,7 +119,21 @@ def test_card_schema_rejects_report_hash_mismatch() -> None:
 def test_card_schema_rejects_unknown_version() -> None:
     payload = valid_card()
     payload["schema_version"] = "999"
-    with pytest.raises(ValidationError, match=r"Input should be '1\.4'"):
+    with pytest.raises(ValidationError, match=r"Input should be '1\.5'"):
+        TriageCard.model_validate(payload)
+
+
+def test_card_rejects_candidate_from_excluded_issue() -> None:
+    payload = valid_card()
+    payload["evidence"]["duplicate_candidates"] = [  # type: ignore[index]
+        {
+            "id": "OSV-TEST-1",
+            "summary": "the report under triage",
+            "fixed_commits": [],
+            "match_kind": "exact",
+        }
+    ]
+    with pytest.raises(ValidationError, match="cannot be an excluded OSV record"):
         TriageCard.model_validate(payload)
 
 

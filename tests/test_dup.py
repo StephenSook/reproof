@@ -73,7 +73,7 @@ def test_index_returns_all_same_project_candidates(tmp_path: Path) -> None:
         parse_osv_record(raw_record("OSV-3", "other", 64576, crash.state)),
     ]
     index = OsvIndex([record for record in records if record is not None], {64574: 42530604})
-    candidates = index.find_candidates("jq", crash)
+    candidates = index.find_candidates("jq", crash, excluded_osv_ids=[])
     assert [(candidate.id, candidate.match_kind) for candidate in candidates] == [
         ("OSV-1", "exact"),
         ("OSV-2", "inline_tolerant"),
@@ -89,6 +89,27 @@ def test_index_returns_all_same_project_candidates(tmp_path: Path) -> None:
     assert rebuilt.for_issue(42530604)[0].report_text.startswith("summary OSV-1")
 
 
+def test_index_excludes_current_issue_records_but_keeps_independent_match() -> None:
+    fixture = Path(__file__).parent / "fixtures" / "42530604-vul.txt"
+    crash = parse_crash(fixture.read_text(encoding="utf-8"))
+    records = [
+        parse_osv_record(raw_record("OSV-SELF-1", "jq", 64574, crash.state)),
+        parse_osv_record(raw_record("OSV-SELF-2", "jq", 64574, crash.state)),
+        parse_osv_record(raw_record("OSV-INDEPENDENT", "jq", 64575, crash.state)),
+    ]
+    index = OsvIndex([record for record in records if record is not None], {64574: 42530604})
+    excluded_osv_ids = [record.id for record in index.for_issue(42530604)]
+
+    candidates = index.find_candidates(
+        "jq",
+        crash,
+        excluded_osv_ids=excluded_osv_ids,
+    )
+
+    assert excluded_osv_ids == ["OSV-SELF-1", "OSV-SELF-2"]
+    assert [candidate.id for candidate in candidates] == ["OSV-INDEPENDENT"]
+
+
 def test_index_does_not_match_unsanitized_fatal_state() -> None:
     crash = parse_crash(
         "==1== ERROR: libFuzzer: deadly signal\n"
@@ -101,4 +122,4 @@ def test_index_does_not_match_unsanitized_fatal_state() -> None:
 
     assert crash.state == ("parse_item",)
     assert not crash.crashed
-    assert index.find_candidates("demo", crash) == []
+    assert index.find_candidates("demo", crash, excluded_osv_ids=["OSV-1"]) == []

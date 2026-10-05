@@ -124,8 +124,16 @@ async def refresh(legacy_execution_source_sha256: str | None = None) -> None:
             looks_clean(int(fixed["exit_code"]), fixed_output)
             and not parse_crash(fixed_output).state
         )
+        task = repository.get(int(raw["arvo_id"]))
+        excluded_osv_ids = [record.id for record in index.for_issue(task.local_id)]
         duplicates = (
-            index.find_candidates(str(raw["project"]), measured) if vulnerable_crashed else []
+            index.find_candidates(
+                str(raw["project"]),
+                measured,
+                excluded_osv_ids=excluded_osv_ids,
+            )
+            if vulnerable_crashed
+            else []
         )
         comparison = compare_claim(_claim_from_rows(raw), measured)
         ambiguous_detail = (
@@ -143,7 +151,6 @@ async def refresh(legacy_execution_source_sha256: str | None = None) -> None:
             fixed_clean,
         )
 
-        task = repository.get(int(raw["arvo_id"]))
         matching_records = [
             record
             for record in index.for_issue(task.local_id)
@@ -155,7 +162,7 @@ async def refresh(legacy_execution_source_sha256: str | None = None) -> None:
             )
         record_id = matching_records[0].id
 
-        raw["schema_version"] = "1.4"
+        raw["schema_version"] = "1.5"
         raw["verdict"] = _verdict(
             vulnerable_crashed,
             vulnerable_clean,
@@ -175,6 +182,7 @@ async def refresh(legacy_execution_source_sha256: str | None = None) -> None:
         )
         raw["evidence"]["fix_clean"] = fixed_clean
         raw["evidence"]["fixed_exit_code"] = int(fixed["exit_code"])
+        raw["evidence"]["excluded_osv_ids"] = excluded_osv_ids
         raw["evidence"]["duplicate_candidates"] = [
             candidate.model_dump() for candidate in duplicates
         ]

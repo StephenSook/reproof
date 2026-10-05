@@ -91,6 +91,7 @@ class TriageEvidence(StrictModel):
     crash: CrashEvidence | None
     fix_clean: bool
     fixed_exit_code: int
+    excluded_osv_ids: list[str]
     duplicate_candidates: list[DuplicateCandidate]
     claim_vs_evidence: list[ClaimComparisonRow]
     inputs_tried: list[str]
@@ -127,7 +128,7 @@ class TriageProvenance(StrictModel):
 
 
 class TriageCard(StrictModel):
-    schema_version: Literal["1.4"] = "1.4"
+    schema_version: Literal["1.5"] = "1.5"
     arvo_id: int
     project: str
     report_source: str
@@ -166,6 +167,11 @@ class TriageCard(StrictModel):
             raise ValueError("a needs-info verdict must state at least one missing detail")
         if self.evidence.fix_clean and self.evidence.fixed_exit_code != 0:
             raise ValueError("a clean fixed build must have exit code zero")
+        if self.evidence.excluded_osv_ids != sorted(set(self.evidence.excluded_osv_ids)):
+            raise ValueError("excluded OSV IDs must be sorted and unique")
+        candidate_ids = {candidate.id for candidate in self.evidence.duplicate_candidates}
+        if candidate_ids.intersection(self.evidence.excluded_osv_ids):
+            raise ValueError("a duplicate candidate cannot be an excluded OSV record")
         comparison_fields = {row.field for row in self.evidence.claim_vs_evidence}
         if (
             comparison_fields != {"bug_class", "functions"}

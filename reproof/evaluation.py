@@ -226,8 +226,17 @@ def run_eval(
             )
             measured = parse_crash(vulnerable.stderr)
             vulnerable_crashed = is_conclusive_crash(vulnerable.exit_code, measured)
+            expected_excluded_osv_ids = [record.id for record in index.for_issue(task.local_id)]
+            if card.evidence.excluded_osv_ids != expected_excluded_osv_ids:
+                raise ValueError(f"resume card {card_path} OSV exclusions are stale")
             expected_duplicates = (
-                index.find_candidates(task.project, measured) if vulnerable_crashed else []
+                index.find_candidates(
+                    task.project,
+                    measured,
+                    excluded_osv_ids=expected_excluded_osv_ids,
+                )
+                if vulnerable_crashed
+                else []
             )
             if card.evidence.duplicate_candidates != expected_duplicates:
                 raise ValueError(f"resume card {card_path} duplicate evidence is stale")

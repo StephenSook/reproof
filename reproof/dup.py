@@ -194,12 +194,21 @@ class OsvIndex:
     def for_issue(self, issue_id: int) -> tuple[OsvRecord, ...]:
         return tuple(sorted(self.by_issue.get(issue_id, []), key=lambda record: record.id))
 
-    def find_candidates(self, project: str, crash: CrashSignature) -> list[DuplicateCandidate]:
+    def find_candidates(
+        self,
+        project: str,
+        crash: CrashSignature,
+        *,
+        excluded_osv_ids: Iterable[str],
+    ) -> list[DuplicateCandidate]:
         if not crash.crashed:
             return []
         candidates: list[DuplicateCandidate] = []
+        excluded = frozenset(excluded_osv_ids)
         groups = dict(crash.inline_groups)
         for record in self.by_project.get(project, []):
+            if record.id in excluded:
+                continue
             if frames_match(crash.state, record.state):
                 match_kind = "exact"
             elif frames_match(crash.state, record.state, groups):

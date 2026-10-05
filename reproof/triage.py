@@ -245,7 +245,16 @@ def _complete_triage(
     vulnerable_crashed = is_conclusive_crash(vulnerable.exit_code, measured)
     vulnerable_clean = looks_clean(vulnerable.exit_code, vulnerable.stderr) and not measured.state
     fixed_clean = looks_clean(fixed.exit_code, fixed.stderr) and not fixed_measured.state
-    duplicates = index.find_candidates(task.project, measured) if vulnerable_crashed else []
+    excluded_osv_ids = [record.id for record in index.for_issue(task.local_id)]
+    duplicates = (
+        index.find_candidates(
+            task.project,
+            measured,
+            excluded_osv_ids=excluded_osv_ids,
+        )
+        if vulnerable_crashed
+        else []
+    )
     comparison = compare_claim(claim, measured)
     missing_details = list(dict.fromkeys(claim.missing_details))
     if not vulnerable_crashed and not vulnerable_clean:
@@ -277,6 +286,7 @@ def _complete_triage(
         ),
         fix_clean=fixed_clean,
         fixed_exit_code=fixed.exit_code,
+        excluded_osv_ids=excluded_osv_ids,
         duplicate_candidates=duplicates,
         claim_vs_evidence=comparison,
         inputs_tried=[input_label],
