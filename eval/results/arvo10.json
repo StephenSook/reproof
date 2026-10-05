@@ -1,0 +1,171 @@
+{
+  "schema_version": "1.0",
+  "selection_rule": "Always include ARVO 42530604, 42507851, and 42496387. Fill the remaining slots from the spike's frozen 2026-10-05 memory-safety candidate table, restricted to tasks with a mapped public OSV record, ordered by max(vulnerable GB, fixed GB) then ARVO ID.",
+  "selected_arvo_ids": [
+    42530604,
+    42507851,
+    42496387,
+    42508524,
+    42536108,
+    42536112,
+    42508390,
+    42531297,
+    42531223,
+    42476752
+  ],
+  "tasks": [
+    {
+      "arvo_id": 42530604,
+      "project": "jq",
+      "verdict": "DUPLICATE",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [
+        "OSV-2023-1239"
+      ],
+      "claim_agreement": true,
+      "cost_usd": 0.00079247,
+      "wall_seconds": 4.944027,
+      "card_path": "eval/results/cards/42530604.json"
+    },
+    {
+      "arvo_id": 42507851,
+      "project": "libplist",
+      "verdict": "DUPLICATE",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [
+        "OSV-2022-93"
+      ],
+      "claim_agreement": true,
+      "cost_usd": 0.00086026,
+      "wall_seconds": 19.777161,
+      "card_path": "eval/results/cards/42507851.json"
+    },
+    {
+      "arvo_id": 42496387,
+      "project": "wasm3",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "cost_usd": 0.00090432,
+      "wall_seconds": 23.620587,
+      "card_path": "eval/results/cards/42496387.json"
+    },
+    {
+      "arvo_id": 42508524,
+      "project": "libplist",
+      "verdict": "DUPLICATE",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [
+        "OSV-2022-147",
+        "OSV-2022-158"
+      ],
+      "claim_agreement": true,
+      "cost_usd": 0.0008647,
+      "wall_seconds": 39.494779,
+      "card_path": "eval/results/cards/42508524.json"
+    },
+    {
+      "arvo_id": 42536108,
+      "project": "miniz",
+      "verdict": "DUPLICATE",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [
+        "OSV-2024-550"
+      ],
+      "claim_agreement": true,
+      "cost_usd": 0.00091783,
+      "wall_seconds": 65.302103,
+      "card_path": "eval/results/cards/42536108.json"
+    },
+    {
+      "arvo_id": 42536112,
+      "project": "miniz",
+      "verdict": "DUPLICATE",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [
+        "OSV-2024-551"
+      ],
+      "claim_agreement": true,
+      "cost_usd": 0.00091361,
+      "wall_seconds": 20.23326,
+      "card_path": "eval/results/cards/42536112.json"
+    },
+    {
+      "arvo_id": 42508390,
+      "project": "libplist",
+      "verdict": "DUPLICATE",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": true,
+      "duplicate_candidates": [
+        "OSV-2022-93"
+      ],
+      "claim_agreement": true,
+      "cost_usd": 0.00084522,
+      "wall_seconds": 27.917757,
+      "card_path": "eval/results/cards/42508390.json"
+    },
+    {
+      "arvo_id": 42531297,
+      "project": "jq",
+      "verdict": "DUPLICATE",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [
+        "OSV-2023-1344",
+        "OSV-2025-363"
+      ],
+      "claim_agreement": false,
+      "cost_usd": 0.00105939,
+      "wall_seconds": 43.747241,
+      "card_path": "eval/results/cards/42531297.json"
+    },
+    {
+      "arvo_id": 42531223,
+      "project": "jq",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "cost_usd": 0.00106674,
+      "wall_seconds": 36.503697,
+      "card_path": "eval/results/cards/42531223.json"
+    },
+    {
+      "arvo_id": 42476752,
+      "project": "libspng",
+      "verdict": "DUPLICATE",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [
+        "OSV-2020-307",
+        "OSV-2020-344"
+      ],
+      "claim_agreement": true,
+      "cost_usd": 0.00086122,
+      "wall_seconds": 39.510942,
+      "card_path": "eval/results/cards/42476752.json"
+    }
+  ],
+  "totals": {
+    "tasks_requested": 10,
+    "tasks_completed": 10,
+    "crash_state_agreements": 7,
+    "fixes_clean": 10,
+    "claims_agree": 9,
+    "total_duplicate_candidates": 11,
+    "total_input_tokens": 1349,
+    "total_output_tokens": 1180,
+    "total_model_cost_usd": 0.0014667,
+    "total_sandbox_cost_usd": 0.00761906,
+    "total_cost_usd": 0.00908576,
+    "total_wall_seconds": 321.051554
+  }
+}
