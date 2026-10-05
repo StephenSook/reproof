@@ -8,7 +8,7 @@ from pathlib import Path
 
 from reproof.arvo import ArvoRepository, ArvoTask
 from reproof.claims import comparison_rows_agree
-from reproof.crash import CrashSignature, looks_clean, parse_crash
+from reproof.crash import CrashSignature, is_conclusive_crash, looks_clean, parse_crash
 from reproof.dup import (
     OsvIndex,
     default_mapping_path,
@@ -46,9 +46,10 @@ SIZE = re.compile(r"vul=([0-9.]+)GB\s+fix=([0-9.]+)GB")
 
 def _eval_crash_evidence(
     signature: CrashSignature,
+    exit_code: int,
 ) -> tuple[str, list[str], str | None]:
     """Return conclusive crash evidence only, leaving ambiguous parses empty."""
-    if not signature.crashed:
+    if not is_conclusive_crash(exit_code, signature):
         return "", [], None
     return signature.crash_type, list(signature.state), signature.sanitizer_kind
 
@@ -222,14 +223,16 @@ def run_eval(
             vulnerable = next(
                 operation for operation in card.sandbox_operations if operation.kind == "vul"
             )
-            measured = parse_crash("\n".join((vulnerable.stdout, vulnerable.stderr)))
-            expected_duplicates = index.find_candidates(task.project, measured)
+            measured = parse_crash(vulnerable.stderr)
+            vulnerable_crashed = is_conclusive_crash(vulnerable.exit_code, measured)
+            expected_duplicates = (
+                index.find_candidates(task.project, measured) if vulnerable_crashed else []
+            )
             if card.evidence.duplicate_candidates != expected_duplicates:
                 raise ValueError(f"resume card {card_path} duplicate evidence is stale")
             expected_verdict = _verdict(
-                measured.crashed,
-                looks_clean(vulnerable.exit_code, "\n".join((vulnerable.stdout, vulnerable.stderr)))
-                and not measured.state,
+                vulnerable_crashed,
+                looks_clean(vulnerable.exit_code, vulnerable.stderr) and not measured.state,
                 card.evidence.fix_clean,
                 len(expected_duplicates),
             )
@@ -259,25 +262,27 @@ def run_eval(
         vulnerable = next(
             operation for operation in card.sandbox_operations if operation.kind == "vul"
         )
-        vulnerable_output = "\n".join((vulnerable.stdout, vulnerable.stderr))
-        measured = parse_crash(vulnerable_output)
+        measured = parse_crash(vulnerable.stderr)
+        vulnerable_crashed = is_conclusive_crash(vulnerable.exit_code, measured)
         vulnerable_clean = (
-            looks_clean(vulnerable.exit_code, vulnerable_output) and not measured.state
+            looks_clean(vulnerable.exit_code, vulnerable.stderr) and not measured.state
         )
-        crash_type, crash_state, sanitizer_kind = _eval_crash_evidence(measured)
+        crash_type, crash_state, sanitizer_kind = _eval_crash_evidence(
+            measured, vulnerable.exit_code
+        )
         model_calls = card.model_calls
         results.append(
             EvalTaskResult(
                 arvo_id=task_id,
                 project=task.project,
                 verdict=card.verdict,
-                crash_state_agreement_with_osv=measured.crashed
+                crash_state_agreement_with_osv=vulnerable_crashed
                 and _agrees_with_mapped_osv(task_id, measured, index),
                 fix_clean=card.evidence.fix_clean,
                 duplicate_candidates=[
                     candidate.id for candidate in card.evidence.duplicate_candidates
                 ],
-                claim_agreement=measured.crashed
+                claim_agreement=vulnerable_crashed
                 and comparison_rows_agree(card.evidence.claim_vs_evidence),
                 crash_type=crash_type,
                 crash_state=crash_state,

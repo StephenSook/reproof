@@ -176,6 +176,7 @@ class TriageCard(StrictModel):
         from reproof.crash import (
             DIRTY_FIX_DETAIL,
             ambiguous_vulnerable_detail,
+            is_conclusive_crash,
             looks_clean,
             parse_crash,
             sanitizer_excerpt,
@@ -184,20 +185,17 @@ class TriageCard(StrictModel):
         operations = {operation.kind: operation for operation in self.sandbox_operations}
         vulnerable = operations["vul"]
         fixed = operations["fix"]
-        fixed_output = "\n".join(part for part in (fixed.stdout, fixed.stderr) if part)
         measured_fix_clean = (
-            looks_clean(fixed.exit_code, fixed_output) and not parse_crash(fixed_output).state
+            looks_clean(fixed.exit_code, fixed.stderr) and not parse_crash(fixed.stderr).state
         )
         if self.evidence.fixed_exit_code != fixed.exit_code:
             raise ValueError("fixed exit evidence does not match the saved fix operation")
         if self.evidence.fix_clean != measured_fix_clean:
             raise ValueError("fixed clean evidence does not match the saved fix operation")
 
-        vulnerable_output = "\n".join(
-            part for part in (vulnerable.stdout, vulnerable.stderr) if part
-        )
-        measured_crash = parse_crash(vulnerable_output)
-        if measured_crash.crashed:
+        measured_crash = parse_crash(vulnerable.stderr)
+        measured_vulnerable_crashed = is_conclusive_crash(vulnerable.exit_code, measured_crash)
+        if measured_vulnerable_crashed:
             if self.evidence.crash is None:
                 raise ValueError(
                     "saved vulnerable operation contains an unrecorded sanitizer crash"
@@ -214,14 +212,16 @@ class TriageCard(StrictModel):
             raise ValueError("crash evidence has no sanitizer trace in the vulnerable operation")
 
         measured_vulnerable_clean = (
-            looks_clean(vulnerable.exit_code, vulnerable_output) and not measured_crash.state
+            looks_clean(vulnerable.exit_code, vulnerable.stderr) and not measured_crash.state
         )
         duplicate_count = len(self.evidence.duplicate_candidates)
-        if not measured_fix_clean or (not measured_crash.crashed and not measured_vulnerable_clean):
+        if not measured_fix_clean or (
+            not measured_vulnerable_crashed and not measured_vulnerable_clean
+        ):
             expected_verdict = Verdict.NEEDS_INFO
-        elif measured_crash.crashed and duplicate_count:
+        elif measured_vulnerable_crashed and duplicate_count:
             expected_verdict = Verdict.DUPLICATE
-        elif measured_crash.crashed:
+        elif measured_vulnerable_crashed:
             expected_verdict = Verdict.REPRODUCED
         elif not duplicate_count:
             expected_verdict = Verdict.NOT_REPRODUCED
@@ -231,9 +231,11 @@ class TriageCard(StrictModel):
             raise ValueError(
                 f"verdict {self.verdict} does not match measured evidence {expected_verdict}"
             )
-        if not measured_vulnerable_clean and not measured_crash.crashed:
+        if not measured_vulnerable_clean and not measured_vulnerable_crashed:
             required_detail = ambiguous_vulnerable_detail(
-                vulnerable.exit_code, measured_crash.sanitizer_kind
+                vulnerable.exit_code,
+                measured_crash.sanitizer_kind,
+                has_usable_frames=measured_crash.crashed,
             )
             if required_detail not in self.missing_details:
                 raise ValueError(

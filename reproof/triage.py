@@ -13,6 +13,7 @@ from reproof.claims import compare_claim, extract_claim
 from reproof.crash import (
     DIRTY_FIX_DETAIL,
     ambiguous_vulnerable_detail,
+    is_conclusive_crash,
     looks_clean,
     parse_crash,
     sanitizer_excerpt,
@@ -239,18 +240,21 @@ def _complete_triage(
     )
     state["operations"] = [vulnerable, fixed]
 
-    vulnerable_output = _combined(vulnerable.stdout, vulnerable.stderr)
-    fixed_output = _combined(fixed.stdout, fixed.stderr)
-    measured = parse_crash(vulnerable_output)
-    fixed_measured = parse_crash(fixed_output)
-    vulnerable_clean = looks_clean(vulnerable.exit_code, vulnerable_output) and not measured.state
-    fixed_clean = looks_clean(fixed.exit_code, fixed_output) and not fixed_measured.state
-    duplicates = index.find_candidates(task.project, measured)
+    measured = parse_crash(vulnerable.stderr)
+    fixed_measured = parse_crash(fixed.stderr)
+    vulnerable_crashed = is_conclusive_crash(vulnerable.exit_code, measured)
+    vulnerable_clean = looks_clean(vulnerable.exit_code, vulnerable.stderr) and not measured.state
+    fixed_clean = looks_clean(fixed.exit_code, fixed.stderr) and not fixed_measured.state
+    duplicates = index.find_candidates(task.project, measured) if vulnerable_crashed else []
     comparison = compare_claim(claim, measured)
     missing_details = list(dict.fromkeys(claim.missing_details))
-    if not measured.crashed and not vulnerable_clean:
+    if not vulnerable_crashed and not vulnerable_clean:
         missing_details.append(
-            ambiguous_vulnerable_detail(vulnerable.exit_code, measured.sanitizer_kind)
+            ambiguous_vulnerable_detail(
+                vulnerable.exit_code,
+                measured.sanitizer_kind,
+                has_usable_frames=measured.crashed,
+            )
         )
     if not fixed_clean:
         missing_details.append(DIRTY_FIX_DETAIL)
@@ -268,7 +272,7 @@ def _complete_triage(
                 sanitizer_excerpt=sanitizer_excerpt(measured),
                 sanitizer_kind=measured.sanitizer_kind or "",
             )
-            if measured.crashed
+            if vulnerable_crashed
             else None
         ),
         fix_clean=fixed_clean,
@@ -289,7 +293,7 @@ def _complete_triage(
         project=task.project,
         report_source=report_source,
         report_text=report_text,
-        verdict=_verdict(measured.crashed, vulnerable_clean, fixed_clean, len(duplicates)),
+        verdict=_verdict(vulnerable_crashed, vulnerable_clean, fixed_clean, len(duplicates)),
         missing_details=missing_details,
         evidence=evidence,
         model_calls=[model_call],

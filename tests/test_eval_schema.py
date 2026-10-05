@@ -140,7 +140,7 @@ def test_eval_serializes_unsanitized_fatal_as_ambiguous_needs_info(exit_code: in
         "SUMMARY: libFuzzer: deadly signal\n"
     )
     assert not measured.crashed
-    crash_type, crash_state, sanitizer_kind = _eval_crash_evidence(measured)
+    crash_type, crash_state, sanitizer_kind = _eval_crash_evidence(measured, exit_code)
 
     payload = eval_payload()
     task = payload["tasks"][0]  # type: ignore[index]

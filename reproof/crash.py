@@ -34,7 +34,17 @@ AMBIGUOUS_VULNERABLE_DETAIL_PREFIXES = (
 )
 
 
-def ambiguous_vulnerable_detail(exit_code: int, sanitizer_kind: str | None = None) -> str:
+def ambiguous_vulnerable_detail(
+    exit_code: int,
+    sanitizer_kind: str | None = None,
+    has_usable_frames: bool = False,
+) -> str:
+    if sanitizer_kind is not None and has_usable_frames:
+        return (
+            f"The vulnerable build produced a recognized {sanitizer_kind} report with usable "
+            f"crash frames, but the sandbox exit code was {exit_code}; inspect its captured "
+            "stderr."
+        )
     if sanitizer_kind is not None:
         return (
             f"The vulnerable build produced a recognized {sanitizer_kind} report but no usable "
@@ -64,6 +74,10 @@ class CrashSignature:
             and bool(self.inline_groups)
             and self.sanitizer_kind is not None
         )
+
+
+def is_conclusive_crash(exit_code: int, signature: CrashSignature) -> bool:
+    return exit_code != 0 and signature.crashed
 
 
 def _sanitizer_kind(log: str) -> str | None:

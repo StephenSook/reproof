@@ -16,6 +16,7 @@ from reproof.crash import (
     AMBIGUOUS_VULNERABLE_DETAIL_PREFIXES,
     DIRTY_FIX_DETAIL,
     ambiguous_vulnerable_detail,
+    is_conclusive_crash,
     looks_clean,
     parse_crash,
     sanitizer_excerpt,
@@ -112,21 +113,28 @@ async def refresh(legacy_execution_source_sha256: str | None = None) -> None:
 
         vulnerable = by_kind["vul"]
         fixed = by_kind["fix"]
-        vulnerable_output = "\n".join((vulnerable["stdout"], vulnerable["stderr"]))
-        measured = parse_crash(vulnerable_output)
+        measured = parse_crash(str(vulnerable["stderr"]))
+        vulnerable_crashed = is_conclusive_crash(int(vulnerable["exit_code"]), measured)
         vulnerable_clean = (
-            looks_clean(int(vulnerable["exit_code"]), vulnerable_output) and not measured.state
+            looks_clean(int(vulnerable["exit_code"]), str(vulnerable["stderr"]))
+            and not measured.state
         )
-        fixed_output = "\n".join((fixed["stdout"], fixed["stderr"]))
+        fixed_output = str(fixed["stderr"])
         fixed_clean = (
             looks_clean(int(fixed["exit_code"]), fixed_output)
             and not parse_crash(fixed_output).state
         )
-        duplicates = index.find_candidates(str(raw["project"]), measured)
+        duplicates = (
+            index.find_candidates(str(raw["project"]), measured) if vulnerable_crashed else []
+        )
         comparison = compare_claim(_claim_from_rows(raw), measured)
         ambiguous_detail = (
-            ambiguous_vulnerable_detail(int(vulnerable["exit_code"]), measured.sanitizer_kind)
-            if not measured.crashed and not vulnerable_clean
+            ambiguous_vulnerable_detail(
+                int(vulnerable["exit_code"]),
+                measured.sanitizer_kind,
+                has_usable_frames=measured.crashed,
+            )
+            if not vulnerable_crashed and not vulnerable_clean
             else None
         )
         missing_details = merge_generated_details(
@@ -149,7 +157,7 @@ async def refresh(legacy_execution_source_sha256: str | None = None) -> None:
 
         raw["schema_version"] = "1.4"
         raw["verdict"] = _verdict(
-            measured.crashed,
+            vulnerable_crashed,
             vulnerable_clean,
             fixed_clean,
             len(duplicates),
@@ -162,7 +170,7 @@ async def refresh(legacy_execution_source_sha256: str | None = None) -> None:
                 "sanitizer_excerpt": sanitizer_excerpt(measured),
                 "sanitizer_kind": measured.sanitizer_kind,
             }
-            if measured.crashed
+            if vulnerable_crashed
             else None
         )
         raw["evidence"]["fix_clean"] = fixed_clean

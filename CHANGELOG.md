@@ -13,4 +13,4 @@
 - Hardened sanitizer excerpts, deterministic verdict validation, image-deletion verification, persistence failure IDs, failed model-call accounting, and resume provenance after independent review.
 - Required unsanitized fatal vulnerable runs to return `NEEDS_INFO` instead of `NOT_REPRODUCED`, with the exit code and missing evidence recorded.
 - Rejected header-only sanitizer output as conclusive crash evidence, supported canonical frame formats, and bound `NEEDS_INFO` details to the measured execution failure.
-- Verified the package with 92 unit tests, 2 paid live tests, Ruff formatting, Ruff lint, a real CLI triage, and the full ARVO 10 evaluation.
+- Verified the package with 94 unit tests, 2 paid live tests, Ruff formatting, Ruff lint, a real CLI triage, and the full ARVO 10 evaluation.

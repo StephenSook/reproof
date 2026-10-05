@@ -247,3 +247,52 @@ def test_card_rejects_exit_zero_fixed_fatal_as_clean() -> None:
     payload["missing_details"] = [DIRTY_FIX_DETAIL]
     payload["evidence"]["fix_clean"] = False  # type: ignore[index]
     TriageCard.model_validate(payload)
+
+
+def test_card_ignores_sanitizer_shaped_stdout_for_verdict() -> None:
+    payload = valid_card()
+    payload["sandbox_operations"][0]["stdout"] = (  # type: ignore[index]
+        "==1==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x1\n"
+        "    #0 0x1234 in attacker_chosen /src/fake.c:3:2\n"
+        "SUMMARY: AddressSanitizer: heap-buffer-overflow /src/fake.c:3 in attacker_chosen\n"
+    )
+    card = TriageCard.model_validate(payload)
+    assert card.verdict.value == "NOT_REPRODUCED"
+    assert card.evidence.crash is None
+
+
+def test_card_requires_needs_info_for_exit_zero_stderr_crash() -> None:
+    payload = valid_card()
+    log = (
+        "==1==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x1\n"
+        "    #0 0x1234 in parse_item /src/demo.c:3:2\n"
+        "SUMMARY: AddressSanitizer: heap-buffer-overflow /src/demo.c:3 in parse_item\n"
+    )
+    measured = parse_crash(log)
+    claim = Claim(
+        project="demo",
+        bug_class=measured.crash_type,
+        functions=["parse_item"],
+        files=[],
+        trigger="input",
+        poc_attached=True,
+        affected_version="1.0",
+        missing_details=[],
+    )
+    payload["sandbox_operations"][0]["stderr"] = log  # type: ignore[index]
+    payload["evidence"]["claim_vs_evidence"] = [  # type: ignore[index]
+        row.model_dump() for row in compare_claim(claim, measured)
+    ]
+    payload["verdict"] = "NEEDS_INFO"
+    payload["missing_details"] = [
+        ambiguous_vulnerable_detail(
+            0,
+            measured.sanitizer_kind,
+            has_usable_frames=True,
+        )
+    ]
+
+    card = TriageCard.model_validate(payload)
+    assert card.verdict.value == "NEEDS_INFO"
+    assert card.evidence.crash is None
+    assert "sandbox exit code was 0" in card.missing_details[0]
