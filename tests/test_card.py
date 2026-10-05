@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import hashlib
+
 import pytest
 from pydantic import ValidationError
 
@@ -76,7 +78,7 @@ def valid_card() -> dict[str, object]:
         "slice_manifest_sha256": {"vul": "a" * 64, "fix": "b" * 64},
         "provenance": {
             "arvo_task_sha256": "c" * 64,
-            "report_sha256": "d" * 64,
+            "report_sha256": hashlib.sha256(b"report").hexdigest(),
             "osv_archive_sha256": "e" * 64,
             "monorail_mapping_sha256": "f" * 64,
             "reproof_source_sha256": "1" * 64,
@@ -102,11 +104,26 @@ def test_card_schema_rejects_unknown_field() -> None:
         TriageCard.model_validate(payload)
 
 
+def test_card_schema_rejects_report_hash_mismatch() -> None:
+    payload = valid_card()
+    payload["report_text"] = "changed report"
+    with pytest.raises(ValidationError, match="report provenance hash"):
+        TriageCard.model_validate(payload)
+
+
 def test_card_schema_rejects_conclusive_verdict_with_dirty_fix() -> None:
     payload = valid_card()
     payload["evidence"]["fix_clean"] = False  # type: ignore[index]
     payload["evidence"]["fixed_exit_code"] = 1  # type: ignore[index]
-    with pytest.raises(ValidationError, match="not-reproduced verdict requires"):
+    with pytest.raises(ValidationError, match="does not match measured evidence NEEDS_INFO"):
+        TriageCard.model_validate(payload)
+
+
+def test_card_schema_rejects_needs_info_when_not_reproduced_is_measured() -> None:
+    payload = valid_card()
+    payload["verdict"] = "NEEDS_INFO"
+    payload["missing_details"] = ["ambiguous"]
+    with pytest.raises(ValidationError, match="does not match measured evidence"):
         TriageCard.model_validate(payload)
 
 

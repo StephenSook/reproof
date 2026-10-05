@@ -26,6 +26,7 @@ class ClaimExtractionError(RuntimeError):
     def __init__(self, message: str, request_id: str | None = None) -> None:
         super().__init__(message)
         self.request_id = request_id
+        self.request_ids = [request_id] if request_id else []
 
 
 def _attempt_log_path() -> Path:
@@ -58,22 +59,27 @@ def _raise_recorded(
             + Decimal(output_tokens) * OUTPUT_PRICE_PER_MILLION
         ) / Decimal(1_000_000)
         cost_usd = round(float(cost), 8)
-    _record_attempt(
-        {
-            "model": MODEL,
-            "status": "failed",
-            "latency_seconds": round(time.perf_counter() - started, 6),
-            "request_id": request_id,
-            "input_tokens": input_tokens,
-            "output_tokens": output_tokens,
-            "total_tokens": total_tokens,
-            "input_price_per_million": float(INPUT_PRICE_PER_MILLION),
-            "output_price_per_million": float(OUTPUT_PRICE_PER_MILLION),
-            "price_source": PRICE_SOURCE,
-            "cost_usd": cost_usd,
-            "error": message,
-        }
-    )
+    attempt = {
+        "model": MODEL,
+        "status": "failed",
+        "latency_seconds": round(time.perf_counter() - started, 6),
+        "request_id": request_id,
+        "input_tokens": input_tokens,
+        "output_tokens": output_tokens,
+        "total_tokens": total_tokens,
+        "input_price_per_million": float(INPUT_PRICE_PER_MILLION),
+        "output_price_per_million": float(OUTPUT_PRICE_PER_MILLION),
+        "price_source": PRICE_SOURCE,
+        "cost_usd": cost_usd,
+        "error": message,
+    }
+    try:
+        _record_attempt(attempt)
+    except Exception as log_error:
+        raise ClaimExtractionError(
+            f"{message}; attempt log write failed: {type(log_error).__name__}: {log_error}",
+            request_id=request_id,
+        ) from log_error
     raise ClaimExtractionError(message, request_id=request_id)
 
 
@@ -193,21 +199,27 @@ def extract_claim(report_text: str, client: OpenAI | None = None) -> tuple[Claim
         cost_usd=round(float(cost), 8),
         request_id=str(request_id),
     )
-    _record_attempt(
-        {
-            "model": call.model,
-            "status": "success",
-            "latency_seconds": call.latency_seconds,
-            "request_id": call.request_id,
-            "input_tokens": call.input_tokens,
-            "output_tokens": call.output_tokens,
-            "total_tokens": call.total_tokens,
-            "input_price_per_million": call.input_price_per_million,
-            "output_price_per_million": call.output_price_per_million,
-            "price_source": call.price_source,
-            "cost_usd": call.cost_usd,
-        }
-    )
+    attempt = {
+        "model": call.model,
+        "status": "success",
+        "latency_seconds": call.latency_seconds,
+        "request_id": call.request_id,
+        "input_tokens": call.input_tokens,
+        "output_tokens": call.output_tokens,
+        "total_tokens": call.total_tokens,
+        "input_price_per_million": call.input_price_per_million,
+        "output_price_per_million": call.output_price_per_million,
+        "price_source": call.price_source,
+        "cost_usd": call.cost_usd,
+    }
+    try:
+        _record_attempt(attempt)
+    except Exception as log_error:
+        raise ClaimExtractionError(
+            "Token Factory response succeeded but attempt log write failed: "
+            f"{type(log_error).__name__}: {log_error}",
+            request_id=call.request_id,
+        ) from log_error
     return claim, call
 
 

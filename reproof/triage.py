@@ -17,6 +17,7 @@ from reproof.dup import (
     ensure_osv_archive,
     frames_match,
 )
+from reproof.errors import EvidencePersistenceError
 from reproof.models import (
     CrashEvidence,
     TriageCard,
@@ -30,10 +31,30 @@ from reproof.slice import extract_runtime_slice
 
 
 def write_card(path: Path, card: TriageCard) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_text(card.model_dump_json(indent=2), encoding="utf-8", newline="\n")
-    os.replace(temporary, path)
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        temporary = path.with_suffix(path.suffix + ".tmp")
+        temporary.write_text(card.model_dump_json(indent=2), encoding="utf-8", newline="\n")
+        os.replace(temporary, path)
+    except Exception as error:
+        operations = {operation.kind: operation for operation in card.sandbox_operations}
+        raise EvidencePersistenceError(
+            f"Triage card persistence failed: {type(error).__name__}: {error}",
+            request_ids=[call.request_id for call in card.model_calls],
+            operation_uuids={
+                kind: operation.operation_uuid
+                for kind, operation in operations.items()
+                if operation.operation_uuid is not None
+            },
+            checkpoint_uuids={
+                kind: operation.checkpoint_uuid for kind, operation in operations.items()
+            },
+            checkpoint_operation_uuids={
+                kind: operation.checkpoint_operation_uuid
+                for kind, operation in operations.items()
+                if operation.checkpoint_operation_uuid is not None
+            },
+        ) from error
 
 
 def _combined(stdout: str, stderr: str) -> str:

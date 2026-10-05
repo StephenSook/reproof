@@ -15,6 +15,7 @@ from reproof.dup import (
     ensure_osv_archive,
     frames_match,
 )
+from reproof.errors import EvidencePersistenceError
 from reproof.models import (
     EvalProvenance,
     EvalReport,
@@ -35,6 +36,36 @@ SELECTION_RULE = (
     "with a mapped public OSV record, ordered by max(vulnerable GB, fixed GB) then ARVO ID."
 )
 SIZE = re.compile(r"vul=([0-9.]+)GB\s+fix=([0-9.]+)GB")
+
+
+def _write_report(output: Path, report: EvalReport, cards: list[TriageCard]) -> None:
+    try:
+        output.parent.mkdir(parents=True, exist_ok=True)
+        temporary = output.with_suffix(output.suffix + ".tmp")
+        temporary.write_text(report.model_dump_json(indent=2), encoding="utf-8", newline="\n")
+        temporary.replace(output)
+    except Exception as error:
+        raise EvidencePersistenceError(
+            f"Evaluation report persistence failed: {type(error).__name__}: {error}",
+            request_ids=[call.request_id for card in cards for call in card.model_calls],
+            operation_uuids={
+                f"{card.arvo_id}:{operation.kind}": operation.operation_uuid
+                for card in cards
+                for operation in card.sandbox_operations
+                if operation.operation_uuid is not None
+            },
+            checkpoint_uuids={
+                f"{card.arvo_id}:{operation.kind}": operation.checkpoint_uuid
+                for card in cards
+                for operation in card.sandbox_operations
+            },
+            checkpoint_operation_uuids={
+                f"{card.arvo_id}:{operation.kind}": operation.checkpoint_operation_uuid
+                for card in cards
+                for operation in card.sandbox_operations
+                if operation.checkpoint_operation_uuid is not None
+            },
+        ) from error
 
 
 def default_candidate_table() -> Path:
@@ -270,8 +301,5 @@ def run_eval(
             total_wall_seconds=round(sum(result.wall_seconds for result in results), 6),
         ),
     )
-    output.parent.mkdir(parents=True, exist_ok=True)
-    temporary = output.with_suffix(output.suffix + ".tmp")
-    temporary.write_text(report.model_dump_json(indent=2), encoding="utf-8", newline="\n")
-    temporary.replace(output)
+    _write_report(output, report, cards)
     return report

@@ -6,6 +6,7 @@ from types import SimpleNamespace
 
 import pytest
 
+from reproof import claims
 from reproof.claims import ClaimExtractionError, extract_claim
 
 
@@ -63,3 +64,66 @@ def test_response_failure_records_usage_and_cost(
     assert attempt["input_tokens"] == 10
     assert attempt["output_tokens"] == 5
     assert attempt["cost_usd"] == 0.0000075
+
+
+def test_failed_attempt_log_write_preserves_request_id(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class RequestError(RuntimeError):
+        request_id = "request-failed"
+
+    class Completions:
+        def create(self, **_kwargs: object) -> None:
+            raise RequestError("provider failed")
+
+    def fail_log(_payload: dict[str, object]) -> None:
+        raise OSError("disk full")
+
+    monkeypatch.setattr(claims, "_record_attempt", fail_log)
+    client = SimpleNamespace(chat=SimpleNamespace(completions=Completions()))
+    with pytest.raises(ClaimExtractionError, match="attempt log write failed") as captured:
+        extract_claim("public test report", client=client)  # type: ignore[arg-type]
+    assert captured.value.request_ids == ["request-failed"]
+
+
+def test_success_attempt_log_write_preserves_request_id(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    content = json.dumps(
+        {
+            "project": "demo",
+            "bug_class": "heap-buffer-overflow",
+            "functions": ["parse"],
+            "files": [],
+            "trigger": "input",
+            "poc_attached": True,
+            "affected_version": "1.0",
+            "missing_details": [],
+        }
+    )
+
+    class Completions:
+        def create(self, **_kwargs: object) -> object:
+            return SimpleNamespace(
+                _request_id="request-success",
+                choices=[
+                    SimpleNamespace(
+                        finish_reason="stop",
+                        message=SimpleNamespace(content=content),
+                    )
+                ],
+                usage=SimpleNamespace(
+                    prompt_tokens=10,
+                    completion_tokens=5,
+                    total_tokens=15,
+                ),
+            )
+
+    def fail_log(_payload: dict[str, object]) -> None:
+        raise OSError("disk full")
+
+    monkeypatch.setattr(claims, "_record_attempt", fail_log)
+    client = SimpleNamespace(chat=SimpleNamespace(completions=Completions()))
+    with pytest.raises(ClaimExtractionError, match="response succeeded") as captured:
+        extract_claim("public test report", client=client)  # type: ignore[arg-type]
+    assert captured.value.request_ids == ["request-success"]

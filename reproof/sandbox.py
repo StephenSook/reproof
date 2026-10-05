@@ -198,7 +198,16 @@ class SandboxRunner:
             "checkpoint_wall_seconds": round(checkpoint_wall_seconds, 6),
             "checkpoint_cost_usd": checkpoint_cost_usd,
         }
-        self.registry.write(registry)
+        try:
+            self.registry.write(registry)
+        except Exception as error:
+            raise CheckpointError(
+                f"Checkpoint registry persistence failed: {type(error).__name__}: {error}",
+                kind=kind,
+                operation_uuid=create_operation_uuid,
+                checkpoint_uuid=str(checkpoint.uuid),
+                request_id=_request_id_from_error(error),
+            ) from error
         self.checkpoint_metadata[str(checkpoint.uuid)] = {
             "operation_uuid": create_operation_uuid,
             "wall_seconds": round(checkpoint_wall_seconds, 6),

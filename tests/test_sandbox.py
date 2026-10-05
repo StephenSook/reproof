@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -90,6 +91,53 @@ def test_checkpoint_error_exposes_creation_operation() -> None:
     assert error.checkpoint_operation_uuids == {"vul": "checkpoint-operation-vul"}
     assert error.checkpoint_uuids == {"vul": "checkpoint-vul"}
     assert error.request_ids == ["request-vul"]
+
+
+def test_checkpoint_registry_failure_preserves_creation_ids(tmp_path: Path) -> None:
+    slice_dir = tmp_path / "slice"
+    slice_dir.mkdir()
+    (slice_dir / "manifest.json").write_text('{"files":{}}', encoding="utf-8")
+
+    class FailingRegistry:
+        def read(self) -> dict[str, object]:
+            return {}
+
+        def write(self, _value: dict[str, object]) -> None:
+            raise OSError("disk full")
+
+    class Internal:
+        async def _start_operation(self, _request: object) -> str:
+            return "checkpoint-operation-vul"
+
+    class Checkpoint:
+        uuid = "checkpoint-vul"
+        result = SimpleNamespace(cost=0.25)
+
+        def tag_as(self, _tag: str) -> Checkpoint:
+            return self
+
+    class Base:
+        client = Internal()
+
+        def apply_files(self, _files: dict[str, object]) -> Checkpoint:
+            asyncio.run(self.client._start_operation(object()))
+            return Checkpoint()
+
+    class Images:
+        def use(self, _reference: str, *, strict: bool) -> Base:
+            assert strict
+            return Base()
+
+    runner = SandboxRunner(
+        client=SimpleNamespace(images=Images()),
+        registry=FailingRegistry(),  # type: ignore[arg-type]
+    )
+    with pytest.raises(CheckpointError, match="registry persistence failed") as captured:
+        runner.ensure_checkpoint(1, "vul", slice_dir)
+
+    error = captured.value
+    assert error.operation_uuid == "checkpoint-operation-vul"
+    assert error.checkpoint_uuids == {"vul": "checkpoint-vul"}
 
 
 def test_parallel_failure_collects_both_branch_ids() -> None:

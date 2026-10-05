@@ -10,5 +10,5 @@
 - Measured 10 public ARVO tasks: 7 OSV crash-state agreements, 10 clean fixed builds, 10 claim agreements, 11 duplicate candidates, and $0.00916804 full operation-lifecycle cost.
 - Corrected sanitizer detection for ClusterFuzz `UNKNOWN` labels, fixed-build verdict gating, claim normalization, checkpoint cost persistence, cache validation, and failure ID capture after independent review.
 - Added eval provenance hashes, evidence-bound card validation, a frozen candidate table, and a derived-card refresh script that does not rerun paid work.
-- Hardened standard MemorySanitizer and ThreadSanitizer warning parsing, image-deletion verification, failed model-call accounting, parallel failure IDs, and resume provenance after independent review.
-- Verified the package with 39 unit tests, 2 paid live tests, Ruff formatting, Ruff lint, a real CLI triage, and the full ARVO 10 evaluation.
+- Hardened sanitizer excerpts, deterministic verdict validation, image-deletion verification, persistence failure IDs, failed model-call accounting, and resume provenance after independent review.
+- Verified the package with 53 unit tests, 2 paid live tests, Ruff formatting, Ruff lint, a real CLI triage, and the full ARVO 10 evaluation.

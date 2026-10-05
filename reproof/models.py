@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import math
 import re
 from enum import StrEnum
@@ -136,6 +137,9 @@ class TriageCard(StrictModel):
 
     @model_validator(mode="after")
     def validate_evidence_and_costs(self) -> TriageCard:
+        report_digest = hashlib.sha256(self.report_text.encode("utf-8")).hexdigest()
+        if self.provenance.report_sha256 != report_digest:
+            raise ValueError("report provenance hash does not match report text")
         if not self.model_calls:
             raise ValueError("a triage card must record at least one model call")
         operation_kinds = {operation.kind for operation in self.sandbox_operations}
@@ -150,6 +154,21 @@ class TriageCard(StrictModel):
             raise ValueError("slice manifest hashes must contain vul and fix SHA-256 values")
 
         has_crash = self.evidence.crash is not None
+        duplicate_count = len(self.evidence.duplicate_candidates)
+        if not self.evidence.fix_clean:
+            expected_verdict = Verdict.NEEDS_INFO
+        elif has_crash and duplicate_count:
+            expected_verdict = Verdict.DUPLICATE
+        elif has_crash:
+            expected_verdict = Verdict.REPRODUCED
+        elif not duplicate_count:
+            expected_verdict = Verdict.NOT_REPRODUCED
+        else:
+            expected_verdict = Verdict.NEEDS_INFO
+        if self.verdict is not expected_verdict:
+            raise ValueError(
+                f"verdict {self.verdict} does not match measured evidence {expected_verdict}"
+            )
         if self.verdict in {Verdict.REPRODUCED, Verdict.DUPLICATE} and (
             not has_crash or not self.evidence.fix_clean
         ):
@@ -270,6 +289,21 @@ class EvalTaskResult(StrictModel):
     wall_seconds: float = Field(ge=0)
     card_path: str
 
+    @model_validator(mode="after")
+    def validate_task_cost_and_hashes(self) -> EvalTaskResult:
+        if not math.isclose(
+            self.cost_usd,
+            self.model_cost_usd + self.sandbox_cost_usd,
+            abs_tol=1e-7,
+        ):
+            raise ValueError("eval task cost does not equal model plus sandbox cost")
+        if set(self.slice_manifest_sha256) != {"vul", "fix"} or any(
+            re.fullmatch(r"[0-9a-f]{64}", digest) is None
+            for digest in self.slice_manifest_sha256.values()
+        ):
+            raise ValueError("eval slice hashes must contain vul and fix SHA-256 values")
+        return self
+
 
 class EvalTotals(StrictModel):
     tasks_requested: int = Field(ge=0)
@@ -293,6 +327,19 @@ class EvalProvenance(StrictModel):
     candidate_table_sha256: str
     reproof_source_sha256: str
 
+    @model_validator(mode="after")
+    def validate_hashes(self) -> EvalProvenance:
+        for field in (
+            "arvo_database_sha256",
+            "osv_archive_sha256",
+            "monorail_mapping_sha256",
+            "candidate_table_sha256",
+            "reproof_source_sha256",
+        ):
+            if re.fullmatch(r"[0-9a-f]{64}", getattr(self, field)) is None:
+                raise ValueError(f"{field} must be a SHA-256 digest")
+        return self
+
 
 class EvalReport(StrictModel):
     schema_version: str = "1.2"
@@ -313,6 +360,14 @@ class EvalReport(StrictModel):
             raise ValueError("tasks completed must equal eval task count")
         if len(set(task_ids)) != len(task_ids):
             raise ValueError("eval task IDs must be unique")
+        for task in self.tasks:
+            card_provenance = task.card_provenance
+            if card_provenance.osv_archive_sha256 != self.provenance.osv_archive_sha256:
+                raise ValueError("card OSV archive provenance does not match eval provenance")
+            if card_provenance.monorail_mapping_sha256 != self.provenance.monorail_mapping_sha256:
+                raise ValueError("card mapping provenance does not match eval provenance")
+            if card_provenance.reproof_source_sha256 != self.provenance.reproof_source_sha256:
+                raise ValueError("card source provenance does not match eval provenance")
         integer_totals = {
             "crash_state_agreements": sum(
                 task.crash_state_agreement_with_osv for task in self.tasks

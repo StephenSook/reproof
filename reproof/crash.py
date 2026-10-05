@@ -79,14 +79,10 @@ def sanitizer_excerpt(signature: CrashSignature, max_chars: int = 8000) -> str:
     if not signature.crashed:
         return ""
     lines = signature.cleaned_log.splitlines()
-    start = next(
-        (
-            index
-            for index, line in enumerate(lines)
-            if "ERROR:" in line or "WARNING:" in line or "runtime error:" in line
-        ),
-        0,
-    )
+    sanitizer_match = SANITIZER_ERROR.search(signature.cleaned_log)
+    if sanitizer_match is None:
+        return ""
+    start = signature.cleaned_log[: sanitizer_match.start()].count("\n")
     end = next(
         (index + 1 for index in range(start, len(lines)) if lines[index].startswith("SUMMARY:")),
         min(len(lines), start + 80),
