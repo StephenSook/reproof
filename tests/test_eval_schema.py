@@ -44,7 +44,7 @@ def test_eval_schema_rejects_invalid_global_digest() -> None:
 def test_eval_schema_rejects_unknown_version() -> None:
     payload = eval_payload()
     payload["schema_version"] = "999"
-    with pytest.raises(ValidationError, match=r"Input should be '1\.3'"):
+    with pytest.raises(ValidationError, match=r"Input should be '1\.4'"):
         EvalReport.model_validate(payload)
 
 
@@ -96,6 +96,7 @@ def test_eval_schema_rejects_no_crash_positive_agreement(agreement_field: str) -
             "crash_type": "",
             "crash_state": [],
             "sanitizer_kind": None,
+            "vulnerable_exit_code": 0,
             "duplicate_candidates": [],
             "crash_state_agreement_with_osv": False,
             "claim_agreement": False,
@@ -103,4 +104,19 @@ def test_eval_schema_rejects_no_crash_positive_agreement(agreement_field: str) -
     )
     task[agreement_field] = True  # type: ignore[index]
     with pytest.raises(ValidationError, match="no-crash eval row"):
+        EvalReport.model_validate(payload)
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("sanitizer_kind", ""),
+        ("crash_type", "  "),
+        ("crash_state", [""]),
+    ],
+)
+def test_eval_schema_rejects_blank_crash_evidence(field: str, value: object) -> None:
+    payload = eval_payload()
+    payload["tasks"][0][field] = value  # type: ignore[index]
+    with pytest.raises(ValidationError, match="must be present together"):
         EvalReport.model_validate(payload)

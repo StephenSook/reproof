@@ -127,7 +127,7 @@ class TriageProvenance(StrictModel):
 
 
 class TriageCard(StrictModel):
-    schema_version: Literal["1.3"] = "1.3"
+    schema_version: Literal["1.4"] = "1.4"
     arvo_id: int
     project: str
     report_source: str
@@ -162,34 +162,6 @@ class TriageCard(StrictModel):
         ):
             raise ValueError("slice manifest hashes must contain vul and fix SHA-256 values")
 
-        has_crash = self.evidence.crash is not None
-        duplicate_count = len(self.evidence.duplicate_candidates)
-        if not self.evidence.fix_clean:
-            expected_verdict = Verdict.NEEDS_INFO
-        elif has_crash and duplicate_count:
-            expected_verdict = Verdict.DUPLICATE
-        elif has_crash:
-            expected_verdict = Verdict.REPRODUCED
-        elif not duplicate_count:
-            expected_verdict = Verdict.NOT_REPRODUCED
-        else:
-            expected_verdict = Verdict.NEEDS_INFO
-        if self.verdict is not expected_verdict:
-            raise ValueError(
-                f"verdict {self.verdict} does not match measured evidence {expected_verdict}"
-            )
-        if self.verdict in {Verdict.REPRODUCED, Verdict.DUPLICATE} and (
-            not has_crash or not self.evidence.fix_clean
-        ):
-            raise ValueError("a reproduced or duplicate verdict requires a crash and clean fix")
-        if self.verdict is Verdict.REPRODUCED and self.evidence.duplicate_candidates:
-            raise ValueError("a reproduced verdict cannot contain duplicate candidates")
-        if self.verdict is Verdict.DUPLICATE and not self.evidence.duplicate_candidates:
-            raise ValueError("a duplicate verdict requires duplicate candidates")
-        if self.verdict is Verdict.NOT_REPRODUCED and (has_crash or not self.evidence.fix_clean):
-            raise ValueError("a not-reproduced verdict requires no crash and a clean fix")
-        if self.verdict is Verdict.NOT_REPRODUCED and self.evidence.duplicate_candidates:
-            raise ValueError("a not-reproduced verdict cannot contain duplicate candidates")
         if self.verdict is Verdict.NEEDS_INFO and not self.missing_details:
             raise ValueError("a needs-info verdict must state at least one missing detail")
         if self.evidence.fix_clean and self.evidence.fixed_exit_code != 0:
@@ -232,6 +204,25 @@ class TriageCard(StrictModel):
                 raise ValueError("crash evidence does not match the saved vulnerable operation")
         elif self.evidence.crash is not None:
             raise ValueError("crash evidence has no sanitizer trace in the vulnerable operation")
+
+        measured_vulnerable_clean = (
+            looks_clean(vulnerable.exit_code, vulnerable_output) and not measured_crash.state
+        )
+        duplicate_count = len(self.evidence.duplicate_candidates)
+        if not measured_fix_clean or (not measured_crash.crashed and not measured_vulnerable_clean):
+            expected_verdict = Verdict.NEEDS_INFO
+        elif measured_crash.crashed and duplicate_count:
+            expected_verdict = Verdict.DUPLICATE
+        elif measured_crash.crashed:
+            expected_verdict = Verdict.REPRODUCED
+        elif not duplicate_count:
+            expected_verdict = Verdict.NOT_REPRODUCED
+        else:
+            expected_verdict = Verdict.NEEDS_INFO
+        if self.verdict is not expected_verdict:
+            raise ValueError(
+                f"verdict {self.verdict} does not match measured evidence {expected_verdict}"
+            )
 
         from reproof.claims import compare_claim
 
@@ -284,6 +275,7 @@ class EvalTaskResult(StrictModel):
     crash_type: str
     crash_state: list[str]
     sanitizer_kind: str | None
+    vulnerable_exit_code: int
     fixed_exit_code: int
     model_request_ids: list[str]
     input_tokens: int = Field(ge=0)
@@ -311,15 +303,15 @@ class EvalTaskResult(StrictModel):
             for digest in self.slice_manifest_sha256.values()
         ):
             raise ValueError("eval slice hashes must contain vul and fix SHA-256 values")
-        has_state = bool(self.crash_state)
-        has_type = bool(self.crash_type)
-        has_sanitizer = self.sanitizer_kind is not None
+        has_state = bool(self.crash_state) and all(frame.strip() for frame in self.crash_state)
+        has_type = bool(self.crash_type.strip())
+        has_sanitizer = bool(self.sanitizer_kind and self.sanitizer_kind.strip())
         if len({has_state, has_type, has_sanitizer}) != 1:
             raise ValueError("eval crash state, type, and sanitizer must be present together")
         if self.fix_clean and self.fixed_exit_code != 0:
             raise ValueError("a clean eval fix must have exit code zero")
         duplicate_count = len(self.duplicate_candidates)
-        if not self.fix_clean:
+        if not self.fix_clean or (not has_state and self.vulnerable_exit_code != 0):
             expected_verdict = Verdict.NEEDS_INFO
         elif has_state and duplicate_count:
             expected_verdict = Verdict.DUPLICATE
@@ -385,7 +377,7 @@ class EvalProvenance(StrictModel):
 
 
 class EvalReport(StrictModel):
-    schema_version: Literal["1.3"] = "1.3"
+    schema_version: Literal["1.4"] = "1.4"
     selection_rule: str
     selected_arvo_ids: list[int]
     provenance: EvalProvenance

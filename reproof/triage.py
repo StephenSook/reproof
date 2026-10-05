@@ -127,8 +127,13 @@ def crash_agrees_with_osv(task_id: int, signature_state: tuple[str, ...], index:
     return any(frames_match(signature_state, record.state) for record in index.for_issue(task_id))
 
 
-def _verdict(crashed: bool, fix_clean: bool, duplicate_count: int) -> Verdict:
-    if not fix_clean:
+def _verdict(
+    crashed: bool,
+    vulnerable_clean: bool,
+    fix_clean: bool,
+    duplicate_count: int,
+) -> Verdict:
+    if not fix_clean or (not crashed and not vulnerable_clean):
         return Verdict.NEEDS_INFO
     if crashed and duplicate_count:
         return Verdict.DUPLICATE
@@ -231,10 +236,17 @@ def _complete_triage(
     vulnerable_output = _combined(vulnerable.stdout, vulnerable.stderr)
     fixed_output = _combined(fixed.stdout, fixed.stderr)
     measured = parse_crash(vulnerable_output)
+    vulnerable_clean = looks_clean(vulnerable.exit_code, vulnerable_output) and not measured.state
     fixed_clean = looks_clean(fixed.exit_code, fixed_output)
     duplicates = index.find_candidates(task.project, measured)
     comparison = compare_claim(claim, measured)
     missing_details = list(dict.fromkeys(claim.missing_details))
+    if not measured.crashed and not vulnerable_clean:
+        missing_details.append(
+            "The vulnerable build did not produce a recognized sanitizer trace and did not "
+            f"complete cleanly (exit code {vulnerable.exit_code}); inspect its captured stdout "
+            "and stderr."
+        )
     if not fixed_clean:
         missing_details.append(
             "The fixed build did not exit cleanly; inspect its captured stdout and stderr."
@@ -274,7 +286,7 @@ def _complete_triage(
         project=task.project,
         report_source=report_source,
         report_text=report_text,
-        verdict=_verdict(measured.crashed, fixed_clean, len(duplicates)),
+        verdict=_verdict(measured.crashed, vulnerable_clean, fixed_clean, len(duplicates)),
         missing_details=missing_details,
         evidence=evidence,
         model_calls=[model_call],

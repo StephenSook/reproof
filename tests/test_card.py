@@ -5,12 +5,14 @@ import hashlib
 import pytest
 from pydantic import ValidationError
 
-from reproof.models import TriageCard
+from reproof.claims import compare_claim
+from reproof.crash import parse_crash
+from reproof.models import Claim, TriageCard
 
 
 def valid_card() -> dict[str, object]:
     return {
-        "schema_version": "1.3",
+        "schema_version": "1.4",
         "arvo_id": 1,
         "project": "demo",
         "report_source": "public test fixture",
@@ -65,7 +67,7 @@ def valid_card() -> dict[str, object]:
                 "checkpoint_wall_seconds": 0.1,
                 "checkpoint_cost_usd": 0.000001,
                 "operation_uuid": f"operation-{kind}",
-                "exit_code": 1 if kind == "vul" else 0,
+                "exit_code": 0,
                 "stdout": "",
                 "stderr": "",
                 "wall_seconds": 0.1,
@@ -116,7 +118,7 @@ def test_card_schema_rejects_report_hash_mismatch() -> None:
 def test_card_schema_rejects_unknown_version() -> None:
     payload = valid_card()
     payload["schema_version"] = "999"
-    with pytest.raises(ValidationError, match=r"Input should be '1\.3'"):
+    with pytest.raises(ValidationError, match=r"Input should be '1\.4'"):
         TriageCard.model_validate(payload)
 
 
@@ -131,6 +133,7 @@ def test_card_schema_rejects_conclusive_verdict_with_dirty_fix() -> None:
     payload = valid_card()
     payload["evidence"]["fix_clean"] = False  # type: ignore[index]
     payload["evidence"]["fixed_exit_code"] = 1  # type: ignore[index]
+    payload["sandbox_operations"][1]["exit_code"] = 1  # type: ignore[index]
     with pytest.raises(ValidationError, match="does not match measured evidence NEEDS_INFO"):
         TriageCard.model_validate(payload)
 
@@ -160,4 +163,37 @@ def test_card_schema_rejects_crash_evidence_without_saved_trace() -> None:
         "sanitizer_kind": "AddressSanitizer",
     }
     with pytest.raises(ValidationError, match="no sanitizer trace"):
+        TriageCard.model_validate(payload)
+
+
+@pytest.mark.parametrize("failure", ["deadly signal", "timeout after 60 seconds"])
+def test_card_requires_needs_info_for_unsanitized_fatal_run(failure: str) -> None:
+    payload = valid_card()
+    log = (
+        f"==1== ERROR: libFuzzer: {failure}\n"
+        "    #0 0x1234 in parse_item /src/demo.c:3:2\n"
+        f"SUMMARY: libFuzzer: {failure}\n"
+    )
+    measured = parse_crash(log)
+    claim = Claim(
+        project="demo",
+        bug_class=measured.crash_type,
+        functions=["parse_item"],
+        files=[],
+        trigger="input",
+        poc_attached=True,
+        affected_version="1.0",
+        missing_details=[],
+    )
+    payload["sandbox_operations"][0]["exit_code"] = 1  # type: ignore[index]
+    payload["sandbox_operations"][0]["stderr"] = log  # type: ignore[index]
+    payload["evidence"]["claim_vs_evidence"] = [  # type: ignore[index]
+        row.model_dump() for row in compare_claim(claim, measured)
+    ]
+    payload["verdict"] = "NEEDS_INFO"
+    payload["missing_details"] = ["recognized sanitizer evidence is missing"]
+    TriageCard.model_validate(payload)
+
+    payload["verdict"] = "NOT_REPRODUCED"
+    with pytest.raises(ValidationError, match="does not match measured evidence NEEDS_INFO"):
         TriageCard.model_validate(payload)

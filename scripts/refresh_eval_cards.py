@@ -88,15 +88,30 @@ async def refresh(legacy_execution_source_sha256: str | None = None) -> None:
 
         vulnerable = by_kind["vul"]
         fixed = by_kind["fix"]
-        measured = parse_crash("\n".join((vulnerable["stdout"], vulnerable["stderr"])))
+        vulnerable_output = "\n".join((vulnerable["stdout"], vulnerable["stderr"]))
+        measured = parse_crash(vulnerable_output)
+        vulnerable_clean = (
+            looks_clean(int(vulnerable["exit_code"]), vulnerable_output) and not measured.state
+        )
         fixed_clean = looks_clean(
             int(fixed["exit_code"]), "\n".join((fixed["stdout"], fixed["stderr"]))
         )
         duplicates = index.find_candidates(str(raw["project"]), measured)
         comparison = compare_claim(_claim_from_rows(raw), measured)
         missing_details = [
-            detail for detail in raw["missing_details"] if detail != DIRTY_FIX_DETAIL
+            detail
+            for detail in raw["missing_details"]
+            if detail != DIRTY_FIX_DETAIL
+            and not detail.startswith(
+                "The vulnerable build did not produce a recognized sanitizer trace"
+            )
         ]
+        if not measured.crashed and not vulnerable_clean:
+            missing_details.append(
+                "The vulnerable build did not produce a recognized sanitizer trace and did not "
+                f"complete cleanly (exit code {vulnerable['exit_code']}); inspect its captured "
+                "stdout and stderr."
+            )
         if not fixed_clean:
             missing_details.append(DIRTY_FIX_DETAIL)
 
@@ -112,8 +127,13 @@ async def refresh(legacy_execution_source_sha256: str | None = None) -> None:
             )
         record_id = matching_records[0].id
 
-        raw["schema_version"] = "1.3"
-        raw["verdict"] = _verdict(measured.crashed, fixed_clean, len(duplicates)).value
+        raw["schema_version"] = "1.4"
+        raw["verdict"] = _verdict(
+            measured.crashed,
+            vulnerable_clean,
+            fixed_clean,
+            len(duplicates),
+        ).value
         raw["missing_details"] = missing_details
         raw["evidence"]["crash"] = (
             {

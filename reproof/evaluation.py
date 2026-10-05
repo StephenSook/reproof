@@ -8,7 +8,7 @@ from pathlib import Path
 
 from reproof.arvo import ArvoRepository, ArvoTask
 from reproof.claims import comparison_rows_agree
-from reproof.crash import CrashSignature, parse_crash
+from reproof.crash import CrashSignature, looks_clean, parse_crash
 from reproof.dup import (
     OsvIndex,
     default_mapping_path,
@@ -219,6 +219,8 @@ def run_eval(
                 raise ValueError(f"resume card {card_path} duplicate evidence is stale")
             expected_verdict = _verdict(
                 measured.crashed,
+                looks_clean(vulnerable.exit_code, "\n".join((vulnerable.stdout, vulnerable.stderr)))
+                and not measured.state,
                 card.evidence.fix_clean,
                 len(expected_duplicates),
             )
@@ -264,6 +266,7 @@ def run_eval(
                 crash_type=measured.crash_type,
                 crash_state=list(measured.state),
                 sanitizer_kind=measured.sanitizer_kind,
+                vulnerable_exit_code=vulnerable.exit_code,
                 fixed_exit_code=card.evidence.fixed_exit_code,
                 model_request_ids=[
                     call.request_id for call in model_calls if call.request_id is not None
