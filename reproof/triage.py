@@ -24,7 +24,7 @@ from reproof.slice import extract_runtime_slice
 def _atomic_card(path: Path, card: TriageCard) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_text(card.model_dump_json(indent=2), encoding="utf-8")
+    temporary.write_text(card.model_dump_json(indent=2), encoding="utf-8", newline="\n")
     os.replace(temporary, path)
 
 

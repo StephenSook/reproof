@@ -152,6 +152,6 @@ def run_eval(
     )
     output.parent.mkdir(parents=True, exist_ok=True)
     temporary = output.with_suffix(output.suffix + ".tmp")
-    temporary.write_text(report.model_dump_json(indent=2), encoding="utf-8")
+    temporary.write_text(report.model_dump_json(indent=2), encoding="utf-8", newline="\n")
     temporary.replace(output)
     return report
