@@ -10,7 +10,7 @@ from reproof.models import TriageCard
 
 def valid_card() -> dict[str, object]:
     return {
-        "schema_version": "1.2",
+        "schema_version": "1.3",
         "arvo_id": 1,
         "project": "demo",
         "report_source": "public test fixture",
@@ -81,7 +81,9 @@ def valid_card() -> dict[str, object]:
             "report_sha256": hashlib.sha256(b"report").hexdigest(),
             "osv_archive_sha256": "e" * 64,
             "monorail_mapping_sha256": "f" * 64,
-            "reproof_source_sha256": "1" * 64,
+            "execution_source_sha256": "1" * 64,
+            "derivation_source_sha256": "2" * 64,
+            "derivation_method": "live-execution",
             "osv_record_id": "OSV-TEST-1",
         },
         "model_cost_usd": 0.0000012,

@@ -1,10 +1,10 @@
-"""Errors that preserve remote evidence across local persistence failures."""
+"""Errors that preserve remote evidence across downstream failures."""
 
 from __future__ import annotations
 
 
-class EvidencePersistenceError(RuntimeError):
-    """Report local write failure without discarding recovered remote identifiers."""
+class EvidenceContextError(RuntimeError):
+    """Report a failure without discarding recovered remote identifiers."""
 
     def __init__(
         self,
@@ -22,3 +22,11 @@ class EvidencePersistenceError(RuntimeError):
         self.operation_uuid = next(iter(operation_uuids.values()), None)
         self.checkpoint_uuids = checkpoint_uuids
         self.checkpoint_operation_uuids = checkpoint_operation_uuids
+
+
+class EvidencePersistenceError(EvidenceContextError):
+    """Report local write failure without discarding recovered remote identifiers."""
+
+
+class TriageExecutionError(EvidenceContextError):
+    """Report post-model triage failure with every identifier recovered so far."""

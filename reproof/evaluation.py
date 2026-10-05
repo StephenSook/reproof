@@ -149,13 +149,17 @@ def _current_card_provenance(
     task: ArvoTask,
     report_text: str,
     osv_record_id: str | None,
+    execution_source_sha256: str,
+    derivation_method: str,
 ) -> TriageProvenance:
     return TriageProvenance(
         arvo_task_sha256=arvo_task_sha256(task),
         report_sha256=text_sha256(report_text),
         osv_archive_sha256=file_sha256(ensure_osv_archive()),
         monorail_mapping_sha256=file_sha256(default_mapping_path()),
-        reproof_source_sha256=source_sha256(),
+        execution_source_sha256=execution_source_sha256,
+        derivation_source_sha256=source_sha256(),
+        derivation_method=derivation_method,
         osv_record_id=osv_record_id,
     )
 
@@ -189,7 +193,13 @@ def run_eval(
             current_report = current_records[record_id].report_text
             if card.report_text != current_report:
                 raise ValueError(f"resume card {card_path} report differs from current OSV record")
-            expected_provenance = _current_card_provenance(task, current_report, record_id)
+            expected_provenance = _current_card_provenance(
+                task,
+                current_report,
+                record_id,
+                card.provenance.execution_source_sha256,
+                card.provenance.derivation_method,
+            )
             if card.provenance != expected_provenance:
                 raise ValueError(f"resume card {card_path} provenance is stale")
             vulnerable = next(
@@ -271,6 +281,13 @@ def run_eval(
                 card_path=str(card_path).replace("\\", "/"),
             )
         )
+    execution_sources = {card.provenance.execution_source_sha256 for card in cards}
+    derivation_sources = {card.provenance.derivation_source_sha256 for card in cards}
+    derivation_methods = {card.provenance.derivation_method for card in cards}
+    if len(execution_sources) != 1:
+        raise ValueError("eval cards do not share one execution source hash")
+    if len(derivation_sources) != 1 or len(derivation_methods) != 1:
+        raise ValueError("eval cards do not share one derivation provenance")
     report = EvalReport(
         selection_rule=SELECTION_RULE,
         selected_arvo_ids=selected,
@@ -279,7 +296,9 @@ def run_eval(
             osv_archive_sha256=file_sha256(ensure_osv_archive()),
             monorail_mapping_sha256=file_sha256(default_mapping_path()),
             candidate_table_sha256=file_sha256(default_candidate_table()),
-            reproof_source_sha256=source_sha256(),
+            execution_source_sha256=next(iter(execution_sources)),
+            derivation_source_sha256=next(iter(derivation_sources)),
+            derivation_method=next(iter(derivation_methods)),
         ),
         tasks=results,
         totals=EvalTotals(

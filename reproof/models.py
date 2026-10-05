@@ -6,6 +6,7 @@ import hashlib
 import math
 import re
 from enum import StrEnum
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -100,7 +101,9 @@ class TriageProvenance(StrictModel):
     report_sha256: str
     osv_archive_sha256: str
     monorail_mapping_sha256: str
-    reproof_source_sha256: str
+    execution_source_sha256: str
+    derivation_source_sha256: str
+    derivation_method: Literal["live-execution", "saved-output-refresh"]
     osv_record_id: str | None
 
     @model_validator(mode="after")
@@ -110,7 +113,8 @@ class TriageProvenance(StrictModel):
             "report_sha256",
             "osv_archive_sha256",
             "monorail_mapping_sha256",
-            "reproof_source_sha256",
+            "execution_source_sha256",
+            "derivation_source_sha256",
         ):
             if re.fullmatch(r"[0-9a-f]{64}", getattr(self, field)) is None:
                 raise ValueError(f"{field} must be a SHA-256 digest")
@@ -118,7 +122,7 @@ class TriageProvenance(StrictModel):
 
 
 class TriageCard(StrictModel):
-    schema_version: str = "1.2"
+    schema_version: str = "1.3"
     arvo_id: int
     project: str
     report_source: str
@@ -302,6 +306,28 @@ class EvalTaskResult(StrictModel):
             for digest in self.slice_manifest_sha256.values()
         ):
             raise ValueError("eval slice hashes must contain vul and fix SHA-256 values")
+        has_state = bool(self.crash_state)
+        has_type = bool(self.crash_type)
+        has_sanitizer = self.sanitizer_kind is not None
+        if len({has_state, has_type, has_sanitizer}) != 1:
+            raise ValueError("eval crash state, type, and sanitizer must be present together")
+        if self.fix_clean and self.fixed_exit_code != 0:
+            raise ValueError("a clean eval fix must have exit code zero")
+        duplicate_count = len(self.duplicate_candidates)
+        if not self.fix_clean:
+            expected_verdict = Verdict.NEEDS_INFO
+        elif has_state and duplicate_count:
+            expected_verdict = Verdict.DUPLICATE
+        elif has_state:
+            expected_verdict = Verdict.REPRODUCED
+        elif not duplicate_count:
+            expected_verdict = Verdict.NOT_REPRODUCED
+        else:
+            expected_verdict = Verdict.NEEDS_INFO
+        if self.verdict is not expected_verdict:
+            raise ValueError(
+                f"eval verdict {self.verdict} does not match evidence {expected_verdict}"
+            )
         return self
 
 
@@ -325,7 +351,9 @@ class EvalProvenance(StrictModel):
     osv_archive_sha256: str
     monorail_mapping_sha256: str
     candidate_table_sha256: str
-    reproof_source_sha256: str
+    execution_source_sha256: str
+    derivation_source_sha256: str
+    derivation_method: Literal["live-execution", "saved-output-refresh"]
 
     @model_validator(mode="after")
     def validate_hashes(self) -> EvalProvenance:
@@ -334,7 +362,8 @@ class EvalProvenance(StrictModel):
             "osv_archive_sha256",
             "monorail_mapping_sha256",
             "candidate_table_sha256",
-            "reproof_source_sha256",
+            "execution_source_sha256",
+            "derivation_source_sha256",
         ):
             if re.fullmatch(r"[0-9a-f]{64}", getattr(self, field)) is None:
                 raise ValueError(f"{field} must be a SHA-256 digest")
@@ -342,7 +371,7 @@ class EvalProvenance(StrictModel):
 
 
 class EvalReport(StrictModel):
-    schema_version: str = "1.2"
+    schema_version: str = "1.3"
     selection_rule: str
     selected_arvo_ids: list[int]
     provenance: EvalProvenance
@@ -366,8 +395,12 @@ class EvalReport(StrictModel):
                 raise ValueError("card OSV archive provenance does not match eval provenance")
             if card_provenance.monorail_mapping_sha256 != self.provenance.monorail_mapping_sha256:
                 raise ValueError("card mapping provenance does not match eval provenance")
-            if card_provenance.reproof_source_sha256 != self.provenance.reproof_source_sha256:
-                raise ValueError("card source provenance does not match eval provenance")
+            if card_provenance.execution_source_sha256 != self.provenance.execution_source_sha256:
+                raise ValueError("card execution source does not match eval provenance")
+            if card_provenance.derivation_source_sha256 != self.provenance.derivation_source_sha256:
+                raise ValueError("card derivation source does not match eval provenance")
+            if card_provenance.derivation_method != self.provenance.derivation_method:
+                raise ValueError("card derivation method does not match eval provenance")
         integer_totals = {
             "crash_state_agreements": sum(
                 task.crash_state_agreement_with_osv for task in self.tasks

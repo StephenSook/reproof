@@ -6,6 +6,7 @@ import hashlib
 import os
 import time
 from pathlib import Path
+from typing import Any
 
 from reproof.arvo import ArvoRepository, ArvoTask
 from reproof.claims import compare_claim, extract_claim
@@ -17,7 +18,7 @@ from reproof.dup import (
     ensure_osv_archive,
     frames_match,
 )
-from reproof.errors import EvidencePersistenceError
+from reproof.errors import EvidencePersistenceError, TriageExecutionError
 from reproof.models import (
     CrashEvidence,
     TriageCard,
@@ -28,6 +29,48 @@ from reproof.models import (
 from reproof.provenance import arvo_task_sha256, file_sha256, source_sha256, text_sha256
 from reproof.sandbox import SandboxRunner, manifest_digest
 from reproof.slice import extract_runtime_slice
+
+
+def _triage_failure(
+    error: Exception,
+    model_call: Any,
+    state: dict[str, Any],
+) -> TriageExecutionError:
+    request_ids = [model_call.request_id]
+    request_ids.extend(getattr(error, "request_ids", None) or [])
+    child_request_id = getattr(error, "request_id", None)
+    if child_request_id:
+        request_ids.append(str(child_request_id))
+    operation_uuids = dict(getattr(error, "operation_uuids", None) or {})
+    checkpoint_uuids = dict(getattr(error, "checkpoint_uuids", None) or {})
+    checkpoint_operation_uuids = dict(getattr(error, "checkpoint_operation_uuids", None) or {})
+
+    runner = state.get("runner")
+    for kind in ("vul", "fix"):
+        checkpoint = state.get(f"{kind}_checkpoint")
+        if checkpoint is not None:
+            checkpoint_uuid = str(checkpoint.uuid)
+            checkpoint_uuids.setdefault(kind, checkpoint_uuid)
+            metadata = getattr(runner, "checkpoint_metadata", {}).get(checkpoint_uuid, {})
+            operation_id = metadata.get("operation_uuid")
+            if operation_id:
+                checkpoint_operation_uuids.setdefault(kind, str(operation_id))
+    for operation in state.get("operations", []):
+        if operation.operation_uuid is not None:
+            operation_uuids.setdefault(operation.kind, operation.operation_uuid)
+        checkpoint_uuids.setdefault(operation.kind, operation.checkpoint_uuid)
+        if operation.checkpoint_operation_uuid is not None:
+            checkpoint_operation_uuids.setdefault(
+                operation.kind, operation.checkpoint_operation_uuid
+            )
+
+    return TriageExecutionError(
+        f"Triage failed after model request: {type(error).__name__}: {error}",
+        request_ids=request_ids,
+        operation_uuids=operation_uuids,
+        checkpoint_uuids=checkpoint_uuids,
+        checkpoint_operation_uuids=checkpoint_operation_uuids,
+    )
 
 
 def write_card(path: Path, card: TriageCard) -> None:
@@ -126,6 +169,45 @@ def run_triage(
         report_source = "user-supplied local report file"
 
     claim, model_call = extract_claim(report_text)
+    state: dict[str, Any] = {}
+    try:
+        return _complete_triage(
+            task_id=task_id,
+            task=task,
+            index=index,
+            osv_report=osv_report,
+            uses_public_osv_report=uses_public_osv_report,
+            report_text=report_text,
+            report_source=report_source,
+            claim=claim,
+            model_call=model_call,
+            candidate_input=candidate_input,
+            sandbox=sandbox,
+            output_path=output_path,
+            started=started,
+            state=state,
+        )
+    except Exception as error:
+        raise _triage_failure(error, model_call, state) from error
+
+
+def _complete_triage(
+    *,
+    task_id: int,
+    task: ArvoTask,
+    index: OsvIndex,
+    osv_report: OsvRecord | None,
+    uses_public_osv_report: bool,
+    report_text: str,
+    report_source: str,
+    claim: Any,
+    model_call: Any,
+    candidate_input: bytes | None,
+    sandbox: SandboxRunner | None,
+    output_path: Path | None,
+    started: float,
+    state: dict[str, Any],
+) -> TriageCard:
     slice_root = Path("slices")
     vul_dir = slice_root.resolve() / f"{task_id}-vul"
     fix_dir = slice_root.resolve() / f"{task_id}-fix"
@@ -133,8 +215,11 @@ def run_triage(
     extract_runtime_slice(task_id, "fix", task.fuzz_target, slice_root)
 
     runner = sandbox or SandboxRunner()
+    state["runner"] = runner
     vulnerable_checkpoint = runner.ensure_checkpoint(task_id, "vul", vul_dir)
+    state["vul_checkpoint"] = vulnerable_checkpoint
     fixed_checkpoint = runner.ensure_checkpoint(task_id, "fix", fix_dir)
+    state["fix_checkpoint"] = fixed_checkpoint
     vulnerable, fixed = runner.run_pair(
         task_id,
         vulnerable_checkpoint,
@@ -177,6 +262,7 @@ def run_triage(
         inputs_tried=[input_label],
     )
     operations = [vulnerable, fixed]
+    state["operations"] = operations
     sandbox_cost = round(
         sum(
             operation.checkpoint_cost_usd + (operation.cost_usd or 0.0) for operation in operations
@@ -202,7 +288,9 @@ def run_triage(
             report_sha256=text_sha256(report_text),
             osv_archive_sha256=file_sha256(ensure_osv_archive()),
             monorail_mapping_sha256=file_sha256(default_mapping_path()),
-            reproof_source_sha256=source_sha256(),
+            execution_source_sha256=source_sha256(),
+            derivation_source_sha256=source_sha256(),
+            derivation_method="live-execution",
             osv_record_id=(
                 osv_report.id if uses_public_osv_report and osv_report is not None else None
             ),

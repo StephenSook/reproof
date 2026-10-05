@@ -89,7 +89,9 @@ uv run reproof eval --n 10 --resume
 Local caches, runtime slices, databases, zip archives, card details, and credentials are excluded
 from Git. The aggregate eval result is tracked at `eval/results/arvo10.json`. It includes the model
 request IDs, ConTree checkpoint and run operation UUIDs, crash evidence, token counts, costs, slice
-manifest hashes, and source-data hashes needed to audit the aggregate.
+manifest hashes, and source-data hashes needed to audit the aggregate. Provenance records the
+immutable source hash that executed paid work separately from the source hash that later derived
+or refreshed saved evidence.
 
 ## ARVO 10 evaluation
 

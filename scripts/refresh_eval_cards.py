@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import asyncio
 import json
 from pathlib import Path
@@ -51,7 +52,7 @@ def _claim_from_rows(raw: dict[str, Any]) -> Claim:
     )
 
 
-async def refresh() -> None:
+async def refresh(legacy_execution_source_sha256: str | None = None) -> None:
     client = ContreeSync()
     index = OsvIndex.from_archive()
     repository = ArvoRepository()
@@ -60,6 +61,8 @@ async def refresh() -> None:
     measurements: dict[str, tuple[float, float]] = {}
 
     for path in sorted(CARDS.glob("*.json")):
+        if not path.stem.isdigit():
+            continue
         raw = json.loads(path.read_text(encoding="utf-8"))
         operations = raw["sandbox_operations"]
         by_kind = {operation["kind"]: operation for operation in operations}
@@ -104,7 +107,7 @@ async def refresh() -> None:
             )
         record_id = matching_records[0].id
 
-        raw["schema_version"] = "1.2"
+        raw["schema_version"] = "1.3"
         raw["verdict"] = _verdict(measured.crashed, fixed_clean, len(duplicates)).value
         raw["missing_details"] = missing_details
         raw["evidence"]["crash"] = (
@@ -127,12 +130,23 @@ async def refresh() -> None:
             kind: manifest_digest(Path("slices").resolve() / f"{raw['arvo_id']}-{kind}")
             for kind in ("vul", "fix")
         }
+        existing_provenance = raw.get("provenance", {})
+        execution_source_sha256 = existing_provenance.get("execution_source_sha256")
+        if execution_source_sha256 is None:
+            execution_source_sha256 = legacy_execution_source_sha256
+        if execution_source_sha256 is None:
+            raise ValueError(
+                f"card {path} lacks immutable execution provenance; "
+                "pass --legacy-execution-source-sha256 once"
+            )
         raw["provenance"] = TriageProvenance(
             arvo_task_sha256=arvo_task_sha256(task),
             report_sha256=text_sha256(raw["report_text"]),
             osv_archive_sha256=file_sha256(ensure_osv_archive()),
             monorail_mapping_sha256=file_sha256(default_mapping_path()),
-            reproof_source_sha256=source_sha256(),
+            execution_source_sha256=execution_source_sha256,
+            derivation_source_sha256=source_sha256(),
+            derivation_method="saved-output-refresh",
             osv_record_id=record_id,
         ).model_dump()
         sandbox_cost = sum(
@@ -159,4 +173,7 @@ async def refresh() -> None:
 
 
 if __name__ == "__main__":
-    asyncio.run(refresh())
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--legacy-execution-source-sha256")
+    arguments = parser.parse_args()
+    asyncio.run(refresh(arguments.legacy_execution_source_sha256))

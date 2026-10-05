@@ -29,8 +29,8 @@ def test_eval_schema_rejects_task_cost_mismatch() -> None:
 
 def test_eval_schema_rejects_card_provenance_mismatch() -> None:
     payload = copy.deepcopy(eval_payload())
-    payload["tasks"][0]["card_provenance"]["reproof_source_sha256"] = "0" * 64  # type: ignore[index]
-    with pytest.raises(ValidationError, match="card source provenance"):
+    payload["tasks"][0]["card_provenance"]["execution_source_sha256"] = "0" * 64  # type: ignore[index]
+    with pytest.raises(ValidationError, match="card execution source"):
         EvalReport.model_validate(payload)
 
 
@@ -38,4 +38,35 @@ def test_eval_schema_rejects_invalid_global_digest() -> None:
     payload = copy.deepcopy(eval_payload())
     payload["provenance"]["arvo_database_sha256"] = "not-a-digest"  # type: ignore[index]
     with pytest.raises(ValidationError, match="arvo_database_sha256"):
+        EvalReport.model_validate(payload)
+
+
+@pytest.mark.parametrize(
+    ("changes", "message"),
+    [
+        ({"fix_clean": True, "fixed_exit_code": 99}, "clean eval fix"),
+        (
+            {
+                "verdict": "DUPLICATE",
+                "crash_type": "",
+                "crash_state": [],
+                "sanitizer_kind": None,
+            },
+            "does not match evidence",
+        ),
+        (
+            {
+                "verdict": "REPRODUCED",
+                "duplicate_candidates": ["OSV-EXTRA"],
+            },
+            "does not match evidence",
+        ),
+    ],
+)
+def test_eval_schema_rejects_contradictory_verdict_evidence(
+    changes: dict[str, object], message: str
+) -> None:
+    payload = copy.deepcopy(eval_payload())
+    payload["tasks"][0].update(changes)  # type: ignore[index]
+    with pytest.raises(ValidationError, match=message):
         EvalReport.model_validate(payload)
