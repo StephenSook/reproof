@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Added the judge door page and triage caps. The page lists the 10 public reports, streams one triage, and can show the saved ARVO 10 row labelled RECORDED. One browser can run one triage at a time, one address can start 8 per hour, and everyone shares 60 per day. On Vercel, each function instance keeps its own count file.
 - Chose a Vercel Python function beside the Next.js app for the judge door. The measured runtime tree is 166,799,055 bytes and the local cold import of reproof.door is 3.615514 seconds. maxDuration is 120 seconds. Nothing was deployed.
 - Added a cached-checkpoint triage entry point, a committed ConTree checkpoint manifest, and a per-project OSV index for jq, libplist, wasm3, miniz, and libspng. A missing checkpoint returns NEEDS_INFO and is not rebuilt from a local slice.
 - Added the Python 3.12 package, local-only data controls, Apache-2.0 license, and CI gates.

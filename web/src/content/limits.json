@@ -1,0 +1,6 @@
+{
+  "global_per_day": 60,
+  "in_flight_per_visitor": 1,
+  "per_ip_per_hour": 8,
+  "schema_version": "1"
+}

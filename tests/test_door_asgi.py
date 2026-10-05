@@ -15,10 +15,14 @@ def _body(parts) -> bytes:
     return b"".join(parts)
 
 
-def test_health_and_unknown_task_omit_credential_values(monkeypatch) -> None:
+def _store(tmp_path: Path) -> Path:
+    return tmp_path / "limits.json"
+
+
+def test_health_and_unknown_task_omit_credential_values(monkeypatch, tmp_path: Path) -> None:
     monkeypatch.setenv("NEBIUS_API_KEY", API_SENTINEL)
     monkeypatch.setenv("NEBIUS_PROJECT_ID", PROJECT_SENTINEL)
-    status, content_type, parts = dispatch("GET", HEALTH_PATH, b"")
+    status, content_type, parts = dispatch("GET", HEALTH_PATH, b"", limits_path=_store(tmp_path))
     health = _body(parts)
     assert status == 200
     assert content_type.startswith("application/json")
@@ -28,6 +32,7 @@ def test_health_and_unknown_task_omit_credential_values(monkeypatch) -> None:
         "POST",
         TRIAGE_PATH,
         b'{"arvo_id": 1}',
+        limits_path=_store(tmp_path),
     )
     raw = _body(parts)
     assert status == 200
@@ -44,20 +49,31 @@ def test_health_and_unknown_task_omit_credential_values(monkeypatch) -> None:
     assert b"NEBIUS_PROJECT_ID" not in rendered
 
 
-def test_triage_rejects_a_bad_body() -> None:
-    status, _content_type, parts = dispatch("POST", TRIAGE_PATH, b"{}")
+def test_triage_rejects_a_bad_body(tmp_path: Path) -> None:
+    status, _content_type, parts = dispatch(
+        "POST",
+        TRIAGE_PATH,
+        b"{}",
+        limits_path=_store(tmp_path),
+    )
     assert status == 400
     assert json.loads(_body(parts))["error"] == "body must be a JSON object with arvo_id"
-    status, _content_type, parts = dispatch("POST", TRIAGE_PATH, b'{"arvo_id": true}')
+    status, _content_type, parts = dispatch(
+        "POST",
+        TRIAGE_PATH,
+        b'{"arvo_id": true}',
+        limits_path=_store(tmp_path),
+    )
     assert status == 400
     huge = b'{"arvo_id": 1, "pad": "' + (b"x" * 70000) + b'"}'
-    status, _content_type, parts = dispatch("POST", TRIAGE_PATH, huge)
+    status, _content_type, parts = dispatch("POST", TRIAGE_PATH, huge, limits_path=_store(tmp_path))
     assert status == 413
 
 
-def test_asgi_app_streams_needs_info(monkeypatch) -> None:
+def test_asgi_app_streams_needs_info(monkeypatch, tmp_path: Path) -> None:
     monkeypatch.setenv("NEBIUS_API_KEY", API_SENTINEL)
     monkeypatch.setenv("NEBIUS_PROJECT_ID", PROJECT_SENTINEL)
+    monkeypatch.setenv("REPROOF_LIMITS_PATH", str(_store(tmp_path)))
     sent: list[dict[str, object]] = []
 
     async def receive() -> dict[str, object]:

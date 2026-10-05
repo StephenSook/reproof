@@ -1,0 +1,96 @@
+{
+  "schema_version": "1",
+  "selection_rule": "Always include ARVO 42530604, 42507851, and 42496387. Fill the remaining slots from the spike's frozen 2026-10-05 memory-safety candidate table, restricted to tasks with a mapped public OSV record, ordered by max(vulnerable GB, fixed GB) then ARVO ID.",
+  "tasks": [
+    {
+      "arvo_id": 42530604,
+      "arvo_task_sha256": "3da5fa3ba49f5ad364d6a10e0aebb94ad2f40133cac0c27b2873a05f0a202e5a",
+      "osv_record_id": "OSV-2023-1239",
+      "project": "jq",
+      "report_sha256": "36dd25482c5f121e11bf5e74fc3584fb5991debed242adbb4bc9d9b01954b5e8",
+      "report_source": "public OSS-Fuzz OSV report OSV-2023-1239; this is not a private report",
+      "report_text": "Heap-buffer-overflow in decToString\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=64574\n\n```\nCrash type: Heap-buffer-overflow WRITE 1\nCrash state:\ndecToString\ndecNumberToString\njv_number_get_literal\n```"
+    },
+    {
+      "arvo_id": 42507851,
+      "arvo_task_sha256": "0765a7e685a5ef1226ed8c1cd075762342dc091d65aa0ddc54467866967ac3a9",
+      "osv_record_id": "OSV-2022-93",
+      "project": "libplist",
+      "report_sha256": "4d8c63fcbc65ef8293d3ebe17394d4e8515a8ac82eaf037dd80461b77eef5dc8",
+      "report_source": "public OSS-Fuzz OSV report OSV-2022-93; this is not a private report",
+      "report_text": "Heap-buffer-overflow in strtol\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=44089\n\n```\nCrash type: Heap-buffer-overflow READ 2\nCrash state:\nstrtol\nparse_primitive\nplist_from_json\n```"
+    },
+    {
+      "arvo_id": 42496387,
+      "arvo_task_sha256": "9d9d04e2946a5016f3e3f5b143edd8ae6de40121de7d2c963922c718ea4a7377",
+      "osv_record_id": "OSV-2021-701",
+      "project": "wasm3",
+      "report_sha256": "ce836e66e337a333018572b279f40978dce0fc8e0bb5e223816439ad30b78537",
+      "report_source": "public OSS-Fuzz OSV report OSV-2021-701; this is not a private report",
+      "report_text": "Heap-use-after-free in m3_FreeRuntime\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=33765\n\n```\nCrash type: Heap-use-after-free READ 8\nCrash state:\nm3_FreeRuntime\nfuzzer.c\nRuntime_Release\n```"
+    },
+    {
+      "arvo_id": 42508524,
+      "arvo_task_sha256": "8f38572059570167b7a886ec5457729e44f42bd19c503ea3c79f0623fcf1b3f0",
+      "osv_record_id": "OSV-2022-158",
+      "project": "libplist",
+      "report_sha256": "bb84e88eb53ab1dce4d07d826c731d2a6623c84ad65a5a630d183db160c37bd8",
+      "report_source": "public OSS-Fuzz OSV report OSV-2022-158; this is not a private report",
+      "report_text": "Heap-buffer-overflow in parse_primitive\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=44695\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nparse_primitive\nplist_from_json\njplist_fuzzer.cc\n```"
+    },
+    {
+      "arvo_id": 42536108,
+      "arvo_task_sha256": "84b2af64a0edf92257ca61e825fb316201dcd538c283076fd87b43fe71c3686c",
+      "osv_record_id": "OSV-2024-550",
+      "project": "miniz",
+      "report_sha256": "9f25f25aee81837a686f80e948f1897fde1747a64e4dbc6e434c6fcb41684dea",
+      "report_source": "public OSS-Fuzz OSV report OSV-2024-550; this is not a private report",
+      "report_text": "Heap-buffer-overflow in mz_zip_mem_read_func\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=69528\n\n```\nCrash type: Heap-buffer-overflow READ {*}\nCrash state:\nmz_zip_mem_read_func\nmz_zip_reader_read_central_dir\nmz_zip_reader_init_mem\n```"
+    },
+    {
+      "arvo_id": 42536112,
+      "arvo_task_sha256": "ac2a363343cf4da0ba51969034b38ebba084885fcb287b9ca5ad6c6e663b7e47",
+      "osv_record_id": "OSV-2024-551",
+      "project": "miniz",
+      "report_sha256": "52caf296ca1e3cc05a0064df64c84e56a64d9592d8187a612b2a875603fb7983",
+      "report_source": "public OSS-Fuzz OSV report OSV-2024-551; this is not a private report",
+      "report_text": "Heap-buffer-overflow in mz_zip_mem_read_func\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=69531\n\n```\nCrash type: Heap-buffer-overflow READ {*}\nCrash state:\nmz_zip_mem_read_func\nmz_zip_validate_file\nzip_fuzzer.c\n```"
+    },
+    {
+      "arvo_id": 42508390,
+      "arvo_task_sha256": "b3ad04f47d49340f7ae3250591159b9ed3808145d76157a4e512fb5e139eeb1c",
+      "osv_record_id": "OSV-2022-147",
+      "project": "libplist",
+      "report_sha256": "788fe7da4f0de2b0b38cdbb8ddd607e5a869122dd64d476fa6a33939b3fbf0e8",
+      "report_source": "public OSS-Fuzz OSV report OSV-2022-147; this is not a private report",
+      "report_text": "Heap-buffer-overflow in parse_primitive\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=44574\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nparse_primitive\nplist_from_json\njplist_fuzzer.cc\n```"
+    },
+    {
+      "arvo_id": 42531297,
+      "arvo_task_sha256": "ba2bfdd20ea2174506760ed373836843164d91b0f8ab86b7021b793d64de461f",
+      "osv_record_id": "OSV-2023-1344",
+      "project": "jq",
+      "report_sha256": "31a0cd64ec2926fce1ed74e72e615c238b8cae4b49aa3179ec33159589098acf",
+      "report_source": "public OSS-Fuzz OSV report OSV-2023-1344; this is not a private report",
+      "report_text": "Heap-buffer-overflow in jv_string_vfmt\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=65198\n\n```\nCrash type: Heap-buffer-overflow READ 2\nCrash state:\njv_string_vfmt\njv_string_fmt\njv_get\n```"
+    },
+    {
+      "arvo_id": 42531223,
+      "arvo_task_sha256": "49c478ff02eda2082ec36037dbb24a6358140acfe8cf80d6c45e626365acef7b",
+      "osv_record_id": "OSV-2023-1329",
+      "project": "jq",
+      "report_sha256": "34d3d5f443180fcea9865c31f750c20a3be622821826bdf34a34cf8ceb3bf13a",
+      "report_source": "public OSS-Fuzz OSV report OSV-2023-1329; this is not a private report",
+      "report_text": "Stack-buffer-overflow in decNaNs\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=65130\n\n```\nCrash type: Stack-buffer-overflow WRITE 2\nCrash state:\ndecNaNs\ndecCompareOp\ndecNumberCompare\n```"
+    },
+    {
+      "arvo_id": 42476752,
+      "arvo_task_sha256": "fcc7649f57e8f091b57470bc74a04b3c71dc370d9a187b9afa5610e974b3f963",
+      "osv_record_id": "OSV-2020-344",
+      "project": "libspng",
+      "report_sha256": "98177a48c3eeb9d962e5357f1fceb949a30444611d5e81e9415e6da36cd87faf",
+      "report_source": "public OSS-Fuzz OSV report OSV-2020-344; this is not a private report",
+      "report_text": "Heap-buffer-overflow in spng_decode_image\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=16091\n\n```\nCrash type: Heap-buffer-overflow READ {*}\nCrash state:\nspng_decode_image\nspng_read_fuzzer.cc\n```"
+    }
+  ]
+}

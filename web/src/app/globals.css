@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light dark;
+  --paper: light-dark(#f7f7fb, #0d1024);
+  --ink: light-dark(#11142b, #f7f7fb);
+  --muted: light-dark(#3c4166, #c5c8dc);
+  --card: light-dark(#ffffff, #151933);
+  --violet: #6d5dfc;
+  --red: #e5484d;
+  --green: #1fa35b;
+  --amber: #ffb020;
+  --line: light-dark(#d5d7e6, #2c3358);
+}
+
+body {
+  margin: 0;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body), Figtree, sans-serif;
+  font-weight: 500;
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--ink) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 7%, transparent) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 0.92;
+}
+
+:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 3px;
+}
+
+pre,
+code {
+  overflow-wrap: anywhere;
+}
+
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.stamp {
+  font-family: var(--font-hand), Caveat, cursive;
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

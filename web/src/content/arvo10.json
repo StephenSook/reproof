@@ -1,0 +1,558 @@
+{
+  "schema_version": "1.5",
+  "selection_rule": "Always include ARVO 42530604, 42507851, and 42496387. Fill the remaining slots from the spike's frozen 2026-10-05 memory-safety candidate table, restricted to tasks with a mapped public OSV record, ordered by max(vulnerable GB, fixed GB) then ARVO ID.",
+  "selected_arvo_ids": [
+    42530604,
+    42507851,
+    42496387,
+    42508524,
+    42536108,
+    42536112,
+    42508390,
+    42531297,
+    42531223,
+    42476752
+  ],
+  "provenance": {
+    "arvo_database_sha256": "331184ca807c2f136f98dac9f1df94c893f4ee2fdf9329dca517ff88e72f97ce",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "candidate_table_sha256": "94498fe4b5d18686f8b4ebbe95f21bcde560f6aae33658f54632574c5710cc5a",
+    "execution_source_sha256": "740c512643d3ee036ef659014c14fa20ba0c360b1cb704c282841acbd19dd106",
+    "derivation_source_sha256": "61dc3b0aa6c49598ee0b765c6d8fa3516418cd7edad9ff674f8c6a36a92fe76c",
+    "derivation_method": "saved-output-refresh"
+  },
+  "tasks": [
+    {
+      "arvo_id": 42530604,
+      "project": "jq",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow WRITE 1",
+      "crash_state": [
+        "decToString",
+        "decNumberToString",
+        "jvp_literal_number_literal"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "3a744871bae13552a312e856f1b290c8"
+      ],
+      "input_tokens": 133,
+      "output_tokens": 111,
+      "model_cost_usd": 0.0001398,
+      "sandbox_cost_usd": 0.00076003,
+      "checkpoint_operation_uuids": [
+        "01a10d33-e7d2-71b1-ad98-fa549252912f",
+        "01a10d33-f168-7686-9c3e-b2c53f4eb654"
+      ],
+      "sandbox_operation_uuids": [
+        "01a10d76-4c5f-7726-8825-c7b18b1ff5d8",
+        "01a10d76-4d3b-76a4-b69f-3f853d63a4ca"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "dda7bd24d63ca0f692924d1d189cec3ca9f6ac94fdbdd3af3e91a9c4dbbab153",
+        "fix": "d22773dfbfe82d18ed395f6df9f2ced3de07c6ab7d34af314adb95ae2a40fc50"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "3da5fa3ba49f5ad364d6a10e0aebb94ad2f40133cac0c27b2873a05f0a202e5a",
+        "report_sha256": "36dd25482c5f121e11bf5e74fc3584fb5991debed242adbb4bc9d9b01954b5e8",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "740c512643d3ee036ef659014c14fa20ba0c360b1cb704c282841acbd19dd106",
+        "derivation_source_sha256": "61dc3b0aa6c49598ee0b765c6d8fa3516418cd7edad9ff674f8c6a36a92fe76c",
+        "derivation_method": "saved-output-refresh",
+        "osv_record_id": "OSV-2023-1239"
+      },
+      "cost_usd": 0.00089983,
+      "wall_seconds": 4.72856,
+      "card_path": "eval/results/cards/42530604.json"
+    },
+    {
+      "arvo_id": 42507851,
+      "project": "libplist",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "crash_state": [
+        "strtol",
+        "parse_primitive",
+        "plist_from_json"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "c37996b3a58c1bfc92115ddea2b77861"
+      ],
+      "input_tokens": 129,
+      "output_tokens": 109,
+      "model_cost_usd": 0.0001368,
+      "sandbox_cost_usd": 0.00071905,
+      "checkpoint_operation_uuids": [
+        "01a10d3b-71f1-70ab-9e1b-2d67d6ead506",
+        "01a10d3b-7af0-74fc-b2b2-801aad8c345c"
+      ],
+      "sandbox_operation_uuids": [
+        "01a10d76-5bdc-7442-ab05-a7c63cc0908c",
+        "01a10d76-5cc4-71db-ab0d-49d4e98c3272"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "3b1330ec428d88e12002f5fbe5ccf150a66e4f445e2769a7b418b2f9332a297c",
+        "fix": "f4b2d48c8e35e1752c42a41db8d20e198c5f15d012325f14fc835eb4c5d1491d"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "0765a7e685a5ef1226ed8c1cd075762342dc091d65aa0ddc54467866967ac3a9",
+        "report_sha256": "4d8c63fcbc65ef8293d3ebe17394d4e8515a8ac82eaf037dd80461b77eef5dc8",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "740c512643d3ee036ef659014c14fa20ba0c360b1cb704c282841acbd19dd106",
+        "derivation_source_sha256": "61dc3b0aa6c49598ee0b765c6d8fa3516418cd7edad9ff674f8c6a36a92fe76c",
+        "derivation_method": "saved-output-refresh",
+        "osv_record_id": "OSV-2022-93"
+      },
+      "cost_usd": 0.00085585,
+      "wall_seconds": 3.681775,
+      "card_path": "eval/results/cards/42507851.json"
+    },
+    {
+      "arvo_id": 42496387,
+      "project": "wasm3",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-use-after-free READ 8",
+      "crash_state": [
+        "ForEachModule",
+        "Runtime_Release",
+        "m3_FreeRuntime"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "e4f5a6a6225783865c0169124fe7761c"
+      ],
+      "input_tokens": 134,
+      "output_tokens": 117,
+      "model_cost_usd": 0.0001455,
+      "sandbox_cost_usd": 0.00073463,
+      "checkpoint_operation_uuids": [
+        "01a10d3b-d590-753f-9418-4e98ccbfb757",
+        "01a10d3b-df0b-72c7-a0a1-30c2d28de0c6"
+      ],
+      "sandbox_operation_uuids": [
+        "01a10d76-6c1f-7534-89db-3e9338736ae2",
+        "01a10d76-6d13-7637-9a54-3d84a36f7a07"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "41231398d65d90a2b2de8d3c9c893edfc94b521050117dc6f6817245829d6080",
+        "fix": "4d8157589c4b34b504e83594393e3645255fdd5afab7cbac19e50ddf8b6b8f7f"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "9d9d04e2946a5016f3e3f5b143edd8ae6de40121de7d2c963922c718ea4a7377",
+        "report_sha256": "ce836e66e337a333018572b279f40978dce0fc8e0bb5e223816439ad30b78537",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "740c512643d3ee036ef659014c14fa20ba0c360b1cb704c282841acbd19dd106",
+        "derivation_source_sha256": "61dc3b0aa6c49598ee0b765c6d8fa3516418cd7edad9ff674f8c6a36a92fe76c",
+        "derivation_method": "saved-output-refresh",
+        "osv_record_id": "OSV-2021-701"
+      },
+      "cost_usd": 0.00088013,
+      "wall_seconds": 3.801278,
+      "card_path": "eval/results/cards/42496387.json"
+    },
+    {
+      "arvo_id": 42508524,
+      "project": "libplist",
+      "verdict": "DUPLICATE",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [
+        "OSV-2022-147"
+      ],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "parse_primitive",
+        "plist_from_json",
+        "jplist_fuzzer.cc"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "167b3d1d8db6e5187e894b53d1a349cf"
+      ],
+      "input_tokens": 136,
+      "output_tokens": 101,
+      "model_cost_usd": 0.0001317,
+      "sandbox_cost_usd": 0.00069428,
+      "checkpoint_operation_uuids": [
+        "01a10d3d-8296-7799-9cdf-62b41714c758",
+        "01a10d3d-ac3b-75a3-8f92-7b83e7688563"
+      ],
+      "sandbox_operation_uuids": [
+        "01a10d76-7c0d-71e4-aed9-33d01c661eba",
+        "01a10d76-7cf2-74c2-90f7-0b7e3bdf888a"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "00136075125bd8721da47cfd6d2294c5a57894488b346906bed57ec931a2afca",
+        "fix": "76e404794a07d294f08363aa5c55d7edc82529b23761d9b78e231c15b7712202"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "8f38572059570167b7a886ec5457729e44f42bd19c503ea3c79f0623fcf1b3f0",
+        "report_sha256": "bb84e88eb53ab1dce4d07d826c731d2a6623c84ad65a5a630d183db160c37bd8",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "740c512643d3ee036ef659014c14fa20ba0c360b1cb704c282841acbd19dd106",
+        "derivation_source_sha256": "61dc3b0aa6c49598ee0b765c6d8fa3516418cd7edad9ff674f8c6a36a92fe76c",
+        "derivation_method": "saved-output-refresh",
+        "osv_record_id": "OSV-2022-158"
+      },
+      "cost_usd": 0.00082598,
+      "wall_seconds": 3.790634,
+      "card_path": "eval/results/cards/42508524.json"
+    },
+    {
+      "arvo_id": 42536108,
+      "project": "miniz",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "crash_state": [
+        "mz_zip_mem_read_func",
+        "mz_zip_reader_read_central_dir",
+        "mz_zip_reader_init_mem"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "1b88a309a8775eff1ba08781c5b1f53a"
+      ],
+      "input_tokens": 146,
+      "output_tokens": 111,
+      "model_cost_usd": 0.0001437,
+      "sandbox_cost_usd": 0.00076879,
+      "checkpoint_operation_uuids": [
+        "01a10d40-07a4-7178-b45f-c36e3522b3b6",
+        "01a10d40-4fae-7742-b7ec-2b6430f3ff5c"
+      ],
+      "sandbox_operation_uuids": [
+        "01a10d76-8c87-7469-8693-9342ab3d7b59",
+        "01a10d76-8d62-72aa-b17a-5ff6e9d0ffb9"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "d3c03efd769ad25cddb492317e79b64d1d8038d6498468a2f9ba3d7e7a1c840e",
+        "fix": "9ac1056551ae4f5c34c480ff6b73ad7a48c3792098270a60208ece5b1a8a5383"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "84b2af64a0edf92257ca61e825fb316201dcd538c283076fd87b43fe71c3686c",
+        "report_sha256": "9f25f25aee81837a686f80e948f1897fde1747a64e4dbc6e434c6fcb41684dea",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "740c512643d3ee036ef659014c14fa20ba0c360b1cb704c282841acbd19dd106",
+        "derivation_source_sha256": "61dc3b0aa6c49598ee0b765c6d8fa3516418cd7edad9ff674f8c6a36a92fe76c",
+        "derivation_method": "saved-output-refresh",
+        "osv_record_id": "OSV-2024-550"
+      },
+      "cost_usd": 0.00091249,
+      "wall_seconds": 3.865316,
+      "card_path": "eval/results/cards/42536108.json"
+    },
+    {
+      "arvo_id": 42536112,
+      "project": "miniz",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "crash_state": [
+        "mz_zip_mem_read_func",
+        "mz_zip_validate_file",
+        "zip_fuzzer.c"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "ce725b52c6c5a9bbd7f0a98398e92821"
+      ],
+      "input_tokens": 142,
+      "output_tokens": 115,
+      "model_cost_usd": 0.0001461,
+      "sandbox_cost_usd": 0.00076863,
+      "checkpoint_operation_uuids": [
+        "01a10d42-7e41-7706-ad95-28fa6ab5fb68",
+        "01a10d42-88be-7114-b4e9-ab29866ba60c"
+      ],
+      "sandbox_operation_uuids": [
+        "01a10d76-9cc4-707f-965c-c576433d9011",
+        "01a10d76-9da8-7121-a053-e38421e5d415"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "34fad9e8516811830d0672b91be9d561630303b8c6c58f3cd68eb19fec7f9456",
+        "fix": "ee5942c5c8b85f5ca741a05deab9a7b6562ef1a417a7fa38dcbd1789d864a81c"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "ac2a363343cf4da0ba51969034b38ebba084885fcb287b9ca5ad6c6e663b7e47",
+        "report_sha256": "52caf296ca1e3cc05a0064df64c84e56a64d9592d8187a612b2a875603fb7983",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "740c512643d3ee036ef659014c14fa20ba0c360b1cb704c282841acbd19dd106",
+        "derivation_source_sha256": "61dc3b0aa6c49598ee0b765c6d8fa3516418cd7edad9ff674f8c6a36a92fe76c",
+        "derivation_method": "saved-output-refresh",
+        "osv_record_id": "OSV-2024-551"
+      },
+      "cost_usd": 0.00091473,
+      "wall_seconds": 4.976644,
+      "card_path": "eval/results/cards/42536112.json"
+    },
+    {
+      "arvo_id": 42508390,
+      "project": "libplist",
+      "verdict": "DUPLICATE",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": true,
+      "duplicate_candidates": [
+        "OSV-2022-93"
+      ],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "crash_state": [
+        "strtol",
+        "parse_primitive",
+        "plist_from_json"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "57a7388edfb2067f9ea8f0eb382b37b4"
+      ],
+      "input_tokens": 136,
+      "output_tokens": 139,
+      "model_cost_usd": 0.0001659,
+      "sandbox_cost_usd": 0.00069899,
+      "checkpoint_operation_uuids": [
+        "01a10d44-36d4-7303-ad9e-78e5ffe10e49",
+        "01a10d44-55c1-7346-9cb9-c9ef830c226f"
+      ],
+      "sandbox_operation_uuids": [
+        "01a10d76-b1ed-778f-8a8b-05c0f0f4dad4",
+        "01a10d76-b2b9-715f-b870-6c923f92ea00"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "3c2c3b739852e275b85c9c7a13b3d15000af47cbe321c0926a9badfed22b2e0f",
+        "fix": "8dbb7f0a0528ebe3bb1db8fe65ec951e5284f7313b0c2526b83166e2dd8941f9"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "b3ad04f47d49340f7ae3250591159b9ed3808145d76157a4e512fb5e139eeb1c",
+        "report_sha256": "788fe7da4f0de2b0b38cdbb8ddd607e5a869122dd64d476fa6a33939b3fbf0e8",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "740c512643d3ee036ef659014c14fa20ba0c360b1cb704c282841acbd19dd106",
+        "derivation_source_sha256": "61dc3b0aa6c49598ee0b765c6d8fa3516418cd7edad9ff674f8c6a36a92fe76c",
+        "derivation_method": "saved-output-refresh",
+        "osv_record_id": "OSV-2022-147"
+      },
+      "cost_usd": 0.00086489,
+      "wall_seconds": 4.181501,
+      "card_path": "eval/results/cards/42508390.json"
+    },
+    {
+      "arvo_id": 42531297,
+      "project": "jq",
+      "verdict": "DUPLICATE",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [
+        "OSV-2025-363"
+      ],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "crash_state": [
+        "jv_string_vfmt",
+        "jv_string_fmt",
+        "jv_get"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "6edd6ba35a773eb8914c833ea8e48aee"
+      ],
+      "input_tokens": 135,
+      "output_tokens": 110,
+      "model_cost_usd": 0.0001395,
+      "sandbox_cost_usd": 0.00093417,
+      "checkpoint_operation_uuids": [
+        "01a10d45-ddc0-7256-84f9-79cd20c29b78",
+        "01a10d46-2151-7497-98c9-2ea4174dc28b"
+      ],
+      "sandbox_operation_uuids": [
+        "01a10d76-c131-718f-81d8-5297084e39b6",
+        "01a10d76-c222-7744-b6f9-4585d58acff7"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "3c1ceb1d50ee894dfa0ba227f79c20665a92e8f7ca46e1bc266e9baca394e43e",
+        "fix": "9f82ef358f035b83a4cf05a9c4cd4043b7c9e8445d9897c056c4f2498a87a0c1"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "ba2bfdd20ea2174506760ed373836843164d91b0f8ab86b7021b793d64de461f",
+        "report_sha256": "31a0cd64ec2926fce1ed74e72e615c238b8cae4b49aa3179ec33159589098acf",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "740c512643d3ee036ef659014c14fa20ba0c360b1cb704c282841acbd19dd106",
+        "derivation_source_sha256": "61dc3b0aa6c49598ee0b765c6d8fa3516418cd7edad9ff674f8c6a36a92fe76c",
+        "derivation_method": "saved-output-refresh",
+        "osv_record_id": "OSV-2023-1344"
+      },
+      "cost_usd": 0.00107367,
+      "wall_seconds": 4.021922,
+      "card_path": "eval/results/cards/42531297.json"
+    },
+    {
+      "arvo_id": 42531223,
+      "project": "jq",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Stack-buffer-overflow WRITE 2",
+      "crash_state": [
+        "decNumberCopy",
+        "decNaNs",
+        "decCompareOp"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "014fc9bc2c0dadecdc2a54a12ab7a0a3"
+      ],
+      "input_tokens": 128,
+      "output_tokens": 107,
+      "model_cost_usd": 0.0001347,
+      "sandbox_cost_usd": 0.00092939,
+      "checkpoint_operation_uuids": [
+        "01a10d47-b5cf-7662-8dd3-0f4c9d93731f",
+        "01a10d47-e70e-7632-8a10-1ccd1f9ae8bf"
+      ],
+      "sandbox_operation_uuids": [
+        "01a10d76-d1e3-71c8-8f80-f19cbdf82672",
+        "01a10d76-d2d0-73a3-b207-3ab17258c04b"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "a7f332ffb362c23040f22ae849e5f40021602d28942ee52a47e8cc61cf37ee64",
+        "fix": "27da68a809762ad5ff0dbc1dd90f63da17995a1b85dce3805c8dc922d1409708"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "49c478ff02eda2082ec36037dbb24a6358140acfe8cf80d6c45e626365acef7b",
+        "report_sha256": "34d3d5f443180fcea9865c31f750c20a3be622821826bdf34a34cf8ceb3bf13a",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "740c512643d3ee036ef659014c14fa20ba0c360b1cb704c282841acbd19dd106",
+        "derivation_source_sha256": "61dc3b0aa6c49598ee0b765c6d8fa3516418cd7edad9ff674f8c6a36a92fe76c",
+        "derivation_method": "saved-output-refresh",
+        "osv_record_id": "OSV-2023-1329"
+      },
+      "cost_usd": 0.00106409,
+      "wall_seconds": 3.63758,
+      "card_path": "eval/results/cards/42531223.json"
+    },
+    {
+      "arvo_id": 42476752,
+      "project": "libspng",
+      "verdict": "DUPLICATE",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [
+        "OSV-2020-307"
+      ],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "crash_state": [
+        "spng_decode_image",
+        "spng_read_fuzzer.cc"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "1a3bc0d2e80b02672adada357c34c7d4"
+      ],
+      "input_tokens": 130,
+      "output_tokens": 105,
+      "model_cost_usd": 0.0001335,
+      "sandbox_cost_usd": 0.00074288,
+      "checkpoint_operation_uuids": [
+        "01a10d4b-4c3c-7786-8d1a-e5b102b6ebf4",
+        "01a10d4b-66c7-72f4-9c4d-8ffdc138a3fb"
+      ],
+      "sandbox_operation_uuids": [
+        "01a10d76-e255-7479-b1e2-80b2f14472ff",
+        "01a10d76-e346-72bf-be97-3b79866e6843"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "299182474572210f5f55b37ff485db06436153e4f6dd29ce2e1fa8eba95c700d",
+        "fix": "8003c3aaeb4af5a080abf93e79a7362c520357328b03da4f5c2ee6e5a9acf014"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "fcc7649f57e8f091b57470bc74a04b3c71dc370d9a187b9afa5610e974b3f963",
+        "report_sha256": "98177a48c3eeb9d962e5357f1fceb949a30444611d5e81e9415e6da36cd87faf",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "740c512643d3ee036ef659014c14fa20ba0c360b1cb704c282841acbd19dd106",
+        "derivation_source_sha256": "61dc3b0aa6c49598ee0b765c6d8fa3516418cd7edad9ff674f8c6a36a92fe76c",
+        "derivation_method": "saved-output-refresh",
+        "osv_record_id": "OSV-2020-344"
+      },
+      "cost_usd": 0.00087638,
+      "wall_seconds": 4.023811,
+      "card_path": "eval/results/cards/42476752.json"
+    }
+  ],
+  "totals": {
+    "tasks_requested": 10,
+    "tasks_completed": 10,
+    "crash_state_agreements": 7,
+    "fixes_clean": 10,
+    "claims_agree": 10,
+    "total_duplicate_candidates": 4,
+    "total_input_tokens": 1349,
+    "total_output_tokens": 1125,
+    "total_model_cost_usd": 0.0014172,
+    "total_sandbox_cost_usd": 0.00775084,
+    "total_cost_usd": 0.00916804,
+    "total_wall_seconds": 40.709021
+  }
+}

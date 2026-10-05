@@ -9,6 +9,9 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+node_modules/
+.next/
+*.tsbuildinfo
 
 # Local benchmark data and generated artifacts
 .cache/
