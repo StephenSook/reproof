@@ -61,6 +61,7 @@ def test_eval_schema_rejects_contradictory_live_provenance() -> None:
     ("changes", "message"),
     [
         ({"fix_clean": True, "fixed_exit_code": 99}, "clean eval fix"),
+        ({"vulnerable_exit_code": 0}, "conclusive eval crash"),
         (
             {
                 "verdict": "DUPLICATE",

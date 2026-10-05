@@ -333,6 +333,8 @@ class EvalTaskResult(StrictModel):
         has_sanitizer = bool(self.sanitizer_kind and self.sanitizer_kind.strip())
         if len({has_state, has_type, has_sanitizer}) != 1:
             raise ValueError("eval crash state, type, and sanitizer must be present together")
+        if has_state and self.vulnerable_exit_code == 0:
+            raise ValueError("a conclusive eval crash must have a nonzero vulnerable exit code")
         if self.fix_clean and self.fixed_exit_code != 0:
             raise ValueError("a clean eval fix must have exit code zero")
         if self.vulnerable_clean and self.vulnerable_exit_code != 0:
