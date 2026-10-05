@@ -6,7 +6,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
@@ -15,5 +15,5 @@ jobs:
       - run: uv sync --locked --dev
       - run: uv run ruff format --check .
       - run: uv run ruff check .
+      - run: uv run mypy reproof
       - run: uv run pytest -m "not live"
-

@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 import subprocess
 from pathlib import Path
+from typing import Literal
 
 from reproof.arvo import ArvoRepository, ArvoTask
 from reproof.claims import comparison_rows_agree
@@ -166,7 +167,7 @@ def _current_card_provenance(
     report_text: str,
     osv_record_id: str | None,
     execution_source_sha256: str,
-    derivation_method: str,
+    derivation_method: Literal["live-execution", "saved-output-refresh"],
 ) -> TriageProvenance:
     return TriageProvenance(
         arvo_task_sha256=arvo_task_sha256(task),

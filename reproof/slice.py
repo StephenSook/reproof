@@ -13,7 +13,7 @@ import tarfile
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from pathlib import Path, PurePosixPath
-from typing import Any
+from typing import Any, cast
 
 from elftools.elf.elffile import ELFFile
 
@@ -52,7 +52,7 @@ def elf_interpreter(path: Path) -> str:
         elf = ELFFile(stream)
         for segment in elf.iter_segments():
             if segment.header.p_type == "PT_INTERP":
-                return str(segment.get_interp_name())
+                return str(cast(Any, segment).get_interp_name())
     raise ValueError(f"ELF file has no PT_INTERP segment: {path}")
 
 
@@ -63,7 +63,7 @@ def elf_needed(path: Path) -> tuple[str, ...]:
         for segment in elf.iter_segments():
             if segment.header.p_type != "PT_DYNAMIC":
                 continue
-            for tag in segment.iter_tags():
+            for tag in cast(Any, segment).iter_tags():
                 if tag.entry.d_tag == "DT_NEEDED":
                     needed.append(str(tag.needed))
     return tuple(dict.fromkeys(needed))

@@ -459,7 +459,7 @@ class EvalReport(StrictModel):
             "total_cost_usd": sum(task.cost_usd for task in self.tasks),
             "total_wall_seconds": sum(task.wall_seconds for task in self.tasks),
         }
-        for field, expected in float_totals.items():
-            if not math.isclose(getattr(self.totals, field), expected, abs_tol=1e-7):
+        for field, expected_float in float_totals.items():
+            if not math.isclose(getattr(self.totals, field), expected_float, abs_tol=1e-7):
                 raise ValueError(f"eval total {field} does not match task rows")
         return self

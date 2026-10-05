@@ -22,6 +22,7 @@ reproof = "reproof.cli:main"
 
 [dependency-groups]
 dev = [
+  "mypy>=1.18,<2",
   "pytest>=8.4,<9",
   "ruff>=0.13,<0.14",
 ]
@@ -35,6 +36,11 @@ testpaths = ["tests"]
 markers = [
   "live: requires Nebius credentials and makes paid external requests",
 ]
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+warn_unused_configs = true
 
 [tool.ruff]
 target-version = "py312"
