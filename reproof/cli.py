@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -47,10 +48,13 @@ def main(argv: list[str] | None = None) -> int:
             print(report.model_dump_json(indent=2))
     except Exception as error:
         operation_id = getattr(error, "operation_uuid", None)
+        operation_ids = getattr(error, "operation_uuids", None)
         request_id = getattr(error, "request_id", None)
         print(
             f"ERROR {type(error).__name__}: {error}; "
-            f"operation_uuid={operation_id}; request_id={request_id}",
+            f"operation_uuid={operation_id}; "
+            f"operation_uuids={json.dumps(operation_ids, sort_keys=True)}; "
+            f"request_id={request_id}",
             file=sys.stderr,
         )
         return 1

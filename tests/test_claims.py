@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from reproof.claims import compare_claim
+from reproof.claims import compare_claim, comparison_rows_agree
 from reproof.crash import parse_crash
 from reproof.models import Claim
 
@@ -44,3 +44,27 @@ SUMMARY: AddressSanitizer: heap-use-after-free /src/demo.c:3 in release_item
     rows = compare_claim(claim, parse_crash(log))
     assert rows[0].matches
     assert not rows[1].matches
+
+
+def test_claim_comparison_normalizes_read_of_size_suffix() -> None:
+    log = """==1==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x1
+READ of size 2
+    #0 0x1234 in parse_item /src/demo.c:3:2
+SUMMARY: AddressSanitizer: heap-buffer-overflow /src/demo.c:3 in parse_item
+"""
+    claim = Claim(
+        project="demo",
+        bug_class="heap buffer overflow read of size 2",
+        functions=["parse_item"],
+        files=[],
+        trigger="input",
+        poc_attached=True,
+        affected_version="1.0",
+        missing_details=[],
+    )
+    rows = compare_claim(claim, parse_crash(log))
+    assert comparison_rows_agree(rows)
+
+
+def test_claim_agreement_rejects_missing_rows() -> None:
+    assert not comparison_rows_agree([])

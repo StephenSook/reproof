@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
@@ -33,6 +34,8 @@ def test_parse_spike_logs(name: str, crash_type: str, state: tuple[str, ...]) ->
     parsed = parse_crash((FIXTURES / name).read_text(encoding="utf-8"))
     assert parsed.crash_type == crash_type
     assert parsed.state == state
+    assert parsed.sanitizer_kind == "AddressSanitizer"
+    assert parsed.crashed
     assert "ERROR: AddressSanitizer" in sanitizer_excerpt(parsed)
 
 
@@ -46,3 +49,16 @@ def test_clean_result_requires_zero_exit_and_no_sanitizer() -> None:
     assert looks_clean(0, "ordinary output")
     assert not looks_clean(1, "ordinary output")
     assert not looks_clean(0, "ERROR: AddressSanitizer: failure")
+    assert not looks_clean(0, "demo.c:4:2: runtime error: signed integer overflow")
+
+
+def test_unknown_clusterfuzz_type_is_still_a_measured_sanitizer_crash() -> None:
+    log = """==1==ERROR: AddressSanitizer: unknown-crash on address 0x1
+    #0 0x1234 in process_line /src/demo.c:3:2
+SUMMARY: AddressSanitizer: unknown-crash /src/demo.c:3 in process_line
+"""
+    parsed = replace(parse_crash(log), crash_type="UNKNOWN")
+    assert parsed.crash_type == "UNKNOWN"
+    assert parsed.state == ("process_line",)
+    assert parsed.sanitizer_kind == "AddressSanitizer"
+    assert parsed.crashed

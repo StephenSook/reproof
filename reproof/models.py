@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import math
+import re
 from enum import StrEnum
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class StrictModel(BaseModel):
@@ -41,13 +43,14 @@ class ModelCall(StrictModel):
     output_price_per_million: float = Field(ge=0)
     price_source: str
     cost_usd: float = Field(ge=0)
-    request_id: str | None
+    request_id: str = Field(min_length=1)
 
 
 class CrashEvidence(StrictModel):
     crash_type: str
-    crash_state: list[str]
-    sanitizer_excerpt: str
+    crash_state: list[str] = Field(min_length=1)
+    sanitizer_excerpt: str = Field(min_length=1)
+    sanitizer_kind: str = Field(min_length=1)
 
 
 class DuplicateCandidate(StrictModel):
@@ -92,7 +95,7 @@ class TriageEvidence(StrictModel):
 
 
 class TriageCard(StrictModel):
-    schema_version: str = "1.0"
+    schema_version: str = "1.1"
     arvo_id: int
     project: str
     report_source: str
@@ -102,10 +105,67 @@ class TriageCard(StrictModel):
     evidence: TriageEvidence
     model_calls: list[ModelCall]
     sandbox_operations: list[SandboxOperation]
+    slice_manifest_sha256: dict[str, str]
     model_cost_usd: float = Field(ge=0)
     sandbox_cost_usd: float = Field(ge=0)
     total_cost_usd: float = Field(ge=0)
     wall_seconds: float = Field(ge=0)
+
+    @model_validator(mode="after")
+    def validate_evidence_and_costs(self) -> TriageCard:
+        if not self.model_calls:
+            raise ValueError("a triage card must record at least one model call")
+        operation_kinds = {operation.kind for operation in self.sandbox_operations}
+        if operation_kinds != {"vul", "fix"} or len(self.sandbox_operations) != 2:
+            raise ValueError("a triage card must contain exactly one vul and one fix operation")
+        if any(operation.task_id != self.arvo_id for operation in self.sandbox_operations):
+            raise ValueError("sandbox operation task IDs must match the card ARVO ID")
+        if set(self.slice_manifest_sha256) != {"vul", "fix"} or any(
+            re.fullmatch(r"[0-9a-f]{64}", digest) is None
+            for digest in self.slice_manifest_sha256.values()
+        ):
+            raise ValueError("slice manifest hashes must contain vul and fix SHA-256 values")
+
+        has_crash = self.evidence.crash is not None
+        if self.verdict in {Verdict.REPRODUCED, Verdict.DUPLICATE} and (
+            not has_crash or not self.evidence.fix_clean
+        ):
+            raise ValueError("a reproduced or duplicate verdict requires a crash and clean fix")
+        if self.verdict is Verdict.REPRODUCED and self.evidence.duplicate_candidates:
+            raise ValueError("a reproduced verdict cannot contain duplicate candidates")
+        if self.verdict is Verdict.DUPLICATE and not self.evidence.duplicate_candidates:
+            raise ValueError("a duplicate verdict requires duplicate candidates")
+        if self.verdict is Verdict.NOT_REPRODUCED and (has_crash or not self.evidence.fix_clean):
+            raise ValueError("a not-reproduced verdict requires no crash and a clean fix")
+        if self.verdict is Verdict.NOT_REPRODUCED and self.evidence.duplicate_candidates:
+            raise ValueError("a not-reproduced verdict cannot contain duplicate candidates")
+        if self.verdict is Verdict.NEEDS_INFO and not self.missing_details:
+            raise ValueError("a needs-info verdict must state at least one missing detail")
+        if self.evidence.fix_clean and self.evidence.fixed_exit_code != 0:
+            raise ValueError("a clean fixed build must have exit code zero")
+        comparison_fields = {row.field for row in self.evidence.claim_vs_evidence}
+        if (
+            comparison_fields != {"bug_class", "functions"}
+            or len(self.evidence.claim_vs_evidence) != 2
+        ):
+            raise ValueError("claim comparison must contain bug_class and functions exactly once")
+
+        model_cost = sum(call.cost_usd for call in self.model_calls)
+        sandbox_cost = sum(
+            operation.checkpoint_cost_usd + (operation.cost_usd or 0.0)
+            for operation in self.sandbox_operations
+        )
+        if not math.isclose(self.model_cost_usd, model_cost, abs_tol=1e-7):
+            raise ValueError("model cost does not equal recorded model calls")
+        if not math.isclose(self.sandbox_cost_usd, sandbox_cost, abs_tol=1e-7):
+            raise ValueError("sandbox cost does not equal recorded sandbox operations")
+        if not math.isclose(
+            self.total_cost_usd,
+            self.model_cost_usd + self.sandbox_cost_usd,
+            abs_tol=1e-7,
+        ):
+            raise ValueError("total cost does not equal model plus sandbox cost")
+        return self
 
 
 class EvalTaskResult(StrictModel):
@@ -116,6 +176,18 @@ class EvalTaskResult(StrictModel):
     fix_clean: bool
     duplicate_candidates: list[str]
     claim_agreement: bool
+    crash_type: str
+    crash_state: list[str]
+    sanitizer_kind: str | None
+    fixed_exit_code: int
+    model_request_ids: list[str]
+    input_tokens: int = Field(ge=0)
+    output_tokens: int = Field(ge=0)
+    model_cost_usd: float = Field(ge=0)
+    sandbox_cost_usd: float = Field(ge=0)
+    checkpoint_operation_uuids: list[str]
+    sandbox_operation_uuids: list[str]
+    slice_manifest_sha256: dict[str, str]
     cost_usd: float = Field(ge=0)
     wall_seconds: float = Field(ge=0)
     card_path: str
@@ -136,9 +208,55 @@ class EvalTotals(StrictModel):
     total_wall_seconds: float = Field(ge=0)
 
 
+class EvalProvenance(StrictModel):
+    arvo_database_sha256: str
+    osv_archive_sha256: str
+    monorail_mapping_sha256: str
+    candidate_table_sha256: str
+    reproof_source_sha256: str
+
+
 class EvalReport(StrictModel):
-    schema_version: str = "1.0"
+    schema_version: str = "1.1"
     selection_rule: str
     selected_arvo_ids: list[int]
+    provenance: EvalProvenance
     tasks: list[EvalTaskResult]
     totals: EvalTotals
+
+    @model_validator(mode="after")
+    def validate_report_shape(self) -> EvalReport:
+        task_ids = [task.arvo_id for task in self.tasks]
+        if task_ids != self.selected_arvo_ids:
+            raise ValueError("eval task order must equal selected ARVO ID order")
+        if self.totals.tasks_requested != len(self.selected_arvo_ids):
+            raise ValueError("tasks requested must equal selected ARVO ID count")
+        if self.totals.tasks_completed != len(self.tasks):
+            raise ValueError("tasks completed must equal eval task count")
+        if len(set(task_ids)) != len(task_ids):
+            raise ValueError("eval task IDs must be unique")
+        integer_totals = {
+            "crash_state_agreements": sum(
+                task.crash_state_agreement_with_osv for task in self.tasks
+            ),
+            "fixes_clean": sum(task.fix_clean for task in self.tasks),
+            "claims_agree": sum(task.claim_agreement for task in self.tasks),
+            "total_duplicate_candidates": sum(
+                len(task.duplicate_candidates) for task in self.tasks
+            ),
+            "total_input_tokens": sum(task.input_tokens for task in self.tasks),
+            "total_output_tokens": sum(task.output_tokens for task in self.tasks),
+        }
+        for field, expected in integer_totals.items():
+            if getattr(self.totals, field) != expected:
+                raise ValueError(f"eval total {field} does not match task rows")
+        float_totals = {
+            "total_model_cost_usd": sum(task.model_cost_usd for task in self.tasks),
+            "total_sandbox_cost_usd": sum(task.sandbox_cost_usd for task in self.tasks),
+            "total_cost_usd": sum(task.cost_usd for task in self.tasks),
+            "total_wall_seconds": sum(task.wall_seconds for task in self.tasks),
+        }
+        for field, expected in float_totals.items():
+            if not math.isclose(getattr(self.totals, field), expected, abs_tol=1e-7):
+                raise ValueError(f"eval total {field} does not match task rows")
+        return self

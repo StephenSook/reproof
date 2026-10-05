@@ -12,11 +12,41 @@ from pathlib import Path
 from typing import Any
 
 from contree_sdk import ContreeSync
+from contree_sdk.sdk.exceptions import NotFoundError
 from contree_sdk.utils.models.file import UploadFileSpec
 
 from reproof.models import SandboxOperation
 
 BASE_IMAGE = "python:3.12-slim"
+
+
+class SandboxPairError(RuntimeError):
+    """Preserve every operation identifier captured before a parallel failure."""
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        operation_uuids: dict[str, str],
+        checkpoint_uuids: dict[str, str],
+        request_id: str | None,
+    ) -> None:
+        super().__init__(message)
+        self.operation_uuids = operation_uuids
+        self.checkpoint_uuids = checkpoint_uuids
+        self.operation_uuid = next(iter(operation_uuids.values()), None)
+        self.request_id = request_id
+
+
+def _request_id_from_error(error: BaseException) -> str | None:
+    request_id = getattr(error, "request_id", None)
+    if request_id:
+        return str(request_id)
+    response = getattr(error, "response", None)
+    headers = getattr(response, "headers", None)
+    if headers:
+        return headers.get("x-request-id") or headers.get("request-id")
+    return None
 
 
 def default_registry_path() -> Path:
@@ -44,7 +74,9 @@ class CheckpointRegistry:
     def write(self, value: dict[str, dict[str, Any]]) -> None:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         temporary = self.path.with_suffix(".tmp")
-        temporary.write_text(json.dumps(value, indent=2, sort_keys=True), encoding="utf-8")
+        temporary.write_text(
+            json.dumps(value, indent=2, sort_keys=True), encoding="utf-8", newline="\n"
+        )
         os.replace(temporary, self.path)
 
 
@@ -68,12 +100,12 @@ class SandboxRunner:
                 checkpoint = self.client.images.use(cached["checkpoint_uuid"], strict=True)
                 self.checkpoint_metadata[str(checkpoint.uuid)] = {
                     "operation_uuid": cached.get("create_operation_uuid"),
-                    "wall_seconds": 0.0,
-                    "cost_usd": 0.0,
+                    "wall_seconds": float(cached.get("checkpoint_wall_seconds", 0.0)),
+                    "cost_usd": float(cached.get("checkpoint_cost_usd", 0.0)),
                     "cache_hit": True,
                 }
                 return checkpoint
-            except Exception:
+            except NotFoundError:
                 del registry[key]
                 self.registry.write(registry)
 
@@ -112,6 +144,8 @@ class SandboxRunner:
             "tag": tag,
             "manifest_sha256": digest,
             "create_operation_uuid": create_operation_uuid,
+            "checkpoint_wall_seconds": round(checkpoint_wall_seconds, 6),
+            "checkpoint_cost_usd": checkpoint_cost_usd,
         }
         self.registry.write(registry)
         self.checkpoint_metadata[str(checkpoint.uuid)] = {
@@ -214,6 +248,21 @@ class SandboxRunner:
                         disposable=True,
                     )
             return results["vul"], results["fix"]
+        except Exception as error:
+            captured = {
+                kind: operation_ids[hostname]
+                for kind, hostname in hostnames.items()
+                if hostname in operation_ids
+            }
+            checkpoints_by_kind = {
+                kind: str(checkpoint.uuid) for kind, checkpoint in checkpoints.items()
+            }
+            raise SandboxPairError(
+                f"ConTree parallel run failed: {type(error).__name__}: {error}",
+                operation_uuids=captured,
+                checkpoint_uuids=checkpoints_by_kind,
+                request_id=_request_id_from_error(error),
+            ) from error
         finally:
             for internal, original in originals.values():
                 internal._start_operation = original

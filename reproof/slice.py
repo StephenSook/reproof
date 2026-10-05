@@ -149,17 +149,40 @@ def _copy_library(container_id: str, name: str, destination: Path) -> str:
 
 def _atomic_json(path: Path, payload: dict[str, Any]) -> None:
     temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_text(json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8")
+    temporary.write_text(
+        json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8", newline="\n"
+    )
     os.replace(temporary, path)
 
 
-def _cached_manifest(destination: Path) -> dict[str, Any] | None:
+def validated_cached_manifest(
+    destination: Path,
+    *,
+    task_id: int,
+    kind: str,
+    image: str,
+    fuzz_target: str,
+) -> dict[str, Any] | None:
     manifest_path = destination / "manifest.json"
     if not manifest_path.is_file():
         return None
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if (
+        manifest.get("task_id") != task_id
+        or manifest.get("kind") != kind
+        or manifest.get("image") != image
+        or manifest.get("fuzz_target") != fuzz_target
+        or manifest.get("docker_image_deleted") is not True
+        or "docker_image_delete_error" in manifest
+        or not manifest.get("files")
+    ):
+        return None
     for record in manifest.get("files", {}).values():
-        if not (destination / record["relative_path"]).is_file():
+        local_path = destination / record["relative_path"]
+        if not local_path.is_file():
+            return None
+        patched = record.get("patched")
+        if not isinstance(patched, dict) or asdict(measure(local_path)) != patched:
             return None
     return manifest
 
@@ -175,7 +198,13 @@ def extract_runtime_slice(
     tag = f"{task_id}-{kind}"
     image = f"n132/arvo:{tag}"
     destination = slices_root.resolve() / tag
-    cached = _cached_manifest(destination)
+    cached = validated_cached_manifest(
+        destination,
+        task_id=task_id,
+        kind=kind,
+        image=image,
+        fuzz_target=fuzz_target,
+    )
     if cached is not None:
         print(f"Using cached runtime slice {destination}")
         return cached
@@ -191,6 +220,7 @@ def extract_runtime_slice(
 
     container = _run(["docker", "create", image]).stdout.strip()
     cleanup_error: str | None = None
+    extraction_error: BaseException | None = None
     sources: dict[str, str] = {}
     transformations: dict[str, dict[str, Any]] = {}
     try:
@@ -269,13 +299,20 @@ def extract_runtime_slice(
             "original": asdict(wrapper_before),
             "patched": asdict(wrapper_after),
         }
+    except BaseException as error:
+        extraction_error = error
+        raise
     finally:
         removal = _run(["docker", "rm", container], check=False)
         if removal.returncode != 0:
-            cleanup_error = (
+            message = (
                 f"docker rm {container} failed with exit {removal.returncode}: "
                 f"{removal.stderr.strip()}"
             )
+            if extraction_error is not None:
+                extraction_error.add_note(message)
+            else:
+                cleanup_error = message
     if cleanup_error:
         raise RuntimeError(cleanup_error)
 
@@ -324,5 +361,8 @@ def extract_runtime_slice(
         )
     manifest["docker_image_deleted"] = True
     _atomic_json(manifest_path, manifest)
-    print(f"Removed local Docker image {image} after writing {manifest_path}")
+    remaining_tag = _run(["docker", "image", "inspect", image], check=False)
+    if remaining_tag.returncode == 0:
+        raise RuntimeError(f"Docker image tag still exists after deletion: {image}")
+    print(f"Removed local Docker image tag {image} after writing {manifest_path}")
     return manifest

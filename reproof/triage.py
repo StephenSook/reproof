@@ -17,11 +17,11 @@ from reproof.models import (
     TriageEvidence,
     Verdict,
 )
-from reproof.sandbox import SandboxRunner
+from reproof.sandbox import SandboxRunner, manifest_digest
 from reproof.slice import extract_runtime_slice
 
 
-def _atomic_card(path: Path, card: TriageCard) -> None:
+def write_card(path: Path, card: TriageCard) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + ".tmp")
     temporary.write_text(card.model_dump_json(indent=2), encoding="utf-8", newline="\n")
@@ -56,11 +56,13 @@ def crash_agrees_with_osv(task_id: int, signature_state: tuple[str, ...], index:
 
 
 def _verdict(crashed: bool, fix_clean: bool, duplicate_count: int) -> Verdict:
+    if not fix_clean:
+        return Verdict.NEEDS_INFO
     if crashed and duplicate_count:
         return Verdict.DUPLICATE
-    if crashed and fix_clean:
+    if crashed:
         return Verdict.REPRODUCED
-    if not crashed:
+    if not crashed and not duplicate_count:
         return Verdict.NOT_REPRODUCED
     return Verdict.NEEDS_INFO
 
@@ -117,7 +119,7 @@ def run_triage(
     duplicates = index.find_candidates(task.project, measured)
     comparison = compare_claim(claim, measured)
     missing_details = list(dict.fromkeys(claim.missing_details))
-    if measured.crashed and not fixed_clean:
+    if not fixed_clean:
         missing_details.append(
             "The fixed build did not exit cleanly; inspect its captured stdout and stderr."
         )
@@ -133,6 +135,7 @@ def run_triage(
                 crash_type=measured.crash_type,
                 crash_state=list(measured.state),
                 sanitizer_excerpt=sanitizer_excerpt(measured),
+                sanitizer_kind=measured.sanitizer_kind or "",
             )
             if measured.crashed
             else None
@@ -160,11 +163,15 @@ def run_triage(
         evidence=evidence,
         model_calls=[model_call],
         sandbox_operations=operations,
+        slice_manifest_sha256={
+            "vul": manifest_digest(vul_dir),
+            "fix": manifest_digest(fix_dir),
+        },
         model_cost_usd=model_call.cost_usd,
         sandbox_cost_usd=sandbox_cost,
         total_cost_usd=round(model_call.cost_usd + sandbox_cost, 8),
         wall_seconds=round(time.perf_counter() - started, 6),
     )
     destination = output_path or Path("eval/results/cards") / f"{task_id}.json"
-    _atomic_card(destination, card)
+    write_card(destination, card)
     return card

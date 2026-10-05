@@ -13,7 +13,8 @@ from clusterfuzz import stacktraces  # type: ignore[import-untyped]
 ANSI = re.compile(r"\x1b\[[0-9;]*m")
 FRAME = re.compile(r"^\s*#(\d+)\s+(0x[0-9a-f]+)\s+in\s+(.+?)\s+(?:/|\(|[A-Za-z]:)", re.M)
 SANITIZER_ERROR = re.compile(
-    r"ERROR: (?:AddressSanitizer|UndefinedBehaviorSanitizer|LeakSanitizer)"
+    r"ERROR:\s+(?P<header>AddressSanitizer|LeakSanitizer|MemorySanitizer|"
+    r"ThreadSanitizer|UndefinedBehaviorSanitizer)|(?P<ubsan>runtime error:)"
 )
 
 
@@ -23,10 +24,18 @@ class CrashSignature:
     state: tuple[str, ...]
     inline_groups: Mapping[str, frozenset[str]]
     cleaned_log: str
+    sanitizer_kind: str | None
 
     @property
     def crashed(self) -> bool:
-        return bool(self.state) and self.crash_type.upper() not in {"", "NULL", "UNKNOWN"}
+        return bool(self.state) and self.sanitizer_kind is not None
+
+
+def _sanitizer_kind(log: str) -> str | None:
+    match = SANITIZER_ERROR.search(log)
+    if match is None:
+        return None
+    return match.group("header") or "UndefinedBehaviorSanitizer"
 
 
 def _inline_groups(log: str) -> Mapping[str, frozenset[str]]:
@@ -62,6 +71,7 @@ def parse_crash(log: str) -> CrashSignature:
         state=state,
         inline_groups=_inline_groups(cleaned),
         cleaned_log=cleaned,
+        sanitizer_kind=_sanitizer_kind(cleaned),
     )
 
 
@@ -69,7 +79,10 @@ def sanitizer_excerpt(signature: CrashSignature, max_chars: int = 8000) -> str:
     if not signature.crashed:
         return ""
     lines = signature.cleaned_log.splitlines()
-    start = next((index for index, line in enumerate(lines) if "ERROR:" in line), 0)
+    start = next(
+        (index for index, line in enumerate(lines) if "ERROR:" in line or "runtime error:" in line),
+        0,
+    )
     end = next(
         (index + 1 for index in range(start, len(lines)) if lines[index].startswith("SUMMARY:")),
         min(len(lines), start + 80),
