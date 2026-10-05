@@ -94,8 +94,30 @@ class TriageEvidence(StrictModel):
     inputs_tried: list[str]
 
 
+class TriageProvenance(StrictModel):
+    arvo_task_sha256: str
+    report_sha256: str
+    osv_archive_sha256: str
+    monorail_mapping_sha256: str
+    reproof_source_sha256: str
+    osv_record_id: str | None
+
+    @model_validator(mode="after")
+    def validate_hashes(self) -> TriageProvenance:
+        for field in (
+            "arvo_task_sha256",
+            "report_sha256",
+            "osv_archive_sha256",
+            "monorail_mapping_sha256",
+            "reproof_source_sha256",
+        ):
+            if re.fullmatch(r"[0-9a-f]{64}", getattr(self, field)) is None:
+                raise ValueError(f"{field} must be a SHA-256 digest")
+        return self
+
+
 class TriageCard(StrictModel):
-    schema_version: str = "1.1"
+    schema_version: str = "1.2"
     arvo_id: int
     project: str
     report_source: str
@@ -106,6 +128,7 @@ class TriageCard(StrictModel):
     model_calls: list[ModelCall]
     sandbox_operations: list[SandboxOperation]
     slice_manifest_sha256: dict[str, str]
+    provenance: TriageProvenance
     model_cost_usd: float = Field(ge=0)
     sandbox_cost_usd: float = Field(ge=0)
     total_cost_usd: float = Field(ge=0)
@@ -150,6 +173,60 @@ class TriageCard(StrictModel):
         ):
             raise ValueError("claim comparison must contain bug_class and functions exactly once")
 
+        from reproof.crash import looks_clean, parse_crash, sanitizer_excerpt
+
+        operations = {operation.kind: operation for operation in self.sandbox_operations}
+        vulnerable = operations["vul"]
+        fixed = operations["fix"]
+        fixed_output = "\n".join(part for part in (fixed.stdout, fixed.stderr) if part)
+        measured_fix_clean = looks_clean(fixed.exit_code, fixed_output)
+        if self.evidence.fixed_exit_code != fixed.exit_code:
+            raise ValueError("fixed exit evidence does not match the saved fix operation")
+        if self.evidence.fix_clean != measured_fix_clean:
+            raise ValueError("fixed clean evidence does not match the saved fix operation")
+
+        vulnerable_output = "\n".join(
+            part for part in (vulnerable.stdout, vulnerable.stderr) if part
+        )
+        measured_crash = parse_crash(vulnerable_output)
+        if measured_crash.crashed:
+            if self.evidence.crash is None:
+                raise ValueError(
+                    "saved vulnerable operation contains an unrecorded sanitizer crash"
+                )
+            expected_crash = {
+                "crash_type": measured_crash.crash_type,
+                "crash_state": list(measured_crash.state),
+                "sanitizer_excerpt": sanitizer_excerpt(measured_crash),
+                "sanitizer_kind": measured_crash.sanitizer_kind,
+            }
+            if self.evidence.crash.model_dump() != expected_crash:
+                raise ValueError("crash evidence does not match the saved vulnerable operation")
+        elif self.evidence.crash is not None:
+            raise ValueError("crash evidence has no sanitizer trace in the vulnerable operation")
+
+        from reproof.claims import compare_claim
+
+        rows = {row.field: row for row in self.evidence.claim_vs_evidence}
+        claimed_functions = rows["functions"].claimed
+        if not isinstance(rows["bug_class"].claimed, str) or not isinstance(
+            claimed_functions, list
+        ):
+            raise ValueError("claim comparison has invalid claimed value types")
+        comparison_claim = Claim(
+            project=self.project,
+            bug_class=rows["bug_class"].claimed,
+            functions=[str(value) for value in claimed_functions],
+            files=[],
+            trigger="",
+            poc_attached=True,
+            affected_version="",
+            missing_details=[],
+        )
+        expected_comparison = compare_claim(comparison_claim, measured_crash)
+        if self.evidence.claim_vs_evidence != expected_comparison:
+            raise ValueError("claim comparison does not match the saved vulnerable operation")
+
         model_cost = sum(call.cost_usd for call in self.model_calls)
         sandbox_cost = sum(
             operation.checkpoint_cost_usd + (operation.cost_usd or 0.0)
@@ -188,6 +265,7 @@ class EvalTaskResult(StrictModel):
     checkpoint_operation_uuids: list[str]
     sandbox_operation_uuids: list[str]
     slice_manifest_sha256: dict[str, str]
+    card_provenance: TriageProvenance
     cost_usd: float = Field(ge=0)
     wall_seconds: float = Field(ge=0)
     card_path: str
@@ -217,7 +295,7 @@ class EvalProvenance(StrictModel):
 
 
 class EvalReport(StrictModel):
-    schema_version: str = "1.1"
+    schema_version: str = "1.2"
     selection_rule: str
     selected_arvo_ids: list[int]
     provenance: EvalProvenance

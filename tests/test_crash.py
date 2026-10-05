@@ -49,6 +49,7 @@ def test_clean_result_requires_zero_exit_and_no_sanitizer() -> None:
     assert looks_clean(0, "ordinary output")
     assert not looks_clean(1, "ordinary output")
     assert not looks_clean(0, "ERROR: AddressSanitizer: failure")
+    assert not looks_clean(0, "WARNING: MemorySanitizer: use-of-uninitialized-value")
     assert not looks_clean(0, "demo.c:4:2: runtime error: signed integer overflow")
 
 
@@ -62,3 +63,16 @@ SUMMARY: AddressSanitizer: unknown-crash /src/demo.c:3 in process_line
     assert parsed.state == ("process_line",)
     assert parsed.sanitizer_kind == "AddressSanitizer"
     assert parsed.crashed
+
+
+def test_memory_sanitizer_warning_is_a_measured_crash() -> None:
+    log = """==7==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x1234 in DisassociateAlphaRegion /src/demo.c:3:2
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /src/demo.c:3
+"""
+    parsed = parse_crash(log)
+    assert parsed.crash_type == "Use-of-uninitialized-value"
+    assert parsed.state == ("DisassociateAlphaRegion",)
+    assert parsed.sanitizer_kind == "MemorySanitizer"
+    assert parsed.crashed
+    assert sanitizer_excerpt(parsed).startswith("==7==WARNING: MemorySanitizer")

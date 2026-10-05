@@ -1,10 +1,17 @@
 from __future__ import annotations
 
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
-from reproof.sandbox import CheckpointRegistry, SandboxPairError, SandboxRunner, manifest_digest
+from reproof.sandbox import (
+    CheckpointError,
+    CheckpointRegistry,
+    SandboxPairError,
+    SandboxRunner,
+    manifest_digest,
+)
 
 
 def test_checkpoint_registry_round_trip(tmp_path: Path) -> None:
@@ -55,11 +62,82 @@ def test_pair_error_exposes_all_recovered_ids() -> None:
         "failed",
         operation_uuids={"vul": "operation-vul", "fix": "operation-fix"},
         checkpoint_uuids={"vul": "checkpoint-vul", "fix": "checkpoint-fix"},
-        request_id="request-test",
+        checkpoint_operation_uuids={
+            "vul": "checkpoint-operation-vul",
+            "fix": "checkpoint-operation-fix",
+        },
+        request_ids=["request-vul", "request-fix"],
     )
     assert error.operation_uuids == {
         "vul": "operation-vul",
         "fix": "operation-fix",
     }
     assert error.checkpoint_uuids["fix"] == "checkpoint-fix"
-    assert error.request_id == "request-test"
+    assert error.checkpoint_operation_uuids["vul"] == "checkpoint-operation-vul"
+    assert error.request_id == "request-vul"
+    assert error.request_ids == ["request-vul", "request-fix"]
+
+
+def test_checkpoint_error_exposes_creation_operation() -> None:
+    error = CheckpointError(
+        "failed",
+        kind="vul",
+        operation_uuid="checkpoint-operation-vul",
+        checkpoint_uuid="checkpoint-vul",
+        request_id="request-vul",
+    )
+    assert error.operation_uuid == "checkpoint-operation-vul"
+    assert error.checkpoint_operation_uuids == {"vul": "checkpoint-operation-vul"}
+    assert error.checkpoint_uuids == {"vul": "checkpoint-vul"}
+    assert error.request_ids == ["request-vul"]
+
+
+def test_parallel_failure_collects_both_branch_ids() -> None:
+    class WaitError(RuntimeError):
+        def __init__(self, kind: str) -> None:
+            super().__init__(f"{kind} failed")
+            self.operation_uuid = f"operation-{kind}"
+            self.request_id = f"request-{kind}"
+
+    class Prepared:
+        def __init__(self, kind: str) -> None:
+            self.kind = kind
+
+        def wait(self) -> None:
+            raise WaitError(self.kind)
+
+    class Internal:
+        async def _start_operation(self, _request: object) -> str:
+            return "unused"
+
+    class Checkpoint:
+        def __init__(self, kind: str, internal: Internal) -> None:
+            self.kind = kind
+            self.uuid = f"checkpoint-{kind}"
+            self.client = internal
+
+        def run(self, *_args: object, **_kwargs: object) -> Prepared:
+            return Prepared(self.kind)
+
+    internal = Internal()
+    vulnerable = Checkpoint("vul", internal)
+    fixed = Checkpoint("fix", internal)
+    runner = SandboxRunner(client=SimpleNamespace())  # type: ignore[arg-type]
+    runner.checkpoint_metadata = {
+        "checkpoint-vul": {"operation_uuid": "checkpoint-operation-vul"},
+        "checkpoint-fix": {"operation_uuid": "checkpoint-operation-fix"},
+    }
+
+    with pytest.raises(SandboxPairError) as captured:
+        runner.run_pair(1, vulnerable, fixed)
+
+    error = captured.value
+    assert error.operation_uuids == {
+        "vul": "operation-vul",
+        "fix": "operation-fix",
+    }
+    assert error.checkpoint_operation_uuids == {
+        "vul": "checkpoint-operation-vul",
+        "fix": "checkpoint-operation-fix",
+    }
+    assert set(error.request_ids) == {"request-vul", "request-fix"}

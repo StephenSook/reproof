@@ -3,8 +3,18 @@ from __future__ import annotations
 import json
 from dataclasses import asdict
 from pathlib import Path
+from types import SimpleNamespace
 
-from reproof.slice import elf_interpreter, measure, patch_interpreter, validated_cached_manifest
+import pytest
+
+import reproof.slice as slice_module
+from reproof.slice import (
+    _ensure_image_tag_removed,
+    elf_interpreter,
+    measure,
+    patch_interpreter,
+    validated_cached_manifest,
+)
 
 
 def test_pt_interp_patch_preserves_size_and_changes_only_interpreter(tmp_path: Path) -> None:
@@ -58,4 +68,26 @@ def test_cached_slice_requires_matching_bytes_and_deleted_image_tag(tmp_path: Pa
     payload.write_bytes(b"measured bytes")
     manifest["docker_image_deleted"] = False
     (tmp_path / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
-    assert validated_cached_manifest(tmp_path, **arguments) is None
+    assert validated_cached_manifest(tmp_path, **arguments) == manifest
+
+
+def test_image_tag_state_is_only_clean_after_absence_is_verified(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    manifest_path = tmp_path / "manifest.json"
+    manifest = {"docker_image_deleted": False}
+    responses = iter(
+        [
+            SimpleNamespace(returncode=0, stdout="present", stderr=""),
+            SimpleNamespace(returncode=0, stdout="removed", stderr=""),
+            SimpleNamespace(returncode=0, stdout="still present", stderr=""),
+        ]
+    )
+    monkeypatch.setattr(slice_module, "_run", lambda *_args, **_kwargs: next(responses))
+
+    with pytest.raises(RuntimeError, match="still exists"):
+        _ensure_image_tag_removed("n132/arvo:1-vul", manifest, manifest_path)
+
+    saved = json.loads(manifest_path.read_text(encoding="utf-8"))
+    assert saved["docker_image_deleted"] is False
+    assert saved["docker_image_delete_error"]["stderr"] == "image tag still exists"

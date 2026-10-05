@@ -8,7 +8,7 @@ from reproof.models import TriageCard
 
 def valid_card() -> dict[str, object]:
     return {
-        "schema_version": "1.1",
+        "schema_version": "1.2",
         "arvo_id": 1,
         "project": "demo",
         "report_source": "public test fixture",
@@ -26,14 +26,16 @@ def valid_card() -> dict[str, object]:
                     "claimed": "heap buffer overflow",
                     "measured": "",
                     "matches": False,
-                    "detail": "no measured crash",
+                    "detail": "normalized sanitizer bug family equality",
                 },
                 {
                     "field": "functions",
                     "claimed": ["parse_item"],
                     "measured": [],
                     "matches": False,
-                    "detail": "no measured crash frames",
+                    "detail": (
+                        "at least one claimed function occurs in the top ClusterFuzz crash frames"
+                    ),
                 },
             ],
             "inputs_tried": ["stored ARVO PoC at /tmp/poc"],
@@ -72,6 +74,14 @@ def valid_card() -> dict[str, object]:
             for kind in ("vul", "fix")
         ],
         "slice_manifest_sha256": {"vul": "a" * 64, "fix": "b" * 64},
+        "provenance": {
+            "arvo_task_sha256": "c" * 64,
+            "report_sha256": "d" * 64,
+            "osv_archive_sha256": "e" * 64,
+            "monorail_mapping_sha256": "f" * 64,
+            "reproof_source_sha256": "1" * 64,
+            "osv_record_id": "OSV-TEST-1",
+        },
         "model_cost_usd": 0.0000012,
         "sandbox_cost_usd": 0.000006,
         "total_cost_usd": 0.0000072,
@@ -97,4 +107,24 @@ def test_card_schema_rejects_conclusive_verdict_with_dirty_fix() -> None:
     payload["evidence"]["fix_clean"] = False  # type: ignore[index]
     payload["evidence"]["fixed_exit_code"] = 1  # type: ignore[index]
     with pytest.raises(ValidationError, match="not-reproduced verdict requires"):
+        TriageCard.model_validate(payload)
+
+
+def test_card_schema_rejects_outputs_that_do_not_match_evidence() -> None:
+    payload = valid_card()
+    payload["sandbox_operations"][1]["exit_code"] = 17  # type: ignore[index]
+    with pytest.raises(ValidationError, match="fixed exit evidence does not match"):
+        TriageCard.model_validate(payload)
+
+
+def test_card_schema_rejects_crash_evidence_without_saved_trace() -> None:
+    payload = valid_card()
+    payload["verdict"] = "REPRODUCED"
+    payload["evidence"]["crash"] = {  # type: ignore[index]
+        "crash_type": "Heap-buffer-overflow READ 1",
+        "crash_state": ["parse_item"],
+        "sanitizer_excerpt": "ERROR: AddressSanitizer",
+        "sanitizer_kind": "AddressSanitizer",
+    }
+    with pytest.raises(ValidationError, match="no sanitizer trace"):
         TriageCard.model_validate(payload)

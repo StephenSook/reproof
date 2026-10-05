@@ -45,13 +45,32 @@ def _raise_recorded(
     *,
     started: float,
     request_id: str | None,
+    response: Any | None = None,
 ) -> NoReturn:
+    usage = getattr(response, "usage", None)
+    input_tokens = getattr(usage, "prompt_tokens", None)
+    output_tokens = getattr(usage, "completion_tokens", None)
+    total_tokens = getattr(usage, "total_tokens", None)
+    cost_usd: float | None = None
+    if isinstance(input_tokens, int) and isinstance(output_tokens, int):
+        cost = (
+            Decimal(input_tokens) * INPUT_PRICE_PER_MILLION
+            + Decimal(output_tokens) * OUTPUT_PRICE_PER_MILLION
+        ) / Decimal(1_000_000)
+        cost_usd = round(float(cost), 8)
     _record_attempt(
         {
             "model": MODEL,
             "status": "failed",
             "latency_seconds": round(time.perf_counter() - started, 6),
             "request_id": request_id,
+            "input_tokens": input_tokens,
+            "output_tokens": output_tokens,
+            "total_tokens": total_tokens,
+            "input_price_per_million": float(INPUT_PRICE_PER_MILLION),
+            "output_price_per_million": float(OUTPUT_PRICE_PER_MILLION),
+            "price_source": PRICE_SOURCE,
+            "cost_usd": cost_usd,
             "error": message,
         }
     )
@@ -115,6 +134,14 @@ def extract_claim(report_text: str, client: OpenAI | None = None) -> tuple[Claim
             "Token Factory response omitted its request ID",
             started=started,
             request_id=None,
+            response=response,
+        )
+    if not response.choices:
+        _raise_recorded(
+            "Token Factory response contained no choices",
+            started=started,
+            request_id=str(request_id),
+            response=response,
         )
     choice = response.choices[0]
     if choice.finish_reason != "stop":
@@ -122,6 +149,7 @@ def extract_claim(report_text: str, client: OpenAI | None = None) -> tuple[Claim
             f"Token Factory claim extraction ended with finish_reason={choice.finish_reason}",
             started=started,
             request_id=str(request_id) if request_id else None,
+            response=response,
         )
     content = choice.message.content
     if not content:
@@ -129,6 +157,7 @@ def extract_claim(report_text: str, client: OpenAI | None = None) -> tuple[Claim
             "Token Factory claim extraction returned empty content",
             started=started,
             request_id=str(request_id) if request_id else None,
+            response=response,
         )
     try:
         claim = Claim.model_validate(json.loads(content))
@@ -137,12 +166,14 @@ def extract_claim(report_text: str, client: OpenAI | None = None) -> tuple[Claim
             f"Token Factory returned invalid strict claim JSON: {type(error).__name__}: {error}",
             started=started,
             request_id=str(request_id) if request_id else None,
+            response=response,
         )
     if response.usage is None:
         _raise_recorded(
             "Token Factory response omitted token usage",
             started=started,
             request_id=str(request_id) if request_id else None,
+            response=response,
         )
     input_tokens = response.usage.prompt_tokens
     output_tokens = response.usage.completion_tokens
@@ -171,6 +202,9 @@ def extract_claim(report_text: str, client: OpenAI | None = None) -> tuple[Claim
             "input_tokens": call.input_tokens,
             "output_tokens": call.output_tokens,
             "total_tokens": call.total_tokens,
+            "input_price_per_million": call.input_price_per_million,
+            "output_price_per_million": call.output_price_per_million,
+            "price_source": call.price_source,
             "cost_usd": call.cost_usd,
         }
     )

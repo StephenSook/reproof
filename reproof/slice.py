@@ -172,8 +172,6 @@ def validated_cached_manifest(
         or manifest.get("kind") != kind
         or manifest.get("image") != image
         or manifest.get("fuzz_target") != fuzz_target
-        or manifest.get("docker_image_deleted") is not True
-        or "docker_image_delete_error" in manifest
         or not manifest.get("files")
     ):
         return None
@@ -184,6 +182,86 @@ def validated_cached_manifest(
         patched = record.get("patched")
         if not isinstance(patched, dict) or asdict(measure(local_path)) != patched:
             return None
+    return manifest
+
+
+def _missing_image_tag(result: subprocess.CompletedProcess[str]) -> bool:
+    message = f"{result.stdout}\n{result.stderr}".lower()
+    return result.returncode != 0 and ("no such image" in message or "no such object" in message)
+
+
+def _ensure_image_tag_removed(
+    image: str,
+    manifest: dict[str, Any],
+    manifest_path: Path,
+) -> None:
+    inspection = _run(["docker", "image", "inspect", image], check=False)
+    if _missing_image_tag(inspection):
+        if (
+            manifest.get("docker_image_deleted") is not True
+            or "docker_image_delete_error" in manifest
+        ):
+            manifest["docker_image_deleted"] = True
+            manifest.pop("docker_image_delete_error", None)
+            _atomic_json(manifest_path, manifest)
+        return
+    if inspection.returncode != 0:
+        manifest["docker_image_deleted"] = False
+        manifest["docker_image_delete_error"] = {
+            "exit_code": inspection.returncode,
+            "stderr": inspection.stderr.strip(),
+        }
+        _atomic_json(manifest_path, manifest)
+        raise RuntimeError(
+            f"could not verify Docker image tag state for {image}: "
+            f"exit {inspection.returncode}: {inspection.stderr.strip()}"
+        )
+
+    manifest["docker_image_deleted"] = False
+    manifest.pop("docker_image_delete_error", None)
+    _atomic_json(manifest_path, manifest)
+    deletion = _run(["docker", "image", "rm", image], check=False)
+    if deletion.returncode != 0:
+        manifest["docker_image_delete_error"] = {
+            "exit_code": deletion.returncode,
+            "stderr": deletion.stderr.strip(),
+        }
+        _atomic_json(manifest_path, manifest)
+        raise RuntimeError(
+            f"slice written but Docker image tag deletion failed for {image}: "
+            f"exit {deletion.returncode}: {deletion.stderr.strip()}"
+        )
+    remaining_tag = _run(["docker", "image", "inspect", image], check=False)
+    if not _missing_image_tag(remaining_tag):
+        manifest["docker_image_delete_error"] = {
+            "exit_code": remaining_tag.returncode,
+            "stderr": remaining_tag.stderr.strip() or "image tag still exists",
+        }
+        _atomic_json(manifest_path, manifest)
+        raise RuntimeError(f"Docker image tag still exists after deletion: {image}")
+    manifest["docker_image_deleted"] = True
+    manifest.pop("docker_image_delete_error", None)
+    _atomic_json(manifest_path, manifest)
+
+
+def load_cached_runtime_slice(
+    destination: Path,
+    *,
+    task_id: int,
+    kind: str,
+    image: str,
+    fuzz_target: str,
+) -> dict[str, Any] | None:
+    manifest = validated_cached_manifest(
+        destination,
+        task_id=task_id,
+        kind=kind,
+        image=image,
+        fuzz_target=fuzz_target,
+    )
+    if manifest is None:
+        return None
+    _ensure_image_tag_removed(image, manifest, destination / "manifest.json")
     return manifest
 
 
@@ -198,7 +276,7 @@ def extract_runtime_slice(
     tag = f"{task_id}-{kind}"
     image = f"n132/arvo:{tag}"
     destination = slices_root.resolve() / tag
-    cached = validated_cached_manifest(
+    cached = load_cached_runtime_slice(
         destination,
         task_id=task_id,
         kind=kind,
@@ -348,21 +426,6 @@ def extract_runtime_slice(
     manifest_path = destination / "manifest.json"
     _atomic_json(manifest_path, manifest)
 
-    deletion = _run(["docker", "image", "rm", image], check=False)
-    if deletion.returncode != 0:
-        manifest["docker_image_delete_error"] = {
-            "exit_code": deletion.returncode,
-            "stderr": deletion.stderr.strip(),
-        }
-        _atomic_json(manifest_path, manifest)
-        raise RuntimeError(
-            f"slice written but Docker image deletion failed for {image}: "
-            f"exit {deletion.returncode}: {deletion.stderr.strip()}"
-        )
-    manifest["docker_image_deleted"] = True
-    _atomic_json(manifest_path, manifest)
-    remaining_tag = _run(["docker", "image", "inspect", image], check=False)
-    if remaining_tag.returncode == 0:
-        raise RuntimeError(f"Docker image tag still exists after deletion: {image}")
+    _ensure_image_tag_removed(image, manifest, manifest_path)
     print(f"Removed local Docker image tag {image} after writing {manifest_path}")
     return manifest

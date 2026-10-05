@@ -9,10 +9,12 @@ from typing import Any
 
 from contree_sdk import ContreeSync
 
+from reproof.arvo import ArvoRepository
 from reproof.claims import compare_claim
 from reproof.crash import looks_clean, parse_crash, sanitizer_excerpt
-from reproof.dup import OsvIndex
-from reproof.models import Claim, TriageCard
+from reproof.dup import OsvIndex, default_mapping_path, ensure_osv_archive
+from reproof.models import Claim, TriageCard, TriageProvenance
+from reproof.provenance import arvo_task_sha256, file_sha256, source_sha256, text_sha256
 from reproof.sandbox import CheckpointRegistry, manifest_digest
 from reproof.triage import _verdict, write_card
 
@@ -52,6 +54,7 @@ def _claim_from_rows(raw: dict[str, Any]) -> Claim:
 async def refresh() -> None:
     client = ContreeSync()
     index = OsvIndex.from_archive()
+    repository = ArvoRepository()
     registry_store = CheckpointRegistry()
     registry = registry_store.read()
     measurements: dict[str, tuple[float, float]] = {}
@@ -89,7 +92,19 @@ async def refresh() -> None:
         if not fixed_clean:
             missing_details.append(DIRTY_FIX_DETAIL)
 
-        raw["schema_version"] = "1.1"
+        task = repository.get(int(raw["arvo_id"]))
+        matching_records = [
+            record
+            for record in index.for_issue(task.local_id)
+            if record.report_text == raw["report_text"]
+        ]
+        if len(matching_records) != 1:
+            raise ValueError(
+                f"card {path} report matched {len(matching_records)} mapped OSV records"
+            )
+        record_id = matching_records[0].id
+
+        raw["schema_version"] = "1.2"
         raw["verdict"] = _verdict(measured.crashed, fixed_clean, len(duplicates)).value
         raw["missing_details"] = missing_details
         raw["evidence"]["crash"] = (
@@ -112,6 +127,14 @@ async def refresh() -> None:
             kind: manifest_digest(Path("slices").resolve() / f"{raw['arvo_id']}-{kind}")
             for kind in ("vul", "fix")
         }
+        raw["provenance"] = TriageProvenance(
+            arvo_task_sha256=arvo_task_sha256(task),
+            report_sha256=text_sha256(raw["report_text"]),
+            osv_archive_sha256=file_sha256(ensure_osv_archive()),
+            monorail_mapping_sha256=file_sha256(default_mapping_path()),
+            reproof_source_sha256=source_sha256(),
+            osv_record_id=record_id,
+        ).model_dump()
         sandbox_cost = sum(
             float(operation["checkpoint_cost_usd"]) + float(operation.get("cost_usd") or 0.0)
             for operation in operations

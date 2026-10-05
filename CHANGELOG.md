@@ -7,7 +7,8 @@
 - Added OSS-Fuzz OSV indexing with exact and inline-tolerant matching that keeps every candidate and every fixed commit.
 - Added stopped-container runtime-slice extraction with recursive ELF dependency resolution, explicit before and after measurements, symbolizer-path fallback, and local image deletion.
 - Added strict Nemotron claim extraction, cached ConTree checkpoints, parallel disposable reproduction, JSON triage cards, CLI commands, and resumable evaluation.
-- Measured 10 public ARVO tasks: 7 OSV crash-state agreements, 10 clean fixed builds, 10 claim agreements, 11 duplicate candidates, and $0.00921003 full operation-lifecycle cost.
+- Measured 10 public ARVO tasks: 7 OSV crash-state agreements, 10 clean fixed builds, 10 claim agreements, 11 duplicate candidates, and $0.00916804 full operation-lifecycle cost.
 - Corrected sanitizer detection for ClusterFuzz `UNKNOWN` labels, fixed-build verdict gating, claim normalization, checkpoint cost persistence, cache validation, and failure ID capture after independent review.
-- Added eval provenance hashes and operation evidence, a frozen candidate table, and a derived-card refresh script that does not rerun paid work.
-- Verified the package with 32 unit tests, 2 paid live tests, Ruff formatting, Ruff lint, a real CLI triage, and the full ARVO 10 evaluation.
+- Added eval provenance hashes, evidence-bound card validation, a frozen candidate table, and a derived-card refresh script that does not rerun paid work.
+- Hardened standard MemorySanitizer and ThreadSanitizer warning parsing, image-deletion verification, failed model-call accounting, parallel failure IDs, and resume provenance after independent review.
+- Verified the package with 39 unit tests, 2 paid live tests, Ruff formatting, Ruff lint, a real CLI triage, and the full ARVO 10 evaluation.

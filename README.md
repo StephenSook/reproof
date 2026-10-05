@@ -100,16 +100,16 @@ OSV summary plus details, not a private report.
 
 | ARVO | Project | Verdict | OSV state agrees | Fixed clean | OSV candidates | Claim agrees | Cost USD | Seconds |
 |---:|---|---|---|---|---|---|---:|---:|
-| 42530604 | jq | DUPLICATE | yes | yes | OSV-2023-1239 | yes | 0.00091674 | 4.944027 |
-| 42507851 | libplist | DUPLICATE | yes | yes | OSV-2022-93 | yes | 0.00086026 | 19.777161 |
-| 42496387 | wasm3 | REPRODUCED | no | yes | none | yes | 0.00090432 | 23.620587 |
-| 42508524 | libplist | DUPLICATE | yes | yes | OSV-2022-147, OSV-2022-158 | yes | 0.00086470 | 39.494779 |
-| 42536108 | miniz | DUPLICATE | yes | yes | OSV-2024-550 | yes | 0.00091783 | 65.302103 |
-| 42536112 | miniz | DUPLICATE | yes | yes | OSV-2024-551 | yes | 0.00091361 | 20.233260 |
-| 42508390 | libplist | DUPLICATE | no | yes | OSV-2022-93 | yes | 0.00084522 | 27.917757 |
-| 42531297 | jq | DUPLICATE | yes | yes | OSV-2023-1344, OSV-2025-363 | yes | 0.00105939 | 43.747241 |
-| 42531223 | jq | REPRODUCED | no | yes | none | yes | 0.00106674 | 36.503697 |
-| 42476752 | libspng | DUPLICATE | yes | yes | OSV-2020-307, OSV-2020-344 | yes | 0.00086122 | 39.510942 |
+| 42530604 | jq | DUPLICATE | yes | yes | OSV-2023-1239 | yes | 0.00089983 | 4.728560 |
+| 42507851 | libplist | DUPLICATE | yes | yes | OSV-2022-93 | yes | 0.00085585 | 3.681775 |
+| 42496387 | wasm3 | REPRODUCED | no | yes | none | yes | 0.00088013 | 3.801278 |
+| 42508524 | libplist | DUPLICATE | yes | yes | OSV-2022-147, OSV-2022-158 | yes | 0.00082598 | 3.790634 |
+| 42536108 | miniz | DUPLICATE | yes | yes | OSV-2024-550 | yes | 0.00091249 | 3.865316 |
+| 42536112 | miniz | DUPLICATE | yes | yes | OSV-2024-551 | yes | 0.00091473 | 4.976644 |
+| 42508390 | libplist | DUPLICATE | no | yes | OSV-2022-93 | yes | 0.00086489 | 4.181501 |
+| 42531297 | jq | DUPLICATE | yes | yes | OSV-2023-1344, OSV-2025-363 | yes | 0.00107367 | 4.021922 |
+| 42531223 | jq | REPRODUCED | no | yes | none | yes | 0.00106409 | 3.637580 |
+| 42476752 | libspng | DUPLICATE | yes | yes | OSV-2020-307, OSV-2020-344 | yes | 0.00087638 | 4.023811 |
 
 Measured totals:
 
@@ -118,15 +118,15 @@ Measured totals:
 - 10 of 10 fixed builds were clean.
 - 10 of 10 claim comparisons agreed on both bug class and top crash function.
 - 11 duplicate candidates were returned.
-- Nemotron used 1,349 input tokens and 1,180 output tokens. At the published price of $0.30 per
-  million input tokens and $0.90 per million output tokens, model cost was $0.00146670.
-- ConTree checkpoint and sandbox-run cost was $0.00774333.
-- Combined eval cost was $0.00921003.
-- Summed per-task wall time was 321.051554 seconds.
+- Nemotron used 1,349 input tokens and 1,125 output tokens. At the published price of $0.30 per
+  million input tokens and $0.90 per million output tokens, model cost was $0.00141720.
+- ConTree checkpoint and sandbox-run cost was $0.00775084.
+- Combined eval cost was $0.00916804.
+- Summed per-task wall time was 40.709021 seconds.
 
 The three OSV state disagreements remain visible in the result. They are not converted into
-successes. The earlier claim disagreement was a deterministic normalization defect for the phrase
-`READ of size 2`; the corrected comparison now agrees without another model call.
+successes. An earlier claim disagreement exposed a deterministic normalization defect for the
+phrase `READ of size 2`; it was corrected before this final run.
 
 ## Tests
 

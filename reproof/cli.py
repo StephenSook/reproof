@@ -49,12 +49,18 @@ def main(argv: list[str] | None = None) -> int:
     except Exception as error:
         operation_id = getattr(error, "operation_uuid", None)
         operation_ids = getattr(error, "operation_uuids", None)
+        checkpoint_ids = getattr(error, "checkpoint_uuids", None)
+        checkpoint_operation_ids = getattr(error, "checkpoint_operation_uuids", None)
         request_id = getattr(error, "request_id", None)
+        request_ids = getattr(error, "request_ids", None)
         print(
             f"ERROR {type(error).__name__}: {error}; "
             f"operation_uuid={operation_id}; "
             f"operation_uuids={json.dumps(operation_ids, sort_keys=True)}; "
-            f"request_id={request_id}",
+            f"checkpoint_uuids={json.dumps(checkpoint_ids, sort_keys=True)}; "
+            f"checkpoint_operation_uuids="
+            f"{json.dumps(checkpoint_operation_ids, sort_keys=True)}; "
+            f"request_id={request_id}; request_ids={json.dumps(request_ids)}",
             file=sys.stderr,
         )
         return 1

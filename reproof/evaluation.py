@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import hashlib
 import re
 import subprocess
 from pathlib import Path
 
-from reproof.arvo import ArvoRepository
+from reproof.arvo import ArvoRepository, ArvoTask
 from reproof.claims import comparison_rows_agree
 from reproof.crash import CrashSignature, parse_crash
 from reproof.dup import (
@@ -16,10 +15,18 @@ from reproof.dup import (
     ensure_osv_archive,
     frames_match,
 )
-from reproof.models import EvalProvenance, EvalReport, EvalTaskResult, EvalTotals, TriageCard
+from reproof.models import (
+    EvalProvenance,
+    EvalReport,
+    EvalTaskResult,
+    EvalTotals,
+    TriageCard,
+    TriageProvenance,
+)
+from reproof.provenance import arvo_task_sha256, file_sha256, source_sha256, text_sha256
 from reproof.sandbox import manifest_digest
-from reproof.slice import validated_cached_manifest
-from reproof.triage import run_triage
+from reproof.slice import load_cached_runtime_slice
+from reproof.triage import _verdict, run_triage
 
 REQUIRED_TASKS = (42530604, 42507851, 42496387)
 SELECTION_RULE = (
@@ -28,27 +35,6 @@ SELECTION_RULE = (
     "with a mapped public OSV record, ordered by max(vulnerable GB, fixed GB) then ARVO ID."
 )
 SIZE = re.compile(r"vul=([0-9.]+)GB\s+fix=([0-9.]+)GB")
-
-
-def _file_sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as stream:
-        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def _source_sha256() -> str:
-    digest = hashlib.sha256()
-    source_root = Path(__file__).resolve().parent
-    for path in sorted(source_root.glob("*.py")):
-        relative = path.name.encode()
-        content = path.read_bytes()
-        digest.update(len(relative).to_bytes(8, "big"))
-        digest.update(relative)
-        digest.update(len(content).to_bytes(8, "big"))
-        digest.update(content)
-    return digest.hexdigest()
 
 
 def default_candidate_table() -> Path:
@@ -91,7 +77,7 @@ def _slice_directory(task_id: int, kind: str) -> Path:
 def _valid_slice(task_id: int, kind: str, fuzz_target: str) -> bool:
     image = f"n132/arvo:{task_id}-{kind}"
     return (
-        validated_cached_manifest(
+        load_cached_runtime_slice(
             _slice_directory(task_id, kind),
             task_id=task_id,
             kind=kind,
@@ -128,6 +114,21 @@ def _agrees_with_mapped_osv(task_id: int, signature: CrashSignature, index: OsvI
     )
 
 
+def _current_card_provenance(
+    task: ArvoTask,
+    report_text: str,
+    osv_record_id: str | None,
+) -> TriageProvenance:
+    return TriageProvenance(
+        arvo_task_sha256=arvo_task_sha256(task),
+        report_sha256=text_sha256(report_text),
+        osv_archive_sha256=file_sha256(ensure_osv_archive()),
+        monorail_mapping_sha256=file_sha256(default_mapping_path()),
+        reproof_source_sha256=source_sha256(),
+        osv_record_id=osv_record_id,
+    )
+
+
 def run_eval(
     n: int = 10,
     output: Path = Path("eval/results/arvo10.json"),
@@ -148,6 +149,32 @@ def run_eval(
                 raise ValueError(
                     f"resume card {card_path} has ARVO ID {card.arvo_id}, expected {task_id}"
                 )
+            if card.project != task.project:
+                raise ValueError(f"resume card {card_path} project differs from the ARVO task")
+            current_records = {record.id: record for record in index.for_issue(task_id)}
+            record_id = card.provenance.osv_record_id
+            if record_id is None or record_id not in current_records:
+                raise ValueError(f"resume card {card_path} lacks a current mapped OSV record")
+            current_report = current_records[record_id].report_text
+            if card.report_text != current_report:
+                raise ValueError(f"resume card {card_path} report differs from current OSV record")
+            expected_provenance = _current_card_provenance(task, current_report, record_id)
+            if card.provenance != expected_provenance:
+                raise ValueError(f"resume card {card_path} provenance is stale")
+            vulnerable = next(
+                operation for operation in card.sandbox_operations if operation.kind == "vul"
+            )
+            measured = parse_crash("\n".join((vulnerable.stdout, vulnerable.stderr)))
+            expected_duplicates = index.find_candidates(task.project, measured)
+            if card.evidence.duplicate_candidates != expected_duplicates:
+                raise ValueError(f"resume card {card_path} duplicate evidence is stale")
+            expected_verdict = _verdict(
+                measured.crashed,
+                card.evidence.fix_clean,
+                len(expected_duplicates),
+            )
+            if card.verdict is not expected_verdict:
+                raise ValueError(f"resume card {card_path} verdict is stale")
             for kind, expected_digest in card.slice_manifest_sha256.items():
                 slice_dir = _slice_directory(task_id, kind)
                 if not _valid_slice(task_id, kind, task.fuzz_target):
@@ -207,6 +234,7 @@ def run_eval(
                     if operation.operation_uuid is not None
                 ],
                 slice_manifest_sha256=card.slice_manifest_sha256,
+                card_provenance=card.provenance,
                 cost_usd=round(card.total_cost_usd, 8),
                 wall_seconds=card.wall_seconds,
                 card_path=str(card_path).replace("\\", "/"),
@@ -216,11 +244,11 @@ def run_eval(
         selection_rule=SELECTION_RULE,
         selected_arvo_ids=selected,
         provenance=EvalProvenance(
-            arvo_database_sha256=_file_sha256(repository.database),
-            osv_archive_sha256=_file_sha256(ensure_osv_archive()),
-            monorail_mapping_sha256=_file_sha256(default_mapping_path()),
-            candidate_table_sha256=_file_sha256(default_candidate_table()),
-            reproof_source_sha256=_source_sha256(),
+            arvo_database_sha256=file_sha256(repository.database),
+            osv_archive_sha256=file_sha256(ensure_osv_archive()),
+            monorail_mapping_sha256=file_sha256(default_mapping_path()),
+            candidate_table_sha256=file_sha256(default_candidate_table()),
+            reproof_source_sha256=source_sha256(),
         ),
         tasks=results,
         totals=EvalTotals(

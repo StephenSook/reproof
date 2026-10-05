@@ -13,7 +13,7 @@ from clusterfuzz import stacktraces  # type: ignore[import-untyped]
 ANSI = re.compile(r"\x1b\[[0-9;]*m")
 FRAME = re.compile(r"^\s*#(\d+)\s+(0x[0-9a-f]+)\s+in\s+(.+?)\s+(?:/|\(|[A-Za-z]:)", re.M)
 SANITIZER_ERROR = re.compile(
-    r"ERROR:\s+(?P<header>AddressSanitizer|LeakSanitizer|MemorySanitizer|"
+    r"(?:ERROR|WARNING):\s+(?P<header>AddressSanitizer|LeakSanitizer|MemorySanitizer|"
     r"ThreadSanitizer|UndefinedBehaviorSanitizer)|(?P<ubsan>runtime error:)"
 )
 
@@ -80,7 +80,11 @@ def sanitizer_excerpt(signature: CrashSignature, max_chars: int = 8000) -> str:
         return ""
     lines = signature.cleaned_log.splitlines()
     start = next(
-        (index for index, line in enumerate(lines) if "ERROR:" in line or "runtime error:" in line),
+        (
+            index
+            for index, line in enumerate(lines)
+            if "ERROR:" in line or "WARNING:" in line or "runtime error:" in line
+        ),
         0,
     )
     end = next(
