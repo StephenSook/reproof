@@ -1,0 +1,1193 @@
+{
+  "archive_bytes": 3104453,
+  "archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+  "issue_alias_count": 52,
+  "issue_aliases": [
+    [
+      14935,
+      42475467
+    ],
+    [
+      16051,
+      42476708
+    ],
+    [
+      16081,
+      42476741
+    ],
+    [
+      16091,
+      42476752
+    ],
+    [
+      16266,
+      42476946
+    ],
+    [
+      16830,
+      42477573
+    ],
+    [
+      22595,
+      42483977
+    ],
+    [
+      22646,
+      42484034
+    ],
+    [
+      22714,
+      42484110
+    ],
+    [
+      22720,
+      42484117
+    ],
+    [
+      23936,
+      42485466
+    ],
+    [
+      26682,
+      42488517
+    ],
+    [
+      27413,
+      42489330
+    ],
+    [
+      33318,
+      42495891
+    ],
+    [
+      33397,
+      42495978
+    ],
+    [
+      33554,
+      42496153
+    ],
+    [
+      33555,
+      42496154
+    ],
+    [
+      33663,
+      42496274
+    ],
+    [
+      33682,
+      42496295
+    ],
+    [
+      33689,
+      42496302
+    ],
+    [
+      33726,
+      42496344
+    ],
+    [
+      33744,
+      42496364
+    ],
+    [
+      33749,
+      42496369
+    ],
+    [
+      33765,
+      42496387
+    ],
+    [
+      33944,
+      42496586
+    ],
+    [
+      35801,
+      42498650
+    ],
+    [
+      36551,
+      42499483
+    ],
+    [
+      44089,
+      42507851
+    ],
+    [
+      44199,
+      42507973
+    ],
+    [
+      44237,
+      42508016
+    ],
+    [
+      44300,
+      42508087
+    ],
+    [
+      44301,
+      42508088
+    ],
+    [
+      44574,
+      42508390
+    ],
+    [
+      44695,
+      42508524
+    ],
+    [
+      50593,
+      42515077
+    ],
+    [
+      51182,
+      42515731
+    ],
+    [
+      55035,
+      42520011
+    ],
+    [
+      55146,
+      42520134
+    ],
+    [
+      61050,
+      42526691
+    ],
+    [
+      61235,
+      42526895
+    ],
+    [
+      64574,
+      42530604
+    ],
+    [
+      64771,
+      42530823
+    ],
+    [
+      65130,
+      42531223
+    ],
+    [
+      65198,
+      42531297
+    ],
+    [
+      65942,
+      42532124
+    ],
+    [
+      66547,
+      42532796
+    ],
+    [
+      66929,
+      42533220
+    ],
+    [
+      67360,
+      42533700
+    ],
+    [
+      68056,
+      42534473
+    ],
+    [
+      68618,
+      42535097
+    ],
+    [
+      69528,
+      42536108
+    ],
+    [
+      69531,
+      42536112
+    ]
+  ],
+  "mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+  "projects": [
+    "jq",
+    "libplist",
+    "libspng",
+    "miniz",
+    "wasm3"
+  ],
+  "record_count": 54,
+  "records": [
+    {
+      "crash_type": "Use-of-uninitialized-value",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=22646\n\n```\nCrash type: Use-of-uninitialized-value\nCrash state:\nread_non_idat_chunks\nread_chunks\nspng_get_plte\n```\n",
+      "fixed_commits": [
+        "04b668f9824d0c52cdc0a0b7e58bf767d2a385fc"
+      ],
+      "id": "OSV-2020-114",
+      "issue_ids": [
+        22646
+      ],
+      "project": "libspng",
+      "state": [
+        "read_non_idat_chunks",
+        "read_chunks",
+        "spng_get_plte"
+      ],
+      "summary": "Use-of-uninitialized-value in read_non_idat_chunks"
+    },
+    {
+      "crash_type": "Heap-buffer-overflow WRITE 2",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=22595\n\n```\nCrash type: Heap-buffer-overflow WRITE 2\nCrash state:\nspng_decode_scanline\nspng_decode_row\nspng_decode_image\n```\n",
+      "fixed_commits": [
+        "954b5570a02822a1fdd3c7508ac86ce5984aedee"
+      ],
+      "id": "OSV-2020-200",
+      "issue_ids": [
+        22595
+      ],
+      "project": "libspng",
+      "state": [
+        "spng_decode_scanline",
+        "spng_decode_row",
+        "spng_decode_image"
+      ],
+      "summary": "Heap-buffer-overflow in spng_decode_scanline"
+    },
+    {
+      "crash_type": "Use-of-uninitialized-value",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=26682\n\n```\nCrash type: Use-of-uninitialized-value\nCrash state:\ntinfl_decompress\nmz_inflate\nmz_uncompress2\n```\n",
+      "fixed_commits": [
+        "9457abb670a2c0a9f907d353bdf257593d0498a5",
+        "cd659959530d5a890d1ec75bc445819d88183ff1"
+      ],
+      "id": "OSV-2020-2103",
+      "issue_ids": [
+        26682
+      ],
+      "project": "miniz",
+      "state": [
+        "tinfl_decompress",
+        "mz_inflate",
+        "mz_uncompress2"
+      ],
+      "summary": "Use-of-uninitialized-value in tinfl_decompress"
+    },
+    {
+      "crash_type": "Use-of-uninitialized-value",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=27413\n\n```\nCrash type: Use-of-uninitialized-value\nCrash state:\ntinfl_decompress\nmz_inflate\nmz_uncompress2\n```\n",
+      "fixed_commits": [
+        "b43f8a0c22d6bae6b5416264232f57a2aca539fe"
+      ],
+      "id": "OSV-2020-2151",
+      "issue_ids": [
+        27413
+      ],
+      "project": "miniz",
+      "state": [
+        "tinfl_decompress",
+        "mz_inflate",
+        "mz_uncompress2"
+      ],
+      "summary": "Use-of-uninitialized-value in tinfl_decompress"
+    },
+    {
+      "crash_type": "Heap-double-free",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=22720\n\n```\nCrash type: Heap-double-free\nCrash state:\nspng__free\nspng__inflate_stream\nread_non_idat_chunks\n```\n",
+      "fixed_commits": [
+        "f47ed26affe9655c70340b8df9fd9e6f1f2ec85e"
+      ],
+      "id": "OSV-2020-227",
+      "issue_ids": [
+        22720
+      ],
+      "project": "libspng",
+      "state": [
+        "spng__free",
+        "spng__inflate_stream",
+        "read_non_idat_chunks"
+      ],
+      "summary": "Heap-double-free in spng__free"
+    },
+    {
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=16830\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nspng_decode_image\nspng_read_fuzzer.cc\n```\n",
+      "fixed_commits": [
+        "d7d4cced14f6107d05b52b5e7758207f79aa3465"
+      ],
+      "id": "OSV-2020-307",
+      "issue_ids": [
+        16830
+      ],
+      "project": "libspng",
+      "state": [
+        "spng_decode_image",
+        "spng_read_fuzzer.cc"
+      ],
+      "summary": "Heap-buffer-overflow in spng_decode_image"
+    },
+    {
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=16091\n\n```\nCrash type: Heap-buffer-overflow READ {*}\nCrash state:\nspng_decode_image\nspng_read_fuzzer.cc\n```\n",
+      "fixed_commits": [
+        "bace14e344502fce5984ab4fd9177d8db60351f8"
+      ],
+      "id": "OSV-2020-344",
+      "issue_ids": [
+        16091
+      ],
+      "project": "libspng",
+      "state": [
+        "spng_decode_image",
+        "spng_read_fuzzer.cc"
+      ],
+      "summary": "Heap-buffer-overflow in spng_decode_image"
+    },
+    {
+      "crash_type": "UNKNOWN READ",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=14935\n\n```\nCrash type: UNKNOWN READ\nCrash state:\nvalidate_past_idat\nspng_decode_image\nspng_read_fuzzer.cc\n```\n",
+      "fixed_commits": [
+        "94c6198a1bb93fa6cd209085b817c1e64272abb4"
+      ],
+      "id": "OSV-2020-351",
+      "issue_ids": [
+        14935
+      ],
+      "project": "libspng",
+      "state": [
+        "validate_past_idat",
+        "spng_decode_image",
+        "spng_read_fuzzer.cc"
+      ],
+      "summary": "UNKNOWN READ in validate_past_idat"
+    },
+    {
+      "crash_type": "Heap-use-after-free READ {*}",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=16081\n\n```\nCrash type: Heap-use-after-free READ {*}\nCrash state:\nread_chunks_after_idat\nspng_decode_image\nspng_read_fuzzer.cc\n```\n",
+      "fixed_commits": [
+        "58253922e84493e05d2cb18345da78614ab3c189"
+      ],
+      "id": "OSV-2020-360",
+      "issue_ids": [
+        16081
+      ],
+      "project": "libspng",
+      "state": [
+        "read_chunks_after_idat",
+        "spng_decode_image",
+        "spng_read_fuzzer.cc"
+      ],
+      "summary": "Heap-use-after-free in read_chunks_after_idat"
+    },
+    {
+      "crash_type": "Heap-use-after-free READ 2",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=16051\n\n```\nCrash type: Heap-use-after-free READ 2\nCrash state:\nread_chunks_before_idat\nget_ancillary\nspng_decoded_image_size\n```\n",
+      "fixed_commits": [
+        "d876b1d23f0642304c758194045889a19ea823a0"
+      ],
+      "id": "OSV-2020-448",
+      "issue_ids": [
+        16051
+      ],
+      "project": "libspng",
+      "state": [
+        "read_chunks_before_idat",
+        "get_ancillary",
+        "spng_decoded_image_size"
+      ],
+      "summary": "Heap-use-after-free in read_chunks_before_idat"
+    },
+    {
+      "crash_type": "Heap-use-after-free READ {*}",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=16266\n\n```\nCrash type: Heap-use-after-free READ {*}\nCrash state:\nread_chunks_before_idat\nget_ancillary\nspng_decoded_image_size\n```\n",
+      "fixed_commits": [
+        "d876b1d23f0642304c758194045889a19ea823a0"
+      ],
+      "id": "OSV-2020-701",
+      "issue_ids": [
+        16266
+      ],
+      "project": "libspng",
+      "state": [
+        "read_chunks_before_idat",
+        "get_ancillary",
+        "spng_decoded_image_size"
+      ],
+      "summary": "Heap-use-after-free in read_chunks_before_idat"
+    },
+    {
+      "crash_type": "Use-of-uninitialized-value",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=23936\n\n```\nCrash type: Use-of-uninitialized-value\nCrash state:\nspng_read_fuzzer.c\nspng_read_fuzzer.c\n```\n",
+      "fixed_commits": [
+        "932e9c836ea388dbd0d7a214af78a70373079c9d"
+      ],
+      "id": "OSV-2020-756",
+      "issue_ids": [
+        23936
+      ],
+      "project": "libspng",
+      "state": [
+        "spng_read_fuzzer.c",
+        "spng_read_fuzzer.c"
+      ],
+      "summary": "Use-of-uninitialized-value in spng_read_fuzzer.c"
+    },
+    {
+      "crash_type": "Use-of-uninitialized-value",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=22714\n\n```\nCrash type: Use-of-uninitialized-value\nCrash state:\ncheck_exif\nread_non_idat_chunks\nread_chunks\n```\n",
+      "fixed_commits": [
+        "04b668f9824d0c52cdc0a0b7e58bf767d2a385fc"
+      ],
+      "id": "OSV-2020-79",
+      "issue_ids": [
+        22714
+      ],
+      "project": "libspng",
+      "state": [
+        "check_exif",
+        "read_non_idat_chunks",
+        "read_chunks"
+      ],
+      "summary": "Use-of-uninitialized-value in check_exif"
+    },
+    {
+      "crash_type": "UNKNOWN WRITE",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=36551\n\n```\nCrash type: UNKNOWN WRITE\nCrash state:\nCompileBlock\nCompileElseBlock\nCompile_If\n```\n",
+      "fixed_commits": [
+        "321ba58316e77b5f4d977897aaa4bdbe43a5e38b"
+      ],
+      "id": "OSV-2021-1061",
+      "issue_ids": [
+        36551
+      ],
+      "project": "wasm3",
+      "state": [
+        "CompileBlock",
+        "CompileElseBlock",
+        "Compile_If"
+      ],
+      "summary": "UNKNOWN WRITE in CompileBlock"
+    },
+    {
+      "crash_type": "Heap-buffer-overflow WRITE 8",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=33318\n\n```\nCrash type: Heap-buffer-overflow WRITE 8\nCrash state:\nop_Const64\nEvaluateExpression\nInitElements\n```\n",
+      "fixed_commits": [
+        "b48695bb940e55c0baa0a3d5740cf48e03643b58"
+      ],
+      "id": "OSV-2021-642",
+      "issue_ids": [
+        33318
+      ],
+      "project": "wasm3",
+      "state": [
+        "op_Const64",
+        "EvaluateExpression",
+        "InitElements"
+      ],
+      "summary": "Heap-buffer-overflow in op_Const64"
+    },
+    {
+      "crash_type": "UNKNOWN READ",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=33397\n\n```\nCrash type: UNKNOWN READ\nCrash state:\nop_BranchIfPrologue_s\nm3_CallVL\nm3_CallV\n```\n",
+      "fixed_commits": [
+        "12a5277ec0977af493530b704a5a16e28f734788"
+      ],
+      "id": "OSV-2021-660",
+      "issue_ids": [
+        33397
+      ],
+      "project": "wasm3",
+      "state": [
+        "op_BranchIfPrologue_s",
+        "m3_CallVL",
+        "m3_CallV"
+      ],
+      "summary": "UNKNOWN READ in op_BranchIfPrologue_s"
+    },
+    {
+      "crash_type": "Heap-buffer-overflow WRITE 8",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=33554\n\n```\nCrash type: Heap-buffer-overflow WRITE 8\nCrash state:\nop_Const64\nEvaluateExpression\nm3_LoadModule\n```\n",
+      "fixed_commits": [
+        "321ba58316e77b5f4d977897aaa4bdbe43a5e38b"
+      ],
+      "id": "OSV-2021-676",
+      "issue_ids": [
+        33554
+      ],
+      "project": "wasm3",
+      "state": [
+        "op_Const64",
+        "EvaluateExpression",
+        "m3_LoadModule"
+      ],
+      "summary": "Heap-buffer-overflow in op_Const64"
+    },
+    {
+      "crash_type": "UNKNOWN WRITE",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=33555\n\n```\nCrash type: UNKNOWN WRITE\nCrash state:\nCompileBlock\nCompile_LoopOrBlock\nCompileBlockStatements\n```\n",
+      "fixed_commits": [
+        "321ba58316e77b5f4d977897aaa4bdbe43a5e38b"
+      ],
+      "id": "OSV-2021-678",
+      "issue_ids": [
+        33555
+      ],
+      "project": "wasm3",
+      "state": [
+        "CompileBlock",
+        "Compile_LoopOrBlock",
+        "CompileBlockStatements"
+      ],
+      "summary": "UNKNOWN WRITE in CompileBlock"
+    },
+    {
+      "crash_type": "UNKNOWN WRITE",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=33663\n\n```\nCrash type: UNKNOWN WRITE\nCrash state:\nInitDataSegments\nCompileBlockStatements\nCompileBlock\n```\n",
+      "fixed_commits": [
+        "8cb2fd424309fa6ff70cf00bfcedc4e66d3355c0",
+        "0d76b81c4b109272b2d98c91cb3776c8aa36befd"
+      ],
+      "id": "OSV-2021-687",
+      "issue_ids": [
+        33663
+      ],
+      "project": "wasm3",
+      "state": [
+        "InitDataSegments",
+        "CompileBlockStatements",
+        "CompileBlock"
+      ],
+      "summary": "UNKNOWN WRITE in InitDataSegments"
+    },
+    {
+      "crash_type": "Segv on unknown address",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=33682\n\n```\nCrash type: Segv on unknown address\nCrash state:\nstd::__Fuzzer::basic_string<char, std::__Fuzzer::char_traits<char>, std::__Fuzze\nstd::__Fuzzer::moneypunct_byname<char, true>::init\n```\n",
+      "fixed_commits": [
+        "6bb612ccbfd5f8993a07a99092fab534722df1c3"
+      ],
+      "id": "OSV-2021-688",
+      "issue_ids": [
+        33682
+      ],
+      "project": "wasm3",
+      "state": [
+        "std::__Fuzzer::basic_string<char, std::__Fuzzer::char_traits<char>, std::__Fuzze",
+        "std::__Fuzzer::moneypunct_byname<char, true>::init"
+      ],
+      "summary": "Segv on unknown address in std::__Fuzzer::basic_string<char, std::__Fuzzer::char_traits<char>, std::__Fuzze"
+    },
+    {
+      "crash_type": "UNKNOWN WRITE",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=33689\n\n```\nCrash type: UNKNOWN WRITE\nCrash state:\nRuntime_Release\nEvaluateExpression\nInitDataSegments\n```\n",
+      "fixed_commits": [],
+      "id": "OSV-2021-689",
+      "issue_ids": [
+        33689
+      ],
+      "project": "wasm3",
+      "state": [
+        "Runtime_Release",
+        "EvaluateExpression",
+        "InitDataSegments"
+      ],
+      "summary": "UNKNOWN WRITE in Runtime_Release"
+    },
+    {
+      "crash_type": "UNKNOWN READ",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=33744\n\n```\nCrash type: UNKNOWN READ\nCrash state:\nm3_Realloc\nInitMemory\nCompileBlockStatements\n```\n",
+      "fixed_commits": [
+        "6bb612ccbfd5f8993a07a99092fab534722df1c3"
+      ],
+      "id": "OSV-2021-698",
+      "issue_ids": [
+        33744
+      ],
+      "project": "wasm3",
+      "state": [
+        "m3_Realloc",
+        "InitMemory",
+        "CompileBlockStatements"
+      ],
+      "summary": "UNKNOWN READ in m3_Realloc"
+    },
+    {
+      "crash_type": "UNKNOWN WRITE",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=33726\n\n```\nCrash type: UNKNOWN WRITE\nCrash state:\nm3_FreeModule\n_FreeModule\nCompile_ExtendedOpcode\n```\n",
+      "fixed_commits": [
+        "8cb2fd424309fa6ff70cf00bfcedc4e66d3355c0",
+        "4f0b769629fa8f2ba6e7baa9195ef9f1bf5dc310"
+      ],
+      "id": "OSV-2021-699",
+      "issue_ids": [
+        33726
+      ],
+      "project": "wasm3",
+      "state": [
+        "m3_FreeModule",
+        "_FreeModule",
+        "Compile_ExtendedOpcode"
+      ],
+      "summary": "UNKNOWN WRITE in m3_FreeModule"
+    },
+    {
+      "crash_type": "UNKNOWN READ",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=33749\n\n```\nCrash type: UNKNOWN READ\nCrash state:\nReadLEB_u32\nInitElements\nCompile_ExtendedOpcode\n```\n",
+      "fixed_commits": [
+        "6bb612ccbfd5f8993a07a99092fab534722df1c3"
+      ],
+      "id": "OSV-2021-700",
+      "issue_ids": [
+        33749
+      ],
+      "project": "wasm3",
+      "state": [
+        "ReadLEB_u32",
+        "InitElements",
+        "Compile_ExtendedOpcode"
+      ],
+      "summary": "UNKNOWN READ in ReadLEB_u32"
+    },
+    {
+      "crash_type": "Heap-use-after-free READ 8",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=33765\n\n```\nCrash type: Heap-use-after-free READ 8\nCrash state:\nm3_FreeRuntime\nfuzzer.c\nRuntime_Release\n```\n",
+      "fixed_commits": [
+        "6bb612ccbfd5f8993a07a99092fab534722df1c3",
+        "3c0a7c159a77a58bbe128324091d39b02e77822f"
+      ],
+      "id": "OSV-2021-701",
+      "issue_ids": [
+        33765
+      ],
+      "project": "wasm3",
+      "state": [
+        "m3_FreeRuntime",
+        "fuzzer.c",
+        "Runtime_Release"
+      ],
+      "summary": "Heap-use-after-free in m3_FreeRuntime"
+    },
+    {
+      "crash_type": "UNKNOWN WRITE",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=33944\n\n```\nCrash type: UNKNOWN WRITE\nCrash state:\n_fini\n```\n",
+      "fixed_commits": [
+        "6bb612ccbfd5f8993a07a99092fab534722df1c3"
+      ],
+      "id": "OSV-2021-728",
+      "issue_ids": [
+        33944
+      ],
+      "project": "wasm3",
+      "state": [
+        "_fini"
+      ],
+      "summary": "UNKNOWN WRITE in _fini"
+    },
+    {
+      "crash_type": "UNKNOWN READ",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=35801\n\n```\nCrash type: UNKNOWN READ\nCrash state:\nv_FindFunction\nm3_FindFunction\nfuzzer.c\n```\n",
+      "fixed_commits": [
+        "452a71e22a5ad08d197943b7c914de2bc09edbe1"
+      ],
+      "id": "OSV-2021-919",
+      "issue_ids": [
+        35801
+      ],
+      "project": "wasm3",
+      "state": [
+        "v_FindFunction",
+        "m3_FindFunction",
+        "fuzzer.c"
+      ],
+      "summary": "UNKNOWN READ in v_FindFunction"
+    },
+    {
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=44199\n\n```\nCrash type: Heap-buffer-overflow READ 4\nCrash state:\nparse_object\nparse_object\nparse_object\n```\n",
+      "fixed_commits": [
+        "924ba961d68f6833f617fd3ad03c40f63f287142"
+      ],
+      "id": "OSV-2022-105",
+      "issue_ids": [
+        44199
+      ],
+      "project": "libplist",
+      "state": [
+        "parse_object",
+        "parse_object",
+        "parse_object"
+      ],
+      "summary": "Heap-buffer-overflow in parse_object"
+    },
+    {
+      "crash_type": "UNKNOWN READ",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=44237\n\n```\nCrash type: UNKNOWN READ\nCrash state:\nunescape_string\nparse_string\nparse_object\n```\n",
+      "fixed_commits": [
+        "6fcecd0226ee25e69ce049c4eba10933a0a2e944"
+      ],
+      "id": "OSV-2022-109",
+      "issue_ids": [
+        44237
+      ],
+      "project": "libplist",
+      "state": [
+        "unescape_string",
+        "parse_string",
+        "parse_object"
+      ],
+      "summary": "UNKNOWN READ in unescape_string"
+    },
+    {
+      "crash_type": "UNKNOWN READ",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=44300\n\n```\nCrash type: UNKNOWN READ\nCrash state:\nunescape_string\nparse_string\nparse_object\n```\n",
+      "fixed_commits": [
+        "7bc4d2f14e5a0bb80fd7342f954554947b9fee01"
+      ],
+      "id": "OSV-2022-115",
+      "issue_ids": [
+        44300
+      ],
+      "project": "libplist",
+      "state": [
+        "unescape_string",
+        "parse_string",
+        "parse_object"
+      ],
+      "summary": "UNKNOWN READ in unescape_string"
+    },
+    {
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=44301\n\n```\nCrash type: Heap-buffer-overflow READ 4\nCrash state:\nparse_object\nparse_object\nparse_object\n```\n",
+      "fixed_commits": [
+        "7bc4d2f14e5a0bb80fd7342f954554947b9fee01"
+      ],
+      "id": "OSV-2022-116",
+      "issue_ids": [
+        44301
+      ],
+      "project": "libplist",
+      "state": [
+        "parse_object",
+        "parse_object",
+        "parse_object"
+      ],
+      "summary": "Heap-buffer-overflow in parse_object"
+    },
+    {
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=44574\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nparse_primitive\nplist_from_json\njplist_fuzzer.cc\n```\n",
+      "fixed_commits": [
+        "7d2cdc6f378f1d6d5631b7739398dd50bea62663"
+      ],
+      "id": "OSV-2022-147",
+      "issue_ids": [
+        44574
+      ],
+      "project": "libplist",
+      "state": [
+        "parse_primitive",
+        "plist_from_json",
+        "jplist_fuzzer.cc"
+      ],
+      "summary": "Heap-buffer-overflow in parse_primitive"
+    },
+    {
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=44695\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nparse_primitive\nplist_from_json\njplist_fuzzer.cc\n```\n",
+      "fixed_commits": [
+        "106c4ee7f53ef800a82fce9638f29756e8b78640"
+      ],
+      "id": "OSV-2022-158",
+      "issue_ids": [
+        44695
+      ],
+      "project": "libplist",
+      "state": [
+        "parse_primitive",
+        "plist_from_json",
+        "jplist_fuzzer.cc"
+      ],
+      "summary": "Heap-buffer-overflow in parse_primitive"
+    },
+    {
+      "crash_type": "Segv on unknown address",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=50593\n\n```\nCrash type: Segv on unknown address\nCrash state:\nFreeCodePages\nm3_FreeEnvironment\nfuzzer.c\n```\n",
+      "fixed_commits": [
+        "79d412ea5fcf92f0efe658d52827a0e0a96ff442"
+      ],
+      "id": "OSV-2022-784",
+      "issue_ids": [
+        50593
+      ],
+      "project": "wasm3",
+      "state": [
+        "FreeCodePages",
+        "m3_FreeEnvironment",
+        "fuzzer.c"
+      ],
+      "summary": "Segv on unknown address in FreeCodePages"
+    },
+    {
+      "crash_type": "Heap-use-after-free READ 8",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=51182\n\n```\nCrash type: Heap-use-after-free READ 8\nCrash state:\nAcquireCodePageWithCapacity\nCompileElseBlock\nCompile_If\n```\n",
+      "fixed_commits": [
+        "79d412ea5fcf92f0efe658d52827a0e0a96ff442"
+      ],
+      "id": "OSV-2022-881",
+      "issue_ids": [
+        51182
+      ],
+      "project": "wasm3",
+      "state": [
+        "AcquireCodePageWithCapacity",
+        "CompileElseBlock",
+        "Compile_If"
+      ],
+      "summary": "Heap-use-after-free in AcquireCodePageWithCapacity"
+    },
+    {
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=44089\n\n```\nCrash type: Heap-buffer-overflow READ 2\nCrash state:\nstrtol\nparse_primitive\nplist_from_json\n```\n",
+      "fixed_commits": [
+        "8ea84caa3cba801c4f240648a6b7919e9b3e0b0d"
+      ],
+      "id": "OSV-2022-93",
+      "issue_ids": [
+        44089
+      ],
+      "project": "libplist",
+      "state": [
+        "strtol",
+        "parse_primitive",
+        "plist_from_json"
+      ],
+      "summary": "Heap-buffer-overflow in strtol"
+    },
+    {
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=55146\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nnode_from_openstep\nnode_from_openstep\nplist_from_openstep\n```\n",
+      "fixed_commits": [
+        "85f5cbd3705b34fcc52009ca51d8167ab18764fa"
+      ],
+      "id": "OSV-2023-11",
+      "issue_ids": [
+        55146
+      ],
+      "project": "libplist",
+      "state": [
+        "node_from_openstep",
+        "node_from_openstep",
+        "plist_from_openstep"
+      ],
+      "summary": "Heap-buffer-overflow in node_from_openstep"
+    },
+    {
+      "crash_type": "Heap-buffer-overflow WRITE 1",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=64574\n\n```\nCrash type: Heap-buffer-overflow WRITE 1\nCrash state:\ndecToString\ndecNumberToString\njv_number_get_literal\n```\n",
+      "fixed_commits": [
+        "71c2ab509a8628dbbad4bc7b3f98a64aa90d3297"
+      ],
+      "id": "OSV-2023-1239",
+      "issue_ids": [
+        64574
+      ],
+      "project": "jq",
+      "state": [
+        "decToString",
+        "decNumberToString",
+        "jv_number_get_literal"
+      ],
+      "summary": "Heap-buffer-overflow in decToString"
+    },
+    {
+      "crash_type": "Stack-buffer-overflow WRITE 2",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=64771\n\n```\nCrash type: Stack-buffer-overflow WRITE 2\nCrash state:\ndecNaNs\ndecCompareOp\ndecNumberCompare\n```\n",
+      "fixed_commits": [
+        "c9a51565214eece8f1053089739aea73145bfd6b"
+      ],
+      "id": "OSV-2023-1268",
+      "issue_ids": [
+        64771
+      ],
+      "project": "jq",
+      "state": [
+        "decNaNs",
+        "decCompareOp",
+        "decNumberCompare"
+      ],
+      "summary": "Stack-buffer-overflow in decNaNs"
+    },
+    {
+      "crash_type": "Stack-buffer-overflow WRITE 2",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=65130\n\n```\nCrash type: Stack-buffer-overflow WRITE 2\nCrash state:\ndecNaNs\ndecCompareOp\ndecNumberCompare\n```\n",
+      "fixed_commits": [
+        "b86ff49f46a4a37e5a8e75a140cb5fd6e1331384"
+      ],
+      "id": "OSV-2023-1329",
+      "issue_ids": [
+        65130
+      ],
+      "project": "jq",
+      "state": [
+        "decNaNs",
+        "decCompareOp",
+        "decNumberCompare"
+      ],
+      "summary": "Stack-buffer-overflow in decNaNs"
+    },
+    {
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=65198\n\n```\nCrash type: Heap-buffer-overflow READ 2\nCrash state:\njv_string_vfmt\njv_string_fmt\njv_get\n```\n",
+      "fixed_commits": [
+        "9d6efec1987b544ac2f8030e3c22036f7cb70cd9"
+      ],
+      "id": "OSV-2023-1344",
+      "issue_ids": [
+        65198
+      ],
+      "project": "jq",
+      "state": [
+        "jv_string_vfmt",
+        "jv_string_fmt",
+        "jv_get"
+      ],
+      "summary": "Heap-buffer-overflow in jv_string_vfmt"
+    },
+    {
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=55035\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nparse_skip_ws\nnode_from_openstep\nparse_dict_data\n```\n",
+      "fixed_commits": [
+        "47a7fbe438ee7350a2b151e007f07043ef596775"
+      ],
+      "id": "OSV-2023-6",
+      "issue_ids": [
+        55035
+      ],
+      "project": "libplist",
+      "state": [
+        "parse_skip_ws",
+        "node_from_openstep",
+        "parse_dict_data"
+      ],
+      "summary": "Heap-buffer-overflow in parse_skip_ws"
+    },
+    {
+      "crash_type": "Segv on unknown address",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=61050\n\n```\nCrash type: Segv on unknown address\nCrash state:\ndecUnitCompare\ndecCompare\ndecCompareOp\n```\n",
+      "fixed_commits": [
+        "949d38e6dc7330712b50697d7fe833eec85dede1"
+      ],
+      "id": "OSV-2023-645",
+      "issue_ids": [
+        61050
+      ],
+      "project": "jq",
+      "state": [
+        "decUnitCompare",
+        "decCompare",
+        "decCompareOp"
+      ],
+      "summary": "Segv on unknown address in decUnitCompare"
+    },
+    {
+      "crash_type": "Segv on unknown address",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=61235\n\n```\nCrash type: Segv on unknown address\nCrash state:\ndecUnitCompare\ndecCompare\ndecCompareOp\n```\n",
+      "fixed_commits": [
+        "3fa10e8cc197390392f5f5f6e0c9e2fcd5590530"
+      ],
+      "id": "OSV-2023-663",
+      "issue_ids": [
+        61235
+      ],
+      "project": "jq",
+      "state": [
+        "decUnitCompare",
+        "decCompare",
+        "decCompareOp"
+      ],
+      "summary": "Segv on unknown address in decUnitCompare"
+    },
+    {
+      "crash_type": "Heap-buffer-overflow READ 13",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=378836890\n\n```\nCrash type: Heap-buffer-overflow READ 13\nCrash state:\njv_string_vfmt\njv_string_fmt\njv_parse_sized_custom_flags\n```\n",
+      "fixed_commits": [
+        "9d6efec1987b544ac2f8030e3c22036f7cb70cd9"
+      ],
+      "id": "OSV-2024-1312",
+      "issue_ids": [
+        378836890
+      ],
+      "project": "jq",
+      "state": [
+        "jv_string_vfmt",
+        "jv_string_fmt",
+        "jv_parse_sized_custom_flags"
+      ],
+      "summary": "Heap-buffer-overflow in jv_string_vfmt"
+    },
+    {
+      "crash_type": "UNKNOWN READ",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=67360\n\n```\nCrash type: UNKNOWN READ\nCrash state:\nstd::__1::__POW10_SPLIT_2\n```\n",
+      "fixed_commits": [
+        "6ce6e7c71355a0b6006e9e3371364f6945da5a29"
+      ],
+      "id": "OSV-2024-330",
+      "issue_ids": [
+        67360
+      ],
+      "project": "jq",
+      "state": [
+        "std::__1::__POW10_SPLIT_2"
+      ],
+      "summary": "UNKNOWN READ in std::__1::__POW10_SPLIT_2"
+    },
+    {
+      "crash_type": "UNKNOWN READ",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=68056\n\n```\nCrash type: UNKNOWN READ\nCrash state:\njv_array_set\njv_set\njv_setpath\n```\n",
+      "fixed_commits": [
+        "b088e83a822ec9fae56485be7457a3209c0f956b"
+      ],
+      "id": "OSV-2024-371",
+      "issue_ids": [
+        68056
+      ],
+      "project": "jq",
+      "state": [
+        "jv_array_set",
+        "jv_set",
+        "jv_setpath"
+      ],
+      "summary": "UNKNOWN READ in jv_array_set"
+    },
+    {
+      "crash_type": "UNKNOWN READ",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=65942\n\n```\nCrash type: UNKNOWN READ\nCrash state:\njvp_object_free\njv_free\njv_equal\n```\n",
+      "fixed_commits": [
+        "34f7186b86743a083a589741b6cea95293524108"
+      ],
+      "id": "OSV-2024-396",
+      "issue_ids": [
+        65942
+      ],
+      "project": "jq",
+      "state": [
+        "jvp_object_free",
+        "jv_free",
+        "jv_equal"
+      ],
+      "summary": "UNKNOWN READ in jvp_object_free"
+    },
+    {
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=69528\n\n```\nCrash type: Heap-buffer-overflow READ {*}\nCrash state:\nmz_zip_mem_read_func\nmz_zip_reader_read_central_dir\nmz_zip_reader_init_mem\n```\n",
+      "fixed_commits": [
+        "8573fd7cd6f49b262a0ccc447f3c6acfc415e556"
+      ],
+      "id": "OSV-2024-550",
+      "issue_ids": [
+        69528
+      ],
+      "project": "miniz",
+      "state": [
+        "mz_zip_mem_read_func",
+        "mz_zip_reader_read_central_dir",
+        "mz_zip_reader_init_mem"
+      ],
+      "summary": "Heap-buffer-overflow in mz_zip_mem_read_func"
+    },
+    {
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=69531\n\n```\nCrash type: Heap-buffer-overflow READ {*}\nCrash state:\nmz_zip_mem_read_func\nmz_zip_validate_file\nzip_fuzzer.c\n```\n",
+      "fixed_commits": [
+        "8573fd7cd6f49b262a0ccc447f3c6acfc415e556"
+      ],
+      "id": "OSV-2024-551",
+      "issue_ids": [
+        69531
+      ],
+      "project": "miniz",
+      "state": [
+        "mz_zip_mem_read_func",
+        "mz_zip_validate_file",
+        "zip_fuzzer.c"
+      ],
+      "summary": "Heap-buffer-overflow in mz_zip_mem_read_func"
+    },
+    {
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=66929\n\n```\nCrash type: Heap-buffer-overflow READ 4\nCrash state:\njv_parse\nf_tonumber\njq_next\n```\n",
+      "fixed_commits": [
+        "9d6efec1987b544ac2f8030e3c22036f7cb70cd9"
+      ],
+      "id": "OSV-2024-831",
+      "issue_ids": [
+        66929
+      ],
+      "project": "jq",
+      "state": [
+        "jv_parse",
+        "f_tonumber",
+        "jq_next"
+      ],
+      "summary": "Heap-buffer-overflow in jv_parse"
+    },
+    {
+      "crash_type": "UNKNOWN READ",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=68618\n\n```\nCrash type: UNKNOWN READ\nCrash state:\njvp_object_free\njv_equal\njv_equal\n```\n",
+      "fixed_commits": [
+        "860af44fee7dcea8797daeb836a9b7c971c67e65"
+      ],
+      "id": "OSV-2024-852",
+      "issue_ids": [
+        68618
+      ],
+      "project": "jq",
+      "state": [
+        "jvp_object_free",
+        "jv_equal",
+        "jv_equal"
+      ],
+      "summary": "UNKNOWN READ in jvp_object_free"
+    },
+    {
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=66547\n\n```\nCrash type: Heap-buffer-overflow READ 2\nCrash state:\nvalidate_relpath\nload_module_meta\nf_modulemeta\n```\n",
+      "fixed_commits": [
+        "9d6efec1987b544ac2f8030e3c22036f7cb70cd9"
+      ],
+      "id": "OSV-2024-919",
+      "issue_ids": [
+        66547
+      ],
+      "project": "jq",
+      "state": [
+        "validate_relpath",
+        "load_module_meta",
+        "f_modulemeta"
+      ],
+      "summary": "Heap-buffer-overflow in validate_relpath"
+    },
+    {
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=417323384\n\n```\nCrash type: Heap-buffer-overflow READ 2\nCrash state:\njv_string_vfmt\njv_string_fmt\njv_get\n```\n",
+      "fixed_commits": [
+        "c6e041699d8cd31b97375a2596217aff2cfca85b"
+      ],
+      "id": "OSV-2025-363",
+      "issue_ids": [
+        417323384
+      ],
+      "project": "jq",
+      "state": [
+        "jv_string_vfmt",
+        "jv_string_fmt",
+        "jv_get"
+      ],
+      "summary": "Heap-buffer-overflow in jv_string_vfmt"
+    }
+  ],
+  "schema_version": "1"
+}

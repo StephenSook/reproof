@@ -7,6 +7,7 @@ import json
 import sys
 from pathlib import Path
 
+from reproof.door_data import ASSETS_DIR, build_door_assets
 from reproof.evaluation import run_eval
 from reproof.triage import run_triage
 
@@ -28,6 +29,19 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="reuse strict per-task cards from an interrupted eval",
     )
+
+    door_data = commands.add_parser(
+        "door-data",
+        help="build the committed checkpoint manifest and project OSV index",
+    )
+    door_data.add_argument("--checkpoints", type=Path, required=True)
+    door_data.add_argument("--archive", type=Path, required=True)
+    door_data.add_argument("--mapping", type=Path, required=True)
+    door_data.add_argument("--eval", type=Path, default=Path("eval/results/arvo10.json"))
+    door_data.add_argument("--output", type=Path)
+    door_data.add_argument("--arvo-db", type=Path)
+    door_data.add_argument("--slices", type=Path)
+    door_data.add_argument("--cards", type=Path)
     return parser
 
 
@@ -43,6 +57,18 @@ def main(argv: list[str] | None = None) -> int:
                 output_path=args.output,
             )
             print(card.model_dump_json(indent=2))
+        elif args.command == "door-data":
+            summary = build_door_assets(
+                checkpoints=args.checkpoints,
+                archive=args.archive,
+                mapping=args.mapping,
+                evaluation=args.eval,
+                output=args.output or ASSETS_DIR,
+                arvo_db=args.arvo_db,
+                slices=args.slices,
+                cards=args.cards,
+            )
+            print(json.dumps(summary, indent=2, sort_keys=True))
         else:
             report = run_eval(args.n, args.output, resume=args.resume)
             print(report.model_dump_json(indent=2))

@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Added a cached-checkpoint triage entry point, a committed ConTree checkpoint manifest, and a per-project OSV index for jq, libplist, wasm3, miniz, and libspng. A missing checkpoint returns NEEDS_INFO and is not rebuilt from a local slice.
 - Added the Python 3.12 package, local-only data controls, Apache-2.0 license, and CI gates.
 - Added typed ARVO metadata access and ClusterFuzz 2.6.0 crash parsing.
 - Added OSS-Fuzz OSV indexing with exact and inline-tolerant matching that keeps every candidate and every fixed commit.

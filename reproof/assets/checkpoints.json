@@ -1,0 +1,216 @@
+{
+  "retention_days": 180,
+  "schema_version": "1",
+  "tasks": {
+    "42476752": {
+      "arvo_task_sha256": "fcc7649f57e8f091b57470bc74a04b3c71dc370d9a187b9afa5610e974b3f963",
+      "fix": {
+        "checkpoint_cost_usd": 6.448e-05,
+        "checkpoint_uuid": "f4fff1bf-4db6-4abb-a74d-f78361dddf07",
+        "checkpoint_wall_seconds": 0.582,
+        "create_operation_uuid": "01a10d4b-66c7-72f4-9c4d-8ffdc138a3fb",
+        "manifest_sha256": "8003c3aaeb4af5a080abf93e79a7362c520357328b03da4f5c2ee6e5a9acf014",
+        "tag": "reproof-42476752-fix-8003c3aaeb4a"
+      },
+      "osv_record_id": "OSV-2020-344",
+      "project": "libspng",
+      "vul": {
+        "checkpoint_cost_usd": 6.14e-05,
+        "checkpoint_uuid": "ed94d859-5cf1-48f5-bc82-a2ea618cc200",
+        "checkpoint_wall_seconds": 0.644,
+        "create_operation_uuid": "01a10d4b-4c3c-7786-8d1a-e5b102b6ebf4",
+        "manifest_sha256": "299182474572210f5f55b37ff485db06436153e4f6dd29ce2e1fa8eba95c700d",
+        "tag": "reproof-42476752-vul-299182474572"
+      }
+    },
+    "42496387": {
+      "arvo_task_sha256": "9d9d04e2946a5016f3e3f5b143edd8ae6de40121de7d2c963922c718ea4a7377",
+      "fix": {
+        "checkpoint_cost_usd": 6.191e-05,
+        "checkpoint_uuid": "daa87c57-defe-41ee-ae33-91860a63e4ce",
+        "checkpoint_wall_seconds": 0.596,
+        "create_operation_uuid": "01a10d3b-df0b-72c7-a0a1-30c2d28de0c6",
+        "manifest_sha256": "4d8157589c4b34b504e83594393e3645255fdd5afab7cbac19e50ddf8b6b8f7f",
+        "tag": "reproof-42496387-fix-4d8157589c4b"
+      },
+      "osv_record_id": "OSV-2021-701",
+      "project": "wasm3",
+      "vul": {
+        "checkpoint_cost_usd": 6.0060000000000004e-05,
+        "checkpoint_uuid": "f2a9129a-eaee-4671-9283-b1a2cb14872e",
+        "checkpoint_wall_seconds": 0.572,
+        "create_operation_uuid": "01a10d3b-d590-753f-9418-4e98ccbfb757",
+        "manifest_sha256": "41231398d65d90a2b2de8d3c9c893edfc94b521050117dc6f6817245829d6080",
+        "tag": "reproof-42496387-vul-41231398d65d"
+      }
+    },
+    "42507851": {
+      "arvo_task_sha256": "0765a7e685a5ef1226ed8c1cd075762342dc091d65aa0ddc54467866967ac3a9",
+      "fix": {
+        "checkpoint_cost_usd": 7.215e-05,
+        "checkpoint_uuid": "df84d3cc-d519-47e7-af72-c65e59e88da0",
+        "checkpoint_wall_seconds": 0.526,
+        "create_operation_uuid": "01a10d3b-7af0-74fc-b2b2-801aad8c345c",
+        "manifest_sha256": "f4b2d48c8e35e1752c42a41db8d20e198c5f15d012325f14fc835eb4c5d1491d",
+        "tag": "reproof-42507851-fix-f4b2d48c8e35"
+      },
+      "osv_record_id": "OSV-2022-93",
+      "project": "libplist",
+      "vul": {
+        "checkpoint_cost_usd": 6.157999999999999e-05,
+        "checkpoint_uuid": "c3519fd9-0de6-461d-9d1d-977a3086206f",
+        "checkpoint_wall_seconds": 0.502,
+        "create_operation_uuid": "01a10d3b-71f1-70ab-9e1b-2d67d6ead506",
+        "manifest_sha256": "3b1330ec428d88e12002f5fbe5ccf150a66e4f445e2769a7b418b2f9332a297c",
+        "tag": "reproof-42507851-vul-3b1330ec428d"
+      }
+    },
+    "42508390": {
+      "arvo_task_sha256": "b3ad04f47d49340f7ae3250591159b9ed3808145d76157a4e512fb5e139eeb1c",
+      "fix": {
+        "checkpoint_cost_usd": 6.036e-05,
+        "checkpoint_uuid": "24fd2d8e-926f-4357-bd06-885ae4591c1f",
+        "checkpoint_wall_seconds": 0.575,
+        "create_operation_uuid": "01a10d44-55c1-7346-9cb9-c9ef830c226f",
+        "manifest_sha256": "8dbb7f0a0528ebe3bb1db8fe65ec951e5284f7313b0c2526b83166e2dd8941f9",
+        "tag": "reproof-42508390-fix-8dbb7f0a0528"
+      },
+      "osv_record_id": "OSV-2022-147",
+      "project": "libplist",
+      "vul": {
+        "checkpoint_cost_usd": 5.2929999999999996e-05,
+        "checkpoint_uuid": "0c9b3699-2207-49d8-ab03-23e82af52da7",
+        "checkpoint_wall_seconds": 0.546,
+        "create_operation_uuid": "01a10d44-36d4-7303-ad9e-78e5ffe10e49",
+        "manifest_sha256": "3c2c3b739852e275b85c9c7a13b3d15000af47cbe321c0926a9badfed22b2e0f",
+        "tag": "reproof-42508390-vul-3c2c3b739852"
+      }
+    },
+    "42508524": {
+      "arvo_task_sha256": "8f38572059570167b7a886ec5457729e44f42bd19c503ea3c79f0623fcf1b3f0",
+      "fix": {
+        "checkpoint_cost_usd": 6.302e-05,
+        "checkpoint_uuid": "b572cb04-86b8-492b-bd77-6ef71614a675",
+        "checkpoint_wall_seconds": 0.601,
+        "create_operation_uuid": "01a10d3d-ac3b-75a3-8f92-7b83e7688563",
+        "manifest_sha256": "76e404794a07d294f08363aa5c55d7edc82529b23761d9b78e231c15b7712202",
+        "tag": "reproof-42508524-fix-76e404794a07"
+      },
+      "osv_record_id": "OSV-2022-158",
+      "project": "libplist",
+      "vul": {
+        "checkpoint_cost_usd": 6.316999999999999e-05,
+        "checkpoint_uuid": "a5604230-4975-4469-bc6b-17c04345050f",
+        "checkpoint_wall_seconds": 0.61,
+        "create_operation_uuid": "01a10d3d-8296-7799-9cdf-62b41714c758",
+        "manifest_sha256": "00136075125bd8721da47cfd6d2294c5a57894488b346906bed57ec931a2afca",
+        "tag": "reproof-42508524-vul-00136075125b"
+      }
+    },
+    "42530604": {
+      "arvo_task_sha256": "3da5fa3ba49f5ad364d6a10e0aebb94ad2f40133cac0c27b2873a05f0a202e5a",
+      "fix": {
+        "checkpoint_cost_usd": 6.203e-05,
+        "checkpoint_uuid": "ba60153a-d32c-4949-9086-95bdd6c7dc1e",
+        "checkpoint_wall_seconds": 0.592,
+        "create_operation_uuid": "01a10d33-f168-7686-9c3e-b2c53f4eb654",
+        "manifest_sha256": "d22773dfbfe82d18ed395f6df9f2ced3de07c6ab7d34af314adb95ae2a40fc50",
+        "tag": "reproof-42530604-fix-d22773dfbfe8"
+      },
+      "osv_record_id": "OSV-2023-1239",
+      "project": "jq",
+      "vul": {
+        "checkpoint_cost_usd": 6.224e-05,
+        "checkpoint_uuid": "64b06a6e-a771-456b-8f9f-f28d541dd752",
+        "checkpoint_wall_seconds": 0.616,
+        "create_operation_uuid": "01a10d33-e7d2-71b1-ad98-fa549252912f",
+        "manifest_sha256": "dda7bd24d63ca0f692924d1d189cec3ca9f6ac94fdbdd3af3e91a9c4dbbab153",
+        "tag": "reproof-42530604-vul-dda7bd24d63c"
+      }
+    },
+    "42531223": {
+      "arvo_task_sha256": "49c478ff02eda2082ec36037dbb24a6358140acfe8cf80d6c45e626365acef7b",
+      "fix": {
+        "checkpoint_cost_usd": 6.161e-05,
+        "checkpoint_uuid": "56972d1b-2704-4e80-9f68-e4e502b62742",
+        "checkpoint_wall_seconds": 0.641,
+        "create_operation_uuid": "01a10d47-e70e-7632-8a10-1ccd1f9ae8bf",
+        "manifest_sha256": "27da68a809762ad5ff0dbc1dd90f63da17995a1b85dce3805c8dc922d1409708",
+        "tag": "reproof-42531223-fix-27da68a80976"
+      },
+      "osv_record_id": "OSV-2023-1329",
+      "project": "jq",
+      "vul": {
+        "checkpoint_cost_usd": 6.181e-05,
+        "checkpoint_uuid": "088e04ca-f509-4460-bb71-a99ba276e6f9",
+        "checkpoint_wall_seconds": 0.558,
+        "create_operation_uuid": "01a10d47-b5cf-7662-8dd3-0f4c9d93731f",
+        "manifest_sha256": "a7f332ffb362c23040f22ae849e5f40021602d28942ee52a47e8cc61cf37ee64",
+        "tag": "reproof-42531223-vul-a7f332ffb362"
+      }
+    },
+    "42531297": {
+      "arvo_task_sha256": "ba2bfdd20ea2174506760ed373836843164d91b0f8ab86b7021b793d64de461f",
+      "fix": {
+        "checkpoint_cost_usd": 6.135e-05,
+        "checkpoint_uuid": "220f89eb-e983-4879-a3ab-38a16255de7e",
+        "checkpoint_wall_seconds": 0.687,
+        "create_operation_uuid": "01a10d46-2151-7497-98c9-2ea4174dc28b",
+        "manifest_sha256": "9f82ef358f035b83a4cf05a9c4cd4043b7c9e8445d9897c056c4f2498a87a0c1",
+        "tag": "reproof-42531297-fix-9f82ef358f03"
+      },
+      "osv_record_id": "OSV-2023-1344",
+      "project": "jq",
+      "vul": {
+        "checkpoint_cost_usd": 6.146999999999999e-05,
+        "checkpoint_uuid": "c4799f38-d273-492d-9f53-87358729d4a2",
+        "checkpoint_wall_seconds": 0.603,
+        "create_operation_uuid": "01a10d45-ddc0-7256-84f9-79cd20c29b78",
+        "manifest_sha256": "3c1ceb1d50ee894dfa0ba227f79c20665a92e8f7ca46e1bc266e9baca394e43e",
+        "tag": "reproof-42531297-vul-3c1ceb1d50ee"
+      }
+    },
+    "42536108": {
+      "arvo_task_sha256": "84b2af64a0edf92257ca61e825fb316201dcd538c283076fd87b43fe71c3686c",
+      "fix": {
+        "checkpoint_cost_usd": 6.317e-05,
+        "checkpoint_uuid": "5852bbb7-173f-4ad3-bac2-cd7f32e5d5c5",
+        "checkpoint_wall_seconds": 0.533,
+        "create_operation_uuid": "01a10d40-4fae-7742-b7ec-2b6430f3ff5c",
+        "manifest_sha256": "9ac1056551ae4f5c34c480ff6b73ad7a48c3792098270a60208ece5b1a8a5383",
+        "tag": "reproof-42536108-fix-9ac1056551ae"
+      },
+      "osv_record_id": "OSV-2024-550",
+      "project": "miniz",
+      "vul": {
+        "checkpoint_cost_usd": 7.169e-05,
+        "checkpoint_uuid": "585036fe-a9ff-4d37-927d-104fe8465ddc",
+        "checkpoint_wall_seconds": 1.409,
+        "create_operation_uuid": "01a10d40-07a4-7178-b45f-c36e3522b3b6",
+        "manifest_sha256": "d3c03efd769ad25cddb492317e79b64d1d8038d6498468a2f9ba3d7e7a1c840e",
+        "tag": "reproof-42536108-vul-d3c03efd769a"
+      }
+    },
+    "42536112": {
+      "arvo_task_sha256": "ac2a363343cf4da0ba51969034b38ebba084885fcb287b9ca5ad6c6e663b7e47",
+      "fix": {
+        "checkpoint_cost_usd": 6.155e-05,
+        "checkpoint_uuid": "22c35b82-83ae-487c-bcf8-0489da4e45c7",
+        "checkpoint_wall_seconds": 0.581,
+        "create_operation_uuid": "01a10d42-88be-7114-b4e9-ab29866ba60c",
+        "manifest_sha256": "ee5942c5c8b85f5ca741a05deab9a7b6562ef1a417a7fa38dcbd1789d864a81c",
+        "tag": "reproof-42536112-fix-ee5942c5c8b8"
+      },
+      "osv_record_id": "OSV-2024-551",
+      "project": "miniz",
+      "vul": {
+        "checkpoint_cost_usd": 6.08e-05,
+        "checkpoint_uuid": "678dfe19-a35c-4cf7-ab46-2dde33f37e57",
+        "checkpoint_wall_seconds": 0.532,
+        "create_operation_uuid": "01a10d42-7e41-7706-ad95-28fa6ab5fb68",
+        "manifest_sha256": "34fad9e8516811830d0672b91be9d561630303b8c6c58f3cd68eb19fec7f9456",
+        "tag": "reproof-42536112-vul-34fad9e85168"
+      }
+    }
+  }
+}

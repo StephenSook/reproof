@@ -226,6 +226,46 @@ class SandboxRunner:
         }
         return checkpoint
 
+    def open_checkpoint(self, kind: str, record: dict[str, Any]) -> Any:
+        """Open one named checkpoint. Never create a replacement from a local slice."""
+
+        checkpoint_uuid = str(record.get("checkpoint_uuid") or "")
+        operation_uuid = str(record.get("create_operation_uuid") or "") or None
+        refusal = "The server does not create a replacement checkpoint from a local slice."
+        if not checkpoint_uuid:
+            raise CheckpointError(
+                f"Named ConTree checkpoint for {kind} is missing. {refusal}",
+                kind=kind,
+                operation_uuid=operation_uuid,
+                checkpoint_uuid=None,
+                request_id=None,
+            )
+        try:
+            checkpoint = self.client.images.use(checkpoint_uuid, strict=True)
+        except NotFoundError as error:
+            raise CheckpointError(
+                f"Named ConTree checkpoint {checkpoint_uuid} was not found. {refusal}",
+                kind=kind,
+                operation_uuid=operation_uuid,
+                checkpoint_uuid=checkpoint_uuid,
+                request_id=_request_id_from_error(error),
+            ) from error
+        except Exception as error:
+            raise CheckpointError(
+                f"Named ConTree checkpoint lookup failed: {type(error).__name__}: {error}",
+                kind=kind,
+                operation_uuid=operation_uuid,
+                checkpoint_uuid=checkpoint_uuid,
+                request_id=_request_id_from_error(error),
+            ) from error
+        self.checkpoint_metadata[str(checkpoint.uuid)] = {
+            "operation_uuid": operation_uuid,
+            "wall_seconds": float(record.get("checkpoint_wall_seconds") or 0.0),
+            "cost_usd": float(record.get("checkpoint_cost_usd") or 0.0),
+            "cache_hit": True,
+        }
+        return checkpoint
+
     def run_pair(
         self,
         task_id: int,
