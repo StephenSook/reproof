@@ -6,7 +6,7 @@ import pytest
 from pydantic import ValidationError
 
 from reproof.claims import compare_claim
-from reproof.crash import parse_crash
+from reproof.crash import ambiguous_vulnerable_detail, parse_crash
 from reproof.models import Claim, TriageCard
 
 
@@ -191,9 +191,18 @@ def test_card_requires_needs_info_for_unsanitized_fatal_run(failure: str) -> Non
         row.model_dump() for row in compare_claim(claim, measured)
     ]
     payload["verdict"] = "NEEDS_INFO"
-    payload["missing_details"] = ["recognized sanitizer evidence is missing"]
+    payload["missing_details"] = [ambiguous_vulnerable_detail(1)]
     TriageCard.model_validate(payload)
 
     payload["verdict"] = "NOT_REPRODUCED"
     with pytest.raises(ValidationError, match="does not match measured evidence NEEDS_INFO"):
+        TriageCard.model_validate(payload)
+
+
+def test_card_binds_needs_info_detail_to_ambiguous_run() -> None:
+    payload = valid_card()
+    payload["sandbox_operations"][0]["exit_code"] = 1  # type: ignore[index]
+    payload["verdict"] = "NEEDS_INFO"
+    payload["missing_details"] = ["affected version is missing"]
+    with pytest.raises(ValidationError, match="ambiguous vulnerable execution"):
         TriageCard.model_validate(payload)

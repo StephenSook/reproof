@@ -173,7 +173,13 @@ class TriageCard(StrictModel):
         ):
             raise ValueError("claim comparison must contain bug_class and functions exactly once")
 
-        from reproof.crash import looks_clean, parse_crash, sanitizer_excerpt
+        from reproof.crash import (
+            DIRTY_FIX_DETAIL,
+            ambiguous_vulnerable_detail,
+            looks_clean,
+            parse_crash,
+            sanitizer_excerpt,
+        )
 
         operations = {operation.kind: operation for operation in self.sandbox_operations}
         vulnerable = operations["vul"]
@@ -223,6 +229,14 @@ class TriageCard(StrictModel):
             raise ValueError(
                 f"verdict {self.verdict} does not match measured evidence {expected_verdict}"
             )
+        if not measured_vulnerable_clean and not measured_crash.crashed:
+            required_detail = ambiguous_vulnerable_detail(vulnerable.exit_code)
+            if required_detail not in self.missing_details:
+                raise ValueError(
+                    "missing details do not describe the ambiguous vulnerable execution"
+                )
+        if not measured_fix_clean and DIRTY_FIX_DETAIL not in self.missing_details:
+            raise ValueError("missing details do not describe the unclean fixed execution")
 
         from reproof.claims import compare_claim
 

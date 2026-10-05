@@ -87,3 +87,18 @@ def test_index_returns_all_same_project_candidates(tmp_path: Path) -> None:
     mapping.write_text("64574,42530604\n", encoding="utf-8")
     rebuilt = OsvIndex.from_archive(archive, mapping)
     assert rebuilt.for_issue(42530604)[0].report_text.startswith("summary OSV-1")
+
+
+def test_index_does_not_match_unsanitized_fatal_state() -> None:
+    crash = parse_crash(
+        "==1== ERROR: libFuzzer: deadly signal\n"
+        "    #0 0x1234 in parse_item /src/demo.c:3:2\n"
+        "SUMMARY: libFuzzer: deadly signal\n"
+    )
+    record = parse_osv_record(raw_record("OSV-1", "demo", 1, crash.state))
+    assert record is not None
+    index = OsvIndex([record], {1: 1})
+
+    assert crash.state == ("parse_item",)
+    assert not crash.crashed
+    assert index.find_candidates("demo", crash) == []

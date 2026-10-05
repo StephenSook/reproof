@@ -115,3 +115,20 @@ def test_excerpt_starts_at_matching_sanitizer_header() -> None:
     excerpt = sanitizer_excerpt(parsed)
     assert excerpt.startswith("==1==ERROR: AddressSanitizer")
     assert "#0 0x1234 in target" in excerpt
+
+
+@pytest.mark.parametrize(
+    "header",
+    [
+        "==1==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x1",
+        "==1==WARNING: MemorySanitizer: use-of-uninitialized-value",
+        "WARNING: ThreadSanitizer: data race (pid=1)",
+        "/src/demo.c:4:2: runtime error: signed integer overflow",
+    ],
+)
+def test_header_only_sanitizer_is_not_a_conclusive_crash(header: str) -> None:
+    parsed = parse_crash(header)
+    assert parsed.state in {(), ("NULL",)}
+    assert parsed.sanitizer_kind is not None
+    assert not parsed.crashed
+    assert sanitizer_excerpt(parsed) == ""

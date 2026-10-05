@@ -195,7 +195,7 @@ class OsvIndex:
         return tuple(sorted(self.by_issue.get(issue_id, []), key=lambda record: record.id))
 
     def find_candidates(self, project: str, crash: CrashSignature) -> list[DuplicateCandidate]:
-        if not crash.state:
+        if not crash.crashed:
             return []
         candidates: list[DuplicateCandidate] = []
         groups = dict(crash.inline_groups)

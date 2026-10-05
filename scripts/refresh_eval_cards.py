@@ -12,7 +12,13 @@ from contree_sdk import ContreeSync
 
 from reproof.arvo import ArvoRepository
 from reproof.claims import compare_claim
-from reproof.crash import looks_clean, parse_crash, sanitizer_excerpt
+from reproof.crash import (
+    DIRTY_FIX_DETAIL,
+    ambiguous_vulnerable_detail,
+    looks_clean,
+    parse_crash,
+    sanitizer_excerpt,
+)
 from reproof.dup import OsvIndex, default_mapping_path, ensure_osv_archive
 from reproof.models import Claim, TriageCard, TriageProvenance
 from reproof.provenance import (
@@ -25,7 +31,6 @@ from reproof.sandbox import CheckpointRegistry, manifest_digest
 from reproof.triage import _verdict, write_card
 
 CARDS = Path("eval/results/cards")
-DIRTY_FIX_DETAIL = "The fixed build did not exit cleanly; inspect its captured stdout and stderr."
 
 
 async def operation_measurement(client: ContreeSync, operation_id: str) -> tuple[float, float]:
@@ -107,11 +112,7 @@ async def refresh(legacy_execution_source_sha256: str | None = None) -> None:
             )
         ]
         if not measured.crashed and not vulnerable_clean:
-            missing_details.append(
-                "The vulnerable build did not produce a recognized sanitizer trace and did not "
-                f"complete cleanly (exit code {vulnerable['exit_code']}); inspect its captured "
-                "stdout and stderr."
-            )
+            missing_details.append(ambiguous_vulnerable_detail(int(vulnerable["exit_code"])))
         if not fixed_clean:
             missing_details.append(DIRTY_FIX_DETAIL)
 

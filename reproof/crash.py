@@ -16,6 +16,14 @@ SANITIZER_ERROR = re.compile(
     r"(?:ERROR|WARNING):\s+(?P<header>AddressSanitizer|LeakSanitizer|MemorySanitizer|"
     r"ThreadSanitizer|UndefinedBehaviorSanitizer)|(?P<ubsan>runtime error:)"
 )
+DIRTY_FIX_DETAIL = "The fixed build did not exit cleanly; inspect its captured stdout and stderr."
+
+
+def ambiguous_vulnerable_detail(exit_code: int) -> str:
+    return (
+        "The vulnerable build did not produce a recognized sanitizer trace and did not "
+        f"complete cleanly (exit code {exit_code}); inspect its captured stdout and stderr."
+    )
 
 
 @dataclass(frozen=True, slots=True)
@@ -28,7 +36,12 @@ class CrashSignature:
 
     @property
     def crashed(self) -> bool:
-        return bool(self.state) and self.sanitizer_kind is not None
+        return (
+            bool(self.state)
+            and self.state != ("NULL",)
+            and bool(self.inline_groups)
+            and self.sanitizer_kind is not None
+        )
 
 
 def _sanitizer_kind(log: str) -> str | None:

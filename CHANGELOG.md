@@ -12,4 +12,5 @@
 - Added eval provenance hashes, evidence-bound card validation, a frozen candidate table, and a derived-card refresh script that does not rerun paid work.
 - Hardened sanitizer excerpts, deterministic verdict validation, image-deletion verification, persistence failure IDs, failed model-call accounting, and resume provenance after independent review.
 - Required unsanitized fatal vulnerable runs to return `NEEDS_INFO` instead of `NOT_REPRODUCED`, with the exit code and missing evidence recorded.
-- Verified the package with 73 unit tests, 2 paid live tests, Ruff formatting, Ruff lint, a real CLI triage, and the full ARVO 10 evaluation.
+- Rejected header-only sanitizer output as conclusive crash evidence and bound `NEEDS_INFO` details to the measured execution failure.
+- Verified the package with 80 unit tests, 2 paid live tests, Ruff formatting, Ruff lint, a real CLI triage, and the full ARVO 10 evaluation.

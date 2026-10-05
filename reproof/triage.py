@@ -10,7 +10,13 @@ from typing import Any
 
 from reproof.arvo import ArvoRepository, ArvoTask
 from reproof.claims import compare_claim, extract_claim
-from reproof.crash import looks_clean, parse_crash, sanitizer_excerpt
+from reproof.crash import (
+    DIRTY_FIX_DETAIL,
+    ambiguous_vulnerable_detail,
+    looks_clean,
+    parse_crash,
+    sanitizer_excerpt,
+)
 from reproof.dup import (
     OsvIndex,
     OsvRecord,
@@ -242,15 +248,9 @@ def _complete_triage(
     comparison = compare_claim(claim, measured)
     missing_details = list(dict.fromkeys(claim.missing_details))
     if not measured.crashed and not vulnerable_clean:
-        missing_details.append(
-            "The vulnerable build did not produce a recognized sanitizer trace and did not "
-            f"complete cleanly (exit code {vulnerable.exit_code}); inspect its captured stdout "
-            "and stderr."
-        )
+        missing_details.append(ambiguous_vulnerable_detail(vulnerable.exit_code))
     if not fixed_clean:
-        missing_details.append(
-            "The fixed build did not exit cleanly; inspect its captured stdout and stderr."
-        )
+        missing_details.append(DIRTY_FIX_DETAIL)
 
     input_label = "stored ARVO PoC at /tmp/poc"
     if candidate_input is not None:

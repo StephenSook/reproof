@@ -12,8 +12,8 @@ data and no private reports.
 
 - `REPRODUCED`: the vulnerable build produced a measured sanitizer crash and the fixed build was
   clean.
-- `NOT_REPRODUCED`: the vulnerable build did not produce a sanitizer crash. The card lists every
-  input tried.
+- `NOT_REPRODUCED`: the vulnerable build completed cleanly without a sanitizer crash. The card
+  lists every input tried.
 - `DUPLICATE`: the measured crash state matched one or more public OSV records. The card returns
   every exact or inline-tolerant match, with every fixed commit recorded by OSV.
 - `NEEDS_INFO`: the run cannot support one of the other verdicts. The card states the missing or

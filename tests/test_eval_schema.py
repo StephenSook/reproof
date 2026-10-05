@@ -7,7 +7,9 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from reproof.models import EvalReport
+from reproof.crash import parse_crash
+from reproof.evaluation import _eval_crash_evidence
+from reproof.models import EvalReport, EvalTaskResult
 
 
 def eval_payload() -> dict[str, object]:
@@ -120,3 +122,29 @@ def test_eval_schema_rejects_blank_crash_evidence(field: str, value: object) -> 
     payload["tasks"][0][field] = value  # type: ignore[index]
     with pytest.raises(ValidationError, match="must be present together"):
         EvalReport.model_validate(payload)
+
+
+def test_eval_serializes_unsanitized_fatal_as_ambiguous_needs_info() -> None:
+    measured = parse_crash(
+        "==1== ERROR: libFuzzer: deadly signal\n"
+        "    #0 0x1234 in parse_item /src/demo.c:3:2\n"
+        "SUMMARY: libFuzzer: deadly signal\n"
+    )
+    assert not measured.crashed
+    crash_type, crash_state, sanitizer_kind = _eval_crash_evidence(measured)
+
+    payload = eval_payload()
+    task = payload["tasks"][0]  # type: ignore[index]
+    task.update(  # type: ignore[union-attr]
+        {
+            "verdict": "NEEDS_INFO",
+            "crash_type": crash_type,
+            "crash_state": crash_state,
+            "sanitizer_kind": sanitizer_kind,
+            "vulnerable_exit_code": 1,
+            "duplicate_candidates": [],
+            "crash_state_agreement_with_osv": False,
+            "claim_agreement": False,
+        }
+    )
+    EvalTaskResult.model_validate(task)

@@ -44,6 +44,15 @@ SELECTION_RULE = (
 SIZE = re.compile(r"vul=([0-9.]+)GB\s+fix=([0-9.]+)GB")
 
 
+def _eval_crash_evidence(
+    signature: CrashSignature,
+) -> tuple[str, list[str], str | None]:
+    """Return conclusive crash evidence only, leaving ambiguous parses empty."""
+    if not signature.crashed:
+        return "", [], None
+    return signature.crash_type, list(signature.state), signature.sanitizer_kind
+
+
 def _write_report(output: Path, report: EvalReport, cards: list[TriageCard]) -> None:
     try:
         output.parent.mkdir(parents=True, exist_ok=True)
@@ -251,21 +260,24 @@ def run_eval(
             operation for operation in card.sandbox_operations if operation.kind == "vul"
         )
         measured = parse_crash("\n".join((vulnerable.stdout, vulnerable.stderr)))
+        crash_type, crash_state, sanitizer_kind = _eval_crash_evidence(measured)
         model_calls = card.model_calls
         results.append(
             EvalTaskResult(
                 arvo_id=task_id,
                 project=task.project,
                 verdict=card.verdict,
-                crash_state_agreement_with_osv=_agrees_with_mapped_osv(task_id, measured, index),
+                crash_state_agreement_with_osv=measured.crashed
+                and _agrees_with_mapped_osv(task_id, measured, index),
                 fix_clean=card.evidence.fix_clean,
                 duplicate_candidates=[
                     candidate.id for candidate in card.evidence.duplicate_candidates
                 ],
-                claim_agreement=comparison_rows_agree(card.evidence.claim_vs_evidence),
-                crash_type=measured.crash_type,
-                crash_state=list(measured.state),
-                sanitizer_kind=measured.sanitizer_kind,
+                claim_agreement=measured.crashed
+                and comparison_rows_agree(card.evidence.claim_vs_evidence),
+                crash_type=crash_type,
+                crash_state=crash_state,
+                sanitizer_kind=sanitizer_kind,
                 vulnerable_exit_code=vulnerable.exit_code,
                 fixed_exit_code=card.evidence.fixed_exit_code,
                 model_request_ids=[
