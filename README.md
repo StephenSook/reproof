@@ -34,14 +34,15 @@ data and no private reports.
    parallel with `disposable=True`. Cached checkpoint records keep the checkpoint creation cost
    and operation UUID.
 4. `reproof.crash` parses sanitizer output with `clusterfuzz==2.6.0`.
-5. `reproof.dup` checks every same-project record in the public OSS-Fuzz OSV archive. Matching is
-   exact first, then tolerant of inline sibling frames at the same program counter.
+5. `reproof.dup` checks same-project records in the public OSS-Fuzz OSV archive after excluding
+   every record mapped to the task's own OSS-Fuzz issue. Matching is exact first, then tolerant of
+   inline sibling frames at the same program counter.
 6. `reproof.claims` asks `nvidia/nemotron-3-super-120b-a12b` for the strict report claim, with
    temperature 0 and thinking disabled. Deterministic code compares the claimed bug class and
    functions with the measured crash.
 7. `reproof.triage` writes the verdict, sanitizer excerpt, crash type and state, fixed result,
-   duplicate candidates, claim comparison, model calls, sandbox operations, slice hashes, cost,
-   and wall time. A conclusive verdict requires a clean fixed build.
+   excluded OSV IDs, duplicate candidates, claim comparison, model calls, sandbox operations,
+   slice hashes, cost, and wall time. A conclusive verdict requires a clean fixed build.
 
 ### Why runtime slices are used
 
@@ -102,24 +103,28 @@ OSV summary plus details, not a private report.
 
 | ARVO | Project | Verdict | OSV state agrees | Fixed clean | OSV candidates | Claim agrees | Cost USD | Seconds |
 |---:|---|---|---|---|---|---|---:|---:|
-| 42530604 | jq | DUPLICATE | yes | yes | OSV-2023-1239 | yes | 0.00089983 | 4.728560 |
-| 42507851 | libplist | DUPLICATE | yes | yes | OSV-2022-93 | yes | 0.00085585 | 3.681775 |
+| 42530604 | jq | REPRODUCED | yes | yes | none | yes | 0.00089983 | 4.728560 |
+| 42507851 | libplist | REPRODUCED | yes | yes | none | yes | 0.00085585 | 3.681775 |
 | 42496387 | wasm3 | REPRODUCED | no | yes | none | yes | 0.00088013 | 3.801278 |
-| 42508524 | libplist | DUPLICATE | yes | yes | OSV-2022-147, OSV-2022-158 | yes | 0.00082598 | 3.790634 |
-| 42536108 | miniz | DUPLICATE | yes | yes | OSV-2024-550 | yes | 0.00091249 | 3.865316 |
-| 42536112 | miniz | DUPLICATE | yes | yes | OSV-2024-551 | yes | 0.00091473 | 4.976644 |
+| 42508524 | libplist | DUPLICATE | yes | yes | OSV-2022-147 | yes | 0.00082598 | 3.790634 |
+| 42536108 | miniz | REPRODUCED | yes | yes | none | yes | 0.00091249 | 3.865316 |
+| 42536112 | miniz | REPRODUCED | yes | yes | none | yes | 0.00091473 | 4.976644 |
 | 42508390 | libplist | DUPLICATE | no | yes | OSV-2022-93 | yes | 0.00086489 | 4.181501 |
-| 42531297 | jq | DUPLICATE | yes | yes | OSV-2023-1344, OSV-2025-363 | yes | 0.00107367 | 4.021922 |
+| 42531297 | jq | DUPLICATE | yes | yes | OSV-2025-363 | yes | 0.00107367 | 4.021922 |
 | 42531223 | jq | REPRODUCED | no | yes | none | yes | 0.00106409 | 3.637580 |
-| 42476752 | libspng | DUPLICATE | yes | yes | OSV-2020-307, OSV-2020-344 | yes | 0.00087638 | 4.023811 |
+| 42476752 | libspng | DUPLICATE | yes | yes | OSV-2020-307 | yes | 0.00087638 | 4.023811 |
+
+On 2026-10-05, review of the saved cards found that the phase 1 table counted four self-matches;
+the duplicate search now excludes every OSV record mapped to the task's own OSS-Fuzz issue.
 
 Measured totals:
 
 - 10 of 10 tasks completed.
+- 6 tasks were `REPRODUCED` and 4 were `DUPLICATE`.
 - 7 of 10 measured crash states agreed exactly or inline-tolerantly with a mapped OSV state.
 - 10 of 10 fixed builds were clean.
 - 10 of 10 claim comparisons agreed on both bug class and top crash function.
-- 11 duplicate candidates were returned.
+- 4 duplicate candidates were returned.
 - Nemotron used 1,349 input tokens and 1,125 output tokens. At the published price of $0.30 per
   million input tokens and $0.90 per million output tokens, model cost was $0.00141720.
 - ConTree checkpoint and sandbox-run cost was $0.00775084.
@@ -135,13 +140,14 @@ phrase `READ of size 2`; it was corrected before this final run.
 ```powershell
 uv run ruff format --check .
 uv run ruff check .
+uv run mypy reproof
 uv run pytest -m "not live"
 $env:REPROOF_LIVE = "1"
 uv run pytest -m live
 ```
 
-CI runs Ruff and the non-live tests. Live tests make paid Token Factory and ConTree requests and
-run only when `REPROOF_LIVE=1`.
+CI runs Ruff, mypy, and the non-live tests on Ubuntu 24.04. Live tests make paid Token Factory and
+ConTree requests and run only when `REPROOF_LIVE=1`.
 
 ## License
 
