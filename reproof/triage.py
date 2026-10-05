@@ -57,7 +57,7 @@ def _triage_failure(
                 checkpoint_operation_uuids.setdefault(kind, str(operation_id))
     for operation in state.get("operations", []):
         if operation.operation_uuid is not None:
-            operation_uuids.setdefault(operation.kind, operation.operation_uuid)
+            operation_uuids[operation.kind] = operation.operation_uuid
         checkpoint_uuids.setdefault(operation.kind, operation.checkpoint_uuid)
         if operation.checkpoint_operation_uuid is not None:
             checkpoint_operation_uuids.setdefault(
@@ -226,6 +226,7 @@ def _complete_triage(
         fixed_checkpoint,
         candidate_input=candidate_input,
     )
+    state["operations"] = [vulnerable, fixed]
 
     vulnerable_output = _combined(vulnerable.stdout, vulnerable.stderr)
     fixed_output = _combined(fixed.stdout, fixed.stderr)
@@ -262,7 +263,6 @@ def _complete_triage(
         inputs_tried=[input_label],
     )
     operations = [vulnerable, fixed]
-    state["operations"] = operations
     sandbox_cost = round(
         sum(
             operation.checkpoint_cost_usd + (operation.cost_usd or 0.0) for operation in operations

@@ -82,7 +82,7 @@ def valid_card() -> dict[str, object]:
             "osv_archive_sha256": "e" * 64,
             "monorail_mapping_sha256": "f" * 64,
             "execution_source_sha256": "1" * 64,
-            "derivation_source_sha256": "2" * 64,
+            "derivation_source_sha256": "1" * 64,
             "derivation_method": "live-execution",
             "osv_record_id": "OSV-TEST-1",
         },
@@ -110,6 +110,20 @@ def test_card_schema_rejects_report_hash_mismatch() -> None:
     payload = valid_card()
     payload["report_text"] = "changed report"
     with pytest.raises(ValidationError, match="report provenance hash"):
+        TriageCard.model_validate(payload)
+
+
+def test_card_schema_rejects_unknown_version() -> None:
+    payload = valid_card()
+    payload["schema_version"] = "999"
+    with pytest.raises(ValidationError, match=r"Input should be '1\.3'"):
+        TriageCard.model_validate(payload)
+
+
+def test_card_schema_rejects_contradictory_live_provenance() -> None:
+    payload = valid_card()
+    payload["provenance"]["derivation_source_sha256"] = "2" * 64  # type: ignore[index]
+    with pytest.raises(ValidationError, match="live execution requires identical"):
         TriageCard.model_validate(payload)
 
 

@@ -70,6 +70,15 @@ def test_triage_failure_unions_prior_checkpoint_and_child_ids() -> None:
     state = {
         "runner": runner,
         "vul_checkpoint": SimpleNamespace(uuid="checkpoint-vul"),
+        "operations": [
+            SimpleNamespace(
+                kind=kind,
+                operation_uuid=f"run-{kind}",
+                checkpoint_uuid=f"checkpoint-{kind}",
+                checkpoint_operation_uuid=f"checkpoint-operation-{kind}",
+            )
+            for kind in ("vul", "fix")
+        ],
     }
     child = CheckpointError(
         "fixed checkpoint failed",
@@ -88,3 +97,4 @@ def test_triage_failure_unions_prior_checkpoint_and_child_ids() -> None:
         "fix": "checkpoint-operation-fix",
         "vul": "checkpoint-operation-vul",
     }
+    assert wrapped.operation_uuids == {"vul": "run-vul", "fix": "run-fix"}

@@ -39,6 +39,24 @@ def source_sha256() -> str:
     return digest.hexdigest()
 
 
+def derivation_source_sha256(refresh_script: Path | None = None) -> str:
+    """Bind saved-output derivation to package code and the refresh program."""
+
+    script = (
+        refresh_script or Path(__file__).resolve().parents[1] / "scripts" / "refresh_eval_cards.py"
+    )
+    content = script.read_bytes()
+    digest = hashlib.sha256()
+    digest.update(b"reproof-source-sha256")
+    digest.update(bytes.fromhex(source_sha256()))
+    label = b"scripts/refresh_eval_cards.py"
+    digest.update(len(label).to_bytes(8, "big"))
+    digest.update(label)
+    digest.update(len(content).to_bytes(8, "big"))
+    digest.update(content)
+    return digest.hexdigest()
+
+
 def arvo_task_sha256(task: ArvoTask) -> str:
     payload = json.dumps(asdict(task), sort_keys=True, separators=(",", ":")).encode()
     return bytes_sha256(payload)

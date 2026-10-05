@@ -15,7 +15,12 @@ from reproof.claims import compare_claim
 from reproof.crash import looks_clean, parse_crash, sanitizer_excerpt
 from reproof.dup import OsvIndex, default_mapping_path, ensure_osv_archive
 from reproof.models import Claim, TriageCard, TriageProvenance
-from reproof.provenance import arvo_task_sha256, file_sha256, source_sha256, text_sha256
+from reproof.provenance import (
+    arvo_task_sha256,
+    derivation_source_sha256,
+    file_sha256,
+    text_sha256,
+)
 from reproof.sandbox import CheckpointRegistry, manifest_digest
 from reproof.triage import _verdict, write_card
 
@@ -145,7 +150,7 @@ async def refresh(legacy_execution_source_sha256: str | None = None) -> None:
             osv_archive_sha256=file_sha256(ensure_osv_archive()),
             monorail_mapping_sha256=file_sha256(default_mapping_path()),
             execution_source_sha256=execution_source_sha256,
-            derivation_source_sha256=source_sha256(),
+            derivation_source_sha256=derivation_source_sha256(),
             derivation_method="saved-output-refresh",
             osv_record_id=record_id,
         ).model_dump()

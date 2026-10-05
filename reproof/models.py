@@ -118,11 +118,16 @@ class TriageProvenance(StrictModel):
         ):
             if re.fullmatch(r"[0-9a-f]{64}", getattr(self, field)) is None:
                 raise ValueError(f"{field} must be a SHA-256 digest")
+        if (
+            self.derivation_method == "live-execution"
+            and self.execution_source_sha256 != self.derivation_source_sha256
+        ):
+            raise ValueError("live execution requires identical source hashes")
         return self
 
 
 class TriageCard(StrictModel):
-    schema_version: str = "1.3"
+    schema_version: Literal["1.3"] = "1.3"
     arvo_id: int
     project: str
     report_source: str
@@ -328,6 +333,10 @@ class EvalTaskResult(StrictModel):
             raise ValueError(
                 f"eval verdict {self.verdict} does not match evidence {expected_verdict}"
             )
+        if not has_state and self.crash_state_agreement_with_osv:
+            raise ValueError("a no-crash eval row cannot agree with an OSV crash state")
+        if not has_state and self.claim_agreement:
+            raise ValueError("a no-crash eval row cannot have claim agreement")
         return self
 
 
@@ -367,11 +376,16 @@ class EvalProvenance(StrictModel):
         ):
             if re.fullmatch(r"[0-9a-f]{64}", getattr(self, field)) is None:
                 raise ValueError(f"{field} must be a SHA-256 digest")
+        if (
+            self.derivation_method == "live-execution"
+            and self.execution_source_sha256 != self.derivation_source_sha256
+        ):
+            raise ValueError("live execution requires identical source hashes")
         return self
 
 
 class EvalReport(StrictModel):
-    schema_version: str = "1.3"
+    schema_version: Literal["1.3"] = "1.3"
     selection_rule: str
     selected_arvo_ids: list[int]
     provenance: EvalProvenance
