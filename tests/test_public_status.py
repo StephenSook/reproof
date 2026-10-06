@@ -532,6 +532,49 @@ def test_only_sent_queries_are_listed_as_searched() -> None:
     assert "jq decCompareOp crash" not in status.note
 
 
+def test_a_later_search_error_keeps_the_first_result_list() -> None:
+    text = f"{FRAME_LINE}\nThis crash is still open.\n"
+    tavily = FakeTavily(
+        searches=[
+            _search_body([_hit(text)], "req-search-1"),
+            RuntimeError("second search transport down"),
+        ],
+        extracts=[_extract_body(text)],
+    )
+    status = _lookup(
+        tavily_client=tavily,
+        model_client=_model(
+            _plan("jq Stack-buffer-overflow decNaNs", "jq decNumberCopy"),
+            _classify("SAME_BUG", "OPEN", FRAME_LINE, request_id="req-open"),
+        ),
+    )
+    assert len(tavily.search_calls) == 2
+    assert len(tavily.extract_calls) == 1
+    assert status.state == "PUBLICLY_KNOWN_OPEN"
+    assert status.queries_sent == ["jq Stack-buffer-overflow decNaNs"]
+    assert any(item.startswith("search stopped: error:") for item in status.failed_sources)
+
+
+def test_a_later_response_without_request_id_is_kept_as_sent() -> None:
+    text = f"{FRAME_LINE}\n"
+    no_id = {"request_id": "", "results": [_hit(text)], "usage": {"credits": 2}}
+    tavily = FakeTavily(
+        searches=[_search_body([_hit(text)], "req-search-1"), no_id],
+        extracts=[_extract_body(text)],
+    )
+    status = _lookup(
+        tavily_client=tavily,
+        model_client=_model(
+            _plan("jq Stack-buffer-overflow decNaNs", "jq decNumberCopy"),
+            _classify("SAME_BUG", "OPEN", FRAME_LINE, request_id="req-open"),
+        ),
+    )
+    assert status.queries_sent == ["jq Stack-buffer-overflow decNaNs", "jq decNumberCopy"]
+    assert len(tavily.extract_calls) == 1
+    assert status.state != "LOOKUP_UNAVAILABLE"
+    assert any("no request_id" in item for item in status.failed_sources)
+
+
 def test_rejected_crawl_page_counts_as_read() -> None:
     text = f"{FRAME_LINE}\n"
     page = {

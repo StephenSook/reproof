@@ -468,17 +468,23 @@ def perform_search(
         except TavilyStopped as exc:
             return _stop(exc.kind, pending)
         started = time.perf_counter()
-        raw = _call(
-            api,
-            "search",
-            query=query,
-            search_depth=SEARCH_DEPTH,
-            max_results=MAX_RESULTS,
-            include_domains=list(include_domains),
-            include_usage=True,
-            auto_parameters=False,
-            timeout=SEARCH_TIMEOUT_S,
-        )
+        try:
+            raw = _call(
+                api,
+                "search",
+                query=query,
+                search_depth=SEARCH_DEPTH,
+                max_results=MAX_RESULTS,
+                include_domains=list(include_domains),
+                include_usage=True,
+                auto_parameters=False,
+                timeout=SEARCH_TIMEOUT_S,
+            )
+        except TavilyApiError as exc:
+            if not sent:
+                raise
+            # A later search failed. Keep what the earlier responses already gave.
+            return _stop(f"error: {exc}", pending)
         try:
             call = _account(
                 book,
@@ -494,6 +500,12 @@ def perform_search(
             if isinstance(raw, dict):
                 raws.append(raw)
             return _stop(exc.kind, accepted[index + 1 :], (book.calls[-1],))
+        except TavilyApiError as exc:
+            if not sent:
+                raise
+            sent.append(query)
+            recorded = (exc.call,) if exc.call is not None else ()
+            return _stop(f"error: {exc}", accepted[index + 1 :], recorded)
         sent.append(query)
         calls.append(call)
         if isinstance(raw, dict):
