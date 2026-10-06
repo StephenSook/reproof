@@ -119,6 +119,28 @@ def test_quote_must_be_exact_substring() -> None:
     assert not quote_is_exact("decNaNs patched in 9.9.9", page)
 
 
+def test_quote_ignores_only_whitespace_layout() -> None:
+    # Measured 2026-10-06 on the deployed door: Tavily extracted an ASan trace with two
+    # trailing spaces and a leading space around each line break, and Nemotron quoted the
+    # same two lines with a bare newline. The words were exact and the guard rejected them.
+    page = (
+        "WRITE of size 1 at 0x613000000188 thread T0  \n"
+        " #0 0x54e6e2 in decToString /src/jq/src/decNumber/decNumber.c:3764:5  \n"
+    )
+    quote = (
+        "WRITE of size 1 at 0x613000000188 thread T0\n"
+        "#0 0x54e6e2 in decToString /src/jq/src/decNumber/decNumber.c:3764:5"
+    )
+    assert quote not in page
+    assert quote_is_exact(quote, page)
+    assert quote_is_exact("thread T0\t#0" + chr(0xA0) + "0x54e6e2", page)
+    assert not quote_is_exact("  \n\t ", page)
+    assert not quote_is_exact("thread T0\n#1 0x54e6e2 in decToString", page)
+    assert not quote_is_exact("thread T 0 #0", page)
+    assert not quote_is_exact("threadT0 #0", page)
+    assert not quote_is_exact("thread t0 #0", page)
+
+
 def test_version_token_is_not_a_prefix() -> None:
     assert identifier_in_text("1.7.1", "patched in jq 1.7.1.")
     assert not identifier_in_text("1.7.1", "patched in jq 1.7.10")

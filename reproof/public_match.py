@@ -186,10 +186,21 @@ def snippet_worth_extract(snippet: str, frames: Sequence[str], crash_type: str) 
     )
 
 
-def quote_is_exact(quote: str, extracted: str) -> bool:
-    """Keep a quote only as an exact, non-empty substring of the extracted page."""
+def _collapse_whitespace(text: str) -> str:
+    return " ".join(text.split())
 
-    return bool(quote) and quote in extracted
+
+def quote_is_exact(quote: str, extracted: str) -> bool:
+    """Keep a quote only when it is on the page character for character.
+
+    A run of whitespace, line breaks included, compares as one space on both
+    sides, because extraction and the model lay out the same lines differently.
+    Nothing else is relaxed: case, punctuation, word order, and every character
+    inside a word must match.
+    """
+
+    collapsed = _collapse_whitespace(quote)
+    return bool(collapsed) and collapsed in _collapse_whitespace(extracted)
 
 
 def identifier_in_text(identifier: str, extracted: str) -> bool:
