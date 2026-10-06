@@ -379,6 +379,8 @@ def _account(
     started: float,
 ) -> TavilyCall:
     if not isinstance(raw, dict):
+        # The call was sent and answered with something unreadable: it may be billed.
+        ledger.note_unanswered(estimate)
         raise TavilyApiError(scrub_secrets("Tavily response was not an object"))
     credits, missing = read_credits(raw, estimate=estimate)
     request_id = raw.get("request_id")

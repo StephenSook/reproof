@@ -600,6 +600,28 @@ def test_a_later_response_that_is_not_an_object_is_not_listed_as_sent() -> None:
     assert len(tavily.search_calls) == 2
     assert status.queries_sent == ["jq Stack-buffer-overflow decNaNs"]
     assert any("not an object" in item for item in status.failed_sources)
+    # Sent and unreadable: not reported, but its estimate is counted.
+    assert status.tavily_unanswered_credits == 2
+
+
+def test_an_unreadable_answer_counts_before_the_next_call_is_allowed() -> None:
+    text = f"{FRAME_LINE}\n"
+    overbilled = {"request_id": "req-search-1", "results": [_hit(text)], "usage": {"credits": 3}}
+    tavily = FakeTavily(
+        searches=[overbilled, "not-a-dict"],
+        extracts=[AssertionError("extract must be refused")],
+    )
+    status = _lookup(
+        tavily_client=tavily,
+        model_client=_model(_plan("jq Stack-buffer-overflow decNaNs", "jq decNumberCopy")),
+        ledger=CreditLedger(limit=5),
+    )
+    # 3 reported + 2 unanswered + 1 for the extract would pass 5, so the extract is not sent.
+    assert len(tavily.search_calls) == 2
+    assert tavily.extract_calls == []
+    assert status.tavily_credits == 3
+    assert status.tavily_unanswered_credits == 2
+    assert status.state == "LOOKUP_UNAVAILABLE"
 
 
 def test_a_later_search_error_text_is_scrubbed_on_the_card(
