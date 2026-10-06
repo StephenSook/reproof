@@ -24,7 +24,7 @@ export default function Page() {
       </header>
       <p className="mt-4 max-w-3xl">
         Pick one of the 10 public ARVO reports. Triage runs the claim, both builds, the crash parse,
-        and the duplicate search.
+        the duplicate search, and a public-status lookup.
       </p>
       <p className="mt-3 max-w-3xl border border-[var(--line)] bg-[var(--card)] p-3" data-limits>
         {limitsSentence(limits)}

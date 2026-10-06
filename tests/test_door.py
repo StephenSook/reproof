@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 import os
 import subprocess
+from collections.abc import Callable
+from datetime import UTC, datetime
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -11,7 +13,14 @@ from contree_sdk.sdk.exceptions import NotFoundError
 
 from reproof.claims import PRICE_SOURCE
 from reproof.crash import parse_crash
-from reproof.door import iter_cached_triage, public_payload, run_cached_triage
+from reproof.door import (
+    DoorResult,
+    PublicLookupRequest,
+    _usable_frames,
+    iter_cached_triage,
+    public_payload,
+    run_cached_triage,
+)
 from reproof.door_data import (
     ASSETS_DIR,
     DOOR_PROJECTS,
@@ -19,9 +28,20 @@ from reproof.door_data import (
     load_catalog,
     load_manifest,
     load_project_index,
+    project_repository,
 )
 from reproof.dup import OsvIndex, parse_osv_record
-from reproof.models import Claim, EvalReport, ModelCall, SandboxOperation, Verdict
+from reproof.models import (
+    Claim,
+    EvalReport,
+    ModelCall,
+    PublicDraftLine,
+    PublicEvidence,
+    PublicStatus,
+    PublicTavilyCall,
+    SandboxOperation,
+    Verdict,
+)
 from reproof.provenance import source_sha256, text_sha256
 from reproof.sandbox import CheckpointError, CheckpointRegistry, SandboxRunner
 
@@ -199,7 +219,40 @@ def _world(stderr: str, *, leak_credentials: bool = False) -> dict[str, object]:
     }
 
 
-def _run(world: dict[str, object]) -> object:
+def _quiet_status(**overrides: object) -> PublicStatus:
+    payload: dict[str, object] = {
+        "state": "NO_PUBLIC_FINDINGS",
+        "evidence": [],
+        "queries_sent": [],
+        "query_source": "test",
+        "domains": [],
+        "failed_sources": [],
+        "note": "test stub",
+        "tavily_request_ids": [],
+        "tavily_calls": [],
+        "model_calls": [],
+        "draft": [],
+    }
+    payload.update(overrides)
+    return PublicStatus.model_validate(payload)
+
+
+def _quiet_lookup(_request: PublicLookupRequest) -> PublicStatus:
+    return _quiet_status()
+
+
+def _block_lookup(monkeypatch: pytest.MonkeyPatch) -> None:
+    def refuse(**_kwargs: object) -> PublicStatus:
+        raise AssertionError("lookup_public_status must not be called")
+
+    monkeypatch.setattr("reproof.door.lookup_public_status", refuse)
+
+
+def _run(
+    world: dict[str, object],
+    *,
+    public_lookup: Callable[[PublicLookupRequest], PublicStatus] | None = _quiet_lookup,
+) -> DoorResult:
     calls: list[str] = world["calls"]  # type: ignore[assignment]
 
     def extractor(report_text: str) -> tuple[Claim, ModelCall]:
@@ -213,6 +266,7 @@ def _run(world: dict[str, object]) -> object:
         project_index=world["index"],  # type: ignore[arg-type]
         runner=world["runner"],  # type: ignore[arg-type]
         extractor=extractor,
+        public_lookup=public_lookup,
     )
 
 
@@ -261,6 +315,7 @@ def test_excluded_ids_are_not_duplicate_candidates(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     monkeypatch.chdir(tmp_path)
+    _block_lookup(monkeypatch)
     world = _world(FIXTURE.read_text(encoding="utf-8"))
     events = list(
         iter_cached_triage(
@@ -270,11 +325,20 @@ def test_excluded_ids_are_not_duplicate_candidates(
             project_index=world["index"],  # type: ignore[arg-type]
             runner=world["runner"],  # type: ignore[arg-type]
             extractor=lambda _report: (_claim(), _model_call()),
+            public_lookup=_quiet_lookup,
         )
     )
     step_events = [event["step"] for event in events if event["type"] == "step"]
     steps = [event["step"] for event in step_events]
-    assert steps == ["claim", "sandbox", "sandbox", "crash", "duplicates", "verdict"]
+    assert steps == [
+        "claim",
+        "sandbox",
+        "sandbox",
+        "crash",
+        "duplicates",
+        "public_status",
+        "verdict",
+    ]
     sandbox_steps = [event for event in step_events if event["step"] == "sandbox"]
     assert [step["kind"] for step in sandbox_steps] == ["vul", "fix"]
     assert sandbox_steps[0]["payload"]["operation_uuid"] == "test-vul-operation"
@@ -296,6 +360,7 @@ def test_excluded_ids_are_not_duplicate_candidates(
 def test_public_payload_omits_credential_values(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("NEBIUS_API_KEY", API_SENTINEL)
     monkeypatch.setenv("NEBIUS_PROJECT_ID", PROJECT_SENTINEL)
+    _block_lookup(monkeypatch)
     leaked = _world(FIXTURE.read_text(encoding="utf-8"), leak_credentials=True)
     failed = _run(leaked)
     failed_text = json.dumps(public_payload(failed), sort_keys=True)
@@ -385,3 +450,263 @@ def test_committed_door_assets_match_the_eval() -> None:
             check=False,
         )
         assert completed.returncode == 1
+
+
+FORBIDDEN_PAGE_TEXT = "NAN1000000000"
+TAVILY_SENTINEL = "TAVILY-LEAK-SENTINEL-999"
+PUBLIC_MODEL_COST = 0.0000123
+
+
+def _public_model_call() -> ModelCall:
+    return ModelCall(
+        model="nvidia/nemotron-3-super-120b-a12b",
+        latency_seconds=0.02,
+        input_tokens=20,
+        output_tokens=8,
+        total_tokens=28,
+        input_price_per_million=0.30,
+        output_price_per_million=0.90,
+        price_source=PRICE_SOURCE,
+        cost_usd=PUBLIC_MODEL_COST,
+        request_id="public-model",
+    )
+
+
+def _advisory_evidence() -> PublicEvidence:
+    return PublicEvidence.model_validate(
+        {
+            "url": "https://github.com/jqlang/jq/security/advisories/GHSA-x6c3-qv5r-7q22",
+            "title": "Again, stack-buffer-overflow when comparing nan with payload",
+            "frames_matched": ["decNaNs", "decNumberCopy"],
+            "matched_lines": [FORBIDDEN_PAGE_TEXT],
+            "cve_ids": [],
+            "ghsa_ids": ["GHSA-x6c3-qv5r-7q22"],
+            "patched_versions": [],
+            "mentioned_commits": [],
+            "relation": "SAME_BUG",
+            "upstream_status": "OPEN",
+            "upstream_version": "",
+            "ancestry": "NOT_CHECKABLE",
+            "checked_tag": "",
+            "checked_commit": "",
+            "stale_fields": [],
+            "quotes": [FORBIDDEN_PAGE_TEXT],
+            "dispute": False,
+            "match_reason": "top frame and crash type",
+            "model_request_id": "public-model",
+        }
+    )
+
+
+def _rich_status() -> PublicStatus:
+    return _quiet_status(
+        state="PUBLICLY_KNOWN_OPEN",
+        evidence=[_advisory_evidence()],
+        queries_sent=["jq Heap-buffer-overflow decToString"],
+        query_source="test",
+        domains=["github.com"],
+        note="One open advisory matched the measured frames.",
+        tavily_request_ids=["tavily-req-1"],
+        tavily_calls=[
+            PublicTavilyCall(
+                operation="search",
+                request_id="tavily-req-1",
+                credits=2,
+                query="jq Heap-buffer-overflow decToString",
+            )
+        ],
+        tavily_credits=2,
+        model_calls=[_public_model_call()],
+        draft=[
+            PublicDraftLine(
+                text="One public advisory is still open.",
+                source_url="https://github.com/jqlang/jq/security/advisories/GHSA-x6c3-qv5r-7q22",
+                source_date="2026-10-05",
+                confidence="medium",
+            )
+        ],
+    )
+
+
+def _public_step(result: DoorResult) -> dict[str, object]:
+    found = next(step for step in result.steps if step.step == "public_status")
+    return found.payload
+
+
+def test_project_repository_uses_the_oss_fuzz_map() -> None:
+    assert project_repository("jq") == ("jqlang", "jq", "https://jqlang.github.io/jq")
+    assert project_repository("libplist") == ("libimobiledevice", "libplist", "")
+    assert project_repository("wasm3") == ("wasm3", "wasm3", "")
+    assert project_repository("miniz") == ("richgel999", "miniz", "")
+    assert project_repository("libspng") == ("randy408", "libspng", "https://libspng.org")
+    assert project_repository("missing") == ("", "", "")
+
+
+def test_missing_tavily_key_sends_no_search(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("TAVILY_API_KEY", raising=False)
+    _block_lookup(monkeypatch)
+    world = _world(FIXTURE.read_text(encoding="utf-8"))
+    result = _run(world, public_lookup=None)
+    assert result.card is not None
+    status = result.card.public_status
+    assert status is not None
+    assert status.state == "NO_PUBLIC_FINDINGS"
+    assert status.tavily_credits == 0
+    assert status.model_calls == []
+    assert status.failed_sources == ["TAVILY_API_KEY is not set"]
+    assert status.queries_sent == []
+
+    monkeypatch.setenv("TAVILY_API_KEY", "short")
+    short = _run(world, public_lookup=None)
+    assert short.card is not None
+    assert short.card.public_status is not None
+    assert short.card.public_status.failed_sources == ["TAVILY_API_KEY is not set"]
+
+
+def test_live_lookup_receives_the_jq_repository(monkeypatch: pytest.MonkeyPatch) -> None:
+    captured: dict[str, object] = {}
+
+    def capture(**kwargs: object) -> PublicStatus:
+        captured.update(kwargs)
+        return _quiet_status()
+
+    monkeypatch.setenv("TAVILY_API_KEY", TAVILY_SENTINEL)
+    monkeypatch.setattr("reproof.door.lookup_public_status", capture)
+    stderr = FIXTURE.read_text(encoding="utf-8")
+    measured = parse_crash(stderr)
+    world = _world(stderr)
+    result = _run(world, public_lookup=None)
+    assert result.verdict is Verdict.DUPLICATE
+    assert captured["owner"] == "jqlang"
+    assert captured["repo"] == "jq"
+    assert captured["project_site"] == "https://jqlang.github.io/jq"
+    assert captured["crawl_fallback"] is False
+    assert captured["project"] == "jq"
+    assert captured["crash_type"] == measured.crash_type
+    assert captured["frames"] == _usable_frames(tuple(measured.state))
+    assert captured["fix_commits"] == ("abc",)
+    assert captured["retrieved_on"] == datetime.now(UTC).date().isoformat()
+
+
+def test_injected_stub_replaces_the_network(monkeypatch: pytest.MonkeyPatch) -> None:
+    seen: list[PublicLookupRequest] = []
+
+    def stub(request: PublicLookupRequest) -> PublicStatus:
+        seen.append(request)
+        return _quiet_status()
+
+    monkeypatch.setenv("TAVILY_API_KEY", TAVILY_SENTINEL)
+    _block_lookup(monkeypatch)
+    result = _run(_world(FIXTURE.read_text(encoding="utf-8")), public_lookup=stub)
+    assert result.verdict is Verdict.DUPLICATE
+    assert len(seen) == 1
+    assert seen[0].owner == "jqlang"
+    assert seen[0].repo == "jq"
+    assert seen[0].project_site == "https://jqlang.github.io/jq"
+    assert "abc" in seen[0].fix_commits
+
+
+def test_public_step_omits_page_text_and_counts_model_cost() -> None:
+    result = _run(
+        _world(FIXTURE.read_text(encoding="utf-8")),
+        public_lookup=lambda _request: _rich_status(),
+    )
+    assert result.card is not None
+    status = result.card.public_status
+    assert status is not None
+    assert status.evidence[0].matched_lines == [FORBIDDEN_PAGE_TEXT]
+    payload = _public_step(result)
+    payload_text = json.dumps(payload)
+    assert FORBIDDEN_PAGE_TEXT not in payload_text
+    evidence = payload["evidence"]
+    assert isinstance(evidence, list)
+    assert "matched_lines" not in evidence[0]
+    assert "quotes" not in evidence[0]
+    draft = payload["draft"]
+    assert isinstance(draft, list)
+    assert FORBIDDEN_PAGE_TEXT not in draft[0]["text"]
+    verdict = next(step for step in result.steps if step.step == "verdict")
+    expected = _model_call().cost_usd + PUBLIC_MODEL_COST
+    assert verdict.payload["model_cost_usd"] == pytest.approx(expected)
+    assert result.card.model_cost_usd == pytest.approx(expected)
+    assert any(call.request_id == "public-model" for call in result.card.model_calls)
+    assert [step.step for step in result.steps].index("public_status") < [
+        step.step for step in result.steps
+    ].index("verdict")
+
+
+def test_unknown_project_names_the_missing_repository(monkeypatch: pytest.MonkeyPatch) -> None:
+    captured: dict[str, object] = {}
+
+    def capture(**kwargs: object) -> PublicStatus:
+        captured.update(kwargs)
+        return _quiet_status(note="searched")
+
+    monkeypatch.setenv("TAVILY_API_KEY", TAVILY_SENTINEL)
+    monkeypatch.setattr("reproof.door.lookup_public_status", capture)
+    world = _world(FIXTURE.read_text(encoding="utf-8"))
+    catalog = world["catalog"]
+    assert isinstance(catalog, dict)
+    catalog["tasks"][0]["project"] = "other"
+    result = _run(world, public_lookup=None)
+    assert captured["owner"] == ""
+    assert captured["repo"] == ""
+    assert result.card is not None
+    status = result.card.public_status
+    assert status is not None
+    expected = (
+        "GitHub repository for other is not in the OSS-Fuzz project map, "
+        "so GitHub pages are not accepted."
+    )
+    assert expected in status.failed_sources
+    assert expected in status.note
+    assert expected in _public_step(result)["failed_sources"]
+
+
+def test_no_measured_frame_sends_no_search(monkeypatch: pytest.MonkeyPatch) -> None:
+    _block_lookup(monkeypatch)
+    monkeypatch.setenv("TAVILY_API_KEY", TAVILY_SENTINEL)
+    result = _run(_world(""), public_lookup=None)
+    assert result.verdict is Verdict.NEEDS_INFO
+    assert result.card is not None
+    status = result.card.public_status
+    assert status is not None
+    assert status.note == "No measured crash frame was available, so no search was sent."
+    assert status.tavily_credits == 0
+    assert status.model_calls == []
+    assert status.queries_sent == []
+    assert [call.request_id for call in result.card.model_calls] == ["test-request"]
+
+
+def test_lookup_failure_keeps_the_verdict(monkeypatch: pytest.MonkeyPatch) -> None:
+    def boom(**_kwargs: object) -> PublicStatus:
+        raise RuntimeError(f"lookup blew up {TAVILY_SENTINEL}")
+
+    monkeypatch.setenv("TAVILY_API_KEY", TAVILY_SENTINEL)
+    monkeypatch.setattr("reproof.door.lookup_public_status", boom)
+    result = _run(_world(FIXTURE.read_text(encoding="utf-8")), public_lookup=None)
+    assert result.verdict is Verdict.DUPLICATE
+    assert result.card is not None
+    status = result.card.public_status
+    assert status is not None
+    assert status.state == "NO_PUBLIC_FINDINGS"
+    assert status.failed_sources
+    assert status.failed_sources[0].startswith("public status failed:")
+    assert "[redacted]" in status.failed_sources[0]
+    rendered = json.dumps(public_payload(result), sort_keys=True)
+    assert TAVILY_SENTINEL not in rendered
+    assert TAVILY_SENTINEL not in json.dumps(_public_step(result))
+
+
+def test_public_status_redacts_the_tavily_key(monkeypatch: pytest.MonkeyPatch) -> None:
+    secret = "TAVILY-NOTE-SENTINEL-999"
+    monkeypatch.setenv("TAVILY_API_KEY", secret)
+
+    def stub(_request: PublicLookupRequest) -> PublicStatus:
+        return _quiet_status(note=f"see {secret}")
+
+    _block_lookup(monkeypatch)
+    result = _run(_world(FIXTURE.read_text(encoding="utf-8")), public_lookup=stub)
+    rendered = json.dumps(public_payload(result), sort_keys=True)
+    assert secret not in rendered
+    assert "[redacted]" in json.dumps(_public_step(result))

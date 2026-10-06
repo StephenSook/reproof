@@ -10,6 +10,8 @@ import json
 import os
 import time
 from collections.abc import Callable, Iterator
+from dataclasses import dataclass
+from datetime import UTC, datetime
 from typing import Any, Literal
 
 from pydantic import Field, model_validator
@@ -23,11 +25,18 @@ from reproof.crash import (
     parse_crash,
     sanitizer_excerpt,
 )
-from reproof.door_data import ProjectIndex, load_catalog, load_manifest, load_project_index
+from reproof.door_data import (
+    ProjectIndex,
+    load_catalog,
+    load_manifest,
+    load_project_index,
+    project_repository,
+)
 from reproof.models import (
     Claim,
     CrashEvidence,
     ModelCall,
+    PublicStatus,
     SandboxOperation,
     StrictModel,
     TriageCard,
@@ -36,16 +45,40 @@ from reproof.models import (
     Verdict,
 )
 from reproof.provenance import source_sha256, text_sha256
+from reproof.public_match import FRAME_MIN_LENGTH
+from reproof.public_model import NEMOTRON_CALL_BUDGET
+from reproof.public_status import attach_public_status, lookup_public_status
+from reproof.public_tavily import MAX_EXTRACT_URLS, MAX_SEARCHES, TAVILY_CREDIT_BUDGET
 from reproof.sandbox import CheckpointError, SandboxRunner
 from reproof.triage import _verdict
 
-SECRET_ENV_NAMES = ("NEBIUS_API_KEY", "NEBIUS_PROJECT_ID")
+SECRET_ENV_NAMES = ("NEBIUS_API_KEY", "NEBIUS_PROJECT_ID", "TAVILY_API_KEY")
 NO_LOCAL_SLICE = "The server does not create a replacement checkpoint from a local slice."
+NO_FRAME_NOTE = "No measured crash frame was available, so no search was sent."
+MISSING_KEY_NOTE = "TAVILY_API_KEY is not set"
+DoorStepName = Literal["claim", "sandbox", "crash", "duplicates", "public_status", "verdict"]
 ClaimExtractor = Callable[[str], tuple[Claim, ModelCall]]
 
 
+@dataclass(frozen=True, slots=True)
+class PublicLookupRequest:
+    """What the door measured. A test stub receives this and returns a status."""
+
+    project: str
+    crash_type: str
+    frames: tuple[str, ...]
+    owner: str
+    repo: str
+    project_site: str
+    fix_commits: tuple[str, ...]
+    retrieved_on: str
+
+
+PublicLookup = Callable[[PublicLookupRequest], PublicStatus]
+
+
 class DoorStep(StrictModel):
-    step: Literal["claim", "sandbox", "crash", "duplicates", "verdict"]
+    step: DoorStepName
     kind: Literal["vul", "fix"] | None = None
     payload: dict[str, Any]
 
@@ -88,7 +121,7 @@ def public_payload(result: DoorResult) -> dict[str, Any]:
 
 
 def _step(
-    step: Literal["claim", "sandbox", "crash", "duplicates", "verdict"],
+    step: DoorStepName,
     payload: dict[str, Any],
     *,
     kind: Literal["vul", "fix"] | None = None,
@@ -191,6 +224,168 @@ def _finish(result: DoorResult) -> dict[str, Any]:
     return {"type": "result", "result": public_payload(result)}
 
 
+def _key_present() -> bool:
+    return len(os.environ.get("TAVILY_API_KEY") or "") >= 8
+
+
+def _findings_without_search(reason: str, *, failed: bool) -> PublicStatus:
+    failed_sources = [reason] if failed else []
+    note = f"No Tavily search was sent. Failed sources: {reason}." if failed else reason
+    return PublicStatus(
+        state="NO_PUBLIC_FINDINGS",
+        evidence=[],
+        queries_sent=[],
+        query_source="",
+        domains=[],
+        failed_sources=failed_sources,
+        note=note,
+        tavily_request_ids=[],
+        tavily_calls=[],
+        model_calls=[],
+        draft=[],
+    )
+
+
+def _note_missing_repo(status: PublicStatus, owner: str, project: str) -> PublicStatus:
+    if owner:
+        return status
+    extra = (
+        f"GitHub repository for {project} is not in the OSS-Fuzz project map, "
+        "so GitHub pages are not accepted."
+    )
+    return status.model_copy(
+        update={
+            "failed_sources": [*status.failed_sources, extra],
+            "note": f"{status.note} {extra}".strip(),
+        }
+    )
+
+
+def _fix_commits_for(index: ProjectIndex, arvo_id: int) -> tuple[str, ...]:
+    found: list[str] = []
+    for record in index.index.for_issue(arvo_id):
+        for commit in record.fixed_commits:
+            if commit not in found:
+                found.append(commit)
+    return tuple(found)
+
+
+def _usable_frames(frames: tuple[str, ...]) -> tuple[str, ...]:
+    seen: list[str] = []
+    for frame in frames:
+        cleaned = frame.strip()
+        if len(cleaned) < FRAME_MIN_LENGTH or cleaned in seen:
+            continue
+        seen.append(cleaned)
+    return tuple(seen)
+
+
+def _public_request(
+    *,
+    project: str,
+    crash_type: str,
+    frames: tuple[str, ...],
+    arvo_id: int,
+    index: ProjectIndex,
+) -> PublicLookupRequest:
+    owner, repo, site = project_repository(project)
+    return PublicLookupRequest(
+        project=project,
+        crash_type=crash_type,
+        frames=frames,
+        owner=owner,
+        repo=repo,
+        project_site=site,
+        fix_commits=_fix_commits_for(index, arvo_id),
+        retrieved_on=datetime.now(UTC).date().isoformat(),
+    )
+
+
+def _lookup_status(
+    request: PublicLookupRequest,
+    public_lookup: PublicLookup | None,
+) -> PublicStatus:
+    """Run the stage, or record why it did not run. A stub replaces the network."""
+
+    if not request.frames:
+        return _findings_without_search(NO_FRAME_NOTE, failed=False)
+    if public_lookup is not None:
+        return _note_missing_repo(public_lookup(request), request.owner, request.project)
+    if not _key_present():
+        return _findings_without_search(MISSING_KEY_NOTE, failed=True)
+    try:
+        status = lookup_public_status(
+            project=request.project,
+            crash_type=request.crash_type,
+            frames=request.frames,
+            owner=request.owner,
+            repo=request.repo,
+            fix_commits=request.fix_commits,
+            project_site=request.project_site,
+            retrieved_on=request.retrieved_on,
+            crawl_fallback=False,
+        )
+    except Exception as error:
+        # A lookup failure must not drop the reproduction that already finished.
+        reason = scrub_text(str(error)).replace("\n", " ")[:300]
+        return _findings_without_search(f"public status failed: {reason}", failed=True)
+    return _note_missing_repo(status, request.owner, request.project)
+
+
+def _public_step_payload(status: PublicStatus) -> dict[str, Any]:
+    """Fields the page shows. Matched lines and page text stay off this step."""
+
+    return {
+        "state": status.state,
+        "credits": status.tavily_credits,
+        "latency_seconds": status.latency_seconds,
+        "request_ids": list(status.tavily_request_ids),
+        "queries": list(status.queries_sent),
+        "domains": list(status.domains),
+        "failed_sources": list(status.failed_sources),
+        "note": status.note,
+        "host_rejected": status.host_rejected,
+        "frame_rejected": status.frame_rejected,
+        "quote_rejected": status.quote_rejected,
+        "unrelated_rejected": status.unrelated_rejected,
+        "snippet_rejected": status.snippet_rejected,
+        "source_file_rejected": status.source_file_rejected,
+        "model_request_ids": [call.request_id for call in status.model_calls],
+        "model_cost_usd": round(sum(call.cost_usd for call in status.model_calls), 8),
+        "caps": {
+            "searches": MAX_SEARCHES,
+            "extract_urls": MAX_EXTRACT_URLS,
+            "tavily_credits": TAVILY_CREDIT_BUDGET,
+            "nemotron_calls": NEMOTRON_CALL_BUDGET,
+        },
+        "evidence": [
+            {
+                "url": item.url,
+                "title": item.title,
+                "frames_matched": list(item.frames_matched),
+                "cve_ids": list(item.cve_ids),
+                "ghsa_ids": list(item.ghsa_ids),
+                "relation": item.relation,
+                "upstream_status": item.upstream_status,
+                "upstream_version": item.upstream_version,
+                "ancestry": item.ancestry,
+                "stale_fields": list(item.stale_fields),
+                "checked_tag": item.checked_tag,
+            }
+            for item in status.evidence
+        ],
+        "draft": [
+            {
+                "text": line.text,
+                "source_url": line.source_url,
+                "source_date": line.source_date,
+                "confidence": line.confidence,
+            }
+            for line in status.draft
+        ],
+    }
+
+
 def iter_cached_triage(
     arvo_id: int,
     *,
@@ -199,6 +394,7 @@ def iter_cached_triage(
     project_index: ProjectIndex | None = None,
     runner: SandboxRunner | None = None,
     extractor: ClaimExtractor | None = None,
+    public_lookup: PublicLookup | None = None,
 ) -> Iterator[dict[str, Any]]:
     """Yield live steps, then one result. A missing checkpoint is NEEDS_INFO."""
 
@@ -361,6 +557,22 @@ def iter_cached_triage(
         )
     )
     yield {"type": "step", "step": steps[-1].model_dump(mode="json")}
+    frames = _usable_frames(tuple(measured.state) if vulnerable_crashed else ())
+    status = _lookup_status(
+        _public_request(
+            project=str(task["project"]),
+            crash_type=measured.crash_type if vulnerable_crashed else "",
+            frames=frames,
+            arvo_id=arvo_id,
+            index=index,
+        ),
+        public_lookup,
+    )
+    card = attach_public_status(card, status).model_copy(
+        update={"wall_seconds": round(time.perf_counter() - started, 6)}
+    )
+    steps.append(_step("public_status", _public_step_payload(status)))
+    yield {"type": "step", "step": steps[-1].model_dump(mode="json")}
     steps.append(
         _step(
             "verdict",
@@ -403,6 +615,7 @@ def run_cached_triage(
     project_index: ProjectIndex | None = None,
     runner: SandboxRunner | None = None,
     extractor: ClaimExtractor | None = None,
+    public_lookup: PublicLookup | None = None,
 ) -> DoorResult:
     """Run one cached triage and return its result, including a NEEDS_INFO refusal."""
 
@@ -414,6 +627,7 @@ def run_cached_triage(
         project_index=project_index,
         runner=runner,
         extractor=extractor,
+        public_lookup=public_lookup,
     ):
         if event["type"] == "result":
             found = DoorResult.model_validate(event["result"])

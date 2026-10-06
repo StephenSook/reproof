@@ -87,6 +87,111 @@ test("the page has no horizontal overflow", async ({ page }) => {
   }
 });
 
+test("a canned triage shows public status without page text", async ({ page }) => {
+  const advisory = "https://github.com/jqlang/jq/security/advisories/GHSA-x6c3-qv5r-7q22";
+  const payload = {
+    state: "PUBLICLY_KNOWN_OPEN",
+    credits: 2,
+    latency_seconds: 1.2,
+    request_ids: ["tavily-req-1"],
+    queries: ["jq Stack-buffer-overflow decNaNs"],
+    domains: ["github.com"],
+    failed_sources: [],
+    note: "One open advisory matched the measured frames.",
+    model_request_ids: ["public-model"],
+    model_cost_usd: 0.0000123,
+    caps: { searches: 2, extract_urls: 5, tavily_credits: 200, nemotron_calls: 120 },
+    evidence: [
+      {
+        url: advisory,
+        title: "Again, stack-buffer-overflow when comparing nan with payload",
+        frames_matched: ["decNaNs", "decNumberCopy"],
+        cve_ids: [],
+        ghsa_ids: ["GHSA-x6c3-qv5r-7q22"],
+        relation: "SAME_BUG",
+        upstream_status: "OPEN",
+        upstream_version: "",
+        ancestry: "NOT_CHECKABLE",
+        stale_fields: [],
+        checked_tag: "",
+      },
+      {
+        url: "javascript:alert(1)",
+        title: "blocked link",
+        frames_matched: ["notAFrame"],
+        relation: "UNRELATED",
+      },
+    ],
+    draft: [
+      {
+        text: "One public advisory is still open.",
+        source_url: advisory,
+        source_date: "2026-10-05",
+        confidence: "medium",
+      },
+    ],
+  };
+  const cardStatus = {
+    ...payload,
+    tavily_credits: payload.credits,
+    tavily_request_ids: payload.request_ids,
+    evidence: payload.evidence.map((item) => ({ ...item, matched_lines: ["NAN1000000000"] })),
+  };
+  const body = [
+    JSON.stringify({ type: "step", step: { step: "public_status", kind: null, payload } }),
+    JSON.stringify({
+      type: "result",
+      result: {
+        verdict: "DUPLICATE",
+        reason: "",
+        missing_details: [],
+        wall_seconds: 1.2,
+        card: {
+          public_status: cardStatus,
+          model_cost_usd: 0.0000198,
+          sandbox_cost_usd: 0,
+          total_cost_usd: 0.0000198,
+        },
+      },
+    }),
+    "",
+  ].join("\n");
+  await page.route("**/api/triage", (route) =>
+    route.fulfill({ status: 200, contentType: "application/x-ndjson", body }),
+  );
+
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    await page.getByRole("button", { name: "Triage", exact: true }).click();
+    const block = page.locator('[data-step="public_status"] [data-public-status]');
+    await expect(block).toBeVisible();
+    await expect(block).toHaveAttribute("data-public-status", "PUBLICLY_KNOWN_OPEN");
+    await expect(block.getByRole("link", { name: "Again, stack-buffer-overflow when comparing nan with payload" })).toHaveAttribute(
+      "href",
+      advisory,
+    );
+    await expect(block.locator('[data-matched-frame="decNaNs"]')).toBeVisible();
+    await expect(block.locator('[data-matched-frame="decNumberCopy"]')).toBeVisible();
+    await expect(block.locator('[data-tavily-request-id="tavily-req-1"]')).toBeVisible();
+    await expect(block.locator("[data-public-caps]")).toContainText("2 searches");
+    await expect(block.locator("[data-public-caps]")).toContainText("5 extract URLs");
+    await expect(block.locator("[data-public-caps]")).toContainText("200 Tavily credits");
+    await expect(block.locator("[data-public-caps]")).toContainText("120 Nemotron calls");
+    await expect(block).toContainText("Tavily credits: 2");
+    await expect(block).toContainText("blocked link");
+    await expect(page.locator('a[href^="javascript"]')).toHaveCount(0);
+    await expect(page.getByText("NAN1000000000")).toHaveCount(0);
+    const size = await page.evaluate(() => ({
+      clientWidth: document.documentElement.clientWidth,
+      scrollWidth: document.documentElement.scrollWidth,
+    }));
+    expect(size.scrollWidth, `${width}px`).toBeLessThanOrEqual(size.clientWidth);
+    const results = await new AxeBuilder({ page }).analyze();
+    expect(results.violations, `${width}px`).toEqual([]);
+  }
+});
+
 test("axe reports zero violations", async ({ page }) => {
   for (const width of widths) {
     await page.setViewportSize({ width, height: 900 });

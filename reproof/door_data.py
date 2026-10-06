@@ -13,6 +13,7 @@ import zipfile
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 from reproof.crash import CrashSignature, parse_crash
 from reproof.dup import OsvIndex, OsvRecord, load_issue_mapping, parse_osv_record
@@ -24,6 +25,16 @@ DOOR_PROJECTS = ("jq", "libplist", "wasm3", "miniz", "libspng")
 SCHEMA_VERSION = "1"
 ASSETS_DIR = Path(__file__).resolve().parent / "assets"
 
+# main_repo, then homepage when that homepage is not the repository.
+# Read from google/oss-fuzz projects/<name>/project.yaml on 2026-10-05.
+OSS_FUZZ_PROJECTS: dict[str, tuple[str, str]] = {
+    "jq": ("https://github.com/jqlang/jq", "https://jqlang.github.io/jq"),
+    "libplist": ("https://github.com/libimobiledevice/libplist", ""),
+    "wasm3": ("https://github.com/wasm3/wasm3", ""),
+    "miniz": ("https://github.com/richgel999/miniz.git", ""),
+    "libspng": ("https://github.com/randy408/libspng.git", "https://libspng.org"),
+}
+
 
 @dataclass(frozen=True, slots=True)
 class ProjectIndex:
@@ -33,6 +44,35 @@ class ProjectIndex:
     archive_sha256: str
     mapping_sha256: str
     projects: tuple[str, ...]
+
+
+def github_owner_repo(url: str) -> tuple[str, str]:
+    """Return the owner and repository from a GitHub URL, without a `.git` suffix."""
+
+    parsed = urlparse(url.strip())
+    if (parsed.hostname or "").lower() != "github.com":
+        return "", ""
+    parts = [part for part in parsed.path.split("/") if part]
+    if len(parts) < 2:
+        return "", ""
+    repo = parts[1][:-4] if parts[1].endswith(".git") else parts[1]
+    if not parts[0] or not repo:
+        return "", ""
+    return parts[0], repo
+
+
+def project_repository(project: str) -> tuple[str, str, str]:
+    """Return owner, repo, and project site for one OSS-Fuzz project.
+
+    An unknown project returns three empty strings. GitHub pages are then
+    rejected, because the host rule has no repository to compare.
+    """
+
+    found = OSS_FUZZ_PROJECTS.get(project)
+    if found is None:
+        return "", "", ""
+    owner, repo = github_owner_repo(found[0])
+    return owner, repo, found[1]
 
 
 def _write_json(path: Path, value: object) -> None:

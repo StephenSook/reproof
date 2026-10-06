@@ -55,6 +55,12 @@ pre {
   line-height: 1;
 }
 
+mark[data-matched-frame] {
+  background: var(--amber);
+  color: #11142b;
+  padding: 0 0.15em;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

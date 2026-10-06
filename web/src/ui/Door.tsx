@@ -41,6 +41,7 @@ type ShownCard = {
     excluded_osv_ids?: string[];
     duplicate_candidates?: { id?: string }[];
   };
+  public_status?: Record<string, unknown> | null;
 };
 
 type ShownResult = {
@@ -60,6 +61,7 @@ const STEP_LABEL: Record<string, string> = {
   "sandbox:fix": "Fixed build",
   crash: "Parsed crash",
   duplicates: "Duplicate search",
+  public_status: "Public status",
   verdict: "Verdict",
 };
 
@@ -97,6 +99,121 @@ function Field({ label, value }: { label: string; value: unknown }) {
       <span className="text-[var(--muted)]">{label}: </span>
       <span className="break-words">{shown}</span>
     </p>
+  );
+}
+
+function textList(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value.filter((item): item is string => typeof item === "string" && item.length > 0);
+}
+
+function safeHttpUrl(value: string): string | null {
+  try {
+    const parsed = new URL(value);
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return null;
+    return parsed.href;
+  } catch {
+    return null;
+  }
+}
+
+function LinkedText({ url, label }: { url: string; label: string }) {
+  const href = safeHttpUrl(url);
+  if (!href) return <span className="break-words">{label}</span>;
+  return (
+    <a className="break-all underline" href={href} rel="noreferrer">
+      {label}
+    </a>
+  );
+}
+
+function numberField(record: Record<string, unknown>, key: string): number | null {
+  return asNumber(record[key]);
+}
+
+function PublicStatusBlock({ status }: { status: Record<string, unknown> }) {
+  const credits = numberField(status, "credits") ?? numberField(status, "tavily_credits");
+  const requestIds = textList(status.request_ids).length
+    ? textList(status.request_ids)
+    : textList(status.tavily_request_ids);
+  const queries = textList(status.queries).length ? textList(status.queries) : textList(status.queries_sent);
+  const evidence = Array.isArray(status.evidence) ? status.evidence : [];
+  const draft = Array.isArray(status.draft) ? status.draft : [];
+  const failed = textList(status.failed_sources);
+  const caps = status.caps;
+  const capRecord = caps !== null && typeof caps === "object" ? (caps as Record<string, unknown>) : null;
+  const state = typeof status.state === "string" ? status.state : "";
+  return (
+    <div data-public-status={state || undefined}>
+      <Field label="State" value={status.state} />
+      <Field label="Note" value={status.note} />
+      {failed.length ? <Field label="Failed sources" value={failed} /> : null}
+      {requestIds.map((requestId) => (
+        <p data-tavily-request-id={requestId} key={requestId}>
+          Tavily request id: {requestId}
+        </p>
+      ))}
+      <Field label="Tavily credits" value={credits} />
+      {capRecord ? (
+        <p data-public-caps>
+          Caps: {asText(capRecord.searches)} searches, {asText(capRecord.extract_urls)} extract URLs,{" "}
+          {asText(capRecord.tavily_credits)} Tavily credits, {asText(capRecord.nemotron_calls)} Nemotron calls.
+        </p>
+      ) : null}
+      {queries.length ? <Field label="Queries" value={queries} /> : null}
+      <Field label="Model cost USD" value={status.model_cost_usd} />
+      {evidence.length === 0 ? <p>No public page passed the checks for this crash.</p> : null}
+      <ul className="grid list-none gap-3 p-0">
+        {evidence.map((item, index) => {
+          const row = item !== null && typeof item === "object" ? (item as Record<string, unknown>) : {};
+          const url = typeof row.url === "string" ? row.url : "";
+          const title = typeof row.title === "string" && row.title ? row.title : url || "Untitled page";
+          const frames = textList(row.frames_matched);
+          return (
+            <li className="min-w-0" key={`${url}-${index}`}>
+              <p>
+                <LinkedText label={title} url={url} />
+              </p>
+              {frames.length ? (
+                <p>
+                  Matched frames:{" "}
+                  {frames.map((frame, frameIndex) => (
+                    <span key={frame}>
+                      {frameIndex > 0 ? ", " : null}
+                      <mark data-matched-frame={frame}>{frame}</mark>
+                    </span>
+                  ))}
+                </p>
+              ) : null}
+              {textList(row.cve_ids).length ? <Field label="CVE" value={textList(row.cve_ids)} /> : null}
+              {textList(row.ghsa_ids).length ? <Field label="GHSA" value={textList(row.ghsa_ids)} /> : null}
+              <Field label="Relation" value={row.relation} />
+              <Field label="Upstream status" value={row.upstream_status} />
+              <Field label="Upstream version" value={row.upstream_version} />
+              <Field label="Ancestry" value={row.ancestry} />
+              <Field label="Checked tag" value={row.checked_tag} />
+              {textList(row.stale_fields).length ? (
+                <Field label="Stale fields" value={textList(row.stale_fields)} />
+              ) : null}
+            </li>
+          );
+        })}
+      </ul>
+      {draft.map((item, index) => {
+        const line = item !== null && typeof item === "object" ? (item as Record<string, unknown>) : {};
+        const text = typeof line.text === "string" ? line.text : "";
+        const source = typeof line.source_url === "string" ? line.source_url : "";
+        if (!text) return null;
+        return (
+          <p key={`${source}-${index}`}>
+            {text}{" "}
+            {source ? <LinkedText label={source} url={source} /> : null}{" "}
+            {typeof line.source_date === "string" ? <span>{line.source_date}</span> : null}{" "}
+            {typeof line.confidence === "string" ? <span>({line.confidence})</span> : null}
+          </p>
+        );
+      })}
+    </div>
   );
 }
 
@@ -150,6 +267,7 @@ function StepView({ step }: { step: DoorStepEvent }) {
         </>
       ) : null}
       {step.step === "duplicates" ? <Duplicates payload={payload} /> : null}
+      {step.step === "public_status" ? <PublicStatusBlock status={payload} /> : null}
       {step.step === "verdict" ? (
         <>
           <p data-verdict={asText(payload.verdict) ?? undefined}>{asText(payload.verdict)}</p>
@@ -241,6 +359,7 @@ function FinalCard({ result, source }: { result: ShownResult; source: "LIVE" | "
           {card.evidence.duplicate_candidates.map((candidate) => candidate.id).filter(Boolean).join(", ")}
         </p>
       ) : null}
+      {card?.public_status ? <PublicStatusBlock status={card.public_status} /> : null}
     </article>
   );
 }
