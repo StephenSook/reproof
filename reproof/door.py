@@ -51,7 +51,7 @@ from reproof.models import (
 from reproof.provenance import source_sha256, text_sha256
 from reproof.public_match import FRAME_MIN_LENGTH
 from reproof.public_model import NEMOTRON_CALL_BUDGET
-from reproof.public_status import attach_public_status, lookup_public_status
+from reproof.public_status import UrllibGitHub, attach_public_status, lookup_public_status
 from reproof.public_tavily import (
     ADVANCED_SEARCH_ESTIMATE,
     MAX_EXTRACT_URLS,
@@ -443,6 +443,9 @@ def _lookup_status(
             project_site=request.project_site,
             retrieved_on=request.retrieved_on,
             ledger=CreditLedger(limit=LOOKUP_MAX_CREDITS),
+            # Without a transport, git ancestry and the advisory read never run and every
+            # stated version is NOT_CHECKABLE. The door passed none until 2026-10-06.
+            transport=UrllibGitHub(),
             crawl_fallback=False,
         )
     except Exception as error:

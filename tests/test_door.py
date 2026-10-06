@@ -46,6 +46,7 @@ from reproof.models import (
     Verdict,
 )
 from reproof.provenance import source_sha256, text_sha256
+from reproof.public_status import UrllibGitHub
 from reproof.sandbox import CheckpointError, CheckpointRegistry, SandboxRunner
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -643,6 +644,7 @@ def test_budget_reuses_a_recent_lookup_without_new_calls(
     assert len(captured) == 1
     ledger = captured[0]["ledger"]
     assert getattr(ledger, "limit", None) == LOOKUP_MAX_CREDITS == 5
+    assert isinstance(captured[0]["transport"], UrllibGitHub)
     assert first.card is not None and first.card.public_status is not None
     assert first.card.public_status.reused_from == ""
     assert first.card.public_status.tavily_credits == 4

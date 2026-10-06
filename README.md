@@ -424,7 +424,9 @@ not receive `NEBIUS_API_KEY` or the Nebius project id. Those values stay in the 
 Triage streams each step as it finishes. Nemotron 3 Super extracts the claim. The vulnerable and
 fixed builds run in parallel disposable branches of that task's cached ConTree checkpoint. The
 sanitizer output is parsed. Duplicates are searched in the committed per-project OSV index, and
-the task's own issue is excluded. A public-status lookup then runs on the measured crash. The page
+the task's own issue is excluded. A public-status lookup then runs on the measured crash, with git
+ancestry and the advisory read going to the GitHub REST API without a token (GitHub allows 60
+unauthenticated requests per hour per address; a refused call is listed as a failed source). The page
 shows that state, the links, the matched frames, the Tavily request ids, the credits, and the caps.
 The verdict field is unchanged. The verdict card still shows the model calls, sandbox operation ids,
 cost, and time. If the committed checkpoint is missing, the result is `NEEDS_INFO` and the server
