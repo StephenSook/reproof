@@ -400,32 +400,16 @@ shares 60 triages per day. The Python service keeps the counts. On Vercel, each 
 keeps its own count file, and instances do not share a disk. A refused start returns HTTP 429 and
 does not invent a verdict.
 
-Each public-status lookup on the door is budgeted at 5 Tavily credits: the estimate for 2 advanced
-searches and one basic extract of up to 5 URLs. Its ledger refuses any call whose estimate would pass
-5, counting both the credits Tavily reported and the estimate of every call that was sent and got no
-answer or an unreadable one. Before a lookup, the door holds 5 credits against a count of 100 per UTC day on that instance
-and sends no search if the hold does not fit, which is already true once 96 credits are counted.
-Afterwards the day is charged the larger of the hold and the reported plus unanswered credits. A
-response that reports more than its estimate is kept and charged as reported, so a lookup whose
-hold was placed at a count of 95 can end the day at 95 plus whatever it was charged, past 100 by that
-charge minus 5. All 102 calls in the stored evaluation were billed at or under their estimate. A
-lookup that fails keeps its hold. The count file is replaced whole on each write, from a temporary
-file, so a failed write leaves the previous counts. If writing a lookup's final charge fails, the
-hold already in the file stays, even when the report was larger. A reusable stored card (below) is
-returned first, before today's count is read. Otherwise, if the count file cannot be read or written
-before the hold is placed, or today's count is not a whole number, no search is sent and the state
-is `LOOKUP_UNAVAILABLE`.
-
-A stored card for the same measured crash, saved in the last 60 minutes, is reused when it reads back
-as a public-status card in any state but `LOOKUP_UNAVAILABLE`. The page then shows the time of the
-original lookup and its Tavily request ids, and this triage's Tavily credits and public-status model
-cost are 0. The door never saves a `LOOKUP_UNAVAILABLE` card. Any stored entry that is not reusable
-is ignored, and the lookup goes through the same 5-credit hold as a new one, so it searches only if
-the hold fits. The cap and the window are in `reproof/assets/limits.json`.
-
-The count is per instance. It lives in `/tmp`, starts again when a new instance starts, and is not
-shared between instances, so it does not cap the total spend across Vercel's instances. The account
-balance is the outer limit.
+Tavily spend on the door: each lookup holds 5 credits (2 advanced searches and one basic extract)
+against 100 credits per UTC day on that server instance, and sends no search when the hold does not
+fit or the count file cannot be used. Its ledger stops at 5, counting calls that were sent but got no
+readable answer. The day is then charged the larger of the hold and what the lookup reported or may
+have been billed, so a lookup can take the day past 100 only if Tavily reports more than its
+estimate; all 102 calls in the stored evaluation were billed at or under it. For 60 minutes, the same
+measured crash is answered from the stored card, which shows that lookup's time and request ids and
+spends 0 new credits; a `LOOKUP_UNAVAILABLE` card is never saved or reused. The count is per instance
+and starts again on a new instance, so it is not a ceiling across Vercel's instances; the account
+balance is. Rules and edge cases: `reproof/door_limits.py`, `reproof/assets/limits.json`.
 
 The triage service is a Vercel Python function beside the Next.js app, configured in `vercel.json`.
 The measured runtime tree is 166,799,055 bytes. A fresh local process imported `reproof.door` in
