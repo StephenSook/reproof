@@ -373,6 +373,12 @@ in `tests/fixtures/tavily`. The eval ledger starts at 7. Each call sets `include
 `/usage` endpoint is not called. The batch stops before a call that would pass either budget, and
 a task that was not started is reported as not run.
 
+### Advisory rescore, registered before the run
+
+For every kept evidence page and every baseline reference in `eval/results/public_status.json` whose URL is a GitHub security advisory on that task's own repository, `eval/rescore_advisories.py` reads `GET /repos/{owner}/{repo}/security-advisories/{ghsa_id}` and runs the existing ancestry check against that task's OSV fix commits. It writes `eval/results/advisory_rescore.json`, including the GitHub API URLs it called. It does not modify `eval/results/public_status.json`. It does not call Tavily or Nemotron. The advisory record is a version claim. The result state is `PUBLICLY_KNOWN_FIXED` only when ancestry says the tag contains the fix. A failed read, a patched version git cannot check, or an empty patched-version string is `NOT_CHECKABLE`. A version git contradicts is not `FIXED`.
+
+Hand check before this run, not a result: baseline 42530604 `GHSA-686w-5m7m-54vc` may become `FIXED` in 1.7.1. `GHSA-x6c3-qv5r-7q22` on 42531223 and `GHSA-p7rr-28xf-3m5w` on 42531297 are unknown until the script measures them.
+
 ## Tests
 
 ```powershell

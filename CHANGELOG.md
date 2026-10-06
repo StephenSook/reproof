@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Pre-registered the advisory rescore and added `eval/rescore_advisories.py`. The script reads a task repository's GitHub advisory and checks that version with the existing ancestry rule. It does not call Tavily or Nemotron, and it does not modify `eval/results/public_status.json`. No GitHub call was made for this change.
 - Showed the advisory version source and the git ancestry sentence on the door. A long source URL in a draft line wraps instead of widening the page. The door e2e suite has 9 tests, and the live triage stays skipped.
 - Read patched versions from a task repository's GitHub security advisory and checked them with the existing git ancestry. A version is recorded as the fix only when the tag contains the OSV fix commit. A failed advisory read leaves the page's previous state and is listed as a failed source. The card line names the project, the version, the tag, and the short fix commit. The non-live Python suite is 236 tests.
 - Cut the README's Tavily budget section from three paragraphs of edge cases to one paragraph a judge can read in a minute. The edge cases stay in `reproof/door_limits.py` and its tests.
