@@ -1,0 +1,183 @@
+{
+  "captured": "2026-10-06",
+  "label": "RECORDED",
+  "url": "https://api.github.com/repos/jqlang/jq/compare/jq-1.7.1...71c2ab509a8628dbbad4bc7b3f98a64aa90d3297",
+  "note": "Unauthenticated GET on 2026-10-06. HTTP 200. response is that JSON body.",
+  "response": {
+    "url": "https://api.github.com/repos/jqlang/jq/compare/jq-1.7.1...71c2ab509a8628dbbad4bc7b3f98a64aa90d3297",
+    "html_url": "https://github.com/jqlang/jq/compare/jq-1.7.1...71c2ab509a8628dbbad4bc7b3f98a64aa90d3297",
+    "permalink_url": "https://github.com/jqlang/jq/compare/jqlang:71c2ab5...jqlang:71c2ab5",
+    "diff_url": "https://github.com/jqlang/jq/compare/jq-1.7.1...71c2ab509a8628dbbad4bc7b3f98a64aa90d3297.diff",
+    "patch_url": "https://github.com/jqlang/jq/compare/jq-1.7.1...71c2ab509a8628dbbad4bc7b3f98a64aa90d3297.patch",
+    "base_commit": {
+      "sha": "71c2ab509a8628dbbad4bc7b3f98a64aa90d3297",
+      "node_id": "C_kwDOAE3WVdoAKDcxYzJhYjUwOWE4NjI4ZGJiYWQ0YmM3YjNmOThhNjRhYTkwZDMyOTc",
+      "commit": {
+        "author": {
+          "name": "Emanuele Torre",
+          "email": "torreemanuele6@gmail.com",
+          "date": "2023-12-13T19:20:22Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2023-12-13T19:20:22Z"
+        },
+        "message": "Merge pull request from GHSA-686w-5m7m-54vc\n\ndecNumberToString calls for a buffer that can hold a string of digits+14\ncharacters, not a buffer of size digits+14.\nWe need to allocate an extra byte for the NUL byte.\n\n-10E-1000010001, for example, will be stringified as -1.0E-1000010000\nand decNumberToString will currently write an extra NUL byte after the\nallocated buffer in the heap.\n\nOriginally reported by @SEU-SSL on GitHub.\n\nRef: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=64574\n\nFixes GHSA-686w-5m7m-54vc",
+        "tree": {
+          "sha": "fe7a1f7b4580426266209f6047adb4e9736cd06c",
+          "url": "https://api.github.com/repos/jqlang/jq/git/trees/fe7a1f7b4580426266209f6047adb4e9736cd06c"
+        },
+        "url": "https://api.github.com/repos/jqlang/jq/git/commits/71c2ab509a8628dbbad4bc7b3f98a64aa90d3297",
+        "comment_count": 1,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsBcBAABCAAQBQJlegP2CRBK7hj4Ov3rIwAA7NIIADbb9dS0IRHbXaJ0g1Hrw7qO\nUHE/UqXB/UAqPZV02rsy6chEfUoZuzfNzXfNa/a2R+s2BUXulCD7nkYVKSvzbh0y\ntzhcIBGhhPYNh9rOzTIbc3u5kLFnJm/zb1F9p2/dP8lNya2nPxt6OzHZrUis1khV\nuCHIROCjVfTrQjJrI/Yp+IjarPA12Pyc+e7nZAIXAaWkr4g1drWuJxHxd1lJ54d+\nS+PHfbP3y49EhBiwP60CWGGL/Za+SMAl33VCQsfb/1rD3iSxW/fLcJUPjku3+uV8\n6lKgNcks47eBrQFtVvVT02EU79uiw63yIAFGTqQNjFxV9FY3kCYg7WweJ9rq9Z4=\n=+8fB\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree fe7a1f7b4580426266209f6047adb4e9736cd06c\nparent c9a51565214eece8f1053089739aea73145bfd6b\nauthor Emanuele Torre <torreemanuele6@gmail.com> 1702495222 +0100\ncommitter GitHub <noreply@github.com> 1702495222 +0100\n\nMerge pull request from GHSA-686w-5m7m-54vc\n\ndecNumberToString calls for a buffer that can hold a string of digits+14\ncharacters, not a buffer of size digits+14.\nWe need to allocate an extra byte for the NUL byte.\n\n-10E-1000010001, for example, will be stringified as -1.0E-1000010000\nand decNumberToString will currently write an extra NUL byte after the\nallocated buffer in the heap.\n\nOriginally reported by @SEU-SSL on GitHub.\n\nRef: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=64574\n\nFixes GHSA-686w-5m7m-54vc",
+          "verified_at": "2024-01-16T19:59:59Z"
+        }
+      },
+      "url": "https://api.github.com/repos/jqlang/jq/commits/71c2ab509a8628dbbad4bc7b3f98a64aa90d3297",
+      "html_url": "https://github.com/jqlang/jq/commit/71c2ab509a8628dbbad4bc7b3f98a64aa90d3297",
+      "comments_url": "https://api.github.com/repos/jqlang/jq/commits/71c2ab509a8628dbbad4bc7b3f98a64aa90d3297/comments",
+      "author": {
+        "login": "emanuele6",
+        "id": 20175435,
+        "node_id": "MDQ6VXNlcjIwMTc1NDM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/20175435?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/emanuele6",
+        "html_url": "https://github.com/emanuele6",
+        "followers_url": "https://api.github.com/users/emanuele6/followers",
+        "following_url": "https://api.github.com/users/emanuele6/following{/other_user}",
+        "gists_url": "https://api.github.com/users/emanuele6/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/emanuele6/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/emanuele6/subscriptions",
+        "organizations_url": "https://api.github.com/users/emanuele6/orgs",
+        "repos_url": "https://api.github.com/users/emanuele6/repos",
+        "events_url": "https://api.github.com/users/emanuele6/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/emanuele6/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "committer": {
+        "login": "web-flow",
+        "id": 19864447,
+        "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/web-flow",
+        "html_url": "https://github.com/web-flow",
+        "followers_url": "https://api.github.com/users/web-flow/followers",
+        "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+        "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+        "organizations_url": "https://api.github.com/users/web-flow/orgs",
+        "repos_url": "https://api.github.com/users/web-flow/repos",
+        "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/web-flow/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "parents": [
+        {
+          "sha": "c9a51565214eece8f1053089739aea73145bfd6b",
+          "url": "https://api.github.com/repos/jqlang/jq/commits/c9a51565214eece8f1053089739aea73145bfd6b",
+          "html_url": "https://github.com/jqlang/jq/commit/c9a51565214eece8f1053089739aea73145bfd6b"
+        }
+      ]
+    },
+    "merge_base_commit": {
+      "sha": "71c2ab509a8628dbbad4bc7b3f98a64aa90d3297",
+      "node_id": "C_kwDOAE3WVdoAKDcxYzJhYjUwOWE4NjI4ZGJiYWQ0YmM3YjNmOThhNjRhYTkwZDMyOTc",
+      "commit": {
+        "author": {
+          "name": "Emanuele Torre",
+          "email": "torreemanuele6@gmail.com",
+          "date": "2023-12-13T19:20:22Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2023-12-13T19:20:22Z"
+        },
+        "message": "Merge pull request from GHSA-686w-5m7m-54vc\n\ndecNumberToString calls for a buffer that can hold a string of digits+14\ncharacters, not a buffer of size digits+14.\nWe need to allocate an extra byte for the NUL byte.\n\n-10E-1000010001, for example, will be stringified as -1.0E-1000010000\nand decNumberToString will currently write an extra NUL byte after the\nallocated buffer in the heap.\n\nOriginally reported by @SEU-SSL on GitHub.\n\nRef: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=64574\n\nFixes GHSA-686w-5m7m-54vc",
+        "tree": {
+          "sha": "fe7a1f7b4580426266209f6047adb4e9736cd06c",
+          "url": "https://api.github.com/repos/jqlang/jq/git/trees/fe7a1f7b4580426266209f6047adb4e9736cd06c"
+        },
+        "url": "https://api.github.com/repos/jqlang/jq/git/commits/71c2ab509a8628dbbad4bc7b3f98a64aa90d3297",
+        "comment_count": 1,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsBcBAABCAAQBQJlegP2CRBK7hj4Ov3rIwAA7NIIADbb9dS0IRHbXaJ0g1Hrw7qO\nUHE/UqXB/UAqPZV02rsy6chEfUoZuzfNzXfNa/a2R+s2BUXulCD7nkYVKSvzbh0y\ntzhcIBGhhPYNh9rOzTIbc3u5kLFnJm/zb1F9p2/dP8lNya2nPxt6OzHZrUis1khV\nuCHIROCjVfTrQjJrI/Yp+IjarPA12Pyc+e7nZAIXAaWkr4g1drWuJxHxd1lJ54d+\nS+PHfbP3y49EhBiwP60CWGGL/Za+SMAl33VCQsfb/1rD3iSxW/fLcJUPjku3+uV8\n6lKgNcks47eBrQFtVvVT02EU79uiw63yIAFGTqQNjFxV9FY3kCYg7WweJ9rq9Z4=\n=+8fB\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree fe7a1f7b4580426266209f6047adb4e9736cd06c\nparent c9a51565214eece8f1053089739aea73145bfd6b\nauthor Emanuele Torre <torreemanuele6@gmail.com> 1702495222 +0100\ncommitter GitHub <noreply@github.com> 1702495222 +0100\n\nMerge pull request from GHSA-686w-5m7m-54vc\n\ndecNumberToString calls for a buffer that can hold a string of digits+14\ncharacters, not a buffer of size digits+14.\nWe need to allocate an extra byte for the NUL byte.\n\n-10E-1000010001, for example, will be stringified as -1.0E-1000010000\nand decNumberToString will currently write an extra NUL byte after the\nallocated buffer in the heap.\n\nOriginally reported by @SEU-SSL on GitHub.\n\nRef: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=64574\n\nFixes GHSA-686w-5m7m-54vc",
+          "verified_at": "2024-01-16T19:59:59Z"
+        }
+      },
+      "url": "https://api.github.com/repos/jqlang/jq/commits/71c2ab509a8628dbbad4bc7b3f98a64aa90d3297",
+      "html_url": "https://github.com/jqlang/jq/commit/71c2ab509a8628dbbad4bc7b3f98a64aa90d3297",
+      "comments_url": "https://api.github.com/repos/jqlang/jq/commits/71c2ab509a8628dbbad4bc7b3f98a64aa90d3297/comments",
+      "author": {
+        "login": "emanuele6",
+        "id": 20175435,
+        "node_id": "MDQ6VXNlcjIwMTc1NDM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/20175435?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/emanuele6",
+        "html_url": "https://github.com/emanuele6",
+        "followers_url": "https://api.github.com/users/emanuele6/followers",
+        "following_url": "https://api.github.com/users/emanuele6/following{/other_user}",
+        "gists_url": "https://api.github.com/users/emanuele6/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/emanuele6/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/emanuele6/subscriptions",
+        "organizations_url": "https://api.github.com/users/emanuele6/orgs",
+        "repos_url": "https://api.github.com/users/emanuele6/repos",
+        "events_url": "https://api.github.com/users/emanuele6/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/emanuele6/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "committer": {
+        "login": "web-flow",
+        "id": 19864447,
+        "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/web-flow",
+        "html_url": "https://github.com/web-flow",
+        "followers_url": "https://api.github.com/users/web-flow/followers",
+        "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+        "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+        "organizations_url": "https://api.github.com/users/web-flow/orgs",
+        "repos_url": "https://api.github.com/users/web-flow/repos",
+        "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/web-flow/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "parents": [
+        {
+          "sha": "c9a51565214eece8f1053089739aea73145bfd6b",
+          "url": "https://api.github.com/repos/jqlang/jq/commits/c9a51565214eece8f1053089739aea73145bfd6b",
+          "html_url": "https://github.com/jqlang/jq/commit/c9a51565214eece8f1053089739aea73145bfd6b"
+        }
+      ]
+    },
+    "status": "identical",
+    "ahead_by": 0,
+    "behind_by": 0,
+    "total_commits": 0,
+    "commits": [],
+    "files": []
+  }
+}

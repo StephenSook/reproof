@@ -80,6 +80,11 @@ from reproof.public_tavily import (
 _REPO_PART = re.compile(r"^[A-Za-z0-9_.-]{1,100}$")
 _REF_PART = re.compile(r"^[A-Za-z0-9._-]{1,200}$")
 _COMMIT_PART = re.compile(r"^[0-9a-f]{40}$")
+_GHSA_ID = re.compile(r"^GHSA(-[23456789cfghjmpqrvwx]{4}){3}$")
+_ADVISORY_PATH = re.compile(
+    r"^/([^/]+)/([^/]+)/security/advisories/(GHSA(?:-[23456789cfghjmpqrvwx]{4}){3})$",
+    re.IGNORECASE,
+)
 _QUOTE_REJECTIONS = frozenset(
     {
         "quote_not_in_page",
@@ -106,10 +111,25 @@ class CompareResult:
     error: str = ""
 
 
+@dataclass(frozen=True)
+class AdvisoryRecord:
+    """One GitHub advisory read. `error` set means the versions are not usable."""
+
+    ghsa_id: str = ""
+    cve_id: str = ""
+    state: str = ""
+    published_at: str = ""
+    patched_versions: tuple[str, ...] = ()
+    raw_patched_versions: tuple[str, ...] = ()
+    error: str = ""
+
+
 class GitHubTransport(Protocol):
     def list_tags(self, owner: str, repo: str) -> tuple[str, ...]: ...
 
     def compare(self, owner: str, repo: str, base: str, head: str) -> CompareResult: ...
+
+    def read_advisory(self, owner: str, repo: str, ghsa_id: str) -> AdvisoryRecord: ...
 
 
 @dataclass(frozen=True)
@@ -119,10 +139,106 @@ class _Ancestry:
     tag: str
     commit: str
     stale: tuple[str, ...]
+    stated: tuple[str, ...] = ()
+    version_sources: tuple[str, ...] = ()
 
 
 def _repo_ok(owner: str, repo: str) -> bool:
     return bool(_REPO_PART.fullmatch(owner) and _REPO_PART.fullmatch(repo))
+
+
+def task_advisory(url: str, owner: str, repo: str) -> tuple[str, str, str] | None:
+    """Return task owner, repo, and GHSA id when the URL is that repo's advisory.
+
+    The path must be exactly `/{owner}/{repo}/security/advisories/GHSA-xxxx-xxxx-xxxx`.
+    Owner and repo match the task case-insensitively. Query and fragment are ignored.
+    """
+
+    parsed = urlparse(url.strip())
+    if parsed.scheme not in {"http", "https"} or (parsed.hostname or "").lower() != "github.com":
+        return None
+    match = _ADVISORY_PATH.fullmatch(parsed.path)
+    if match is None:
+        return None
+    path_owner, path_repo, raw = match.group(1), match.group(2), match.group(3)
+    task_owner, task_repo = owner.strip(), repo.strip()
+    if (
+        path_owner.casefold() != task_owner.casefold()
+        or path_repo.casefold() != task_repo.casefold()
+    ):
+        return None
+    if not _repo_ok(task_owner, task_repo):
+        return None
+    ghsa_id = "GHSA-" + "-".join(part.lower() for part in raw.split("-")[1:])
+    if not _GHSA_ID.fullmatch(ghsa_id):
+        return None
+    return task_owner, task_repo, ghsa_id
+
+
+def _usable_version(token: str) -> str:
+    """A version token `resolve_tag` can match. Ranges and `v` prefixes are not tokens."""
+
+    cleaned = token.strip()
+    tag, _reason = resolve_tag(cleaned, (cleaned,))
+    return tag
+
+
+def parse_advisory(payload: object, ghsa_id: str) -> AdvisoryRecord:
+    """Read the fields ancestry needs. A wrong shape is an error, not a version."""
+
+    if not _GHSA_ID.fullmatch(ghsa_id):
+        return AdvisoryRecord(error="unsafe_ghsa")
+    if not isinstance(payload, dict):
+        return AdvisoryRecord(ghsa_id=ghsa_id, error="advisory_shape")
+    body_id = payload.get("ghsa_id")
+    if not isinstance(body_id, str) or body_id != ghsa_id:
+        return AdvisoryRecord(ghsa_id=ghsa_id, error="advisory_shape")
+    cve = _optional_text(payload, "cve_id")
+    state = _optional_text(payload, "state")
+    published = _optional_text(payload, "published_at")
+    if cve is None or state is None or published is None:
+        return AdvisoryRecord(ghsa_id=ghsa_id, error="advisory_shape")
+    vulnerabilities = payload.get("vulnerabilities", [])
+    if vulnerabilities is None:
+        vulnerabilities = []
+    if not isinstance(vulnerabilities, list):
+        return AdvisoryRecord(ghsa_id=ghsa_id, error="advisory_shape")
+    usable: list[str] = []
+    raws: list[str] = []
+    for entry in vulnerabilities:
+        if not isinstance(entry, dict):
+            return AdvisoryRecord(ghsa_id=ghsa_id, error="advisory_shape")
+        if "patched_versions" not in entry:
+            continue
+        raw = entry.get("patched_versions")
+        if raw is None:
+            continue
+        if not isinstance(raw, str):
+            return AdvisoryRecord(ghsa_id=ghsa_id, error="advisory_shape")
+        raws.append(raw)
+        for part in raw.split(","):
+            token = _usable_version(part)
+            if token and token not in usable:
+                usable.append(token)
+    return AdvisoryRecord(
+        ghsa_id=ghsa_id,
+        cve_id=cve,
+        state=state,
+        published_at=published,
+        patched_versions=tuple(usable),
+        raw_patched_versions=tuple(raws),
+    )
+
+
+def _optional_text(payload: dict[str, object], key: str) -> str | None:
+    """Missing or null is empty. Any other non-string is a shape error (`None`)."""
+
+    if key not in payload or payload[key] is None:
+        return ""
+    value = payload[key]
+    if isinstance(value, str):
+        return value
+    return None
 
 
 def _site_hosts(project_site: str) -> tuple[str, ...]:
@@ -219,6 +335,28 @@ class UrllibGitHub:
             return CompareResult("", 0, 0, "compare_shape")
         return CompareResult(status, ahead, behind, "")
 
+    def read_advisory(self, owner: str, repo: str, ghsa_id: str) -> AdvisoryRecord:
+        """Read one advisory. HTTP, timeout, and shape failures stay on the record."""
+
+        try:
+            if not _repo_ok(owner, repo):
+                return AdvisoryRecord(error="unsafe_repo")
+            if not _GHSA_ID.fullmatch(ghsa_id):
+                return AdvisoryRecord(error="unsafe_ghsa")
+            url = f"{_GITHUB_API}/repos/{owner}/{repo}/security-advisories/{ghsa_id}"
+            try:
+                payload = _github_get(url)
+            except GitHubError as exc:
+                return AdvisoryRecord(ghsa_id=ghsa_id, error=exc.reason)
+            except TimeoutError:
+                return AdvisoryRecord(ghsa_id=ghsa_id, error="timeout")
+            return parse_advisory(payload, ghsa_id)
+        except Exception:
+            return AdvisoryRecord(
+                ghsa_id=ghsa_id if _GHSA_ID.fullmatch(ghsa_id) else "",
+                error="advisory_lookup",
+            )
+
 
 def _fix_commits(commits: list[str] | tuple[str, ...]) -> tuple[str, ...]:
     found: list[str] = []
@@ -229,11 +367,34 @@ def _fix_commits(commits: list[str] | tuple[str, ...]) -> tuple[str, ...]:
     return tuple(found)
 
 
+def _version_claims(
+    ids: ExtractedIds, model_version: str, extra_versions: tuple[str, ...]
+) -> tuple[list[str], tuple[str, ...]]:
+    """Page text, then the advisory API, then the model. One copy of each version."""
+
+    versions: list[str] = []
+    sources: list[str] = []
+
+    def add(version: str, origin: str) -> None:
+        cleaned = version.strip()
+        if not cleaned:
+            return
+        label = f"{origin}:{cleaned}"
+        if label not in sources:
+            sources.append(label)
+        if cleaned not in versions:
+            versions.append(cleaned)
+
+    for version in ids.patched_versions:
+        add(version, "page_text")
+    for version in extra_versions:
+        add(version, "github_advisory_api")
+    add(model_version, "model")
+    return versions, tuple(sources)
+
+
 def _stated_versions(ids: ExtractedIds, model_version: str) -> list[str]:
-    versions = list(ids.patched_versions)
-    cleaned = model_version.strip()
-    if cleaned and cleaned not in versions:
-        versions.append(cleaned)
+    versions, _sources = _version_claims(ids, model_version, ())
     return versions
 
 
@@ -275,23 +436,24 @@ def assess_ancestry(
     repo: str,
     transport: GitHubTransport | None,
     failed: list[str],
+    extra_versions: tuple[str, ...] = (),
 ) -> _Ancestry:
     """A version git rejects wins over a side commit. An unchecked fix is not FIXED."""
 
-    versions = _stated_versions(ids, guarded.upstream_version)
+    versions, sources = _version_claims(ids, guarded.upstream_version, extra_versions)
     named = named_fix_commit(text, fix_commits)
     if not versions and named:
-        return _Ancestry(CONTAINS_FIX, "", "", named, ())
+        return _Ancestry(CONTAINS_FIX, "", "", named, (), (), sources)
     if not _repo_ok(owner, repo) or transport is None or not versions:
         ancestry = NOT_CHECKABLE if fix_commits or versions else NO_FIX_COMMIT
         version = versions[0] if versions else ""
-        return _Ancestry(ancestry, version, "", "", ())
+        return _Ancestry(ancestry, version, "", "", (), tuple(versions), sources)
 
     try:
         tags = transport.list_tags(owner, repo)
     except Exception as exc:
         failed.append(_clean(f"git tags failed: {type(exc).__name__}"))
-        return _Ancestry(NOT_CHECKABLE, versions[0], "", "", ())
+        return _Ancestry(NOT_CHECKABLE, versions[0], "", "", (), tuple(versions), sources)
 
     decided = NOT_CHECKABLE
     version_out = versions[0]
@@ -323,7 +485,9 @@ def assess_ancestry(
             commit_out = commit
     if decided == NOT_CHECKABLE and not saw_contains:
         version_out = versions[0]
-    return _Ancestry(decided, version_out, tag_out, commit_out, tuple(stale))
+    return _Ancestry(
+        decided, version_out, tag_out, commit_out, tuple(stale), tuple(versions), sources
+    )
 
 
 def _withhold(
@@ -389,6 +553,7 @@ def _evidence(
         ancestry=ancestry.ancestry,
         checked_tag=ancestry.tag,
         checked_commit=ancestry.commit,
+        version_sources=list(ancestry.version_sources),
         stale_fields=stale,
         quotes=_withhold(guarded.supporting_quotes, forbidden, "quote withheld"),
         dispute=guarded.dispute,
@@ -411,7 +576,8 @@ def _evidence(
     return item, view
 
 
-def _sentence(item: PublicEvidence) -> str:
+def _sentence(item: PublicEvidence, project: str) -> str:
+    name = project.strip() or "this project"
     if item.dispute and item.ancestry != CONTAINS_FIX:
         head = "This page disputes the recorded upstream status."
     elif item.ancestry == DOES_NOT_CONTAIN_FIX and item.checked_tag:
@@ -419,9 +585,20 @@ def _sentence(item: PublicEvidence) -> str:
             "This page matches a related crash. "
             f"Git ancestry shows tag {item.checked_tag} does not contain the recorded fix."
         )
+    elif (
+        item.ancestry == CONTAINS_FIX
+        and item.checked_tag
+        and item.upstream_version
+        and len(item.checked_commit) >= 7
+    ):
+        short = item.checked_commit[:7]
+        head = (
+            f"Fixed in {name} {item.upstream_version}. "
+            f"Git ancestry: tag {item.checked_tag} contains OSV fix {short}."
+        )
     elif item.ancestry == CONTAINS_FIX and item.checked_tag and item.upstream_version:
         head = (
-            "This page matches this crash. "
+            f"Fixed in {name} {item.upstream_version}. "
             f"Git ancestry shows tag {item.checked_tag} contains the recorded fix."
         )
     elif item.ancestry == CONTAINS_FIX and item.checked_commit:
@@ -447,6 +624,7 @@ def _drafts(
     retrieved_on: str,
     forbidden: list[str] | tuple[str, ...],
     failed: list[str],
+    project: str,
 ) -> list[PublicDraftLine]:
     lines: list[PublicDraftLine] = []
     for item in evidence:
@@ -455,7 +633,7 @@ def _drafts(
         confidence = "high" if item.ancestry in {CONTAINS_FIX, DOES_NOT_CONTAIN_FIX} else "medium"
         try:
             drafted = build_draft_line(
-                sentence=_sentence(item),
+                sentence=_sentence(item, project),
                 source_url=item.url,
                 source_date=retrieved_on,
                 confidence=confidence,
@@ -551,7 +729,7 @@ def lookup_public_status(
     usable = _usable(frames)
 
     def finish(state: str | None = None) -> PublicStatus:
-        draft = _drafts(evidence, retrieved_on, forbidden, failed) if evidence else []
+        draft = _drafts(evidence, retrieved_on, forbidden, failed, project) if evidence else []
         new_calls = book.calls[call_start:]
         decided = state if state is not None else decide_state(views)
         if usable:
@@ -770,6 +948,33 @@ def _take_pages(
     return passed
 
 
+def _advisory_versions(
+    url: str,
+    owner: str,
+    repo: str,
+    transport: GitHubTransport | None,
+    failed: list[str],
+) -> list[str]:
+    """Versions from this task's own advisory. A failed read adds a failed source and no version."""
+
+    located = task_advisory(url, owner, repo)
+    if located is None or transport is None:
+        return []
+    _task_owner, _task_repo, ghsa_id = located
+    try:
+        record = transport.read_advisory(owner, repo, ghsa_id)
+    except Exception:
+        failed.append(f"github advisory {ghsa_id}: advisory_lookup")
+        return []
+    if not isinstance(record, AdvisoryRecord):
+        failed.append(f"github advisory {ghsa_id}: advisory_shape")
+        return []
+    if record.error:
+        failed.append(f"github advisory {record.ghsa_id or ghsa_id}: {record.error}")
+        return []
+    return list(record.patched_versions)
+
+
 def _judge_page(
     page: ExtractedPage,
     *,
@@ -831,6 +1036,7 @@ def _judge_page(
             failed.append(f"classification rejected: {guarded.rejection}")
         return None, "passed_frame"
     ids = extract_ids(page.text)
+    advisory_versions = _advisory_versions(page.url, owner, repo, transport, failed)
     ancestry = assess_ancestry(
         page.text,
         ids,
@@ -840,10 +1046,11 @@ def _judge_page(
         repo=repo,
         transport=transport,
         failed=failed,
+        extra_versions=tuple(advisory_versions),
     )
     relation, status, version, stale = _apply(guarded, ancestry, page.text)
     if ancestry.ancestry not in {CONTAINS_FIX, DOES_NOT_CONTAIN_FIX}:
-        for stated in _stated_versions(ids, guarded.upstream_version):
+        for stated in ancestry.stated:
             if stated not in unverified:
                 unverified.append(stated)
     item, view = _evidence(

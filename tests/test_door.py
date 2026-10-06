@@ -856,6 +856,9 @@ def test_public_step_omits_page_text_and_counts_model_cost() -> None:
     assert isinstance(evidence, list)
     assert "matched_lines" not in evidence[0]
     assert "quotes" not in evidence[0]
+    assert payload["project"] == "jq"
+    assert evidence[0]["version_sources"] == []
+    assert evidence[0]["checked_commit"] == ""
     draft = payload["draft"]
     assert isinstance(draft, list)
     assert FORBIDDEN_PAGE_TEXT not in draft[0]["text"]

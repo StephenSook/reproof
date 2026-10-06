@@ -465,7 +465,7 @@ def _settle_or_keep_hold(
 
 
 def _public_step_payload(
-    status: PublicStatus, budget: PublicBudget | None = None
+    status: PublicStatus, budget: PublicBudget | None = None, *, project: str = ""
 ) -> dict[str, Any]:
     """Fields the page shows. Matched lines and page text stay off this step."""
 
@@ -496,6 +496,7 @@ def _public_step_payload(
         "source_file_rejected": status.source_file_rejected,
         "model_request_ids": [call.request_id for call in status.model_calls],
         "model_cost_usd": round(sum(call.cost_usd for call in status.model_calls), 8),
+        "project": project,
         "caps": caps,
         "evidence": [
             {
@@ -510,6 +511,8 @@ def _public_step_payload(
                 "ancestry": item.ancestry,
                 "stale_fields": list(item.stale_fields),
                 "checked_tag": item.checked_tag,
+                "checked_commit": item.checked_commit,
+                "version_sources": list(item.version_sources),
             }
             for item in status.evidence
         ],
@@ -712,7 +715,12 @@ def iter_cached_triage(
     card = attach_public_status(card, status).model_copy(
         update={"wall_seconds": round(time.perf_counter() - started, 6)}
     )
-    steps.append(_step("public_status", _public_step_payload(status, public_budget)))
+    steps.append(
+        _step(
+            "public_status",
+            _public_step_payload(status, public_budget, project=str(task["project"])),
+        )
+    )
     yield {"type": "step", "step": steps[-1].model_dump(mode="json")}
     steps.append(
         _step(

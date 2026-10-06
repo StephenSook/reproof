@@ -213,6 +213,13 @@ check. A fixed-in claim counts only when ancestry says the stated version contai
 OSV fix commit. A version that does not contain the commit is a related variant, and that
 patched-version field is marked stale.
 
+When a kept page is a GitHub security advisory on the task's own repository, the lookup also
+reads that advisory's structured record from the GitHub API. `vulnerabilities[].patched_versions`
+is a claim about a version, the same kind of claim as a version in the page text. Git ancestry
+is still the only check that can mark the crash `PUBLICLY_KNOWN_FIXED`. If the advisory request
+fails, times out, or is not the expected shape, the page keeps the state it would have had
+without that request, and the failure is listed with the other failed sources.
+
 The pre-registered expectation, from a 2026-10-05 research pass and not from this run, was that
 about 3 of the 10 ARVO tasks would have a public reference and the other 7 would be
 `NO_PUBLIC_FINDINGS`. States are `PUBLICLY_KNOWN_FIXED` (only after ancestry),

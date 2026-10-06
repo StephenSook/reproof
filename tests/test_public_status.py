@@ -13,10 +13,13 @@ from pydantic import ValidationError
 from reproof.models import ModelCall, PublicStatus, PublicTavilyCall, TriageCard
 from reproof.public_model import QUERY_TOOL_NAME
 from reproof.public_status import (
+    AdvisoryRecord,
     GitHubError,
     UrllibGitHub,
     attach_public_status,
     lookup_public_status,
+    parse_advisory,
+    task_advisory,
 )
 from reproof.public_tavily import (
     EXTRACT_CHUNKS,
@@ -153,12 +156,24 @@ class FakeTavily:
 
 
 class ScriptedGitHub:
-    def __init__(self, tags: tuple[str, ...], ahead_by: int = 102, behind_by: int = 0) -> None:
+    def __init__(
+        self,
+        tags: tuple[str, ...],
+        ahead_by: int = 102,
+        behind_by: int = 0,
+        *,
+        status: str | None = None,
+        advisory: AdvisoryRecord | None = None,
+        advisory_error: str = "",
+    ) -> None:
         self.tags = tags
         self.ahead_by = ahead_by
         self.behind_by = behind_by
-        self.status = "ahead" if ahead_by else "behind"
+        self.status = status if status is not None else ("ahead" if ahead_by else "behind")
+        self.advisory = advisory
+        self.advisory_error = advisory_error
         self.compare_calls: list[tuple[str, str]] = []
+        self.advisory_calls: list[tuple[str, str, str]] = []
         self.tag_calls = 0
 
     def list_tags(self, owner: str, repo: str) -> tuple[str, ...]:
@@ -171,6 +186,14 @@ class ScriptedGitHub:
 
         return CompareResult(self.status, self.ahead_by, self.behind_by)
 
+    def read_advisory(self, owner: str, repo: str, ghsa_id: str) -> AdvisoryRecord:
+        self.advisory_calls.append((owner, repo, ghsa_id))
+        if self.advisory_error:
+            return AdvisoryRecord(ghsa_id=ghsa_id, error=self.advisory_error)
+        if self.advisory is not None:
+            return self.advisory
+        return AdvisoryRecord(ghsa_id=ghsa_id)
+
 
 class RaisingGitHub:
     def list_tags(self, owner: str, repo: str) -> tuple[str, ...]:
@@ -178,6 +201,9 @@ class RaisingGitHub:
 
     def compare(self, owner: str, repo: str, base: str, head: str) -> Any:
         raise AssertionError("compare")
+
+    def read_advisory(self, owner: str, repo: str, ghsa_id: str) -> AdvisoryRecord:
+        raise AssertionError("advisory")
 
 
 def _recorded(name: str) -> dict[str, Any]:
@@ -304,6 +330,7 @@ def test_recorded_jq_demotes_1_7_1_and_keeps_the_open_advisory() -> None:
     assert older.frames_matched == ["decNaNs"]
     assert older.ghsa_ids == ["ghsa-7hmr-442f-qc8j"]
     assert older.patched_versions == ["1.7.1"]
+    assert older.version_sources == ["page_text:1.7.1", "model:1.7.1"]
     assert older.match_reason == "top_frame_and_crash_type"
     assert "64771" in older.title
     assert FORBIDDEN not in "".join(older.matched_lines)
@@ -317,6 +344,11 @@ def test_recorded_jq_demotes_1_7_1_and_keeps_the_open_advisory() -> None:
     assert "matched line withheld" in newer.matched_lines
     assert FIX not in newer.mentioned_commits
     assert newer.checked_tag == ""
+    assert newer.version_sources == []
+    assert github.advisory_calls == [
+        ("jqlang", "jq", "GHSA-7hmr-442f-qc8j"),
+        ("jqlang", "jq", "GHSA-x6c3-qv5r-7q22"),
+    ]
 
     dumped = status.model_dump_json()
     assert FORBIDDEN not in dumped
@@ -375,7 +407,11 @@ def test_containing_tag_is_recorded_as_the_fix() -> None:
     assert status.evidence[0].relation == "SAME_BUG"
     assert status.evidence[0].upstream_status == "FIXED"
     assert github.compare_calls == [("jq-1.8.0", FIX)]
-    assert "contains the recorded fix" in status.draft[0].text
+    assert status.evidence[0].version_sources == ["page_text:1.8.0", "model:1.8.0"]
+    assert (
+        "Fixed in jq 1.8.0. Git ancestry: tag jq-1.8.0 contains OSV fix b86ff49."
+        in status.draft[0].text
+    )
     assert status.draft[0].confidence == "high"
 
 
@@ -816,3 +852,232 @@ def test_unsafe_github_refs_do_not_call_the_network(monkeypatch: pytest.MonkeyPa
     assert github.compare("jqlang", "jq", "jq-1.7.1", "abc").error == "unsafe_head"
     with pytest.raises(GitHubError, match="unsafe_repo"):
         github.list_tags("../x", "jq")
+    assert github.read_advisory("../x", "jq", "GHSA-686w-5m7m-54vc").error == "unsafe_repo"
+    assert github.read_advisory("jqlang", "jq", "not-a-ghsa").error == "unsafe_ghsa"
+
+
+GITHUB_DIR = Path(__file__).parent / "fixtures" / "github"
+JQ_FIX_686 = "71c2ab509a8628dbbad4bc7b3f98a64aa90d3297"
+ADVISORY_686 = "https://github.com/jqlang/jq/security/advisories/GHSA-686w-5m7m-54vc"
+
+
+def _github_fixture(name: str) -> dict[str, Any]:
+    return json.loads((GITHUB_DIR / name).read_text(encoding="utf-8"))
+
+
+def _recorded_686() -> AdvisoryRecord:
+    payload = _github_fixture("RECORDED-advisory-GHSA-686w-5m7m-54vc.json")
+    assert payload["label"] == "RECORDED"
+    return parse_advisory(payload["response"], "GHSA-686w-5m7m-54vc")
+
+
+class _Body:
+    def __init__(self, body: bytes) -> None:
+        self.body = body
+
+    def read(self) -> bytes:
+        return self.body
+
+    def __enter__(self) -> _Body:
+        return self
+
+    def __exit__(self, *_args: object) -> bool:
+        return False
+
+
+def test_recorded_advisory_parse_keeps_only_a_version_token() -> None:
+    payload = _github_fixture("RECORDED-advisory-GHSA-686w-5m7m-54vc.json")
+    record = parse_advisory(payload["response"], "GHSA-686w-5m7m-54vc")
+    assert record.error == ""
+    assert record.cve_id == "CVE-2023-50246"
+    assert record.state == "published"
+    assert record.published_at == "2023-12-13T19:20:47Z"
+    assert record.patched_versions == ("1.7.1",)
+    assert record.raw_patched_versions == ("1.7.1",)
+    compare = _github_fixture("RECORDED-compare-jq-1.7.1-71c2ab5.json")
+    assert compare["label"] == "RECORDED"
+    assert compare["response"]["status"] == "identical"
+    assert compare["response"]["ahead_by"] == 0
+    assert compare["response"]["behind_by"] == 0
+
+    stale = _github_fixture("HAND-BUILT-advisory-stale.json")
+    assert stale["label"] == "HAND-BUILT"
+    parsed = parse_advisory(stale["response"], "GHSA-2222-2222-2222")
+    assert parsed.error == ""
+    assert parsed.cve_id == ""
+    assert parsed.patched_versions == ("1.6.0",)
+    assert parsed.raw_patched_versions == ("1.6.0, >= 9.9.9",)
+
+
+def test_urllib_advisory_reader_uses_the_recorded_body(monkeypatch: pytest.MonkeyPatch) -> None:
+    payload = _github_fixture("RECORDED-advisory-GHSA-686w-5m7m-54vc.json")
+    seen: list[str] = []
+
+    def fake_open(request: Any, timeout: int = 30) -> _Body:
+        seen.append(request.full_url)
+        assert timeout == 30
+        return _Body(json.dumps(payload["response"]).encode("utf-8"))
+
+    monkeypatch.setattr("reproof.public_status.urllib.request.urlopen", fake_open)
+    record = UrllibGitHub().read_advisory("jqlang", "jq", "GHSA-686w-5m7m-54vc")
+    assert record.patched_versions == ("1.7.1",)
+    assert record.cve_id == "CVE-2023-50246"
+    assert seen == [
+        "https://api.github.com/repos/jqlang/jq/security-advisories/GHSA-686w-5m7m-54vc"
+    ]
+
+
+def test_urllib_advisory_reader_reports_http_and_shape(monkeypatch: pytest.MonkeyPatch) -> None:
+    import urllib.error
+
+    def missing(request: Any, timeout: int = 30) -> _Body:
+        raise urllib.error.HTTPError(request.full_url, 404, "missing", hdrs=None, fp=None)
+
+    monkeypatch.setattr("reproof.public_status.urllib.request.urlopen", missing)
+    assert UrllibGitHub().read_advisory("jqlang", "jq", "GHSA-686w-5m7m-54vc").error == "http_404"
+
+    def slow(request: Any, timeout: int = 30) -> _Body:
+        raise TimeoutError("timed out")
+
+    monkeypatch.setattr("reproof.public_status.urllib.request.urlopen", slow)
+    assert UrllibGitHub().read_advisory("jqlang", "jq", "GHSA-686w-5m7m-54vc").error == "timeout"
+
+    def broken(request: Any, timeout: int = 30) -> _Body:
+        return _Body(b"not-json")
+
+    monkeypatch.setattr("reproof.public_status.urllib.request.urlopen", broken)
+    assert UrllibGitHub().read_advisory("jqlang", "jq", "GHSA-686w-5m7m-54vc").error == "not_json"
+
+    def shaped(request: Any, timeout: int = 30) -> _Body:
+        return _Body(b'{"ghsa_id": "GHSA-0000-0000-0000"}')
+
+    monkeypatch.setattr("reproof.public_status.urllib.request.urlopen", shaped)
+    assert (
+        UrllibGitHub().read_advisory("jqlang", "jq", "GHSA-686w-5m7m-54vc").error
+        == "advisory_shape"
+    )
+
+
+def test_task_advisory_matches_only_the_task_repo() -> None:
+    assert task_advisory(ADVISORY_686, "jqlang", "jq") == (
+        "jqlang",
+        "jq",
+        "GHSA-686w-5m7m-54vc",
+    )
+    mixed = "https://github.com/JQLang/JQ/security/advisories/GHSA-686W-5M7M-54VC"
+    assert task_advisory(mixed, "jqlang", "jq") == ("jqlang", "jq", "GHSA-686w-5m7m-54vc")
+    assert task_advisory(ADVISORY_686 + "/", "jqlang", "jq") is None
+    assert task_advisory(ADVISORY_686 + "/extra", "jqlang", "jq") is None
+    other = "https://github.com/other/jq/security/advisories/GHSA-686w-5m7m-54vc"
+    assert task_advisory(other, "jqlang", "jq") is None
+    assert (
+        task_advisory(
+            "https://www.github.com/jqlang/jq/security/advisories/GHSA-686w-5m7m-54vc",
+            "jqlang",
+            "jq",
+        )
+        is None
+    )
+
+
+def _advisory_lookup(
+    github: ScriptedGitHub,
+    *,
+    url: str = ADVISORY_686,
+    fix: str = JQ_FIX_686,
+    status: str = "UNKNOWN",
+) -> Any:
+    text = f"{FRAME_LINE}\nThe advisory page names the crash.\n"
+    return _lookup(
+        tavily_client=FakeTavily(
+            searches=[
+                _search_body([_hit(text, url)], "req-search-1"),
+                _empty_search("req-search-2"),
+            ],
+            extracts=[_extract_body(text, url=url, title="jq advisory")],
+        ),
+        model_client=_model(
+            _plan("jq Stack-buffer-overflow decNaNs", "jq decNumberCopy"),
+            _classify("SAME_BUG", status, FRAME_LINE, request_id="req-adv"),
+        ),
+        transport=github,
+        fix_commits=(fix,),
+    )
+
+
+def test_advisory_version_and_ancestry_record_the_fix() -> None:
+    compare = _github_fixture("RECORDED-compare-jq-1.7.1-71c2ab5.json")["response"]
+    github = ScriptedGitHub(
+        ("jq-1.7.1",),
+        ahead_by=compare["ahead_by"],
+        behind_by=compare["behind_by"],
+        status=compare["status"],
+        advisory=_recorded_686(),
+    )
+    status = _advisory_lookup(github)
+    item = status.evidence[0]
+    assert status.state == "PUBLICLY_KNOWN_FIXED"
+    assert item.upstream_status == "FIXED"
+    assert item.upstream_version == "1.7.1"
+    assert item.checked_tag == "jq-1.7.1"
+    assert item.checked_commit == JQ_FIX_686
+    assert item.version_sources == ["github_advisory_api:1.7.1"]
+    assert item.ancestry == "CONTAINS_FIX"
+    assert github.advisory_calls == [("jqlang", "jq", "GHSA-686w-5m7m-54vc")]
+    assert github.compare_calls == [("jq-1.7.1", JQ_FIX_686)]
+    assert (
+        "Fixed in jq 1.7.1. Git ancestry: tag jq-1.7.1 contains OSV fix 71c2ab5."
+        in status.draft[0].text
+    )
+    assert ADVISORY_686 in status.draft[0].text
+
+
+@pytest.mark.parametrize("reason", ["http_404", "advisory_shape"])
+def test_advisory_lookup_failure_keeps_the_old_state(reason: str) -> None:
+    github = ScriptedGitHub(("jq-1.7.1",), advisory_error=reason)
+    status = _advisory_lookup(github)
+    assert status.state == "PUBLICLY_KNOWN_OPEN"
+    assert status.state != "PUBLICLY_KNOWN_FIXED"
+    item = status.evidence[0]
+    assert item.upstream_status == "UNKNOWN"
+    assert item.upstream_version == ""
+    assert item.version_sources == []
+    assert item.ancestry == "NOT_CHECKABLE"
+    assert status.failed_sources == [f"github advisory GHSA-686w-5m7m-54vc: {reason}"]
+    assert github.compare_calls == []
+
+
+def test_advisory_on_another_repo_is_not_read() -> None:
+    github = ScriptedGitHub(("jq-1.7.1",), advisory=_recorded_686())
+    other = "https://github.com/other/jq/security/advisories/GHSA-686w-5m7m-54vc"
+    status = _advisory_lookup(github, url=other)
+    assert github.advisory_calls == []
+    assert status.state == "NO_PUBLIC_FINDINGS"
+    assert status.host_rejected == 1
+
+    slashed = ADVISORY_686 + "/"
+    kept = _advisory_lookup(github, url=slashed)
+    assert github.advisory_calls == []
+    assert kept.state == "PUBLICLY_KNOWN_OPEN"
+    assert kept.evidence[0].version_sources == []
+    assert "github advisory" not in " ".join(kept.failed_sources)
+
+
+def test_advisory_version_git_contradicts_is_stale_and_not_fixed() -> None:
+    stale = parse_advisory(
+        _github_fixture("HAND-BUILT-advisory-stale.json")["response"],
+        "GHSA-2222-2222-2222",
+    )
+    url = "https://github.com/jqlang/jq/security/advisories/GHSA-2222-2222-2222"
+    github = ScriptedGitHub(("jq-1.6.0",), ahead_by=3, behind_by=0, status="ahead", advisory=stale)
+    status = _advisory_lookup(github, url=url, fix=FIX)
+    assert status.state == "RELATED_VARIANTS_ONLY"
+    assert status.state != "PUBLICLY_KNOWN_FIXED"
+    item = status.evidence[0]
+    assert item.relation == "RELATED_VARIANT"
+    assert item.upstream_status == "UNKNOWN"
+    assert item.stale_fields == ["patched_version:1.6.0"]
+    assert item.version_sources == ["github_advisory_api:1.6.0"]
+    assert item.checked_tag == "jq-1.6.0"
+    assert "does not contain the recorded fix" in status.draft[0].text
+    assert "patched_version:1.6.0" in status.draft[0].text

@@ -1,0 +1,19 @@
+{
+  "captured": "2026-10-06",
+  "label": "HAND-BUILT",
+  "url": "",
+  "note": "Not a GitHub response. No recorded jq advisory was verified as a patched version that does not contain its own OSV fix commit, so this body exists only for that test. The compare result is not stored here.",
+  "response": {
+    "ghsa_id": "GHSA-2222-2222-2222",
+    "cve_id": null,
+    "state": "published",
+    "published_at": "2026-10-06T00:00:00Z",
+    "vulnerabilities": [
+      {
+        "package": {"ecosystem": "other", "name": "example"},
+        "vulnerable_version_range": "<= 1.6.0",
+        "patched_versions": "1.6.0, >= 9.9.9"
+      }
+    ]
+  }
+}

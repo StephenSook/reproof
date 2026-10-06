@@ -153,6 +153,8 @@ class PublicEvidence(StrictModel):
     ancestry: str
     checked_tag: str
     checked_commit: str
+    # Where each stated version came from, for example github_advisory_api:1.7.1.
+    version_sources: list[str] = Field(default_factory=list)
     stale_fields: list[str]
     quotes: list[str]
     dispute: bool

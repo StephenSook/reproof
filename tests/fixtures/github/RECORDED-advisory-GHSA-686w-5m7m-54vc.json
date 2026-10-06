@@ -1,0 +1,183 @@
+{
+  "captured": "2026-10-06",
+  "label": "RECORDED",
+  "url": "https://api.github.com/repos/jqlang/jq/security-advisories/GHSA-686w-5m7m-54vc",
+  "note": "Unauthenticated GET on 2026-10-06. HTTP 200. response is that JSON body.",
+  "response": {
+    "ghsa_id": "GHSA-686w-5m7m-54vc",
+    "cve_id": "CVE-2023-50246",
+    "url": "https://api.github.com/repos/jqlang/jq/security-advisories/GHSA-686w-5m7m-54vc",
+    "html_url": "https://github.com/jqlang/jq/security/advisories/GHSA-686w-5m7m-54vc",
+    "summary": "heap-buffer-overflow exists in the function decToString in decNumber.c",
+    "description": "**System info**\r\nUbuntu x86_64, clang 12.0\r\nversion: jq-master-cca1f7d-dirty\r\n\r\n**Command line**\r\n./jq . poc\r\n\r\n**Poc**\r\npoc:[poc](https://github.com/SEU-SSL/Poc/raw/main/jq/id_000000,sig_06,src_003363+001607,op_splice,rep_32)\r\n\r\n**AddressSanitizer output**\r\n==542903==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x613000000188 at pc 0x00000054e6e3 bp 0x7ffdf15aa0b0 sp 0x7ffdf15aa0a8\r\nWRITE of size 1 at 0x613000000188 thread T0\r\n #0 0x54e6e2 in decToString /src/jq/src/decNumber/decNumber.c:3764:5\r\n #1 0x54c9d2 in decNumberToString /src/jq/src/decNumber/decNumber.c:449:3\r\n #2 0x4f6b54 in jvp_literal_number_literal /src/jq/src/jv.c:653:5\r\n #3 0x4f6b54 in jv_number_get_literal /src/jq/src/jv.c:668:12\r\n #4 0x53a80b in jv_dump_term /src/jq/src/jv_print.c:231:35\r\n #5 0x53eba6 in jv_dumpf /src/jq/src/jv_print.c:368:3\r\n #6 0x53eba6 in jv_dump /src/jq/src/jv_print.c:372:3\r\n #7 0x4ce841 in process /src/jq/src/main.c:207:7\r\n #8 0x4cd2ac in main /src/jq/src/main.c:724:15\r\n #9 0x7fe078a4f082 in __libc_start_main /build/glibc-BHL3KM/glibc-2.31/csu/../csu/libc-start.c:308:16\r\n #10 0x41d7bd in _start (/src/jq/jq+0x41d7bd)\r\n\r\n0x613000000188 is located 0 bytes to the right of 328-byte region [0x613000000040,0x613000000188)\r\nallocated by thread T0 here:\r\n #0 0x49867d in malloc (/src/jq/jq+0x49867d)\r\n #1 0x5084bf in jv_mem_alloc /src/jq/src/jv_alloc.c:141:13\r\n #2 0x53eba6 in jv_dumpf /src/jq/src/jv_print.c:368:3\r\n #3 0x53eba6 in jv_dump /src/jq/src/jv_print.c:372:3\r\n\r\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/jq/src/decNumber/decNumber.c:3764:5 in decToString\r\nShadow bytes around the buggy address:\r\n 0x0c267fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\r\n 0x0c267fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\r\n 0x0c267fff8000: fa fa fa fa fa fa fa fa 00 00 00 00 00 00 00 00\r\n 0x0c267fff8010: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\r\n 0x0c267fff8020: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\r\n=>0x0c267fff8030: 00[fa]fa fa fa fa fa fa fa fa fa fa fa fa fa fa\r\n 0x0c267fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\r\n 0x0c267fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\r\n 0x0c267fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\r\n 0x0c267fff8070: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\r\n 0x0c267fff8080: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\r\nShadow byte legend (one shadow byte represents 8 application bytes):\r\n Addressable: 00\r\n Partially addressable: 01 02 03 04 05 06 07\r\n Heap left redzone: fa\r\n Freed heap region: fd\r\n Stack left redzone: f1\r\n Stack mid redzone: f2\r\n Stack right redzone: f3\r\n Stack after return: f5\r\n Stack use after scope: f8\r\n Global redzone: f9\r\n Global init order: f6\r\n Poisoned by user: f7\r\n Container overflow: fc\r\n Array cookie: ac\r\n Intra object redzone: bb\r\n ASan internal: fe\r\n Left alloca redzone: ca\r\n Right alloca redzone: cb\r\n Shadow gap: cc\r\n==542903==ABORTING",
+    "severity": "high",
+    "author": null,
+    "publisher": {
+      "login": "emanuele6",
+      "id": 20175435,
+      "node_id": "MDQ6VXNlcjIwMTc1NDM1",
+      "avatar_url": "https://avatars.githubusercontent.com/u/20175435?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/emanuele6",
+      "html_url": "https://github.com/emanuele6",
+      "followers_url": "https://api.github.com/users/emanuele6/followers",
+      "following_url": "https://api.github.com/users/emanuele6/following{/other_user}",
+      "gists_url": "https://api.github.com/users/emanuele6/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/emanuele6/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/emanuele6/subscriptions",
+      "organizations_url": "https://api.github.com/users/emanuele6/orgs",
+      "repos_url": "https://api.github.com/users/emanuele6/repos",
+      "events_url": "https://api.github.com/users/emanuele6/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/emanuele6/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "identifiers": [
+      {
+        "value": "GHSA-686w-5m7m-54vc",
+        "type": "GHSA"
+      },
+      {
+        "value": "CVE-2023-50246",
+        "type": "CVE"
+      }
+    ],
+    "state": "published",
+    "created_at": null,
+    "updated_at": "2023-12-13T19:20:47Z",
+    "published_at": "2023-12-13T19:20:47Z",
+    "closed_at": null,
+    "withdrawn_at": null,
+    "submission": null,
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "jq",
+          "name": "jq"
+        },
+        "vulnerable_version_range": "1.7",
+        "patched_versions": "1.7.1",
+        "vulnerable_functions": []
+      }
+    ],
+    "cvss_severities": {
+      "cvss_v3": {
+        "vector_string": null,
+        "score": null
+      },
+      "cvss_v4": {
+        "vector_string": null,
+        "score": null
+      }
+    },
+    "cwes": [
+      {
+        "cwe_id": "CWE-122",
+        "name": "Heap-based Buffer Overflow"
+      }
+    ],
+    "cwe_ids": [
+      "CWE-122"
+    ],
+    "credits": [
+      {
+        "login": "SEU-SSL",
+        "type": "reporter"
+      },
+      {
+        "login": "emanuele6",
+        "type": "remediation_developer"
+      },
+      {
+        "login": "wader",
+        "type": "remediation_reviewer"
+      }
+    ],
+    "credits_detailed": [
+      {
+        "user": {
+          "login": "SEU-SSL",
+          "id": 26988892,
+          "node_id": "MDQ6VXNlcjI2OTg4ODky",
+          "avatar_url": "https://avatars.githubusercontent.com/u/26988892?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/SEU-SSL",
+          "html_url": "https://github.com/SEU-SSL",
+          "followers_url": "https://api.github.com/users/SEU-SSL/followers",
+          "following_url": "https://api.github.com/users/SEU-SSL/following{/other_user}",
+          "gists_url": "https://api.github.com/users/SEU-SSL/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/SEU-SSL/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/SEU-SSL/subscriptions",
+          "organizations_url": "https://api.github.com/users/SEU-SSL/orgs",
+          "repos_url": "https://api.github.com/users/SEU-SSL/repos",
+          "events_url": "https://api.github.com/users/SEU-SSL/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/SEU-SSL/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "type": "reporter",
+        "state": "accepted"
+      },
+      {
+        "user": {
+          "login": "emanuele6",
+          "id": 20175435,
+          "node_id": "MDQ6VXNlcjIwMTc1NDM1",
+          "avatar_url": "https://avatars.githubusercontent.com/u/20175435?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/emanuele6",
+          "html_url": "https://github.com/emanuele6",
+          "followers_url": "https://api.github.com/users/emanuele6/followers",
+          "following_url": "https://api.github.com/users/emanuele6/following{/other_user}",
+          "gists_url": "https://api.github.com/users/emanuele6/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/emanuele6/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/emanuele6/subscriptions",
+          "organizations_url": "https://api.github.com/users/emanuele6/orgs",
+          "repos_url": "https://api.github.com/users/emanuele6/repos",
+          "events_url": "https://api.github.com/users/emanuele6/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/emanuele6/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "type": "remediation_developer",
+        "state": "accepted"
+      },
+      {
+        "user": {
+          "login": "wader",
+          "id": 185566,
+          "node_id": "MDQ6VXNlcjE4NTU2Ng==",
+          "avatar_url": "https://avatars.githubusercontent.com/u/185566?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/wader",
+          "html_url": "https://github.com/wader",
+          "followers_url": "https://api.github.com/users/wader/followers",
+          "following_url": "https://api.github.com/users/wader/following{/other_user}",
+          "gists_url": "https://api.github.com/users/wader/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/wader/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/wader/subscriptions",
+          "organizations_url": "https://api.github.com/users/wader/orgs",
+          "repos_url": "https://api.github.com/users/wader/repos",
+          "events_url": "https://api.github.com/users/wader/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/wader/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "type": "remediation_reviewer",
+        "state": "accepted"
+      }
+    ],
+    "collaborating_users": null,
+    "collaborating_teams": null,
+    "private_fork": null,
+    "comments": 26,
+    "cvss": {
+      "vector_string": null,
+      "score": null
+    }
+  }
+}
