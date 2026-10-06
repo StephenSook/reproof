@@ -657,6 +657,7 @@ def test_budget_reuses_a_recent_lookup_without_new_calls(
     assert status.model_calls == []
     assert status.tavily_request_ids == ["tavily-req-live"]
     assert status.note.startswith("Reused the lookup made at ")
+    assert "claim extraction above is this triage's own call" in status.note
     assert second.card.model_cost_usd == pytest.approx(
         first.card.model_cost_usd - PUBLIC_MODEL_COST, abs=1e-9
     )

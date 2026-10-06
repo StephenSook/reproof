@@ -251,7 +251,7 @@ test("a reused lookup names its time and the daily credit cap", async ({ page })
   const block = page.locator('[data-step="public_status"] [data-public-status]');
   await expect(block.locator('[data-reused-from="2026-10-06T01:00:00+00:00"]')).toBeVisible();
   await expect(block.locator("[data-public-caps]")).toContainText("5 Tavily credits");
-  await expect(block.locator("[data-public-caps]")).toContainText("once 100 credits are counted for the UTC day");
+  await expect(block.locator("[data-public-caps]")).toContainText("5-credit hold no longer fits in 100 credits for the UTC day");
   await expect(block.locator('[data-tavily-request-id="tavily-req-earlier"]')).toBeVisible();
 });
 

@@ -402,13 +402,15 @@ does not invent a verdict.
 
 Each public-status lookup on the door is budgeted at 5 Tavily credits: the estimate for 2 advanced
 searches and one basic extract of up to 5 URLs. Its ledger refuses any call whose estimate would pass
-5. Before a lookup, the door holds 5 credits against a count of 100 per UTC day on that instance and
-sends no search if the hold does not fit. Afterwards the day is charged the larger of the hold and
-the credits Tavily reported, because a call that errors may be billed without a report. A response
-that reports more than its estimate is kept and charged as reported, so one lookup can take the day
-past 100 by that difference. All 102 calls in the stored evaluation were billed at or under their
-estimate. A lookup that fails keeps its hold. If the count file cannot be read or written, no search
-is sent and the state is `LOOKUP_UNAVAILABLE`. A lookup of the same measured crash in the last 60
+5, counting both the credits Tavily reported and the estimate of every call that was sent and got no
+answer. Before a lookup, the door holds 5 credits against a count of 100 per UTC day on that instance
+and sends no search if the hold does not fit, which is already true once 96 credits are counted.
+Afterwards the day is charged the larger of the hold and the reported plus unanswered credits. A
+response that reports more than its estimate is kept and charged as reported, so a lookup whose
+hold was placed at a count of 95 can end the day at 95 plus whatever it was charged, past 100 by that
+charge minus 5. All 102 calls in the stored evaluation were billed at or under their estimate. A
+lookup that fails keeps its hold. If the count file cannot be read or written, or holds a value that
+is not a whole number, no search is sent and the state is `LOOKUP_UNAVAILABLE`. A lookup of the same measured crash in the last 60
 minutes is reused. The page then shows the time of the original lookup and its Tavily request ids,
 and this triage's Tavily credits and public-status model cost are 0. A `LOOKUP_UNAVAILABLE` result is
 never reused. The cap and the window are in `reproof/assets/limits.json`.
