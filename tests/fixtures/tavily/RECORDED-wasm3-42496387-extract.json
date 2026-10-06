@@ -1,0 +1,25 @@
+{
+  "captured": "2026-10-05",
+  "label": "RECORDED",
+  "operation": "extract",
+  "query": "ForEachModule Runtime_Release m3_FreeRuntime",
+  "response": {
+    "failed_results": [],
+    "request_id": "62521e00-dd96-4ca7-ac7c-10a67631cfb9",
+    "response_time": 0.13,
+    "results": [
+      {
+        "images": [],
+        "raw_content": "Error: [Fatal] repl_load: function signature mismatch Error: function signature mismatch ================================================================= ==870880==ERROR: AddressSanitizer: heap-use-after-free on address 0x611000000108 at pc 0x560f75ac370c bp 0x7ffc5e7508d0 sp 0x7ffc5e7508c0 READ of size 8 at 0x611000000108 thread T0 #0 0x560f75ac370b in ForEachModule /root/wasm3/source/m3_env.c:211 #1 0x560f75ac370b in Runtime_Release /root/wasm3/source/m3_env.c:232 #2 0x560f75ac3789 in m3_FreeRuntime /root/wasm3/source/m3_env.c:248 #3 0x560f75a8258d in main /root/wasm3/platforms/app/main.c:722 #4 0x7fd4e9b57082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082) #5 0x560f75a8408d in _start (/root/wasm3/wasm3+0x2408d) 0x611000000108 is located 200 bytes inside of 208-byte [...] 00 00 00 00 00 00 0x0c227fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0x0c227fff8000: fa fa fa fa fa fa fa fa fd fd fd fd fd fd fd fd 0x0c227fff8010: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd =>0x0c227fff8020: fd[fd]fa fa fa fa fa fa fa fa fa fa fa fa fa fa 0x0c227fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa 0x0c227fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa 0x0c227fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa 0x0c227fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa 0x0c227fff8070: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa Shadow byte legend (one shadow byte represents 8 application bytes): Addressable: 00 Partially addressable: 01 02 03 04 05 06 07 Heap left redzone: fa Freed heap region: fd Stack left redzone: f1 Stack [...] 0x611000000108 is located 200 bytes inside of 208-byte region [0x611000000040,0x611000000110) freed by thread T0 here: #0 0x7fd4e9fb440f in __interceptor_free ../../../../src/libsanitizer/asan/asan_malloc_linux.cc:122 #1 0x560f75a85743 in repl_load /root/wasm3/platforms/app/main.c:165 previously allocated by thread T0 here: #0 0x7fd4e9fb4a06 in __interceptor_calloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cc:153 #1 0x560f75ad04e9 in m3_ParseModule /root/wasm3/source/m3_parse.c:609 SUMMARY: AddressSanitizer: heap-use-after-free /root/wasm3/source/m3_env.c:211 in ForEachModule Shadow bytes around the buggy address: 0x0c227fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0x0c227fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0x0c227fff7ff0: 00 00 00 00 00 00 00 00",
+        "title": "Use-After-Free in ForEachModule \u00b7 Issue #458 \u00b7 wasm3/wasm3 \u00b7 GitHub",
+        "url": "https://github.com/wasm3/wasm3/issues/458"
+      }
+    ],
+    "usage": {
+      "credits": 0
+    }
+  },
+  "sdk": "tavily-python==0.8.4",
+  "stopped": "",
+  "task": "42496387"
+}

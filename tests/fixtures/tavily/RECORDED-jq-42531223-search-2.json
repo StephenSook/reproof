@@ -1,0 +1,61 @@
+{
+  "captured": "2026-10-05",
+  "label": "RECORDED",
+  "operation": "search",
+  "query": "jq decNaNs decNumberCopy decCompareOp",
+  "response": {
+    "answer": null,
+    "follow_up_questions": null,
+    "images": [],
+    "query": "jq decNaNs decNumberCopy decCompareOp",
+    "request_id": "9b0ebc38-6257-4e17-8f76-e21b53423a87",
+    "response_time": 4.08,
+    "results": [
+      {
+        "content": "status|=DEC_Insufficient_storage;\n\nbreak;}\n\na=allocbufa; // use the allocated space\n\n }\n\ndecNumberCopy(a, lhs); // copy content\n\na->bits&=~DECNEG; // .. and clear the sign\n\nlhs=a; // use copy from here on\n\n }\n\nif (decNumberIsNegative(rhs)) { // rhs<0\n\nb=bufb;\n\nneedbytes=sizeof(decNumber)+(D2U(rhs->digits)-1)sizeof(Unit);\n\nif (needbytes>sizeof(bufb)) { // need malloc space\n\nallocbufb=(decNumber)malloc(needbytes);\n\nif (allocbufb==NULL) { // hopeless -- abandon\n\nstatus|=DEC_Insufficient_storage;\n\nbreak;}\n\nb=allocbufb; // use the allocated space\n\n }\n\ndecNumberCopy(b, rhs); // copy content\n\nb->bits&=~DECNEG; // .. and clear the sign\n\nrhs=b; // use copy from here on\n\n }\n\ndecCompareOp(res, lhs, rhs, set, COMPTOTAL, &status);\n\n } while(0); // end protected [...] uInt status=0; // accumulator\n\ndecCompareOp(res, lhs, rhs, set, COMPARE, &status);\n\nif (status!=0) decStatus(res, status, set);\n\nreturn res;\n\n } // decNumberCompare\n\n/ ------------------------------------------------------------------ /\n\n/ decNumberCompareSignal -- compare, signalling on all NaNs /\n\n/ /\n\n/ This computes C = A ? B /\n\n/ /\n\n/ res is C, the result. C may be A and/or B (e.g., X=X?X) /\n\n/ lhs is A /\n\n/ rhs is B /\n\n/ set is the context /\n\n/ /\n\n/ C must have space for one digit (or NaN). /\n\n/ ------------------------------------------------------------------ /\n\ndecNumberdecNumberCompareSignal(decNumberres, const decNumberlhs,\n\nconst decNumberrhs, decContextset) {\n\nuInt status=0; // accumulator\n\ndecCompareOp(res, lhs, rhs, set, COMPSIG, &status); [...] decContext, uByte, uInt);\n\nstatic Flag decBiStr(const char, const char, const char);\n\nstatic uInt decCheckMath(const decNumber, decContext, uInt);\n\nstatic void decApplyRound(decNumber, decContext, Int, uInt);\n\nstatic Int decCompare(const decNumberlhs, const decNumberrhs, Flag);\n\nstatic decNumberdecCompareOp(decNumber, const decNumber,\n\nconst decNumber, decContext,\n\nFlag, uInt);\n\nstatic void decCopyFit(decNumber, const decNumber, decContext,\n\nInt, uInt);\n\nstatic decNumberdecDecap(decNumber, Int);\n\nstatic decNumberdecDivideOp(decNumber, const decNumber,\n\nconst decNumber, decContext, Flag, uInt);\n\nstatic decNumberdecExpOp(decNumber, const decNumber,\n\ndecContext, uInt);\n\nstatic void decFinalize(decNumber, decContext, Int, uInt);\n\nstatic Int decGetDigits(Unit, Int);",
+        "id": "6a85a0-00",
+        "raw_content": null,
+        "score": 0.76617163,
+        "title": "jq/src/decNumber/decNumber.c at 71c2ab509a8628dbbad4bc7b3f98a64aa90d3297 \u00b7 jqlang/jq",
+        "url": "https://github.com/jqlang/jq/blob/71c2ab509a8628dbbad4bc7b3f98a64aa90d3297/src/decNumber/decNumber.c#L3375"
+      },
+      {
+        "content": "$ ./jq '8 != .' <<< 'NAN1000000000' ================================================================= ==2453849==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7f0d88993870 at pc 0x55656ccc6eb9 bp 0x7ffeaa748a30 sp 0x7ffeaa748a20 WRITE of size 2 at 0x7f0d88993870 thread T0 #0 0x55656ccc6eb8 in decNumberCopy src/decNumber/decNumber.c:3375 #1 0x55656ccc79aa in decNaNs src/decNumber/decNumber.c:7706 #2 0x55656ccd01ba in decCompareOp src/decNumber/decNumber.c:6085 #3 0x55656cce4ef6 in decNumberCompare src/decNumber/decNumber.c:858 #4 0x55656cc71a63 in jvp_number_cmp src/jv.c:748 #5 0x55656cc7e93a in jvp_number_equal src/jv.c:773 #6 0x55656cc7e93a in jv_equal src/jv.c:1917 #7 0x55656cd1e5d5 in binop_notequal src/builtin.c:438 #8 0x55656cd1e5d5 in f_notequal src/builtin.c:55 #9 [...] [96, 112) 'res' (line 746) <== Memory access at offset 112 overflows this variable HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork (longjmp and C++ exceptions are supported) SUMMARY: AddressSanitizer: stack-buffer-overflow src/decNumber/decNumber.c:3375 in decNumberCopy Shadow bytes around the buggy address: 0x7f0d88993580: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 0x7f0d88993600: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 0x7f0d88993680: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 00 00 00 00 0x7f0d88993700: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 0x7f0d88993780: f1 f1 f1 f1 00 00 f2 f2 00 00 f3 f3 00 00 00 00 =>0x7f0d88993800: f1 f1 f1 f1 00 00 f2 f2 00 00 f2 f2 00 00[f3]f3 0x7f0d88993880: 00 00 00 00 00 00 00 [...] #8 0x55656cd1e5d5 in f_notequal src/builtin.c:55 #9 0x55656cc637b3 in jq_next src/execute.c:918 #10 0x55656cc590a9 in process src/main.c:185 #11 0x55656cc55772 in main src/main.c:724 #12 0x7f0d8b245ccf (/usr/lib/libc.so.6+0x27ccf) (BuildId: 8bfe03f6bf9b6a6e2591babd0bbc266837d8f658) #13 0x7f0d8b245d89 in __libc_start_main (/usr/lib/libc.so.6+0x27d89) (BuildId: 8bfe03f6bf9b6a6e2591babd0bbc266837d8f658) #14 0x55656cc58a74 in _start (/home/emanuele6/.source_code/jq/jq+0x14ca74) (BuildId: c6ebf62a567061fef19663a78d55e9f373c2232b) Address 0x7f0d88993870 is located in stack of thread T0 at offset 112 in frame #0 0x55656cc7183f in jvp_number_cmp src/jv.c:737 This frame has 3 object(s): [32, 48) 'a' (line 737) [64, 80) 'b' (line 737) [96, 112) 'res' (line 746) <== Memory access at offset 112",
+        "id": "24a13c-01",
+        "raw_content": null,
+        "score": 0.75616,
+        "title": "Again, stack-buffer-overflow when comparing nan with payload \u00b7 Advisory \u00b7 jqlang/jq \u00b7 GitHub",
+        "url": "https://github.com/jqlang/jq/security/advisories/GHSA-x6c3-qv5r-7q22"
+      },
+      {
+        "content": "|  |  |\n --- |\n|  | [CVE ID] |\n|  | CVE-2025-25725 |\n|  | [PRODUCT] |\n|  | libarchive/bsdtar |\n|  | [VERSION] |\n|  | libarchive-3.7.7 |\n|  | [PROBLEM TYPE] |\n|  | Buffer overflow |\n|  | [DESCRIPTION] |\n|  | Buffer Overflow vulnerability in bsdtar v.3.7.7 allows an attacker to execute arbitrary code via the -ttf function |\n\n|  |  |\n --- |\n|  | [CVE ID] |\n|  | CVE-2025-25726 |\n|  | [PRODUCT] |\n|  |  |\n|  | [VERSION] |\n|  | jq-1.7.1 |\n|  | [PROBLEM TYPE] |\n|  | Buffer overflow |\n|  | [DESCRIPTION] |\n|  | Buffer Overflow vulnerability in jq v.1.7.1 allows an attacker to execute arbitrary code via the decNumberCopy in decNumber.c and decNaNs |\n|  | in ecNumber.c |\n\n## Footer\n\n### Footer navigation",
+        "id": "cd3eaa-02",
+        "raw_content": null,
+        "score": 0.6041426,
+        "title": "OPTFuzz \u00b7 GitHub",
+        "url": "https://gist.github.com/Ekkosun/a83870ce7f3b7813b9b462a395e8ad92"
+      },
+      {
+        "content": "## Patched versions\n\n1.7.1\n\n## Description\n\n### Impact\n\nStack-buffer-overflow; jq 1.7 builds using decNumber.  \n Reproduce with\n\n```\n'1 != .' ' '<<< Nan4000\n```\n\noss-fuzz Recommended Security Severity: High\n\n### Patches\n\nAllocate `decNumberUnit` to perform the comparison without overflow.\n\n### Workarounds\n\nUpgrade to 1.7.1\n\n### References\n\n1. \n2. The same commit also introduces the UBSAN (signed overflow) bugs reported by #2968  \n    Reproduce with\n\n   ```\n   '1e999999999 > 1e-1147483646' ' '\n   ```\n\n### Severity\n\nHigh\n\n### CVE ID\n\n### Weaknesses\n\n   Weakness CWE-121 \n\n#### Stack-based Buffer Overflow [...] Skip to content   \n \n\n## Navigation Menu\n\nSign in\n\nAppearance settings\n\nSign in\n\nSign up\n\nAppearance settings\n\nYou signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session. You switched accounts on another tab or window. Reload to refresh your session. Dismiss alert\n\n{{ message }}\n\njqlang   /  jq  Public\n\n Notifications  You must be signed in to change notification settings\n Fork 3.6k\n Star  35.7k\n\n# [oss-fuzz] Issue 64771: jq:jq\\_fuzz\\_execute: Stack-buffer-overflow in decNaNs\n\nHigh\n\nemanuele6 published GHSA-7hmr-442f-qc8j Dec 13, 2023\n\n## Package\n\nNo package listed\n\n## Affected versions\n\n1.7\n\n## Patched versions\n\n1.7.1\n\n## Description\n\n### Impact [...] Weakness CWE-121 \n\n#### Stack-based Buffer Overflow\n\n A stack-based buffer overflow condition is a condition where the buffer being overwritten is allocated on the stack (i.e., is a local variable or, rarely, a parameter to a function).  Learn more on MITRE.\n\n### Credits\n\n @emanuele6  emanuele6   Remediation developer\n\nYou can\u2019t perform that action at this time.",
+        "id": "84a8be-03",
+        "raw_content": null,
+        "score": 0.598524,
+        "title": "[oss-fuzz] Issue 64771: jq:jq_fuzz_execute: Stack-buffer-overflow in decNaNs \u00b7 Advisory \u00b7 jqlang/jq \u00b7 GitHub",
+        "url": "https://github.com/jqlang/jq/security/advisories/GHSA-7hmr-442f-qc8j"
+      },
+      {
+        "content": "Title: CVE: Common Vulnerabilities and Exposures\nBefore commit 0c7d133c3c7e37c00b6d46b658a02244fdd3c784, jq used MurmurHash3 with a hardcoded, publicly visible seed (0x432A9843) for all JSON object hash table operations, which allowed an attacker... In commits after 69785bf77f86e2ea1b4a20ca86775916889e91c9, the \\_strindices builtin in jq's src/builtin.c passes its arguments directly to jv\\_string\\_indexes() without verifying they are strings, and jv\\_string\\_indexes() in... In versions 1.8.1 and below, functions jv\\_setpath(), jv\\_getpath(), and delpaths\\_sorted() in jq's src/jv\\_aux.c use unbounded recursion whose depth is controlled by the length of... An integer overflow vulnerability exists through version 1.8.1 within the jvp\\_string\\_append() and jvp\\_string\\_copy\\_replace\\_bad functions, where concatenating strings with a combined length exceeding 2^31 bytes... OpenClaw versions 2026.1.21 prior to 2026.2.19 contain a path hijacking vulnerability in tools.exec.safeBins that allows attackers to bypass allowlist checks by controlling process PATH resolution. The JS Archive List plugin for WordPress is vulnerable to PHP Object Injection in all versions up to, and including, 6.1.7 via the 'included' shortcode attribute. A vulnerability was determined in jqlang jq up to 1.6. Impacted is the function run\\_jq\\_tests of the file jq\\_test.c of the component JSON Parser. The JS Archive List plugin for WordPress is vulnerable to time-based SQL Injection via the build\\_sql\\_where() function in all versions up to, and including, 6.1.5 due to insufficient escaping on... In version 1.8.0 a heap use after free vulnerability exists within the function f\\_strflocaltime of /src/builtin.c. This issue has been patched in commit 499c91b,... In versions up to and including 1.7.1, a heap-buffer-overflow is present in function `jv\\_string\\_vfmt` in the jq\\_fuzz\\_execute harness from oss-fuzz. decNumberCopy in decNumber.c in jq through 1.7.1 does not properly consider that NaN is interpreted as numeric, which has a resultant stack-based buffer overflow and out-of-bounds write, as demonstrated by... There is a Denial of Service (DoS) vulnerability via OOM using jq in ignoreDifferences. Version 1.7 is vulnerable to stack-based buffer overflow in builds using decNumber. Version 1.7 is vulnerable to heap-based buffer overflow. The jv\\_dump\\_term function in jq 1.5 allows remote attackers to cause a denial of service (stack consumption and application crash) via a crafted JSON file. Off-by-one error in the tokenadd function in jv\\_parse.c in jq allows remote attackers to cause a denial of service (crash) via a long JSON-encoded number, which triggers a heap-based buffer...",
+        "id": "a26206-04",
+        "raw_content": null,
+        "score": 0.564027,
+        "title": "CVE: Common Vulnerabilities and Exposures",
+        "url": "https://www.cve.org/CVERecord/SearchResults?query=jq"
+      }
+    ],
+    "usage": {
+      "credits": 2
+    }
+  },
+  "sdk": "tavily-python==0.8.4",
+  "task": "42531223"
+}
