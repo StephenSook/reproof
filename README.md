@@ -409,10 +409,12 @@ Afterwards the day is charged the larger of the hold and the reported plus unans
 response that reports more than its estimate is kept and charged as reported, so a lookup whose
 hold was placed at a count of 95 can end the day at 95 plus whatever it was charged, past 100 by that
 charge minus 5. All 102 calls in the stored evaluation were billed at or under their estimate. A
-lookup that fails keeps its hold. If writing that final charge fails, the hold already in the file
-stays, even when the report was larger. If the count file cannot be read or written before the hold
-is placed, or today's count is not a whole number, no search is sent and the state is
-`LOOKUP_UNAVAILABLE`. A reusable stored card (below) is returned before today's count is read.
+lookup that fails keeps its hold. The count file is replaced whole on each write, from a temporary
+file, so a failed write leaves the previous counts. If writing a lookup's final charge fails, the
+hold already in the file stays, even when the report was larger. A reusable stored card (below) is
+returned first, before today's count is read. Otherwise, if the count file cannot be read or written
+before the hold is placed, or today's count is not a whole number, no search is sent and the state
+is `LOOKUP_UNAVAILABLE`.
 
 A stored card for the same measured crash, saved in the last 60 minutes, is reused when it reads back
 as a public-status card in any state but `LOOKUP_UNAVAILABLE`. The page then shows the time of the

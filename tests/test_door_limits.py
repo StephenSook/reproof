@@ -233,3 +233,35 @@ def test_a_null_public_map_is_not_an_error(tmp_path: Path) -> None:
     assert day == "2026-10-05"
     budget.settle(day, reserved=5, spent=5, key="k", status={"state": "NO_PUBLIC_FINDINGS"})
     assert budget.reuse("k") == ({"state": "NO_PUBLIC_FINDINGS"}, WHEN.isoformat())
+
+
+@pytest.mark.parametrize("failing", ["write", "replace"])
+def test_a_failed_write_keeps_the_counts_already_on_disk(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, failing: str
+) -> None:
+    store = tmp_path / "limits.json"
+    budget = _budget(store, 100, [WHEN])
+    day = budget.reserve(5)
+    assert day == "2026-10-05"
+    before = store.read_text(encoding="utf-8")
+
+    def disk_full(*_args: object, **_kwargs: object) -> None:
+        raise OSError(28, "No space left on device")
+
+    if failing == "write":
+        original = Path.write_text
+
+        def write_text(self: Path, *args: object, **kwargs: object) -> int:
+            if self.name.endswith(".tmp"):
+                disk_full()
+            return original(self, *args, **kwargs)  # type: ignore[arg-type]
+
+        monkeypatch.setattr(Path, "write_text", write_text)
+    else:
+        monkeypatch.setattr("reproof.door_limits.os.replace", disk_full)
+    with pytest.raises(OSError):
+        budget.settle(day, reserved=5, spent=8, key="k", status=None)
+    assert store.read_text(encoding="utf-8") == before
+    monkeypatch.undo()
+    assert budget.reserve(96) is None
+    assert budget.reserve(95) == day

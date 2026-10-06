@@ -324,11 +324,15 @@ def _update(store: Path, mutate: Callable[[dict[str, Any]], Any]) -> Any:
         if not isinstance(data, dict):
             data = _empty_store()
         result = mutate(data)
-        store.write_text(
+        # Write a temporary file and swap it in, so a failed write leaves the old counts whole
+        # instead of a truncated file that would read back as an empty, unspent store.
+        temporary = store.with_name(store.name + ".tmp")
+        temporary.write_text(
             json.dumps(data, indent=2, sort_keys=True) + "\n",
             encoding="utf-8",
             newline="\n",
         )
+        os.replace(temporary, store)
         return result
     finally:
         os.close(fd)
