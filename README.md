@@ -199,6 +199,12 @@ names the project. GitHub advisory list pages are not mapped or crawled. This ba
 Crawl stays a fallback for a project's own `SECURITY.md` or releases, and the batch turns that
 fallback off.
 
+Page text is untrusted. Nemotron is told not to follow instructions in it, a quote must appear
+verbatim on the page, draft lines are built from fixed sentences, and a fixed-in claim needs git
+ancestry, never the model alone. The remaining risk: anyone can post a GitHub issue that names the
+measured frames, and the model's same-bug or open call on that page can be steered. The worst case
+is a link to a real public page that does mention the crash, labelled with the wrong relation.
+
 Per task the run reports state, evidence URLs, matched frames, CVE and GHSA ids, Tavily credits,
 and latency. Per set it reports verified references, false fixed-in claims prevented by ancestry,
 unrelated pages rejected by the gate, and credits and latency per triage. A repository or tag that
