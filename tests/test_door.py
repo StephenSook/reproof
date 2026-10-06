@@ -670,8 +670,9 @@ def test_budget_reuses_a_recent_lookup_without_new_calls(
         "nemotron_calls": step["caps"]["nemotron_calls"],
         "tavily_credits_per_day": 100,
     }
-    # The hold of 5 was replaced by the 4 credits Tavily reported.
-    assert budget.reserve(96) is not None
+    # Tavily reported 4, but the day is charged at least the hold of 5. The reuse added nothing.
+    assert budget.reserve(95) is not None
+    assert budget.reserve(1) is None
 
 
 def test_spent_budget_sends_no_search(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
@@ -721,8 +722,77 @@ def test_unavailable_or_failed_lookups_are_not_reused(
     assert states[0] == ("LOOKUP_UNAVAILABLE", "")
     assert states[1] == ("LOOKUP_UNAVAILABLE", "")
     assert states[2] == ("NO_PUBLIC_FINDINGS", "")
-    # Holds: 5 kept for the failure, 2 and 3 settled. 100 - 10 leaves exactly 90.
-    assert budget.reserve(90) is not None
+    # Each lookup is charged at least its hold of 5: 15 in all, so exactly 85 remain.
+    assert budget.reserve(85) is not None
+    assert budget.reserve(1) is None
+
+
+def test_a_report_above_the_hold_is_charged_as_reported(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    def overbilled(**_kwargs: object) -> PublicStatus:
+        return _quiet_status(tavily_credits=LOOKUP_MAX_CREDITS + 2)
+
+    monkeypatch.setenv("TAVILY_API_KEY", TAVILY_SENTINEL)
+    monkeypatch.setattr("reproof.door.lookup_public_status", overbilled)
+    budget = _door_budget(tmp_path / "limits.json", 100)
+    _run(_world(FIXTURE.read_text(encoding="utf-8")), public_lookup=None, public_budget=budget)
+    assert budget.reserve(100 - LOOKUP_MAX_CREDITS - 2) is not None
+    assert budget.reserve(1) is None
+
+
+@pytest.mark.parametrize("method", ["reuse", "reserve"])
+def test_a_failing_budget_store_sends_no_search(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, method: str
+) -> None:
+    def broken(*_args: object, **_kwargs: object) -> object:
+        raise TimeoutError("door limit lock is held")
+
+    monkeypatch.setenv("TAVILY_API_KEY", TAVILY_SENTINEL)
+    _block_lookup(monkeypatch)
+    monkeypatch.setattr(PublicBudget, method, broken)
+    budget = _door_budget(tmp_path / "limits.json", 100)
+    result = _run(
+        _world(FIXTURE.read_text(encoding="utf-8")), public_lookup=None, public_budget=budget
+    )
+    assert result.verdict is Verdict.DUPLICATE
+    assert result.card is not None
+    status = result.card.public_status
+    assert status is not None
+    assert status.state == "LOOKUP_UNAVAILABLE"
+    assert status.failed_sources[0].startswith("Tavily budget store failed:")
+
+
+def test_a_corrupt_stored_lookup_sends_no_search(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    monkeypatch.setenv("TAVILY_API_KEY", TAVILY_SENTINEL)
+    _block_lookup(monkeypatch)
+    budget = _door_budget(tmp_path / "limits.json", 100)
+    monkeypatch.setattr(PublicBudget, "reuse", lambda _self, _key: ({"state": "BOGUS"}, "t"))
+    result = _run(
+        _world(FIXTURE.read_text(encoding="utf-8")), public_lookup=None, public_budget=budget
+    )
+    assert result.card is not None and result.card.public_status is not None
+    assert result.card.public_status.state == "LOOKUP_UNAVAILABLE"
+
+
+def test_a_failing_settle_keeps_the_result_and_the_hold(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    def broken(*_args: object, **_kwargs: object) -> None:
+        raise TimeoutError("door limit lock is held")
+
+    monkeypatch.setenv("TAVILY_API_KEY", TAVILY_SENTINEL)
+    monkeypatch.setattr("reproof.door.lookup_public_status", lambda **_k: _quiet_status())
+    monkeypatch.setattr(PublicBudget, "settle", broken)
+    budget = _door_budget(tmp_path / "limits.json", 100)
+    result = _run(
+        _world(FIXTURE.read_text(encoding="utf-8")), public_lookup=None, public_budget=budget
+    )
+    assert result.card is not None and result.card.public_status is not None
+    assert result.card.public_status.state == "NO_PUBLIC_FINDINGS"
+    assert budget.reserve(100 - LOOKUP_MAX_CREDITS) is not None
     assert budget.reserve(1) is None
 
 

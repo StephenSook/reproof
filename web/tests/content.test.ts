@@ -53,7 +53,7 @@ describe("copied judge content", () => {
     expect(limitsSentence(copiedLimits)).toContain("1 triage");
     expect(limitsSentence(copiedLimits)).toContain("8 triages per hour");
     expect(limitsSentence(copiedLimits)).toContain("60 triages per day");
-    expect(limitsSentence(copiedLimits)).toContain("at most 100 Tavily credits per UTC day");
+    expect(limitsSentence(copiedLimits)).toContain("once 100 Tavily credits are counted for the UTC day");
     expect(limitsSentence(copiedLimits)).toContain("reused for 60 minutes");
     expect(limitsSentence(copiedLimits)).toContain("Instances do not share a disk.");
   });

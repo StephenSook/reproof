@@ -50,7 +50,7 @@ export function limitsSentence(limits: Limits): string {
     `This browser can run ${running} at a time.`,
     `This address can start ${limits.per_ip_per_hour} triages per hour.`,
     `Everyone shares ${limits.global_per_day} triages per day.`,
-    `The public-status lookup spends at most ${limits.tavily_credits_per_day} Tavily credits per UTC day,`,
+    `Each instance sends no new public-status lookup once ${limits.tavily_credits_per_day} Tavily credits are counted for the UTC day,`,
     `and a lookup of the same measured crash is reused for ${limits.public_reuse_seconds / 60} minutes.`,
     "On Vercel, each function instance keeps its own count file.",
     "Instances do not share a disk.",

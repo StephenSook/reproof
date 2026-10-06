@@ -67,6 +67,7 @@ NO_LOCAL_SLICE = "The server does not create a replacement checkpoint from a loc
 NO_FRAME_NOTE = "No measured crash frame was available, so no search was sent."
 MISSING_KEY_NOTE = "TAVILY_API_KEY is not set"
 BUDGET_SPENT_NOTE = "daily Tavily budget for this server instance is spent"
+BUDGET_STORE_NOTE = "Tavily budget store failed"
 # Two advanced searches and one basic extract of up to five URLs. The door's ledger stops here.
 LOOKUP_MAX_CREDITS = MAX_SEARCHES * ADVANCED_SEARCH_ESTIMATE + extract_estimate(MAX_EXTRACT_URLS)
 DoorStepName = Literal["claim", "sandbox", "crash", "duplicates", "public_status", "verdict"]
@@ -334,8 +335,10 @@ def _reused_status(stored: dict[str, Any], looked_up_at: str) -> PublicStatus:
 
     status = PublicStatus.model_validate(stored)
     note = (
-        f"Reused the lookup made at {looked_up_at}. This triage sent no Tavily or Nemotron "
-        f"call, so its credits are 0. The Tavily request ids are from that lookup. {status.note}"
+        f"Reused the lookup made at {looked_up_at}. This triage sent no Tavily call and no "
+        "public-status Nemotron call, so its public-status credits and model cost are 0; the "
+        "claim extraction above is this triage's own call. The Tavily request ids are from "
+        f"that lookup. {status.note}"
     )
     return status.model_copy(
         update={
@@ -367,10 +370,21 @@ def _lookup_status(
     key = _lookup_key(request)
     day = ""
     if budget is not None:
-        reused = budget.reuse(key)
-        if reused is not None:
-            return _reused_status(*reused)
-        reserved_day = budget.reserve(LOOKUP_MAX_CREDITS)
+        try:
+            reused = budget.reuse(key)
+            cached = _reused_status(*reused) if reused is not None else None
+            reserved_day = None if cached is not None else budget.reserve(LOOKUP_MAX_CREDITS)
+        except (OSError, ValueError) as error:
+            # A budget that cannot be read or written sends no search. TimeoutError is an
+            # OSError; JSON and validation errors are ValueErrors.
+            reason = scrub_text(str(error)).replace("\n", " ")[:200]
+            failed_source = f"{BUDGET_STORE_NOTE}: {reason}"
+            return _lookup_unavailable(
+                f"No Tavily search was sent. Failed sources: {failed_source}.",
+                failed_source=failed_source,
+            )
+        if cached is not None:
+            return cached
         if reserved_day is None:
             cap = budget.limits.tavily_credits_per_day
             return _lookup_unavailable(
@@ -398,7 +412,7 @@ def _lookup_status(
         failed_source = f"public status failed: {reason}"
         if budget is not None:
             # The credits spent before the failure are unknown, so the whole hold stays.
-            budget.settle(day, reserved=LOOKUP_MAX_CREDITS, spent=None, key=key, status=None)
+            _settle_or_keep_hold(budget, day, spent=None, key=key, status=None)
         # Searches may have run before the failure; their credits are not counted on this card.
         return _lookup_unavailable(
             f"The lookup did not finish, so nothing is claimed either way. "
@@ -408,14 +422,32 @@ def _lookup_status(
     status = _note_missing_repo(status, request.owner, request.project)
     if budget is not None:
         keep = status.state != "LOOKUP_UNAVAILABLE"
-        budget.settle(
+        # Never settle below the hold: a call that errored may be billed and still unreported.
+        # A report above the hold is charged as reported, so the day count stays honest.
+        _settle_or_keep_hold(
+            budget,
             day,
-            reserved=LOOKUP_MAX_CREDITS,
-            spent=status.tavily_credits,
+            spent=max(status.tavily_credits, LOOKUP_MAX_CREDITS),
             key=key,
             status=status.model_dump(mode="json") if keep else None,
         )
     return status
+
+
+def _settle_or_keep_hold(
+    budget: PublicBudget,
+    day: str,
+    *,
+    spent: int | None,
+    key: str,
+    status: dict[str, Any] | None,
+) -> None:
+    """Settle a hold. If the store fails, the hold already counted stays, which over-counts."""
+
+    try:
+        budget.settle(day, reserved=LOOKUP_MAX_CREDITS, spent=spent, key=key, status=status)
+    except (OSError, ValueError):
+        return
 
 
 def _public_step_payload(

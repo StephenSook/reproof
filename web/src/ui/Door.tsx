@@ -163,7 +163,7 @@ function PublicStatusBlock({ status }: { status: Record<string, unknown> }) {
           Caps: {asText(capRecord.searches)} searches, {asText(capRecord.extract_urls)} extract URLs,{" "}
           {asText(capRecord.tavily_credits)} Tavily credits, {asText(capRecord.nemotron_calls)} Nemotron calls.
           {typeof capRecord.tavily_credits_per_day === "number"
-            ? ` This server instance spends at most ${capRecord.tavily_credits_per_day} Tavily credits per UTC day.`
+            ? ` This server instance sends no new Tavily lookup once ${capRecord.tavily_credits_per_day} credits are counted for the UTC day.`
             : null}
         </p>
       ) : null}
