@@ -135,6 +135,101 @@ The three OSV state disagreements remain visible in the result. They are not con
 successes. An earlier claim disagreement exposed a deterministic normalization defect for the
 phrase `READ of size 2`; it was corrected before this final run.
 
+## Public status evaluation
+
+Registered on 2026-10-05, before any Tavily or Nemotron call for this stage. The frozen inputs are
+`eval/public_status_prereg.json`. A later results table uses only numbers printed by the committed
+run. This section does not contain those results.
+
+Set A is the 10 tasks in `eval/results/arvo10.json`. Frames and crash type are the saved measured
+crash states. No sandbox is rerun, and that file is not overwritten. Fix commits are the 40-hex GIT
+fixes on each task's mapped OSV id, read from the spike archive below. Owner and repo are the
+OSS-Fuzz map in `reproof/door_data.py`. For these 10, that map and the OSV range name the same
+repository. A project site is included only when the map has one: jq (`https://jqlang.github.io/jq`)
+and libspng (`https://libspng.org`).
+
+ARVO 42531223 maps to OSV-2023-1329. The saved crash state is `decNumberCopy`, `decNaNs`,
+`decCompareOp`, so the top frame sent to search is `decNumberCopy`. The OSV record lists `decNaNs`,
+`decCompareOp`, `decNumberCompare`. This run does not replace the saved order. The OSV fix commit is
+`b86ff49f46a4a37e5a8e75a140cb5fd6e1331384`. Ancestry compares tag `jq-1.7.1` with that commit. A page
+whose patched version does not contain the commit is a related variant, not the fix. The compare
+response is recorded. An earlier ahead count is not copied into the result.
+
+Set B is 30 OSV records: the 15 OSS-Fuzz projects with the most records in the spike zip, two
+records each. The label is OSV-recorded crash state. No sandbox run.
+
+The spike zip that was counted is sha256
+`6a77d78ba6d5e9987da236561fe7b3820185476682c420112d9cfbe838bac02a` (3,103,668 bytes, 4,253 JSON
+records, 359 projects with a package name, 107 records that `parse_osv_record` did not parse). That
+hash is not the `osv_archive_sha256` in `eval/results/arvo10.json`
+(`bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c`).
+
+Eligibility, chosen before the draw: `parse_osv_record` succeeds, at least one crash-state frame of
+length 4 or more, a non-empty crash type, at least one fixed commit matching `^[0-9a-f]{40}$`, and a
+github.com GIT range with a non-empty owner and repo (a `.git` suffix is stripped). The first such
+range is stored. Projects are ordered by raw record count descending, then name ascending. A project
+with fewer than 2 eligible records is skipped. The first 15 that remain are kept. `ghostscript`
+(201 records, 0 eligible) and `libxml2` (56 records, 0 eligible) were skipped before that 15th
+project. The draw is `random.Random(20261005).sample` of 2 ids from the eligible ids sorted
+ascending, and the chosen ids are stored sorted. The committed list is the authority.
+
+| Project | Records | Eligible | OSV ids |
+|---|---:|---:|---|
+| ndpi | 145 | 145 | OSV-2020-956, OSV-2025-80 |
+| harfbuzz | 113 | 112 | OSV-2020-121, OSV-2020-1606 |
+| pcapplusplus | 100 | 87 | OSV-2020-1331, OSV-2020-208 |
+| opensc | 84 | 81 | OSV-2023-1276, OSV-2023-586 |
+| libredwg | 83 | 70 | OSV-2021-535, OSV-2022-1252 |
+| fluent-bit | 81 | 69 | OSV-2020-2133, OSV-2021-838 |
+| mruby | 78 | 75 | OSV-2022-605, OSV-2024-29 |
+| c-blosc2 | 75 | 68 | OSV-2021-897, OSV-2022-322 |
+| matio | 70 | 20 | OSV-2026-623, OSV-2026-752 |
+| clamav | 66 | 28 | OSV-2020-1365, OSV-2021-1507 |
+| openh264 | 64 | 64 | OSV-2020-1855, OSV-2020-2274 |
+| radare2 | 61 | 56 | OSV-2020-455, OSV-2020-522 |
+| arrow | 60 | 60 | OSV-2020-144, OSV-2020-187 |
+| openthread | 53 | 53 | OSV-2020-383, OSV-2020-396 |
+| php | 51 | 50 | OSV-2020-1700, OSV-2020-1779 |
+
+A page counts only when the top usable frame and the crash-type keyword are both exact
+case-insensitive substrings of the extracted text, or at least two measured frames are. Frames
+shorter than 4 characters are ignored. The crash-type keyword drops a trailing access size. The
+result host must be the task's GitHub repository, or an NVD, cve.org, or oss-security page that
+names the project. GitHub advisory list pages are not mapped or crawled. This batch does not crawl.
+Crawl stays a fallback for a project's own `SECURITY.md` or releases, and the batch turns that
+fallback off.
+
+Per task the run reports state, evidence URLs, matched frames, CVE and GHSA ids, Tavily credits,
+and latency. Per set it reports verified references, false fixed-in claims prevented by ancestry,
+unrelated pages rejected by the gate, and credits and latency per triage. A repository or tag that
+cannot be resolved is `not checkable`. A verified reference passed the frame gate and the host
+check. A fixed-in claim counts only when ancestry says the stated version contains every recorded
+OSV fix commit. A version that does not contain the commit is a related variant, and that
+patched-version field is marked stale.
+
+The pre-registered expectation, from a 2026-10-05 research pass and not from this run, is that
+about 3 of the 10 ARVO tasks have a public reference and the other 7 are `NO_PUBLIC_FINDINGS`. The
+committed run replaces that sentence with the measured counts. States are `PUBLICLY_KNOWN_FIXED`
+(only after ancestry), `PUBLICLY_KNOWN_OPEN`, `RELATED_VARIANTS_ONLY`, `SOURCE_DISPUTE`, and
+`NO_PUBLIC_FINDINGS`. `NO_PUBLIC_FINDINGS` names the queries that were sent and any source that
+failed.
+
+The no-Tavily baseline uses the same two sets and no model. It calls paginated
+`GET /repos/{owner}/{repo}/security-advisories` (`per_page=100`) and NVD CVE API 2.0
+`keywordSearch` set to the top usable frame
+(`https://services.nvd.nist.gov/rest/json/cves/2.0`). The GitHub global advisory route
+`GET /advisories/{ghsa_id}` has no crash-text search. On 2026-10-05 it returned 404 for
+`GHSA-x6c3-qv5r-7q22`, `GHSA-7hmr-442f-qc8j`, `GHSA-686w-5m7m-54vc`, and `GHSA-p7rr-28xf-3m5w`.
+The baseline does not use it. A failed repository list or a failed NVD call is a failed source,
+not an empty finding. NVD's published unauthenticated limit is 5 requests in a rolling 30 second
+window (https://nvd.nist.gov/developers/start-here). The baseline waits 6 seconds between NVD
+calls. HTTP 429 is a failed source.
+
+The task budget is 200 Tavily credits and 120 Nemotron calls, including 7 credits already recorded
+in `tests/fixtures/tavily`. The eval ledger starts at 7. Each call sets `include_usage`. The
+`/usage` endpoint is not called. The batch stops before a call that would pass either budget, and
+a task that was not started is reported as not run.
+
 ## Tests
 
 ```powershell
@@ -159,7 +254,9 @@ not receive `NEBIUS_API_KEY` or the Nebius project id. Those values stay in the 
 Triage streams each step as it finishes. Nemotron 3 Super extracts the claim. The vulnerable and
 fixed builds run in parallel disposable branches of that task's cached ConTree checkpoint. The
 sanitizer output is parsed. Duplicates are searched in the committed per-project OSV index, and
-the task's own issue is excluded. The verdict card shows the model calls, sandbox operation ids,
+the task's own issue is excluded. A public-status lookup then runs on the measured crash. The page
+shows that state, the links, the matched frames, the Tavily request ids, the credits, and the caps.
+The verdict field is unchanged. The verdict card still shows the model calls, sandbox operation ids,
 cost, and time. If the committed checkpoint is missing, the result is `NEEDS_INFO` and the server
 does not build a replacement from a local slice.
 

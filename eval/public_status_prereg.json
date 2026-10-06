@@ -1,0 +1,924 @@
+{
+  "registered_on": "2026-10-05",
+  "seed": 20261005,
+  "rng": "random.Random(20261005).sample on eligible ids sorted ascending; chosen ids stored sorted. The committed list is the authority.",
+  "archive": {
+    "sha256": "6a77d78ba6d5e9987da236561fe7b3820185476682c420112d9cfbe838bac02a",
+    "bytes": 3103668,
+    "json_records": 4253,
+    "projects_with_package_name": 359,
+    "unparsed_by_parse_osv_record": 107,
+    "arvo10_osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "note": "This sha256 is the spike zip that was counted. It is not the osv_archive_sha256 recorded in eval/results/arvo10.json."
+  },
+  "eligibility": "parse_osv_record succeeds, at least one crash-state frame of length >= 4, non-empty crash type, at least one fixed commit matching ^[0-9a-f]{40}$, and a github.com GIT range with a non-empty owner and repo (.git stripped). The first such range is stored.",
+  "ranking": "Projects ordered by raw JSON record count descending, then project name ascending. A project with fewer than 2 eligible records is skipped. The first 15 that remain are kept.",
+  "skipped_before_15": [
+    "ghostscript",
+    "libxml2"
+  ],
+  "frame_gate": "A page counts only when the top usable frame and the crash-type keyword are both exact case-insensitive substrings, or at least two measured frames are. Frames shorter than 4 characters are ignored.",
+  "batch_crawl": false,
+  "ledger_starts_at_recorded_credits": 7,
+  "tavily_credit_budget": 200,
+  "nemotron_call_budget": 120,
+  "expectation": "From the 2026-10-05 research pass, before this run: about 3 of 10 ARVO tasks have a public reference and the other 7 are NO_PUBLIC_FINDINGS. The committed run replaces this sentence with measured counts, including unrelated pages the gate rejected.",
+  "set_a_frame_note": "Set A uses crash_state order from eval/results/arvo10.json. ARVO 42531223 top frame is decNumberCopy. OSV-2023-1329 lists decNaNs, decCompareOp, decNumberCompare. The saved order is not replaced.",
+  "ancestry_check": "For ARVO 42531223, compare tag jq-1.7.1 to commit b86ff49f46a4a37e5a8e75a140cb5fd6e1331384. A patched version that does not contain that commit is a related variant. Record the compare response. Do not copy an earlier ahead_by count.",
+  "baseline": {
+    "github": "GET https://api.github.com/repos/{owner}/{repo}/security-advisories, paginated, per_page 100",
+    "nvd": "GET https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch={top usable frame}",
+    "global_advisory": "Not used for keyword search. GET /advisories/{ghsa_id} returned 404 on 2026-10-05 for GHSA-x6c3-qv5r-7q22, GHSA-7hmr-442f-qc8j, GHSA-686w-5m7m-54vc, and GHSA-p7rr-28xf-3m5w."
+  },
+  "set_a_arvo10": [
+    {
+      "arvo_id": 42530604,
+      "project": "jq",
+      "verdict": "REPRODUCED",
+      "crash_type": "Heap-buffer-overflow WRITE 1",
+      "frames": [
+        "decToString",
+        "decNumberToString",
+        "jvp_literal_number_literal"
+      ],
+      "osv_record_id": "OSV-2023-1239",
+      "fix_commits": [
+        "71c2ab509a8628dbbad4bc7b3f98a64aa90d3297"
+      ],
+      "osv_owner": "jqlang",
+      "osv_repo": "jq",
+      "map_owner": "jqlang",
+      "map_repo": "jq",
+      "project_site": "https://jqlang.github.io/jq",
+      "osv_record_in_sample_archive": true,
+      "label": "saved measured crash state from eval/results/arvo10.json; no new sandbox run"
+    },
+    {
+      "arvo_id": 42507851,
+      "project": "libplist",
+      "verdict": "REPRODUCED",
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "frames": [
+        "strtol",
+        "parse_primitive",
+        "plist_from_json"
+      ],
+      "osv_record_id": "OSV-2022-93",
+      "fix_commits": [
+        "8ea84caa3cba801c4f240648a6b7919e9b3e0b0d"
+      ],
+      "osv_owner": "libimobiledevice",
+      "osv_repo": "libplist",
+      "map_owner": "libimobiledevice",
+      "map_repo": "libplist",
+      "project_site": "",
+      "osv_record_in_sample_archive": true,
+      "label": "saved measured crash state from eval/results/arvo10.json; no new sandbox run"
+    },
+    {
+      "arvo_id": 42496387,
+      "project": "wasm3",
+      "verdict": "REPRODUCED",
+      "crash_type": "Heap-use-after-free READ 8",
+      "frames": [
+        "ForEachModule",
+        "Runtime_Release",
+        "m3_FreeRuntime"
+      ],
+      "osv_record_id": "OSV-2021-701",
+      "fix_commits": [
+        "6bb612ccbfd5f8993a07a99092fab534722df1c3",
+        "3c0a7c159a77a58bbe128324091d39b02e77822f"
+      ],
+      "osv_owner": "wasm3",
+      "osv_repo": "wasm3",
+      "map_owner": "wasm3",
+      "map_repo": "wasm3",
+      "project_site": "",
+      "osv_record_in_sample_archive": true,
+      "label": "saved measured crash state from eval/results/arvo10.json; no new sandbox run"
+    },
+    {
+      "arvo_id": 42508524,
+      "project": "libplist",
+      "verdict": "DUPLICATE",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "parse_primitive",
+        "plist_from_json",
+        "jplist_fuzzer.cc"
+      ],
+      "osv_record_id": "OSV-2022-158",
+      "fix_commits": [
+        "106c4ee7f53ef800a82fce9638f29756e8b78640"
+      ],
+      "osv_owner": "libimobiledevice",
+      "osv_repo": "libplist",
+      "map_owner": "libimobiledevice",
+      "map_repo": "libplist",
+      "project_site": "",
+      "osv_record_in_sample_archive": true,
+      "label": "saved measured crash state from eval/results/arvo10.json; no new sandbox run"
+    },
+    {
+      "arvo_id": 42536108,
+      "project": "miniz",
+      "verdict": "REPRODUCED",
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "frames": [
+        "mz_zip_mem_read_func",
+        "mz_zip_reader_read_central_dir",
+        "mz_zip_reader_init_mem"
+      ],
+      "osv_record_id": "OSV-2024-550",
+      "fix_commits": [
+        "8573fd7cd6f49b262a0ccc447f3c6acfc415e556"
+      ],
+      "osv_owner": "richgel999",
+      "osv_repo": "miniz",
+      "map_owner": "richgel999",
+      "map_repo": "miniz",
+      "project_site": "",
+      "osv_record_in_sample_archive": true,
+      "label": "saved measured crash state from eval/results/arvo10.json; no new sandbox run"
+    },
+    {
+      "arvo_id": 42536112,
+      "project": "miniz",
+      "verdict": "REPRODUCED",
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "frames": [
+        "mz_zip_mem_read_func",
+        "mz_zip_validate_file",
+        "zip_fuzzer.c"
+      ],
+      "osv_record_id": "OSV-2024-551",
+      "fix_commits": [
+        "8573fd7cd6f49b262a0ccc447f3c6acfc415e556"
+      ],
+      "osv_owner": "richgel999",
+      "osv_repo": "miniz",
+      "map_owner": "richgel999",
+      "map_repo": "miniz",
+      "project_site": "",
+      "osv_record_in_sample_archive": true,
+      "label": "saved measured crash state from eval/results/arvo10.json; no new sandbox run"
+    },
+    {
+      "arvo_id": 42508390,
+      "project": "libplist",
+      "verdict": "DUPLICATE",
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "frames": [
+        "strtol",
+        "parse_primitive",
+        "plist_from_json"
+      ],
+      "osv_record_id": "OSV-2022-147",
+      "fix_commits": [
+        "7d2cdc6f378f1d6d5631b7739398dd50bea62663"
+      ],
+      "osv_owner": "libimobiledevice",
+      "osv_repo": "libplist",
+      "map_owner": "libimobiledevice",
+      "map_repo": "libplist",
+      "project_site": "",
+      "osv_record_in_sample_archive": true,
+      "label": "saved measured crash state from eval/results/arvo10.json; no new sandbox run"
+    },
+    {
+      "arvo_id": 42531297,
+      "project": "jq",
+      "verdict": "DUPLICATE",
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "frames": [
+        "jv_string_vfmt",
+        "jv_string_fmt",
+        "jv_get"
+      ],
+      "osv_record_id": "OSV-2023-1344",
+      "fix_commits": [
+        "9d6efec1987b544ac2f8030e3c22036f7cb70cd9"
+      ],
+      "osv_owner": "jqlang",
+      "osv_repo": "jq",
+      "map_owner": "jqlang",
+      "map_repo": "jq",
+      "project_site": "https://jqlang.github.io/jq",
+      "osv_record_in_sample_archive": true,
+      "label": "saved measured crash state from eval/results/arvo10.json; no new sandbox run"
+    },
+    {
+      "arvo_id": 42531223,
+      "project": "jq",
+      "verdict": "REPRODUCED",
+      "crash_type": "Stack-buffer-overflow WRITE 2",
+      "frames": [
+        "decNumberCopy",
+        "decNaNs",
+        "decCompareOp"
+      ],
+      "osv_record_id": "OSV-2023-1329",
+      "fix_commits": [
+        "b86ff49f46a4a37e5a8e75a140cb5fd6e1331384"
+      ],
+      "osv_owner": "jqlang",
+      "osv_repo": "jq",
+      "map_owner": "jqlang",
+      "map_repo": "jq",
+      "project_site": "https://jqlang.github.io/jq",
+      "osv_record_in_sample_archive": true,
+      "label": "saved measured crash state from eval/results/arvo10.json; no new sandbox run"
+    },
+    {
+      "arvo_id": 42476752,
+      "project": "libspng",
+      "verdict": "DUPLICATE",
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "frames": [
+        "spng_decode_image",
+        "spng_read_fuzzer.cc"
+      ],
+      "osv_record_id": "OSV-2020-344",
+      "fix_commits": [
+        "bace14e344502fce5984ab4fd9177d8db60351f8"
+      ],
+      "osv_owner": "randy408",
+      "osv_repo": "libspng",
+      "map_owner": "randy408",
+      "map_repo": "libspng",
+      "project_site": "https://libspng.org",
+      "osv_record_in_sample_archive": true,
+      "label": "saved measured crash state from eval/results/arvo10.json; no new sandbox run"
+    }
+  ],
+  "set_b_osv30": [
+    {
+      "osv_id": "OSV-2020-956",
+      "project": "ndpi",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "ndpi_workflow_process_packet",
+        "fuzz_ndpi_reader.c",
+        "HonggfuzzPersistentLoop"
+      ],
+      "fix_commits": [
+        "bf7dcd63c3a663cd0e1e8c567511ccfd8047d24a"
+      ],
+      "owner": "ntop",
+      "repo": "nDPI",
+      "repo_url": "https://github.com/ntop/nDPI.git",
+      "issue_ids": [
+        20644
+      ],
+      "project_record_count": 145,
+      "project_eligible_count": 145,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2025-80",
+      "project": "ndpi",
+      "crash_type": "Segv on unknown address",
+      "frames": [
+        "ndpi_snprintf",
+        "process_ndpi_collected_info",
+        "ndpi_workflow_process_packet"
+      ],
+      "fix_commits": [
+        "41133638dc303be1717462876814a6102669757c",
+        "5424d144242c5b85176465acb7376237d80c6d91"
+      ],
+      "owner": "ntop",
+      "repo": "nDPI",
+      "repo_url": "https://github.com/ntop/nDPI.git",
+      "issue_ids": [
+        393420192
+      ],
+      "project_record_count": 145,
+      "project_eligible_count": 145,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2020-121",
+      "project": "harfbuzz",
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "frames": [
+        "BEInt<short, 2>::operator short",
+        "OT::IntType<short, 2u>::operator int",
+        "OT::SegmentMaps::map"
+      ],
+      "fix_commits": [
+        "0d729b4b7237934abfca0b5738ad4383f3f22476"
+      ],
+      "owner": "harfbuzz",
+      "repo": "harfbuzz",
+      "repo_url": "https://github.com/harfbuzz/harfbuzz.git",
+      "issue_ids": [
+        21092
+      ],
+      "project_record_count": 113,
+      "project_eligible_count": 112,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2020-1606",
+      "project": "harfbuzz",
+      "crash_type": "UNKNOWN READ",
+      "frames": [
+        "hb_set_digest_lowest_bits_t<unsigned long, 4u>::may_have",
+        "hb_set_digest_combiner_t<hb_set_digest_lowest_bits_t<unsigned long, 4u>, hb_set_",
+        "OT::hb_ot_layout_lookup_accelerator_t::may_have"
+      ],
+      "fix_commits": [
+        "a5f6f869e80c371665026dfe9d156f0088f2553d"
+      ],
+      "owner": "harfbuzz",
+      "repo": "harfbuzz",
+      "repo_url": "https://github.com/harfbuzz/harfbuzz.git",
+      "issue_ids": [
+        24842
+      ],
+      "project_record_count": 113,
+      "project_eligible_count": 112,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2020-1331",
+      "project": "pcapplusplus",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "pcpp::GtpV1Layer::GtpExtension::getNextExtensionHeaderType",
+        "pcpp::GtpV1Layer::GtpExtension::getNextExtension",
+        "pcpp::GtpV1Layer::getHeaderLen"
+      ],
+      "fix_commits": [
+        "80adbb255c24e278425cb66878e7209258abb2b0"
+      ],
+      "owner": "seladb",
+      "repo": "PcapPlusPlus",
+      "repo_url": "https://github.com/seladb/PcapPlusPlus",
+      "issue_ids": [
+        23183
+      ],
+      "project_record_count": 100,
+      "project_eligible_count": 87,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2020-208",
+      "project": "pcapplusplus",
+      "crash_type": "Use-of-uninitialized-value",
+      "frames": [
+        "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<ch",
+        "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<ch",
+        "pcpp::IDnsResource::IDnsResource"
+      ],
+      "fix_commits": [
+        "994419f1bcb9151553ad8044e1757a6d406deea3"
+      ],
+      "owner": "seladb",
+      "repo": "PcapPlusPlus",
+      "repo_url": "https://github.com/seladb/PcapPlusPlus",
+      "issue_ids": [
+        22235
+      ],
+      "project_record_count": 100,
+      "project_eligible_count": 87,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2023-1276",
+      "project": "opensc",
+      "crash_type": "Heap-use-after-free READ 8",
+      "frames": [
+        "authentic_emu_update_tokeninfo",
+        "sc_pkcs15init_update_tokeninfo",
+        "sc_pkcs15init_update_lastupdate"
+      ],
+      "fix_commits": [
+        "5835f0d4f6c033bd58806d33fa546908d39825c9"
+      ],
+      "owner": "OpenSC",
+      "repo": "OpenSC",
+      "repo_url": "https://github.com/OpenSC/OpenSC",
+      "issue_ids": [
+        64898
+      ],
+      "project_record_count": 84,
+      "project_eligible_count": 81,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2023-586",
+      "project": "opensc",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "setcos_create_key",
+        "sc_pkcs15init_generate_key",
+        "do_generate_key"
+      ],
+      "fix_commits": [
+        "440ca666eff10cc7011901252d20f3fc4ea23651"
+      ],
+      "owner": "OpenSC",
+      "repo": "OpenSC",
+      "repo_url": "https://github.com/OpenSC/OpenSC",
+      "issue_ids": [
+        60672
+      ],
+      "project_record_count": 84,
+      "project_eligible_count": 81,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2021-535",
+      "project": "libredwg",
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "frames": [
+        "encode_3dsolid",
+        "dwg_encode_BODY_private",
+        "dwg_encode_BODY"
+      ],
+      "fix_commits": [
+        "084083ce54e59b5a43e6eb936868ef4bd037c7e2"
+      ],
+      "owner": "LibreDWG",
+      "repo": "libredwg",
+      "repo_url": "https://github.com/LibreDWG/libredwg",
+      "issue_ids": [
+        32165
+      ],
+      "project_record_count": 83,
+      "project_eligible_count": 70,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2022-1252",
+      "project": "libredwg",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "bit_read_BB",
+        "bit_read_BD",
+        "dwg_decode_header_variables"
+      ],
+      "fix_commits": [
+        "119ef50a0b1ef395defa5ee453acd5d3c158c638"
+      ],
+      "owner": "LibreDWG",
+      "repo": "libredwg",
+      "repo_url": "https://github.com/LibreDWG/libredwg",
+      "issue_ids": [
+        54163
+      ],
+      "project_record_count": 83,
+      "project_eligible_count": 70,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2020-2133",
+      "project": "fluent-bit",
+      "crash_type": "Heap-buffer-overflow WRITE 8",
+      "frames": [
+        "tdefl_compress_lz_codes",
+        "tdefl_compress_block",
+        "tdefl_flush_block"
+      ],
+      "fix_commits": [
+        "df2af999105cd6c94ec8b533bcca498664b1aa16"
+      ],
+      "owner": "fluent",
+      "repo": "fluent-bit",
+      "repo_url": "https://github.com/fluent/fluent-bit/",
+      "issue_ids": [
+        27263
+      ],
+      "project_record_count": 81,
+      "project_eligible_count": 69,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2021-838",
+      "project": "fluent-bit",
+      "crash_type": "Heap-use-after-free READ 8",
+      "frames": [
+        "multiline_parser_conf_file",
+        "flb_parser_conf_file",
+        "config_fuzzer.c"
+      ],
+      "fix_commits": [
+        "8f653c34c0dd46c39e2a5ebf9ff3fe9ec932fc4f",
+        "ed82460da17f5a029df74503d3a5f8f69d29d3ea"
+      ],
+      "owner": "fluent",
+      "repo": "fluent-bit",
+      "repo_url": "https://github.com/fluent/fluent-bit/",
+      "issue_ids": [
+        34960
+      ],
+      "project_record_count": 81,
+      "project_eligible_count": 69,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2022-605",
+      "project": "mruby",
+      "crash_type": "Heap-buffer-overflow READ 8",
+      "frames": [
+        "mrb_bint_cmp",
+        "cmpnum",
+        "num_gt"
+      ],
+      "fix_commits": [
+        "b84bca666fdc4fe94286b49b6f6b9a64e4c3a534"
+      ],
+      "owner": "mruby",
+      "repo": "mruby",
+      "repo_url": "https://github.com/mruby/mruby",
+      "issue_ids": [
+        49291
+      ],
+      "project_record_count": 78,
+      "project_eligible_count": 75,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2024-29",
+      "project": "mruby",
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "frames": [
+        "mrb_memsearch",
+        "str_convert_range",
+        "mrb_str_aref"
+      ],
+      "fix_commits": [
+        "028c53d667a8b23fcccbfa770cca87276cfcc4e2"
+      ],
+      "owner": "mruby",
+      "repo": "mruby",
+      "repo_url": "https://github.com/mruby/mruby",
+      "issue_ids": [
+        65996
+      ],
+      "project_record_count": 78,
+      "project_eligible_count": 75,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2021-897",
+      "project": "c-blosc2",
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "frames": [
+        "ZSTD_decompressMultiFrame",
+        "ZSTD_decompress_usingDDict",
+        "blosc_d"
+      ],
+      "fix_commits": [
+        "7f4574f51ad7db56fc13de89e13e7893b1a82189"
+      ],
+      "owner": "Blosc",
+      "repo": "c-blosc2",
+      "repo_url": "https://github.com/Blosc/c-blosc2.git",
+      "issue_ids": [
+        35537
+      ],
+      "project_record_count": 75,
+      "project_eligible_count": 68,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2022-322",
+      "project": "c-blosc2",
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "frames": [
+        "frame_get_metalayers",
+        "frame_to_schunk",
+        "blosc2_schunk_from_buffer"
+      ],
+      "fix_commits": [
+        "7f4574f51ad7db56fc13de89e13e7893b1a82189"
+      ],
+      "owner": "Blosc",
+      "repo": "c-blosc2",
+      "repo_url": "https://github.com/Blosc/c-blosc2.git",
+      "issue_ids": [
+        46460
+      ],
+      "project_record_count": 75,
+      "project_eligible_count": 68,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2026-623",
+      "project": "matio",
+      "crash_type": "Use-of-uninitialized-value",
+      "frames": [
+        "Mat_PrintNumber",
+        "Mat_PrintData",
+        "Mat_VarPrint"
+      ],
+      "fix_commits": [
+        "658240b9b536f6926e5ff4500968cf024a972e1f",
+        "2f89a7e9ebe198f16b62048dd02cd6de5dc47573"
+      ],
+      "owner": "tbeu",
+      "repo": "matio",
+      "repo_url": "https://github.com/tbeu/matio.git",
+      "issue_ids": [
+        505903317
+      ],
+      "project_record_count": 70,
+      "project_eligible_count": 20,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2026-752",
+      "project": "matio",
+      "crash_type": "Heap-buffer-overflow WRITE 8",
+      "frames": [
+        "Mat_VarGetStructsLinear",
+        "matio_struct_cell_fuzzer.cpp"
+      ],
+      "fix_commits": [
+        "b838137cf3434bfe98bd9f1da904cb83eff4b804"
+      ],
+      "owner": "tbeu",
+      "repo": "matio",
+      "repo_url": "https://github.com/tbeu/matio.git",
+      "issue_ids": [
+        513434228
+      ],
+      "project_record_count": 70,
+      "project_eligible_count": 20,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2020-1365",
+      "project": "clamav",
+      "crash_type": "UNKNOWN READ",
+      "frames": [
+        "cli_vba_readdir_new",
+        "cli_vba_scandir_new",
+        "cli_scanole2"
+      ],
+      "fix_commits": [
+        "b35d1e1bec27d90b4acdc896f6f2164990f747e7"
+      ],
+      "owner": "Cisco-Talos",
+      "repo": "clamav-devel",
+      "repo_url": "https://github.com/Cisco-Talos/clamav-devel.git",
+      "issue_ids": [
+        24354
+      ],
+      "project_record_count": 66,
+      "project_eligible_count": 28,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2021-1507",
+      "project": "clamav",
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "frames": [
+        "handle_gets",
+        "uudecodeFile",
+        "cli_uuencode"
+      ],
+      "fix_commits": [
+        "d1141becac82099de46f94f5d7a02d60cb1baf1d",
+        "7e49c758ac412651afd71cbb37aa61a2b513ce2e",
+        "dbd02f15322de849ba8d55494c8a0d1b86a7d7aa"
+      ],
+      "owner": "Cisco-Talos",
+      "repo": "clamav-devel",
+      "repo_url": "https://github.com/Cisco-Talos/clamav-devel.git",
+      "issue_ids": [
+        40452
+      ],
+      "project_record_count": 66,
+      "project_eligible_count": 28,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2020-1855",
+      "project": "openh264",
+      "crash_type": "Heap-buffer-overflow WRITE 4",
+      "frames": [
+        "WelsDec::UpdateP16x16MotionInfo",
+        "WelsDec::ParseInterPMotionInfoCabac",
+        "WelsDec::WelsDecodeMbCabacPSliceBaseMode0"
+      ],
+      "fix_commits": [
+        "f1bb6d3acb057785b4d89e8228e23cc4fc9caa12"
+      ],
+      "owner": "cisco",
+      "repo": "openh264",
+      "repo_url": "https://github.com/cisco/openh264.git",
+      "issue_ids": [
+        25961
+      ],
+      "project_record_count": 64,
+      "project_eligible_count": 64,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2020-2274",
+      "project": "openh264",
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "frames": [
+        "McCopyWidthEq4_c",
+        "McCopy_sse2",
+        "McChroma_ssse3"
+      ],
+      "fix_commits": [
+        "992c1c147175126c3fe7ab78216aa0395f9e6c71",
+        "f15f940425eebf24ce66984db2445733cf500b7b"
+      ],
+      "owner": "cisco",
+      "repo": "openh264",
+      "repo_url": "https://github.com/cisco/openh264.git",
+      "issue_ids": [
+        28769
+      ],
+      "project_record_count": 64,
+      "project_eligible_count": 64,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2020-455",
+      "project": "radare2",
+      "crash_type": "Heap-buffer-overflow WRITE 8",
+      "frames": [
+        "r_core_lines_initcache",
+        "cb_linesto",
+        "r_config_set_i"
+      ],
+      "fix_commits": [
+        "a875795bb5d8c216fa17d685b49784c4d5c93f87"
+      ],
+      "owner": "radare",
+      "repo": "radare2",
+      "repo_url": "https://github.com/radare/radare2",
+      "issue_ids": [
+        14690
+      ],
+      "project_record_count": 61,
+      "project_eligible_count": 56,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2020-522",
+      "project": "radare2",
+      "crash_type": "Heap-buffer-overflow WRITE {*}",
+      "frames": [
+        "buf_bytes_read",
+        "r_buf_read",
+        "bin_pe_get_certificate"
+      ],
+      "fix_commits": [
+        "a875795bb5d8c216fa17d685b49784c4d5c93f87"
+      ],
+      "owner": "radare",
+      "repo": "radare2",
+      "repo_url": "https://github.com/radare/radare2",
+      "issue_ids": [
+        14783
+      ],
+      "project_record_count": 61,
+      "project_eligible_count": 56,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2020-144",
+      "project": "arrow",
+      "crash_type": "Heap-use-after-free WRITE 2",
+      "frames": [
+        "int arrow::BitUtil::BitReader::GetBatch<short>",
+        "parquet::LevelDecoder::Decode",
+        "parquet::internal::TypedRecordReader<parquet::PhysicalType<"
+      ],
+      "fix_commits": [
+        "d2ab289294f5eaa175e6bc4ab5fb74b5ea013f6e"
+      ],
+      "owner": "apache",
+      "repo": "arrow",
+      "repo_url": "https://github.com/apache/arrow.git",
+      "issue_ids": [
+        20685
+      ],
+      "project_record_count": 60,
+      "project_eligible_count": 60,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2020-187",
+      "project": "arrow",
+      "crash_type": "UNKNOWN READ",
+      "frames": [
+        "arrow::ipc::MessageDecoder::MessageDecoderImpl::ConsumeDataBufferInt32",
+        "arrow::ipc::MessageDecoder::MessageDecoderImpl::ConsumeInitialBuffer",
+        "arrow::ipc::MessageDecoder::MessageDecoderImpl::ConsumeBuffer"
+      ],
+      "fix_commits": [
+        "c47d0d3df865d34d877c84042c11a7cb259f7cdd",
+        "1dd59944a0f1f4f458e3a3e44cd816e3a87df13f"
+      ],
+      "owner": "apache",
+      "repo": "arrow",
+      "repo_url": "https://github.com/apache/arrow.git",
+      "issue_ids": [
+        21680
+      ],
+      "project_record_count": 60,
+      "project_eligible_count": 60,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2020-383",
+      "project": "openthread",
+      "crash_type": "Stack-buffer-overflow READ 8",
+      "frames": [
+        "ot::NetworkData::Leader::IsStableUpdated",
+        "ot::NetworkData::Leader::RegisterNetworkData",
+        "ot::NetworkData::Leader::HandleServerData"
+      ],
+      "fix_commits": [
+        "a211901f62b96fb6fb0ee792dab4007c64b44e18"
+      ],
+      "owner": "openthread",
+      "repo": "openthread",
+      "repo_url": "https://github.com/openthread/openthread",
+      "issue_ids": [
+        15971
+      ],
+      "project_record_count": 53,
+      "project_eligible_count": 53,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2020-396",
+      "project": "openthread",
+      "crash_type": "UNKNOWN READ",
+      "frames": [
+        "ot::TaskletScheduler::PopTasklet",
+        "ot::TaskletScheduler::ProcessQueuedTasklets",
+        "radio_receive_done.cpp"
+      ],
+      "fix_commits": [
+        "a3548df579617e737b075be4a88591e68195e115"
+      ],
+      "owner": "openthread",
+      "repo": "openthread",
+      "repo_url": "https://github.com/openthread/openthread",
+      "issue_ids": [
+        13370
+      ],
+      "project_record_count": 53,
+      "project_eligible_count": 53,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2020-1700",
+      "project": "php",
+      "crash_type": "UNKNOWN READ",
+      "frames": [
+        "zend_gc_delref",
+        "i_zval_ptr_dtor",
+        "zend_unclean_zval_ptr_dtor"
+      ],
+      "fix_commits": [
+        "daf222c9f88e2aac41437ca97cfe2c60300eed23",
+        "c4016ecd446ef26bb3dc77735b6e441e151ea985"
+      ],
+      "owner": "php",
+      "repo": "php-src",
+      "repo_url": "https://github.com/php/php-src.git",
+      "issue_ids": [
+        25384
+      ],
+      "project_record_count": 51,
+      "project_eligible_count": 50,
+      "label": "OSV-recorded crash state; no sandbox run"
+    },
+    {
+      "osv_id": "OSV-2020-1779",
+      "project": "php",
+      "crash_type": "Heap-use-after-free READ 4",
+      "frames": [
+        "zend_gc_addref",
+        "zend_generator_update_current",
+        "zend_generator_dtor_storage"
+      ],
+      "fix_commits": [
+        "dd4a080133b7b0570b629cdfb7c9e2651bdf88f7"
+      ],
+      "owner": "php",
+      "repo": "php-src",
+      "repo_url": "https://github.com/php/php-src.git",
+      "issue_ids": [
+        25697
+      ],
+      "project_record_count": 51,
+      "project_eligible_count": 50,
+      "label": "OSV-recorded crash state; no sandbox run"
+    }
+  ]
+}

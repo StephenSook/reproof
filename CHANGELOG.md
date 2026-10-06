@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Pre-registered the public-status evaluation before any search: the 10 saved ARVO crash states and 30 OSV records drawn with seed 20261005. The batch does not crawl. No Tavily or Nemotron call was made for this change.
 - Added the public-status block to the live triage page. The stage runs after the duplicate search and lists the state, links, matched frames, Tavily request ids, credits, and caps. A missing Tavily key or a lookup failure still returns the verdict. The non-live Python suite is 184 tests.
 - Added a public-status stage. Tavily searches and extracts, and a page is kept only when the top measured frame and the crash type match, or at least two measured frames match. Nemotron classifies those pages. Git ancestry checks a stated version before it is called the fix, and a contradicted patched-version field is marked stale. The triage verdict is unchanged. The non-live Python suite is 175 tests.
 - Documented the judge door, including the Vercel Python function, the per-instance cap file, and the scheduled probe. The non-live Python suite is 114 tests.
