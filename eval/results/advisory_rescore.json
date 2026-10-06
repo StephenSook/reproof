@@ -1,0 +1,108 @@
+{
+  "schema": "advisory-rescore-1",
+  "source": "eval/results/public_status.json",
+  "source_sha256": "c47fb739cd362f6a7e7cb7488d7ac1b451dbcb0c60b822405ee7a33488388334",
+  "tavily_calls": 0,
+  "nemotron_calls": 0,
+  "github_api_urls": [
+    "https://api.github.com/repos/jqlang/jq/security-advisories/GHSA-p7rr-28xf-3m5w",
+    "https://api.github.com/repos/jqlang/jq/security-advisories/GHSA-x6c3-qv5r-7q22",
+    "https://api.github.com/repos/jqlang/jq/security-advisories/GHSA-686w-5m7m-54vc",
+    "https://api.github.com/repos/jqlang/jq/tags?per_page=100&page=1",
+    "https://api.github.com/repos/jqlang/jq/compare/jq-1.7.1...71c2ab509a8628dbbad4bc7b3f98a64aa90d3297"
+  ],
+  "rows": [
+    {
+      "task_id": "42531297",
+      "role": "evidence",
+      "url": "https://github.com/jqlang/jq/security/advisories/GHSA-p7rr-28xf-3m5w",
+      "ghsa_id": "GHSA-p7rr-28xf-3m5w",
+      "patched_versions": [
+        ""
+      ],
+      "usable_versions": [],
+      "tag": "",
+      "compare_status": "",
+      "ahead_by": null,
+      "behind_by": null,
+      "ancestry": "NOT_CHECKABLE",
+      "state": "NOT_CHECKABLE",
+      "stale_fields": [],
+      "error": ""
+    },
+    {
+      "task_id": "42531223",
+      "role": "evidence",
+      "url": "https://github.com/jqlang/jq/security/advisories/GHSA-x6c3-qv5r-7q22",
+      "ghsa_id": "GHSA-x6c3-qv5r-7q22",
+      "patched_versions": [
+        ""
+      ],
+      "usable_versions": [],
+      "tag": "",
+      "compare_status": "",
+      "ahead_by": null,
+      "behind_by": null,
+      "ancestry": "NOT_CHECKABLE",
+      "state": "NOT_CHECKABLE",
+      "stale_fields": [],
+      "error": ""
+    },
+    {
+      "task_id": "42530604",
+      "role": "baseline",
+      "url": "https://github.com/jqlang/jq/security/advisories/GHSA-686w-5m7m-54vc",
+      "ghsa_id": "GHSA-686w-5m7m-54vc",
+      "patched_versions": [
+        "1.7.1"
+      ],
+      "usable_versions": [
+        "1.7.1"
+      ],
+      "tag": "jq-1.7.1",
+      "compare_status": "identical",
+      "ahead_by": 0,
+      "behind_by": 0,
+      "ancestry": "CONTAINS_FIX",
+      "state": "PUBLICLY_KNOWN_FIXED",
+      "stale_fields": [],
+      "error": ""
+    },
+    {
+      "task_id": "42531297",
+      "role": "baseline",
+      "url": "https://github.com/jqlang/jq/security/advisories/GHSA-p7rr-28xf-3m5w",
+      "ghsa_id": "GHSA-p7rr-28xf-3m5w",
+      "patched_versions": [
+        ""
+      ],
+      "usable_versions": [],
+      "tag": "",
+      "compare_status": "",
+      "ahead_by": null,
+      "behind_by": null,
+      "ancestry": "NOT_CHECKABLE",
+      "state": "NOT_CHECKABLE",
+      "stale_fields": [],
+      "error": ""
+    },
+    {
+      "task_id": "42531223",
+      "role": "baseline",
+      "url": "https://github.com/jqlang/jq/security/advisories/GHSA-x6c3-qv5r-7q22",
+      "ghsa_id": "GHSA-x6c3-qv5r-7q22",
+      "patched_versions": [
+        ""
+      ],
+      "usable_versions": [],
+      "tag": "",
+      "compare_status": "",
+      "ahead_by": null,
+      "behind_by": null,
+      "ancestry": "NOT_CHECKABLE",
+      "state": "NOT_CHECKABLE",
+      "stale_fields": [],
+      "error": ""
+    }
+  ]
+}

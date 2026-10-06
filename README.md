@@ -379,6 +379,24 @@ For every kept evidence page and every baseline reference in `eval/results/publi
 
 Hand check before this run, not a result: baseline 42530604 `GHSA-686w-5m7m-54vc` may become `FIXED` in 1.7.1. `GHSA-x6c3-qv5r-7q22` on 42531223 and `GHSA-p7rr-28xf-3m5w` on 42531297 are unknown until the script measures them.
 
+The run wrote `eval/results/advisory_rescore.json`. Its `source_sha256` is `c47fb739cd362f6a7e7cb7488d7ac1b451dbcb0c60b822405ee7a33488388334`, the hash of `eval/results/public_status.json`, which this run did not modify. `tavily_calls` is 0. `nemotron_calls` is 0. GitHub API URLs called, in order:
+
+1. `https://api.github.com/repos/jqlang/jq/security-advisories/GHSA-p7rr-28xf-3m5w`
+2. `https://api.github.com/repos/jqlang/jq/security-advisories/GHSA-x6c3-qv5r-7q22`
+3. `https://api.github.com/repos/jqlang/jq/security-advisories/GHSA-686w-5m7m-54vc`
+4. `https://api.github.com/repos/jqlang/jq/tags?per_page=100&page=1`
+5. `https://api.github.com/repos/jqlang/jq/compare/jq-1.7.1...71c2ab509a8628dbbad4bc7b3f98a64aa90d3297`
+
+| Task | Role | Advisory | patched_versions | Tag | Compare | ahead_by | behind_by | Ancestry | State |
+|---|---|---|---|---|---|---|---|---|---|
+| 42531297 | evidence | GHSA-p7rr-28xf-3m5w | `""` | | | null | null | NOT_CHECKABLE | NOT_CHECKABLE |
+| 42531223 | evidence | GHSA-x6c3-qv5r-7q22 | `""` | | | null | null | NOT_CHECKABLE | NOT_CHECKABLE |
+| 42530604 | baseline | GHSA-686w-5m7m-54vc | `1.7.1` | `jq-1.7.1` | identical | 0 | 0 | CONTAINS_FIX | PUBLICLY_KNOWN_FIXED |
+| 42531297 | baseline | GHSA-p7rr-28xf-3m5w | `""` | | | null | null | NOT_CHECKABLE | NOT_CHECKABLE |
+| 42531223 | baseline | GHSA-x6c3-qv5r-7q22 | `""` | | | null | null | NOT_CHECKABLE | NOT_CHECKABLE |
+
+`patched_versions` `""` is the empty string the advisory API returned. Those four rows have no usable version, so ancestry did not compare a tag. Baseline 42530604 is `PUBLICLY_KNOWN_FIXED` because tag `jq-1.7.1` is `identical` to OSV fix `71c2ab509a8628dbbad4bc7b3f98a64aa90d3297` (`ahead_by` 0, `behind_by` 0).
+
 ## Tests
 
 ```powershell

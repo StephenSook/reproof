@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Recorded the advisory rescore in `eval/results/advisory_rescore.json`. Baseline 42530604 `GHSA-686w-5m7m-54vc` is `PUBLICLY_KNOWN_FIXED`: tag `jq-1.7.1` is identical to OSV fix `71c2ab509a8628dbbad4bc7b3f98a64aa90d3297`. The other four own-repo advisory rows are `NOT_CHECKABLE` because the advisory API `patched_versions` string is empty. The run called 5 GitHub URLs, 0 Tavily calls, and 0 Nemotron calls, and did not modify `eval/results/public_status.json`.
 - Pre-registered the advisory rescore and added `eval/rescore_advisories.py`. The script reads a task repository's GitHub advisory and checks that version with the existing ancestry rule. It does not call Tavily or Nemotron, and it does not modify `eval/results/public_status.json`. No GitHub call was made for this change.
 - Showed the advisory version source and the git ancestry sentence on the door. A long source URL in a draft line wraps instead of widening the page. The door e2e suite has 9 tests, and the live triage stays skipped.
 - Read patched versions from a task repository's GitHub security advisory and checked them with the existing git ancestry. A version is recorded as the fix only when the tag contains the OSV fix commit. A failed advisory read leaves the page's previous state and is listed as a failed source. The card line names the project, the version, the tag, and the short fix commit. The non-live Python suite is 236 tests.
