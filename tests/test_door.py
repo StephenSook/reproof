@@ -789,18 +789,36 @@ def test_a_failing_budget_store_sends_no_search(
     assert status.failed_sources[0].startswith("Tavily budget store failed:")
 
 
-def test_a_corrupt_stored_lookup_sends_no_search(
-    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+@pytest.mark.parametrize(
+    "stored",
+    [
+        {"state": "BOGUS"},
+        _quiet_status(state="LOOKUP_UNAVAILABLE").model_dump(mode="json"),
+    ],
+)
+def test_an_unreadable_or_unavailable_stored_card_is_not_reused(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, stored: dict[str, object]
 ) -> None:
+    calls: list[int] = []
+
+    def live(**_kwargs: object) -> PublicStatus:
+        calls.append(1)
+        return _quiet_status(tavily_credits=4)
+
     monkeypatch.setenv("TAVILY_API_KEY", TAVILY_SENTINEL)
-    _block_lookup(monkeypatch)
+    monkeypatch.setattr("reproof.door.lookup_public_status", live)
+    monkeypatch.setattr(PublicBudget, "reuse", lambda _self, _key: (stored, "t"))
     budget = _door_budget(tmp_path / "limits.json", 100)
-    monkeypatch.setattr(PublicBudget, "reuse", lambda _self, _key: ({"state": "BOGUS"}, "t"))
     result = _run(
         _world(FIXTURE.read_text(encoding="utf-8")), public_lookup=None, public_budget=budget
     )
     assert result.card is not None and result.card.public_status is not None
-    assert result.card.public_status.state == "LOOKUP_UNAVAILABLE"
+    # Ignored, so the triage looks up again under the same hold as a new lookup.
+    assert calls == [1]
+    assert result.card.public_status.reused_from == ""
+    assert result.card.public_status.state == "NO_PUBLIC_FINDINGS"
+    assert budget.reserve(95) is not None
+    assert budget.reserve(1) is None
 
 
 def test_a_failing_settle_keeps_the_result_and_the_hold(

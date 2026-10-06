@@ -332,10 +332,20 @@ def _lookup_key(request: PublicLookupRequest) -> str:
     return hashlib.sha256(json.dumps(fields).encode("utf-8")).hexdigest()
 
 
-def _reused_status(stored: dict[str, Any], looked_up_at: str) -> PublicStatus:
-    """A lookup from the reuse window. This triage spent no credits and no model calls."""
+def _reused_status(stored: dict[str, Any], looked_up_at: str) -> PublicStatus | None:
+    """A lookup from the reuse window, or None when the stored card is not reusable.
 
-    status = PublicStatus.model_validate(stored)
+    A stored card is reused only if it reads back as a card and its state is not
+    LOOKUP_UNAVAILABLE. Anything else is ignored, and the lookup goes through the same
+    credit hold as a new one, so ignoring it cannot spend past the cap.
+    """
+
+    try:
+        status = PublicStatus.model_validate(stored)
+    except ValueError:
+        return None
+    if status.state == "LOOKUP_UNAVAILABLE":
+        return None
     note = (
         f"Reused the lookup made at {looked_up_at}. This triage sent no Tavily call and no "
         "public-status Nemotron call, so its public-status credits and model cost are 0; the "
@@ -379,7 +389,7 @@ def _lookup_status(
             reserved_day = None if cached is not None else budget.reserve(LOOKUP_MAX_CREDITS)
         except _BUDGET_STORE_ERRORS as error:
             # A budget that cannot be read or written sends no search. TimeoutError is an
-            # OSError; JSON and validation errors are ValueErrors.
+            # OSError; JSON errors are ValueErrors.
             reason = scrub_text(str(error)).replace("\n", " ")[:200]
             failed_source = f"{BUDGET_STORE_NOTE}: {reason}"
             return _lookup_unavailable(

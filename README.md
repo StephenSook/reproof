@@ -410,13 +410,14 @@ response that reports more than its estimate is kept and charged as reported, so
 hold was placed at a count of 95 can end the day at 95 plus whatever it was charged, past 100 by that
 charge minus 5. All 102 calls in the stored evaluation were billed at or under their estimate. A
 lookup that fails keeps its hold. If the count file cannot be read or written, or today's count is
-not a whole number, no search is sent and the state is `LOOKUP_UNAVAILABLE`. A stored lookup whose
-entry is missing, has no UTC time, or is not an object is skipped, and the lookup then reserves and
-searches as usual. A stored lookup that has that shape but does not read back as a public-status card
-sends no search and is `LOOKUP_UNAVAILABLE`. A lookup of the same measured crash in the last 60
-minutes is reused. The page then shows the time of the original lookup and its Tavily request ids,
-and this triage's Tavily credits and public-status model cost are 0. A `LOOKUP_UNAVAILABLE` result is
-never reused. The cap and the window are in `reproof/assets/limits.json`.
+not a whole number, no search is sent and the state is `LOOKUP_UNAVAILABLE`.
+
+A stored card for the same measured crash, saved in the last 60 minutes, is reused when it reads back
+as a public-status card in any state but `LOOKUP_UNAVAILABLE`. The page then shows the time of the
+original lookup and its Tavily request ids, and this triage's Tavily credits and public-status model
+cost are 0. The door never saves a `LOOKUP_UNAVAILABLE` card. Any stored entry that is not reusable
+is ignored, and the lookup goes through the same 5-credit hold as a new one, so it searches only if
+the hold fits. The cap and the window are in `reproof/assets/limits.json`.
 
 The count is per instance. It lives in `/tmp`, starts again when a new instance starts, and is not
 shared between instances, so it does not cap the total spend across Vercel's instances. The account
