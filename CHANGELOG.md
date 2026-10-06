@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Showed the advisory version source and the git ancestry sentence on the door. A long source URL in a draft line wraps instead of widening the page. The door e2e suite has 9 tests, and the live triage stays skipped.
 - Read patched versions from a task repository's GitHub security advisory and checked them with the existing git ancestry. A version is recorded as the fix only when the tag contains the OSV fix commit. A failed advisory read leaves the page's previous state and is listed as a failed source. The card line names the project, the version, the tag, and the short fix commit. The non-live Python suite is 236 tests.
 - Cut the README's Tavily budget section from three paragraphs of edge cases to one paragraph a judge can read in a minute. The edge cases stay in `reproof/door_limits.py` and its tests.
 - Wrote the door's count file through a temporary file and an atomic replace. The file was written in place, so a write that failed after the file was opened, such as a full disk, truncated it. An empty leftover file read back as an empty store, which reset the day's Tavily count and the triage limits; a partial one failed to parse until something replaced it. A failed write now leaves the previous counts, and each write uses its own temporary file name. The README now also says a reusable stored card is returned before today's count is read, and only otherwise does an unreadable count refuse the lookup. Found by the ninth Grok review round. The non-live Python suite is 227 tests.

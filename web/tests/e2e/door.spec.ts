@@ -194,6 +194,102 @@ test("a canned triage shows public status without page text", async ({ page }) =
   }
 });
 
+test("a fixed advisory shows the version source and the ancestry sentence", async ({ page }) => {
+  const advisory = "https://github.com/jqlang/jq/security/advisories/GHSA-686w-5m7m-54vc";
+  const sentence = "Fixed in jq 1.7.1. Git ancestry: tag jq-1.7.1 contains OSV fix 71c2ab5.";
+  const payload = {
+    state: "PUBLICLY_KNOWN_FIXED",
+    project: "jq",
+    credits: 2,
+    unanswered_credits: 0,
+    latency_seconds: 1.2,
+    request_ids: ["tavily-req-fixed"],
+    queries: ["jq Stack-buffer-overflow decNaNs"],
+    domains: ["github.com"],
+    failed_sources: [],
+    note: "One advisory version contains the recorded fix.",
+    model_request_ids: ["public-model"],
+    model_cost_usd: 0.0000123,
+    caps: { searches: 2, extract_urls: 5, tavily_credits: 200, nemotron_calls: 120 },
+    evidence: [
+      {
+        url: advisory,
+        title: "GHSA-686w-5m7m-54vc",
+        frames_matched: ["decNaNs"],
+        cve_ids: ["CVE-2023-50246"],
+        ghsa_ids: ["GHSA-686w-5m7m-54vc"],
+        relation: "SAME_BUG",
+        upstream_status: "FIXED",
+        upstream_version: "1.7.1",
+        ancestry: "CONTAINS_FIX",
+        stale_fields: [],
+        checked_tag: "jq-1.7.1",
+        checked_commit: "71c2ab509a8628dbbad4bc7b3f98a64aa90d3297",
+        version_sources: ["github_advisory_api:1.7.1"],
+      },
+    ],
+    draft: [
+      {
+        text: `${sentence} Source: ${advisory}.`,
+        source_url: advisory,
+        source_date: "2026-10-06",
+        confidence: "high",
+      },
+    ],
+  };
+  const body = [
+    JSON.stringify({ type: "step", step: { step: "public_status", kind: null, payload } }),
+    JSON.stringify({
+      type: "result",
+      result: {
+        verdict: "DUPLICATE",
+        reason: "",
+        missing_details: [],
+        wall_seconds: 1.2,
+        card: {
+          project: "jq",
+          public_status: payload,
+          model_cost_usd: 0.0000123,
+          sandbox_cost_usd: 0,
+          total_cost_usd: 0.0000123,
+        },
+      },
+    }),
+    "",
+  ].join("\n");
+  await page.route("**/api/triage", (route) =>
+    route.fulfill({ status: 200, contentType: "application/x-ndjson", body }),
+  );
+
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    await page.getByRole("button", { name: "Triage", exact: true }).click();
+    const block = page.locator('[data-step="public_status"] [data-public-status]');
+    await expect(block).toHaveAttribute("data-public-status", "PUBLICLY_KNOWN_FIXED");
+    await expect(block.locator('[data-version-source="github_advisory_api:1.7.1"]')).toHaveText(
+      "Version source: github_advisory_api:1.7.1",
+    );
+    await expect(block.getByRole("link", { name: "GHSA-686w-5m7m-54vc", exact: true })).toHaveAttribute(
+      "href",
+      advisory,
+    );
+    await expect(block).toContainText(sentence);
+    await expect(block.locator('[data-matched-frame="decNaNs"]')).toBeVisible();
+    await expect(block.locator('[data-tavily-request-id="tavily-req-fixed"]')).toBeVisible();
+    const card = page.locator('[data-result] [data-public-status]');
+    await expect(card.locator('[data-version-source="github_advisory_api:1.7.1"]')).toBeVisible();
+    await expect(card).toContainText(sentence);
+    const size = await page.evaluate(() => ({
+      clientWidth: document.documentElement.clientWidth,
+      scrollWidth: document.documentElement.scrollWidth,
+    }));
+    expect(size.scrollWidth, `${width}px`).toBeLessThanOrEqual(size.clientWidth);
+    const results = await new AxeBuilder({ page }).analyze();
+    expect(results.violations, `${width}px`).toEqual([]);
+  }
+});
+
 test("an unavailable lookup is not shown as no findings", async ({ page }) => {
   const payload = {
     state: "LOOKUP_UNAVAILABLE",

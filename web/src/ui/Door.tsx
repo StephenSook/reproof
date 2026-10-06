@@ -42,6 +42,7 @@ type ShownCard = {
     duplicate_candidates?: { id?: string }[];
   };
   public_status?: Record<string, unknown> | null;
+  project?: string;
 };
 
 type ShownResult = {
@@ -131,8 +132,26 @@ function numberField(record: Record<string, unknown>, key: string): number | nul
   return asNumber(record[key]);
 }
 
-function PublicStatusBlock({ status }: { status: Record<string, unknown> }) {
+function ancestrySentence(row: Record<string, unknown>, projectName: string): string | null {
+  const ancestry = typeof row.ancestry === "string" ? row.ancestry : "";
+  const version = typeof row.upstream_version === "string" ? row.upstream_version : "";
+  const tag = typeof row.checked_tag === "string" ? row.checked_tag : "";
+  const commit = typeof row.checked_commit === "string" ? row.checked_commit : "";
+  if (ancestry !== "CONTAINS_FIX" || !version || !tag || commit.length < 7) return null;
+  const name = projectName.trim() || "this project";
+  return `Fixed in ${name} ${version}. Git ancestry: tag ${tag} contains OSV fix ${commit.slice(0, 7)}.`;
+}
+
+function PublicStatusBlock({
+  status,
+  project,
+}: {
+  status: Record<string, unknown>;
+  project?: string;
+}) {
   const credits = numberField(status, "credits") ?? numberField(status, "tavily_credits");
+  const projectName =
+    (typeof status.project === "string" && status.project) || project || "";
   const unanswered =
     numberField(status, "unanswered_credits") ?? numberField(status, "tavily_unanswered_credits") ?? 0;
   const requestIds = textList(status.request_ids).length
@@ -187,6 +206,7 @@ function PublicStatusBlock({ status }: { status: Record<string, unknown> }) {
           const url = typeof row.url === "string" ? row.url : "";
           const title = typeof row.title === "string" && row.title ? row.title : url || "Untitled page";
           const frames = textList(row.frames_matched);
+          const sentence = ancestrySentence(row, projectName);
           return (
             <li className="min-w-0" key={`${url}-${index}`}>
               <p>
@@ -210,6 +230,12 @@ function PublicStatusBlock({ status }: { status: Record<string, unknown> }) {
               <Field label="Upstream version" value={row.upstream_version} />
               <Field label="Ancestry" value={row.ancestry} />
               <Field label="Checked tag" value={row.checked_tag} />
+              {textList(row.version_sources).map((source, sourceIndex) => (
+                <p className="min-w-0 break-words" data-version-source={source} key={`${source}-${sourceIndex}`}>
+                  Version source: {source}
+                </p>
+              ))}
+              {sentence ? <p className="min-w-0 break-words">{sentence}</p> : null}
               {textList(row.stale_fields).length ? (
                 <Field label="Stale fields" value={textList(row.stale_fields)} />
               ) : null}
@@ -223,7 +249,7 @@ function PublicStatusBlock({ status }: { status: Record<string, unknown> }) {
         const source = typeof line.source_url === "string" ? line.source_url : "";
         if (!text) return null;
         return (
-          <p key={`${source}-${index}`}>
+          <p className="min-w-0 break-words" key={`${source}-${index}`}>
             {text}{" "}
             {source ? <LinkedText label={source} url={source} /> : null}{" "}
             {typeof line.source_date === "string" ? <span>{line.source_date}</span> : null}{" "}
@@ -377,7 +403,9 @@ function FinalCard({ result, source }: { result: ShownResult; source: "LIVE" | "
           {card.evidence.duplicate_candidates.map((candidate) => candidate.id).filter(Boolean).join(", ")}
         </p>
       ) : null}
-      {card?.public_status ? <PublicStatusBlock status={card.public_status} /> : null}
+      {card?.public_status ? (
+        <PublicStatusBlock project={card.project} status={card.public_status} />
+      ) : null}
     </article>
   );
 }
