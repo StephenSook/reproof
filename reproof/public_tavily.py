@@ -389,8 +389,8 @@ def _account(
     ledger.record(call)
     if missing:
         raise TavilyStopped("usage.credits missing", kind="usage_missing")
-    if ledger.used > ledger.limit:
-        raise TavilyStopped("recorded credits passed the budget", kind="budget")
+    # A response billed past the budget is still used: it was paid for. The next
+    # ensure() refuses, so no further call is sent.
     if not request_text:
         raise TavilyApiError("Tavily response had no request_id", call=call)
     return call

@@ -275,6 +275,25 @@ def test_extract_is_one_call_and_is_skipped_when_nothing_matches() -> None:
     assert quiet.extract_calls == []
 
 
+def test_a_response_billed_past_the_budget_is_kept_and_stops_the_next_call() -> None:
+    issue = "https://github.com/jqlang/jq/security/advisories/GHSA-7hmr-442f-qc8j"
+    page = {"url": issue, "raw_content": "Stack-buffer-overflow in decNaNs\n"}
+    client = FakeTavily(
+        extracts=[
+            {"request_id": "req-extract", "results": [page], "usage": {"credits": 2}},
+            AssertionError("second extract"),
+        ]
+    )
+    ledger = CreditLedger(limit=5, used=4)
+    extracted = perform_extract(urls=[issue], frames=FRAMES, client=client, ledger=ledger)
+    assert ledger.used == 6
+    assert extracted.stopped == ""
+    assert [page_item.url for page_item in extracted.pages] == [issue]
+    after = perform_extract(urls=[issue], frames=FRAMES, client=client, ledger=ledger)
+    assert after.stopped == "budget"
+    assert len(client.extract_calls) == 1
+
+
 def test_api_error_is_not_charged_and_the_key_is_scrubbed(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("TAVILY_API_KEY", "tvly-test-secret-value")
     client = FakeTavily([RuntimeError("unauthorized tvly-test-secret-value")])
