@@ -320,7 +320,14 @@ def _public_request(
     )
 
 
-_LOOKUP_MODULES = ("public_status.py", "public_match.py", "public_model.py", "public_tavily.py")
+# door.py builds the lookup call (transport, ledger, caps), so its source is part of the key too.
+_LOOKUP_MODULES = (
+    "door.py",
+    "public_status.py",
+    "public_match.py",
+    "public_model.py",
+    "public_tavily.py",
+)
 
 
 @functools.cache
