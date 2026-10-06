@@ -68,6 +68,8 @@ NO_FRAME_NOTE = "No measured crash frame was available, so no search was sent."
 MISSING_KEY_NOTE = "TAVILY_API_KEY is not set"
 BUDGET_SPENT_NOTE = "daily Tavily budget for this server instance is spent"
 BUDGET_STORE_NOTE = "Tavily budget store failed"
+# Store failures the door turns into "no search" (or, after a search, "keep the hold").
+_BUDGET_STORE_ERRORS = (OSError, ValueError, TypeError, AttributeError)
 # Two advanced searches and one basic extract of up to five URLs. The door's ledger stops here.
 LOOKUP_MAX_CREDITS = MAX_SEARCHES * ADVANCED_SEARCH_ESTIMATE + extract_estimate(MAX_EXTRACT_URLS)
 DoorStepName = Literal["claim", "sandbox", "crash", "duplicates", "public_status", "verdict"]
@@ -375,7 +377,7 @@ def _lookup_status(
             reused = budget.reuse(key)
             cached = _reused_status(*reused) if reused is not None else None
             reserved_day = None if cached is not None else budget.reserve(LOOKUP_MAX_CREDITS)
-        except (OSError, ValueError) as error:
+        except _BUDGET_STORE_ERRORS as error:
             # A budget that cannot be read or written sends no search. TimeoutError is an
             # OSError; JSON and validation errors are ValueErrors.
             reason = scrub_text(str(error)).replace("\n", " ")[:200]
@@ -448,7 +450,7 @@ def _settle_or_keep_hold(
 
     try:
         budget.settle(day, reserved=LOOKUP_MAX_CREDITS, spent=spent, key=key, status=status)
-    except (OSError, ValueError):
+    except _BUDGET_STORE_ERRORS:
         return
 
 

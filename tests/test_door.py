@@ -759,11 +759,19 @@ def test_unanswered_estimates_are_charged_to_the_day(
 
 
 @pytest.mark.parametrize("method", ["reuse", "reserve"])
+@pytest.mark.parametrize(
+    "error",
+    [
+        TimeoutError("door limit lock is held"),
+        TypeError("can't compare offset-naive and offset-aware datetimes"),
+        AttributeError("'NoneType' object has no attribute 'get'"),
+    ],
+)
 def test_a_failing_budget_store_sends_no_search(
-    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, method: str
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, method: str, error: Exception
 ) -> None:
     def broken(*_args: object, **_kwargs: object) -> object:
-        raise TimeoutError("door limit lock is held")
+        raise error
 
     monkeypatch.setenv("TAVILY_API_KEY", TAVILY_SENTINEL)
     _block_lookup(monkeypatch)

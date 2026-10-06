@@ -53,8 +53,10 @@ class PublicBudget:
     """Tavily spend on one door instance.
 
     A lookup for the same measured crash is reused for `limits.public_reuse_seconds`. A new
-    lookup first reserves its worst-case credits against the UTC day's cap, then
-    the reservation is replaced by the credits Tavily reported.
+    lookup first holds its worst-case credits against the UTC day's cap. Afterwards the day
+    is charged the larger of the hold and what the lookup reported or may have been billed.
+    A count the store cannot read as a whole number counts as a spent day: the budget fails
+    closed rather than guess.
     """
 
     store: Path
@@ -65,12 +67,12 @@ class PublicBudget:
         now = self.clock().astimezone(UTC)
 
         def read(data: dict[str, Any]) -> tuple[dict[str, Any], str] | None:
-            entry = data.get("public", {}).get(key)
+            public = data.get("public")
+            entry = public.get(key) if isinstance(public, dict) else None
             if not isinstance(entry, dict) or not isinstance(entry.get("status"), dict):
                 return None
-            try:
-                at = datetime.fromisoformat(str(entry.get("at", "")))
-            except ValueError:
+            at = _aware_time(entry.get("at"))
+            if at is None:
                 return None
             if at > now or now - at > timedelta(seconds=self.limits.public_reuse_seconds):
                 return None
@@ -85,11 +87,13 @@ class PublicBudget:
         day = self.clock().astimezone(UTC).strftime("%Y-%m-%d")
 
         def mutate(data: dict[str, Any]) -> str | None:
-            spent = data.setdefault("tavily_days", {})
-            used = int(spent.get(day, 0))
-            if used + credits > self.limits.tavily_credits_per_day:
+            days = data.setdefault("tavily_days", {})
+            if not isinstance(days, dict):
                 return None
-            spent[day] = used + credits
+            used = _count(days.get(day, 0))
+            if used is None or used + credits > self.limits.tavily_credits_per_day:
+                return None
+            days[day] = used + credits
             return day
 
         result: str | None = _update(self.store, mutate)
@@ -109,26 +113,53 @@ class PublicBudget:
         now = self.clock().astimezone(UTC)
 
         def mutate(data: dict[str, Any]) -> None:
-            days = data.setdefault("tavily_days", {})
-            if spent is not None:
-                days[day] = max(0, int(days.get(day, 0)) - reserved + spent)
+            days = data.get("tavily_days")
+            if not isinstance(days, dict):
+                # The counts are unreadable: mark this day spent rather than guess.
+                days = {day: self.limits.tavily_credits_per_day}
+                data["tavily_days"] = days
+            elif spent is not None:
+                current = _count(days.get(day, 0))
+                if current is None:
+                    days[day] = self.limits.tavily_credits_per_day
+                else:
+                    days[day] = max(0, current - reserved + spent)
             oldest = (now - timedelta(days=2)).strftime("%Y-%m-%d")
             for old in [name for name in days if name < oldest]:
                 del days[old]
-            public = data.setdefault("public", {})
+            public = data.get("public")
+            if not isinstance(public, dict):
+                # Stored lookups only save credits; dropping them can only add budgeted lookups.
+                public = {}
+                data["public"] = public
             if status is not None:
                 public[key] = {"at": now.isoformat(), "status": status}
             cutoff = now - timedelta(seconds=self.limits.public_reuse_seconds)
             for name in list(public):
                 entry = public[name]
-                try:
-                    stale = datetime.fromisoformat(str(entry.get("at", ""))) < cutoff
-                except (AttributeError, ValueError):
-                    stale = True
-                if stale:
+                at = _aware_time(entry.get("at")) if isinstance(entry, dict) else None
+                if at is None or at < cutoff:
                     del public[name]
 
         _update(self.store, mutate)
+
+
+def _count(value: object) -> int | None:
+    """A stored credit count, or None when it is not a non-negative whole number."""
+
+    if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+        return None
+    return value
+
+
+def _aware_time(value: object) -> datetime | None:
+    """A stored UTC time, or None when it is missing, unparseable, or has no offset."""
+
+    try:
+        at = datetime.fromisoformat(str(value))
+    except ValueError:
+        return None
+    return at if at.tzinfo is not None else None
 
 
 @dataclass(frozen=True)

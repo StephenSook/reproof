@@ -182,3 +182,54 @@ def test_client_ip_prefers_platform_header_then_last_hop() -> None:
     assert client_ip({"x-forwarded-for": "1.1.1.1, 198.51.100.9"}, None) == "198.51.100.9"
     assert client_ip({}, "127.0.0.1") == "127.0.0.1"
     assert client_ip({}, None) == "unknown"
+
+
+def _store_with(tmp_path: Path, payload: object) -> Path:
+    store = tmp_path / "limits.json"
+    store.write_text(json.dumps(payload), encoding="utf-8")
+    return store
+
+
+def test_a_naive_stored_time_is_never_reused_and_is_pruned(tmp_path: Path) -> None:
+    store = _store_with(
+        tmp_path,
+        {"public": {"k": {"at": "2026-10-05T14:30:00", "status": {}}, "other": {"at": 7}}},
+    )
+    budget = _budget(store, 100, [WHEN])
+    assert budget.reuse("k") is None
+    budget.settle("2026-10-05", reserved=0, spent=0, key="new", status={"state": "X"})
+    public = json.loads(store.read_text(encoding="utf-8"))["public"]
+    assert sorted(public) == ["new"]
+
+
+@pytest.mark.parametrize(
+    "payload",
+    [
+        {"tavily_days": {"2026-10-05": None}},
+        {"tavily_days": {"2026-10-05": "12"}},
+        {"tavily_days": {"2026-10-05": -1}},
+        {"tavily_days": {"2026-10-05": True}},
+        {"tavily_days": None},
+        {"tavily_days": []},
+    ],
+)
+def test_an_unreadable_day_count_refuses_and_settles_as_spent(
+    tmp_path: Path, payload: object
+) -> None:
+    store = _store_with(tmp_path, payload)
+    budget = _budget(store, 100, [WHEN])
+    assert budget.reserve(5) is None
+    budget.settle("2026-10-05", reserved=5, spent=4, key="k", status=None)
+    days = json.loads(store.read_text(encoding="utf-8"))["tavily_days"]
+    assert days["2026-10-05"] == 100
+    assert budget.reserve(1) is None
+
+
+def test_a_null_public_map_is_not_an_error(tmp_path: Path) -> None:
+    store = _store_with(tmp_path, {"public": None})
+    budget = _budget(store, 100, [WHEN])
+    assert budget.reuse("k") is None
+    day = budget.reserve(5)
+    assert day == "2026-10-05"
+    budget.settle(day, reserved=5, spent=5, key="k", status={"state": "NO_PUBLIC_FINDINGS"})
+    assert budget.reuse("k") == ({"state": "NO_PUBLIC_FINDINGS"}, WHEN.isoformat())
