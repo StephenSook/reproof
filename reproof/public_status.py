@@ -636,7 +636,8 @@ def lookup_public_status(
     counts["snippet"] += search_counts["snippet"]
     counts["source_file"] += search_counts["source_file"]
     if search.stopped:
-        failed.append(f"search stopped: {search.stopped}")
+        # A stop can carry an exception's text, so it is scrubbed like any other failure.
+        failed.append(_clean(f"search stopped: {search.stopped}"))
     if search.responses_read == 0:
         # Every query was refused, stopped, or answered without a result list.
         return finish(LOOKUP_UNAVAILABLE)
@@ -653,7 +654,7 @@ def lookup_public_status(
         failed.append(_clean(f"extract failed: {exc}"))
         extracted = _empty_extract()
     if extracted.stopped:
-        failed.append(f"extract stopped: {extracted.stopped}")
+        failed.append(_clean(f"extract stopped: {extracted.stopped}"))
     for url in extracted.failed_urls:
         failed.append(f"extract failed url: {url}")
 

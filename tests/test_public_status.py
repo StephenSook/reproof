@@ -18,7 +18,13 @@ from reproof.public_status import (
     attach_public_status,
     lookup_public_status,
 )
-from reproof.public_tavily import EXTRACT_CHUNKS, MAX_RESULTS, SEARCH_DEPTH, CreditLedger
+from reproof.public_tavily import (
+    EXTRACT_CHUNKS,
+    MAX_RESULTS,
+    SEARCH_DEPTH,
+    CreditLedger,
+    TavilyApiError,
+)
 from tests.test_card import valid_card
 
 FIXTURE_DIR = Path(__file__).parent / "fixtures" / "tavily"
@@ -573,6 +579,51 @@ def test_a_later_response_without_request_id_is_kept_as_sent() -> None:
     assert len(tavily.extract_calls) == 1
     assert status.state != "LOOKUP_UNAVAILABLE"
     assert any("no request_id" in item for item in status.failed_sources)
+
+
+def test_a_later_response_that_is_not_an_object_is_not_listed_as_sent() -> None:
+    text = f"{FRAME_LINE}\n"
+    tavily = FakeTavily(
+        searches=[_search_body([_hit(text)], "req-search-1"), "not-a-dict"],
+        extracts=[_extract_body(text)],
+    )
+    status = _lookup(
+        tavily_client=tavily,
+        model_client=_model(
+            _plan("jq Stack-buffer-overflow decNaNs", "jq decNumberCopy"),
+            _classify("SAME_BUG", "OPEN", FRAME_LINE, request_id="req-open"),
+        ),
+    )
+    assert len(tavily.search_calls) == 2
+    assert status.queries_sent == ["jq Stack-buffer-overflow decNaNs"]
+    assert any("not an object" in item for item in status.failed_sources)
+
+
+def test_a_later_search_error_text_is_scrubbed_on_the_card(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    secret = "dummy-key-value-12345678"
+    monkeypatch.setenv("TAVILY_API_KEY", secret)
+    text = f"{FRAME_LINE}\n"
+    tavily = FakeTavily(
+        searches=[
+            _search_body([_hit(text)], "req-search-1"),
+            TavilyApiError(f"direct {secret}\n" + "x" * 400),
+        ],
+        extracts=[_extract_body(text)],
+    )
+    status = _lookup(
+        tavily_client=tavily,
+        model_client=_model(
+            _plan("jq Stack-buffer-overflow decNaNs", "jq decNumberCopy"),
+            _classify("SAME_BUG", "OPEN", FRAME_LINE, request_id="req-open"),
+        ),
+    )
+    stopped = [item for item in status.failed_sources if item.startswith("search stopped:")]
+    assert len(stopped) == 1
+    assert secret not in status.model_dump_json()
+    assert "\n" not in stopped[0]
+    assert len(stopped[0]) <= 300
 
 
 def test_rejected_crawl_page_counts_as_read() -> None:

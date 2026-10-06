@@ -503,9 +503,11 @@ def perform_search(
         except TavilyApiError as exc:
             if not sent:
                 raise
+            if exc.call is None:
+                # Not an object: nothing was recorded, so this query is not listed as sent.
+                return _stop(f"error: {exc}", pending)
             sent.append(query)
-            recorded = (exc.call,) if exc.call is not None else ()
-            return _stop(f"error: {exc}", accepted[index + 1 :], recorded)
+            return _stop(f"error: {exc}", accepted[index + 1 :], (exc.call,))
         sent.append(query)
         calls.append(call)
         if isinstance(raw, dict):
