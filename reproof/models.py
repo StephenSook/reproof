@@ -127,6 +127,78 @@ class TriageProvenance(StrictModel):
         return self
 
 
+class PublicTavilyCall(StrictModel):
+    """One Tavily call that was actually sent. Credits come from that response."""
+
+    operation: str
+    request_id: str
+    credits: int = Field(ge=0)
+    query: str
+
+
+class PublicEvidence(StrictModel):
+    """One page that passed the host rule and the frame gate."""
+
+    url: str
+    title: str
+    frames_matched: list[str]
+    matched_lines: list[str]
+    cve_ids: list[str]
+    ghsa_ids: list[str]
+    patched_versions: list[str]
+    mentioned_commits: list[str]
+    relation: str
+    upstream_status: str
+    upstream_version: str
+    ancestry: str
+    checked_tag: str
+    checked_commit: str
+    stale_fields: list[str]
+    quotes: list[str]
+    dispute: bool
+    match_reason: str
+    model_request_id: str
+
+
+class PublicDraftLine(StrictModel):
+    """One maintainer-facing sentence. The human sends it. It cites its source."""
+
+    text: str
+    source_url: str
+    source_date: str
+    confidence: Literal["high", "medium", "low"]
+
+
+class PublicStatus(StrictModel):
+    """Whether a measured crash is already public, separate from the triage verdict."""
+
+    state: Literal[
+        "PUBLICLY_KNOWN_FIXED",
+        "PUBLICLY_KNOWN_OPEN",
+        "RELATED_VARIANTS_ONLY",
+        "SOURCE_DISPUTE",
+        "NO_PUBLIC_FINDINGS",
+    ]
+    evidence: list[PublicEvidence]
+    queries_sent: list[str]
+    query_source: str
+    domains: list[str]
+    failed_sources: list[str]
+    note: str
+    tavily_request_ids: list[str]
+    tavily_calls: list[PublicTavilyCall]
+    tavily_credits: int = Field(default=0, ge=0)
+    model_calls: list[ModelCall]
+    draft: list[PublicDraftLine]
+    host_rejected: int = Field(default=0, ge=0)
+    snippet_rejected: int = Field(default=0, ge=0)
+    frame_rejected: int = Field(default=0, ge=0)
+    quote_rejected: int = Field(default=0, ge=0)
+    unrelated_rejected: int = Field(default=0, ge=0)
+    source_file_rejected: int = Field(default=0, ge=0)
+    latency_seconds: float = Field(default=0, ge=0)
+
+
 class TriageCard(StrictModel):
     schema_version: Literal["1.5"] = "1.5"
     arvo_id: int
@@ -144,6 +216,7 @@ class TriageCard(StrictModel):
     sandbox_cost_usd: float = Field(ge=0)
     total_cost_usd: float = Field(ge=0)
     wall_seconds: float = Field(ge=0)
+    public_status: PublicStatus | None = None
 
     @model_validator(mode="after")
     def validate_evidence_and_costs(self) -> TriageCard:
@@ -287,6 +360,15 @@ class TriageCard(StrictModel):
             abs_tol=1e-7,
         ):
             raise ValueError("total cost does not equal model plus sandbox cost")
+        if self.public_status is not None:
+            recorded = {call.request_id for call in self.model_calls}
+            missing = [
+                call.request_id
+                for call in self.public_status.model_calls
+                if call.request_id not in recorded
+            ]
+            if missing:
+                raise ValueError("public status model calls must also be card model calls")
         return self
 
 

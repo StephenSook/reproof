@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Added a public-status stage. Tavily searches and extracts, and a page is kept only when the top measured frame and the crash type match, or at least two measured frames match. Nemotron classifies those pages. Git ancestry checks a stated version before it is called the fix, and a contradicted patched-version field is marked stale. The triage verdict is unchanged. The non-live Python suite is 175 tests.
 - Documented the judge door, including the Vercel Python function, the per-instance cap file, and the scheduled probe. The non-live Python suite is 114 tests.
 - Added Playwright checks for the report picker, the recorded step view, the Measured section, horizontal overflow, and axe. The real triage check stays off unless REPROOF_LIVE=1. CI runs the non-live web gates.
 - Added a live probe for ARVO 42530604. It fails unless the verdict and every triage step arrive, including both sandbox operation ids. The scheduled workflow requires a public door URL and fails when that URL is empty.

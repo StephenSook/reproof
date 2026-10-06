@@ -129,6 +129,7 @@ class SearchOutcome:
 class ExtractedPage:
     url: str
     text: str
+    title: str = ""
 
 
 @dataclass(frozen=True)
@@ -548,7 +549,7 @@ def _pages(raw: Mapping[str, Any]) -> tuple[ExtractedPage, ...]:
     for item in results:
         if not isinstance(item, dict):
             continue
-        pages.append(ExtractedPage(_text(item, "url"), page_text(item)))
+        pages.append(ExtractedPage(_text(item, "url"), page_text(item), _text(item, "title")))
     return tuple(pages)
 
 
