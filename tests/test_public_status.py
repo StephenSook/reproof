@@ -426,7 +426,7 @@ def test_short_frames_send_no_search() -> None:
 
     model = _model()
     status = _lookup(frames=["abc"], tavily_client=Boom(), model_client=model)
-    assert status.state == "NO_PUBLIC_FINDINGS"
+    assert status.state == "LOOKUP_UNAVAILABLE"
     assert status.tavily_credits == 0
     assert status.model_calls == []
     assert status.note == "No measured crash frame was available, so no search was sent."
@@ -448,8 +448,113 @@ def test_search_error_redacts_the_api_key(monkeypatch: pytest.MonkeyPatch) -> No
     dumped = status.model_dump_json()
     assert secret not in dumped
     assert "[redacted]" in dumped
-    assert status.state == "NO_PUBLIC_FINDINGS"
+    assert status.state == "LOOKUP_UNAVAILABLE"
     assert any(item.startswith("search failed:") for item in status.failed_sources)
+
+
+def test_unread_search_hits_are_not_reported_as_no_findings() -> None:
+    text = f"{FRAME_LINE}\n"
+    tavily = FakeTavily(
+        searches=[_search_body([_hit(text)], "req-search-1"), _empty_search("req-search-2")],
+        extracts=[RuntimeError("extract down")],
+    )
+    status = _lookup(
+        tavily_client=tavily,
+        model_client=_model(_plan("jq Stack-buffer-overflow decNaNs", "jq decNumberCopy")),
+    )
+    assert len(tavily.extract_calls) == 1
+    assert status.state == "LOOKUP_UNAVAILABLE"
+    assert status.evidence == []
+    assert any(item.startswith("extract failed:") for item in status.failed_sources)
+
+
+def test_empty_search_is_no_findings_not_unavailable() -> None:
+    tavily = FakeTavily(searches=[_empty_search("req-a"), _empty_search("req-b")])
+    status = _lookup(
+        tavily_client=tavily,
+        model_client=_model(_plan("jq Stack-buffer-overflow decNaNs", "jq decNumberCopy")),
+    )
+    assert len(tavily.search_calls) == 2
+    assert tavily.extract_calls == []
+    assert status.state == "NO_PUBLIC_FINDINGS"
+
+
+def test_budget_stop_before_any_search_is_unavailable() -> None:
+    tavily = FakeTavily()
+    status = _lookup(
+        tavily_client=tavily,
+        model_client=_model(_plan("jq Stack-buffer-overflow decNaNs", "jq decNumberCopy")),
+        ledger=CreditLedger(used=199),
+    )
+    assert tavily.search_calls == []
+    assert status.state == "LOOKUP_UNAVAILABLE"
+    assert status.queries_sent == []
+    assert "search stopped: budget" in status.failed_sources
+
+
+def test_first_response_without_usage_is_unavailable() -> None:
+    text = f"{FRAME_LINE}\n"
+    no_usage = {"request_id": "req-no-usage", "results": [_hit(text)]}
+    tavily = FakeTavily(searches=[no_usage, AssertionError("second search")])
+    status = _lookup(
+        tavily_client=tavily,
+        model_client=_model(_plan("jq Stack-buffer-overflow decNaNs", "jq decNumberCopy")),
+    )
+    assert len(tavily.search_calls) == 1
+    assert tavily.extract_calls == []
+    assert status.state == "LOOKUP_UNAVAILABLE"
+    assert status.queries_sent == ["jq Stack-buffer-overflow decNaNs"]
+
+
+def test_responses_without_a_result_list_are_unavailable() -> None:
+    bare = {"request_id": "req-bare", "usage": {"credits": 2}}
+    tavily = FakeTavily(searches=[bare, {**bare, "request_id": "req-bare-2", "results": None}])
+    status = _lookup(
+        tavily_client=tavily,
+        model_client=_model(_plan("jq Stack-buffer-overflow decNaNs", "jq decNumberCopy")),
+    )
+    assert len(tavily.search_calls) == 2
+    assert status.state == "LOOKUP_UNAVAILABLE"
+
+
+def test_only_sent_queries_are_listed_as_searched() -> None:
+    tavily = FakeTavily(searches=[_empty_search("req-a"), _empty_search("req-b")])
+    status = _lookup(
+        tavily_client=tavily,
+        model_client=_model(
+            _plan("jq Stack-buffer-overflow decNaNs", "jq decNumberCopy", "jq decCompareOp crash")
+        ),
+    )
+    assert len(tavily.search_calls) == 2
+    assert status.state == "NO_PUBLIC_FINDINGS"
+    sent = [call["query"] for call in tavily.search_calls]
+    assert status.queries_sent == sent
+    assert "jq decCompareOp crash" not in status.note
+
+
+def test_rejected_crawl_page_counts_as_read() -> None:
+    text = f"{FRAME_LINE}\n"
+    page = {
+        "url": "https://github.com/jqlang/jq/blob/HEAD/SECURITY.md",
+        "title": "SECURITY.md",
+        "raw_content": "Report security issues privately.\n",
+    }
+    tavily = FakeTavily(
+        searches=[_search_body([_hit(text)], "req-search-1"), _empty_search("req-search-2")],
+        extracts=[RuntimeError("extract down")],
+        crawls=[
+            {"request_id": "req-crawl", "usage": {"credits": 2}, "results": [page]},
+            {"request_id": "req-crawl-2", "usage": {"credits": 2}, "results": []},
+        ],
+    )
+    status = _lookup(
+        tavily_client=tavily,
+        model_client=_model(_plan("jq Stack-buffer-overflow decNaNs", "jq decNumberCopy")),
+        crawl_fallback=True,
+    )
+    assert len(tavily.crawl_calls) >= 1
+    assert status.frame_rejected >= 1
+    assert status.state == "NO_PUBLIC_FINDINGS"
 
 
 def test_quote_missing_from_the_page_is_rejected() -> None:

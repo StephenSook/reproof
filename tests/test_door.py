@@ -550,7 +550,7 @@ def test_missing_tavily_key_sends_no_search(monkeypatch: pytest.MonkeyPatch) -> 
     assert result.card is not None
     status = result.card.public_status
     assert status is not None
-    assert status.state == "NO_PUBLIC_FINDINGS"
+    assert status.state == "LOOKUP_UNAVAILABLE"
     assert status.tavily_credits == 0
     assert status.model_calls == []
     assert status.failed_sources == ["TAVILY_API_KEY is not set"]
@@ -671,6 +671,7 @@ def test_no_measured_frame_sends_no_search(monkeypatch: pytest.MonkeyPatch) -> N
     assert result.card is not None
     status = result.card.public_status
     assert status is not None
+    assert status.state == "LOOKUP_UNAVAILABLE"
     assert status.note == "No measured crash frame was available, so no search was sent."
     assert status.tavily_credits == 0
     assert status.model_calls == []
@@ -689,7 +690,8 @@ def test_lookup_failure_keeps_the_verdict(monkeypatch: pytest.MonkeyPatch) -> No
     assert result.card is not None
     status = result.card.public_status
     assert status is not None
-    assert status.state == "NO_PUBLIC_FINDINGS"
+    assert status.state == "LOOKUP_UNAVAILABLE"
+    assert "No Tavily search was sent" not in status.note
     assert status.failed_sources
     assert status.failed_sources[0].startswith("public status failed:")
     assert "[redacted]" in status.failed_sources[0]

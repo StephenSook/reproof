@@ -228,16 +228,16 @@ def _key_present() -> bool:
     return len(os.environ.get("TAVILY_API_KEY") or "") >= 8
 
 
-def _findings_without_search(reason: str, *, failed: bool) -> PublicStatus:
-    failed_sources = [reason] if failed else []
-    note = f"No Tavily search was sent. Failed sources: {reason}." if failed else reason
+def _lookup_unavailable(note: str, *, failed_source: str = "") -> PublicStatus:
+    """No page was read. The card says the lookup is unavailable, never "no public findings"."""
+
     return PublicStatus(
-        state="NO_PUBLIC_FINDINGS",
+        state="LOOKUP_UNAVAILABLE",
         evidence=[],
         queries_sent=[],
         query_source="",
         domains=[],
-        failed_sources=failed_sources,
+        failed_sources=[failed_source] if failed_source else [],
         note=note,
         tavily_request_ids=[],
         tavily_calls=[],
@@ -308,11 +308,14 @@ def _lookup_status(
     """Run the stage, or record why it did not run. A stub replaces the network."""
 
     if not request.frames:
-        return _findings_without_search(NO_FRAME_NOTE, failed=False)
+        return _lookup_unavailable(NO_FRAME_NOTE)
     if public_lookup is not None:
         return _note_missing_repo(public_lookup(request), request.owner, request.project)
     if not _key_present():
-        return _findings_without_search(MISSING_KEY_NOTE, failed=True)
+        return _lookup_unavailable(
+            f"No Tavily search was sent. Failed sources: {MISSING_KEY_NOTE}.",
+            failed_source=MISSING_KEY_NOTE,
+        )
     try:
         status = lookup_public_status(
             project=request.project,
@@ -328,7 +331,13 @@ def _lookup_status(
     except Exception as error:
         # A lookup failure must not drop the reproduction that already finished.
         reason = scrub_text(str(error)).replace("\n", " ")[:300]
-        return _findings_without_search(f"public status failed: {reason}", failed=True)
+        failed_source = f"public status failed: {reason}"
+        # Searches may have run before the failure; their credits are not counted on this card.
+        return _lookup_unavailable(
+            f"The lookup did not finish, so nothing is claimed either way. "
+            f"Failed sources: {failed_source}.",
+            failed_source=failed_source,
+        )
     return _note_missing_repo(status, request.owner, request.project)
 
 

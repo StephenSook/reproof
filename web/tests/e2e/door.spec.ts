@@ -192,6 +192,35 @@ test("a canned triage shows public status without page text", async ({ page }) =
   }
 });
 
+test("an unavailable lookup is not shown as no findings", async ({ page }) => {
+  const payload = {
+    state: "LOOKUP_UNAVAILABLE",
+    credits: 0,
+    latency_seconds: 0,
+    request_ids: [],
+    queries: [],
+    domains: [],
+    failed_sources: ["TAVILY_API_KEY is not set"],
+    note: "No Tavily search was sent. Failed sources: TAVILY_API_KEY is not set.",
+    model_request_ids: [],
+    model_cost_usd: 0,
+    evidence: [],
+    draft: [],
+  };
+  const body = [JSON.stringify({ type: "step", step: { step: "public_status", kind: null, payload } }), ""].join(
+    "\n",
+  );
+  await page.route("**/api/triage", (route) =>
+    route.fulfill({ status: 200, contentType: "application/x-ndjson", body }),
+  );
+  await page.goto("/");
+  await page.getByRole("button", { name: "Triage", exact: true }).click();
+  const block = page.locator('[data-step="public_status"] [data-public-status]');
+  await expect(block).toHaveAttribute("data-public-status", "LOOKUP_UNAVAILABLE");
+  await expect(block.locator("[data-lookup-unavailable]")).toBeVisible();
+  await expect(block.getByText("No public page passed the checks for this crash.")).toHaveCount(0);
+});
+
 test("axe reports zero violations", async ({ page }) => {
   for (const width of widths) {
     await page.setViewportSize({ width, height: 900 });

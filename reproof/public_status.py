@@ -34,7 +34,9 @@ from reproof.public_match import (
     CONTAINS_FIX,
     DOES_NOT_CONTAIN_FIX,
     FRAME_MIN_LENGTH,
+    LOOKUP_UNAVAILABLE,
     NO_FIX_COMMIT,
+    NO_PUBLIC_FINDINGS,
     NOT_CHECKABLE,
     DraftRejected,
     EvidenceView,
@@ -592,7 +594,7 @@ def lookup_public_status(
         )
 
     if not usable:
-        return finish("NO_PUBLIC_FINDINGS")
+        return finish(LOOKUP_UNAVAILABLE)
 
     try:
         plan = plan_queries(project, crash_type, usable, client=model_client, budget=budget)
@@ -623,14 +625,21 @@ def lookup_public_status(
             ledger=book,
         )
     except TavilyApiError as exc:
+        # No search response survived, so no planned query is reported as searched.
+        queries = ()
         failed.append(_clean(f"search failed: {exc}"))
-        return finish("NO_PUBLIC_FINDINGS")
+        return finish(LOOKUP_UNAVAILABLE)
+    # The note and card list only queries that were sent, not every planned query.
+    queries = search.queries_sent
     search_counts = _reject_search(search)
     counts["host"] += search_counts["host"]
     counts["snippet"] += search_counts["snippet"]
     counts["source_file"] += search_counts["source_file"]
     if search.stopped:
         failed.append(f"search stopped: {search.stopped}")
+    if search.responses_read == 0:
+        # Every query was refused, stopped, or answered without a result list.
+        return finish(LOOKUP_UNAVAILABLE)
 
     titles = {hit.url: hit.title for hit in search.hits}
     try:
@@ -669,8 +678,9 @@ def lookup_public_status(
         views=views,
         unverified=unverified,
     )
+    pages_read = len(extracted.pages)
     if crawl_fallback and not passed_frame:
-        _crawl(
+        pages_read += _crawl(
             owner,
             repo,
             extra_hosts,
@@ -692,6 +702,9 @@ def lookup_public_status(
             unverified=unverified,
             seen={item.url for item in evidence},
         )
+    if search.hits and pages_read == 0 and decide_state(views) == NO_PUBLIC_FINDINGS:
+        # Search returned pages and none could be read, so "nothing public" is not known.
+        return finish(LOOKUP_UNAVAILABLE)
     return finish()
 
 
@@ -869,7 +882,10 @@ def _crawl(
     views: list[EvidenceView],
     unverified: list[str],
     seen: set[str],
-) -> None:
+) -> int:
+    """Judge crawled pages until one passes the frame gate. Return how many pages were judged."""
+
+    judged = 0
     for url in _crawl_targets(owner, repo):
         try:
             crawled = perform_crawl(
@@ -885,11 +901,12 @@ def _crawl(
             continue
         except TavilyApiError as exc:
             failed.append(_clean(f"crawl failed: {exc}"))
-            return
+            return judged
         if crawled.stopped:
             failed.append(f"crawl stopped: {crawled.stopped}")
-            return
+            return judged
         fresh = tuple(page for page in crawled.pages if page.url not in seen)
+        judged += len(fresh)
         found = _take_pages(
             fresh,
             {},
@@ -912,7 +929,8 @@ def _crawl(
             unverified=unverified,
         )
         if found:
-            return
+            return judged
+    return judged
 
 
 def attach_public_status(card: TriageCard, status: PublicStatus) -> TriageCard:

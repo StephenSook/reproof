@@ -123,6 +123,8 @@ class SearchOutcome:
     calls: tuple[TavilyCall, ...]
     stopped: str
     raws: tuple[dict[str, Any], ...] = ()
+    # Responses whose result list went through filter_hits. Zero means no search result was read.
+    responses_read: int = 0
 
 
 @dataclass(frozen=True)
@@ -443,6 +445,7 @@ def perform_search(
     calls: list[TavilyCall] = []
     sent: list[str] = []
     raws: list[dict[str, Any]] = []
+    read = 0
 
     def _stop(
         kind: str, pending: Sequence[str], extra_calls: Sequence[TavilyCall] = ()
@@ -455,6 +458,7 @@ def perform_search(
             (*calls, *extra_calls),
             kind,
             tuple(raws),
+            read,
         )
 
     for index, query in enumerate(accepted):
@@ -508,10 +512,13 @@ def perform_search(
             extra_hosts=extra_hosts,
             score_floor=score_floor,
         )
+        read += 1
         kept.extend(page_kept)
         rejected.extend(page_rejected)
     hits, rejected_hits = _dedupe(kept, rejected)
-    return SearchOutcome(hits, rejected_hits, tuple(sent), not_sent, tuple(calls), "", tuple(raws))
+    return SearchOutcome(
+        hits, rejected_hits, tuple(sent), not_sent, tuple(calls), "", tuple(raws), read
+    )
 
 
 def page_text(result: Mapping[str, Any]) -> str:

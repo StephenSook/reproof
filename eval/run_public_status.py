@@ -550,6 +550,7 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
                     "RELATED_VARIANTS_ONLY",
                     "SOURCE_DISPUTE",
                     "NO_PUBLIC_FINDINGS",
+                    "LOOKUP_UNAVAILABLE",
                 )
             },
             "unrelated_rejected": sum(row.get("unrelated_rejected", 0) for row in chosen_ran),

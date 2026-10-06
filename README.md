@@ -210,8 +210,20 @@ patched-version field is marked stale.
 The pre-registered expectation, from a 2026-10-05 research pass and not from this run, was that
 about 3 of the 10 ARVO tasks would have a public reference and the other 7 would be
 `NO_PUBLIC_FINDINGS`. States are `PUBLICLY_KNOWN_FIXED` (only after ancestry),
-`PUBLICLY_KNOWN_OPEN`, `RELATED_VARIANTS_ONLY`, `SOURCE_DISPUTE`, and `NO_PUBLIC_FINDINGS`.
-`NO_PUBLIC_FINDINGS` names the queries that were sent and any source that failed.
+`PUBLICLY_KNOWN_OPEN`, `RELATED_VARIANTS_ONLY`, `SOURCE_DISPUTE`, `NO_PUBLIC_FINDINGS`, and
+`LOOKUP_UNAVAILABLE`. `NO_PUBLIC_FINDINGS` means the search ran and no page it returned passed
+the gates. It names the queries that were sent and any source that failed. `LOOKUP_UNAVAILABLE`
+means no search result or page was read: there was no measured frame, the Tavily key was missing,
+the search failed, every query was refused or stopped before a result list was read, extract
+could not read any page the search returned, or the lookup stopped with an error. It claims nothing
+either way. No task in the run below was `LOOKUP_UNAVAILABLE`: every task sent two searches and read
+their result lists, and every task whose search kept a page extracted at least one page.
+
+The stored `queries_sent` and the note's "Searched queries" list in `eval/results/public_status.json`
+come from the planner, not from the searches. On 18 of the 40 tasks the planner wrote 3 queries and
+the two-search cap sent 2, so those rows list one query that was never sent. Each row's
+`tavily_calls` lists the queries actually searched. The code now records only sent queries. The
+result file is left as it was written.
 
 ### Measured run
 

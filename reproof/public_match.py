@@ -42,6 +42,8 @@ PUBLICLY_KNOWN_OPEN = "PUBLICLY_KNOWN_OPEN"
 RELATED_VARIANTS_ONLY = "RELATED_VARIANTS_ONLY"
 SOURCE_DISPUTE = "SOURCE_DISPUTE"
 NO_PUBLIC_FINDINGS = "NO_PUBLIC_FINDINGS"
+# No page was read, so nothing is claimed either way. Never shown as "no findings".
+LOOKUP_UNAVAILABLE = "LOOKUP_UNAVAILABLE"
 
 SAME_BUG = "SAME_BUG"
 RELATED_VARIANT = "RELATED_VARIANT"
@@ -464,7 +466,8 @@ def sources_note(
 ) -> str:
     """Say exactly what was searched. This note is the no-finding explanation."""
 
-    query_text = "; ".join(queries) if queries else "(no query sent)"
+    # A search that raised may still have reached Tavily: empty means no response, not no request.
+    query_text = "; ".join(queries) if queries else "(no search response)"
     domain_text = ", ".join(domains) if domains else "(no domain)"
     parts = [f"Searched queries: {query_text}.", f"Domains: {domain_text}."]
     if failed_sources:

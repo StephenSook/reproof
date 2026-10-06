@@ -178,6 +178,7 @@ class PublicStatus(StrictModel):
         "RELATED_VARIANTS_ONLY",
         "SOURCE_DISPUTE",
         "NO_PUBLIC_FINDINGS",
+        "LOOKUP_UNAVAILABLE",
     ]
     evidence: list[PublicEvidence]
     queries_sent: list[str]

@@ -162,7 +162,11 @@ function PublicStatusBlock({ status }: { status: Record<string, unknown> }) {
       ) : null}
       {queries.length ? <Field label="Queries" value={queries} /> : null}
       <Field label="Model cost USD" value={status.model_cost_usd} />
-      {evidence.length === 0 ? <p>No public page passed the checks for this crash.</p> : null}
+      {state === "LOOKUP_UNAVAILABLE" ? (
+        <p data-lookup-unavailable>No page was read, so this says nothing either way about whether the crash is public.</p>
+      ) : evidence.length === 0 ? (
+        <p>No public page passed the checks for this crash.</p>
+      ) : null}
       <ul className="grid list-none gap-3 p-0">
         {evidence.map((item, index) => {
           const row = item !== null && typeof item === "object" ? (item as Record<string, unknown>) : {};
