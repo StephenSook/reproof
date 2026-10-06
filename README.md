@@ -447,7 +447,8 @@ readable answer. The day is then charged the larger of the hold and what the loo
 have been billed, so a lookup can take the day past 100 only if Tavily reports more than its
 estimate; all 102 calls in the stored evaluation were billed at or under it. For 60 minutes, the same
 measured crash is answered from the stored card, which shows that lookup's time and request ids and
-spends 0 new credits; a `LOOKUP_UNAVAILABLE` card is never saved or reused. The count is per instance
+spends 0 new credits, but only while the public-status code is unchanged: the reuse key includes a
+hash of the four lookup modules, so a deploy that changes them starts fresh; a `LOOKUP_UNAVAILABLE` card is never saved or reused. The count is per instance
 and starts again on a new instance, so it is not a ceiling across Vercel's instances; the account
 balance is. Rules and edge cases: `reproof/door_limits.py`, `reproof/assets/limits.json`.
 

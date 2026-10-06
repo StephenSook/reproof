@@ -676,6 +676,39 @@ def test_budget_reuses_a_recent_lookup_without_new_calls(
     assert budget.reserve(1) is None
 
 
+def test_a_card_from_other_lookup_code_is_not_reused(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    # Measured 2026-10-06: after a lookup fix was deployed, the door kept answering
+    # from a NO_PUBLIC_FINDINGS card the previous code had stored minutes earlier.
+    captured: list[dict[str, object]] = []
+
+    def capture(**kwargs: object) -> PublicStatus:
+        captured.append(kwargs)
+        return _quiet_status(tavily_credits=4, tavily_request_ids=["tavily-req-live"])
+
+    monkeypatch.setenv("TAVILY_API_KEY", TAVILY_SENTINEL)
+    monkeypatch.setattr("reproof.door.lookup_public_status", capture)
+    budget = _door_budget(tmp_path / "limits.json", 100)
+    world = _world(FIXTURE.read_text(encoding="utf-8"))
+    monkeypatch.setattr("reproof.door.lookup_code_version", lambda: "code-before-fix")
+    _run(world, public_lookup=None, public_budget=budget)
+    monkeypatch.setattr("reproof.door.lookup_code_version", lambda: "code-after-fix")
+    after = _run(world, public_lookup=None, public_budget=budget)
+    assert len(captured) == 2
+    assert after.card is not None and after.card.public_status is not None
+    assert after.card.public_status.reused_from == ""
+
+
+def test_lookup_code_version_hashes_the_lookup_modules() -> None:
+    from reproof.door import lookup_code_version
+
+    version = lookup_code_version()
+    assert len(version) == 16
+    assert all(char in "0123456789abcdef" for char in version)
+    assert lookup_code_version() == version
+
+
 def test_spent_budget_sends_no_search(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
     monkeypatch.setenv("TAVILY_API_KEY", TAVILY_SENTINEL)
     _block_lookup(monkeypatch)

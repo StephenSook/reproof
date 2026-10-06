@@ -6,13 +6,16 @@ creation, and this entry point never creates a checkpoint.
 
 from __future__ import annotations
 
+import functools
 import hashlib
 import json
 import os
 import time
+import uuid
 from collections.abc import Callable, Iterator
 from dataclasses import dataclass
 from datetime import UTC, datetime
+from pathlib import Path
 from typing import TYPE_CHECKING, Any, Literal
 
 from pydantic import Field, model_validator
@@ -317,10 +320,33 @@ def _public_request(
     )
 
 
+_LOOKUP_MODULES = ("public_status.py", "public_match.py", "public_model.py", "public_tavily.py")
+
+
+@functools.cache
+def lookup_code_version() -> str:
+    """Hash of the public-status modules, so a stored card never outlives the code that made it.
+
+    Unreadable source gives a per-process random value, which turns reuse off across
+    processes instead of letting a card from older code through.
+    """
+
+    digest = hashlib.sha256()
+    base = Path(__file__).resolve().parent
+    try:
+        for name in _LOOKUP_MODULES:
+            digest.update(name.encode("utf-8"))
+            digest.update((base / name).read_bytes())
+    except OSError:
+        return f"unreadable-{uuid.uuid4().hex}"
+    return digest.hexdigest()[:16]
+
+
 def _lookup_key(request: PublicLookupRequest) -> str:
-    """Same measured crash, same key. The retrieval date is not part of it."""
+    """Same measured crash and same lookup code, same key. The retrieval date is not part of it."""
 
     fields = [
+        lookup_code_version(),
         request.project,
         request.crash_type,
         list(request.frames),
