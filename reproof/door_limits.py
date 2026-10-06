@@ -325,14 +325,18 @@ def _update(store: Path, mutate: Callable[[dict[str, Any]], Any]) -> Any:
             data = _empty_store()
         result = mutate(data)
         # Write a temporary file and swap it in, so a failed write leaves the old counts whole
-        # instead of a truncated file that would read back as an empty, unspent store.
-        temporary = store.with_name(store.name + ".tmp")
-        temporary.write_text(
-            json.dumps(data, indent=2, sort_keys=True) + "\n",
-            encoding="utf-8",
-            newline="\n",
-        )
-        os.replace(temporary, store)
+        # instead of a truncated file. The name is unique per write, so even a writer that took
+        # over a stale lock never shares a temporary file with another.
+        temporary = store.with_name(f"{store.name}.{os.getpid()}.{uuid.uuid4().hex}.tmp")
+        try:
+            temporary.write_text(
+                json.dumps(data, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+                newline="\n",
+            )
+            os.replace(temporary, store)
+        finally:
+            temporary.unlink(missing_ok=True)
         return result
     finally:
         os.close(fd)
