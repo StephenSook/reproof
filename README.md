@@ -201,8 +201,10 @@ fallback off.
 
 Page text is untrusted. Nemotron is told not to follow instructions in it, a quote must appear
 verbatim on the page (a run of spaces or line breaks compares as one space; case, punctuation and
-every character inside a word must match), draft lines are built from fixed sentences, and a fixed-in claim needs git
-ancestry, never the model alone. The remaining risk: anyone can post a GitHub issue that names the
+every character inside a word must match), draft lines are built from fixed sentences, and a
+fixed-in claim needs git ancestry, never the model alone. When a quote is not on the page, Nemotron
+is asked once more with a note that names the failure but not the quote; the second answer passes
+the same guard, and both calls count toward cost. The remaining risk: anyone can post a GitHub issue that names the
 measured frames, and the model's same-bug or open call on that page can be steered. The worst case
 is a link to a real public page that does mention the crash, labelled with the wrong relation.
 

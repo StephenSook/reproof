@@ -190,12 +190,20 @@ def test_classifier_keeps_an_exact_quote_and_drops_a_composed_one() -> None:
     assert page.relation == "SAME_BUG"
     assert page.upstream_version == "1.7.1"
     assert page.supporting_quotes == ("Stack-buffer-overflow in decNaNs",)
+    assert len(client.scripted.calls) == 1
 
     composed = dict(kept)
     composed["supporting_quotes"] = ["decNaNs was fixed in a later release"]
     composed["upstream_version"] = "9.9.9"
     client = _client(
-        [_response(request_id="req-bad-quote", content=json.dumps(composed), finish_reason="stop")]
+        [
+            _response(
+                request_id="req-bad-quote", content=json.dumps(composed), finish_reason="stop"
+            ),
+            _response(
+                request_id="req-bad-again", content=json.dumps(composed), finish_reason="stop"
+            ),
+        ]
     )
     rejected = classify_page(
         PAGE,
@@ -207,7 +215,59 @@ def test_classifier_keeps_an_exact_quote_and_drops_a_composed_one() -> None:
     assert not rejected.accepted
     assert rejected.relation == ""
     assert rejected.rejection == "quote_not_in_page"
-    assert rejected.model_calls[0].request_id == "req-bad-quote"
+    assert [call.request_id for call in rejected.model_calls] == ["req-bad-quote", "req-bad-again"]
+
+
+def test_classifier_retries_once_after_a_quote_that_is_not_on_the_page() -> None:
+    good = {
+        "relation": "SAME_BUG",
+        "upstream_status": "UNKNOWN",
+        "upstream_version": "",
+        "upstream_commit": "",
+        "supporting_quotes": ["Stack-buffer-overflow in decNaNs"],
+        "dispute": False,
+        "dispute_quotes": [],
+    }
+    bad = dict(good)
+    bad["supporting_quotes"] = ["Stack buffer overflow in decNaNs was fixed"]
+    client = _client(
+        [
+            _response(request_id="req-first", content=json.dumps(bad), finish_reason="stop"),
+            _response(request_id="req-second", content=json.dumps(good), finish_reason="stop"),
+        ]
+    )
+    page = classify_page(
+        PAGE,
+        project="jq",
+        crash_type="Stack-buffer-overflow",
+        frames=FRAMES,
+        client=client,  # type: ignore[arg-type]
+        budget=ModelBudget(limit=5),
+    )
+    assert page.accepted
+    assert page.supporting_quotes == ("Stack-buffer-overflow in decNaNs",)
+    assert [call.request_id for call in page.model_calls] == ["req-first", "req-second"]
+    first_system = client.scripted.calls[0]["messages"][0]["content"]  # type: ignore[index]
+    second_system = client.scripted.calls[1]["messages"][0]["content"]  # type: ignore[index]
+    assert "previous answer quoted text" not in first_system
+    assert "previous answer quoted text" in second_system
+    assert "was fixed" not in second_system
+
+    budget = ModelBudget(limit=1)
+    client = _client(
+        [_response(request_id="req-only", content=json.dumps(bad), finish_reason="stop")]
+    )
+    capped = classify_page(
+        PAGE,
+        project="jq",
+        crash_type="Stack-buffer-overflow",
+        frames=FRAMES,
+        client=client,  # type: ignore[arg-type]
+        budget=budget,
+    )
+    assert capped.rejection == "quote_not_in_page"
+    assert [call.request_id for call in capped.model_calls] == ["req-only"]
+    assert len(client.scripted.calls) == 1
 
 
 def test_classifier_rejects_a_version_missing_from_the_page() -> None:
