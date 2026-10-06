@@ -1,0 +1,2982 @@
+{
+  "schema": "public-status-eval-1",
+  "registered_on": "2026-10-05",
+  "prereg_sha256": "8f93a6e0e5dd69af452a1c6e67144e949f96b3f71f5e96f4a2c7800dba8bea9e",
+  "ledger_start_credits": 7,
+  "batch_crawl": false,
+  "ancestry_probe": {
+    "owner": "jqlang",
+    "repo": "jq",
+    "tag": "jq-1.7.1",
+    "commit": "b86ff49f46a4a37e5a8e75a140cb5fd6e1331384",
+    "status": "ahead",
+    "ahead_by": 102,
+    "behind_by": 0,
+    "error": ""
+  },
+  "tavily_credits_used_including_recorded": 181,
+  "tavily_credits_this_run": 174,
+  "nemotron_calls": 54,
+  "tasks": [
+    {
+      "set": "A",
+      "task_id": "42530604",
+      "project": "jq",
+      "osv_record_id": "OSV-2023-1239",
+      "label": "saved measured crash state from eval/results/arvo10.json; no new sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "jq heap buffer overflow decToString",
+        "jvp_literal_number_literal crash"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: jq heap buffer overflow decToString; jvp_literal_number_literal crash. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org, jqlang.github.io. Rejected before the card: 1 by host, 2 by the frame gate, 1 by the quote guard. Search snippets rejected: 1. Source files rejected: 0. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "a7b60449-4e08-4000-91f3-58bcab6fe84b",
+        "4a5e2de6-0dd7-451f-93e1-d64487d8f07c",
+        "b56ab1ae-f0d0-4c58-8f91-3ce7b71a7ae8"
+      ],
+      "tavily_credits": 5,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "a7b60449-4e08-4000-91f3-58bcab6fe84b",
+          "credits": 2,
+          "query": "jq heap buffer overflow decToString"
+        },
+        {
+          "operation": "search",
+          "request_id": "4a5e2de6-0dd7-451f-93e1-d64487d8f07c",
+          "credits": 2,
+          "query": "jvp_literal_number_literal crash"
+        },
+        {
+          "operation": "extract",
+          "request_id": "b56ab1ae-f0d0-4c58-8f91-3ce7b71a7ae8",
+          "credits": 1,
+          "query": "decToString decNumberToString jvp_literal_number_literal"
+        }
+      ],
+      "model_calls": 2,
+      "model_request_ids": [
+        "698bda4bb474130a02df75386b245f7c",
+        "6a6a0425ba173611097bad6b12769c3d"
+      ],
+      "model_input_tokens": 1709,
+      "model_output_tokens": 183,
+      "model_cost_usd": 0.0006774,
+      "host_rejected": 1,
+      "snippet_rejected": 1,
+      "frame_rejected": 2,
+      "quote_rejected": 1,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 0,
+      "latency_seconds": 12.351041
+    },
+    {
+      "set": "A",
+      "task_id": "42507851",
+      "project": "libplist",
+      "osv_record_id": "OSV-2022-93",
+      "label": "saved measured crash state from eval/results/arvo10.json; no new sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "libplist heap buffer overflow strtol",
+        "parse_primitive plist_from_json crash"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: libplist heap buffer overflow strtol; parse_primitive plist_from_json crash. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 0 by host, 5 by the frame gate, 0 by the quote guard. Search snippets rejected: 0. Source files rejected: 0. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "3e5979f7-480b-4af6-8167-c450ad807ffd",
+        "cf9fbe27-690f-4861-9c3f-2ab756c593d7",
+        "3fcb3906-c458-49b3-8052-127801211d21"
+      ],
+      "tavily_credits": 5,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "3e5979f7-480b-4af6-8167-c450ad807ffd",
+          "credits": 2,
+          "query": "libplist heap buffer overflow strtol"
+        },
+        {
+          "operation": "search",
+          "request_id": "cf9fbe27-690f-4861-9c3f-2ab756c593d7",
+          "credits": 2,
+          "query": "parse_primitive plist_from_json crash"
+        },
+        {
+          "operation": "extract",
+          "request_id": "3fcb3906-c458-49b3-8052-127801211d21",
+          "credits": 1,
+          "query": "strtol parse_primitive plist_from_json"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "b9b711708b79175bf2c5fae95152dbb8"
+      ],
+      "model_input_tokens": 488,
+      "model_output_tokens": 44,
+      "model_cost_usd": 0.000186,
+      "host_rejected": 0,
+      "snippet_rejected": 0,
+      "frame_rejected": 5,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 0,
+      "latency_seconds": 8.898709
+    },
+    {
+      "set": "A",
+      "task_id": "42496387",
+      "project": "wasm3",
+      "osv_record_id": "OSV-2021-701",
+      "label": "saved measured crash state from eval/results/arvo10.json; no new sandbox run",
+      "ran": true,
+      "state": "PUBLICLY_KNOWN_OPEN",
+      "evidence": [
+        {
+          "url": "https://github.com/wasm3/wasm3/issues/458",
+          "title": "Use-After-Free in ForEachModule \u00b7 Issue #458 \u00b7 wasm3/wasm3 \u00b7 GitHub",
+          "frames_matched": [
+            "ForEachModule",
+            "Runtime_Release",
+            "m3_FreeRuntime"
+          ],
+          "cve_ids": [],
+          "ghsa_ids": [],
+          "patched_versions": [],
+          "relation": "SAME_BUG",
+          "upstream_status": "UNKNOWN",
+          "upstream_version": "",
+          "ancestry": "NOT_CHECKABLE",
+          "checked_tag": "",
+          "checked_commit": "",
+          "stale_fields": [],
+          "match_reason": "top_frame_and_crash_type",
+          "model_request_id": "1f287080b80d2035ba31c113fa03780b",
+          "dispute": false
+        }
+      ],
+      "draft": [
+        {
+          "text": "This page matches this crash. The upstream fix was not verified. Source: https://github.com/wasm3/wasm3/issues/458. Date: 2026-10-05. Confidence: medium.",
+          "source_url": "https://github.com/wasm3/wasm3/issues/458",
+          "source_date": "2026-10-05",
+          "confidence": "medium"
+        }
+      ],
+      "queries_sent": [
+        "wasm3 \"ForEachModule\" heap-use-after-free",
+        "\"Runtime_Release\" m3_FreeRuntime UAF"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: wasm3 \"ForEachModule\" heap-use-after-free; \"Runtime_Release\" m3_FreeRuntime UAF. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 0 by host, 0 by the frame gate, 0 by the quote guard. Search snippets rejected: 0. Source files rejected: 1. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "9bf889cd-f0c2-450f-bda7-3594e9c319c1",
+        "0b9c7ef0-f35f-4ba4-8718-c12b2f9bc88a",
+        "37ac7024-0068-4d00-a9bf-d1334ff0163d"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "9bf889cd-f0c2-450f-bda7-3594e9c319c1",
+          "credits": 2,
+          "query": "wasm3 \"ForEachModule\" heap-use-after-free"
+        },
+        {
+          "operation": "search",
+          "request_id": "0b9c7ef0-f35f-4ba4-8718-c12b2f9bc88a",
+          "credits": 2,
+          "query": "\"Runtime_Release\" m3_FreeRuntime UAF"
+        },
+        {
+          "operation": "extract",
+          "request_id": "37ac7024-0068-4d00-a9bf-d1334ff0163d",
+          "credits": 0,
+          "query": "ForEachModule Runtime_Release m3_FreeRuntime"
+        }
+      ],
+      "model_calls": 2,
+      "model_request_ids": [
+        "d6f7e0014a4078f541d39a4289bc13a1",
+        "1f287080b80d2035ba31c113fa03780b"
+      ],
+      "model_input_tokens": 1799,
+      "model_output_tokens": 225,
+      "model_cost_usd": 0.0007422,
+      "host_rejected": 0,
+      "snippet_rejected": 0,
+      "frame_rejected": 0,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 1,
+      "latency_seconds": 11.13846
+    },
+    {
+      "set": "A",
+      "task_id": "42508524",
+      "project": "libplist",
+      "osv_record_id": "OSV-2022-158",
+      "label": "saved measured crash state from eval/results/arvo10.json; no new sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "libplist heap-buffer-overflow parse_primitive",
+        "plist_from_json buffer overflow CVE"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: libplist heap-buffer-overflow parse_primitive; plist_from_json buffer overflow CVE. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 0 by host, 5 by the frame gate, 0 by the quote guard. Search snippets rejected: 0. Source files rejected: 0. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "7e985b3d-1135-4e26-838c-4aa970b3a90e",
+        "57f387e0-8e1a-44da-a38c-ab974cb8c2e4",
+        "9ff85a9c-f469-4c1a-9520-57c21cde4f43"
+      ],
+      "tavily_credits": 5,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "7e985b3d-1135-4e26-838c-4aa970b3a90e",
+          "credits": 2,
+          "query": "libplist heap-buffer-overflow parse_primitive"
+        },
+        {
+          "operation": "search",
+          "request_id": "57f387e0-8e1a-44da-a38c-ab974cb8c2e4",
+          "credits": 2,
+          "query": "plist_from_json buffer overflow CVE"
+        },
+        {
+          "operation": "extract",
+          "request_id": "9ff85a9c-f469-4c1a-9520-57c21cde4f43",
+          "credits": 1,
+          "query": "parse_primitive plist_from_json jplist_fuzzer.cc"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "555eb5646753a570d6ba4b5d8d302dca"
+      ],
+      "model_input_tokens": 493,
+      "model_output_tokens": 46,
+      "model_cost_usd": 0.0001893,
+      "host_rejected": 0,
+      "snippet_rejected": 0,
+      "frame_rejected": 5,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 0,
+      "latency_seconds": 8.229591
+    },
+    {
+      "set": "A",
+      "task_id": "42536108",
+      "project": "miniz",
+      "osv_record_id": "OSV-2024-550",
+      "label": "saved measured crash state from eval/results/arvo10.json; no new sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "miniz heap buffer overflow mz_zip_mem_read_func",
+        "mz_zip_reader_read_central_dir heap overflow CVE"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: miniz heap buffer overflow mz_zip_mem_read_func; mz_zip_reader_read_central_dir heap overflow CVE. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 4 by host, 0 by the frame gate, 0 by the quote guard. Search snippets rejected: 0. Source files rejected: 0. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "5d6e3c00-2ca6-4c57-b12f-5c56d2a637ff",
+        "b7bcc85d-2f14-474d-b324-75ce39ccf2c6"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "5d6e3c00-2ca6-4c57-b12f-5c56d2a637ff",
+          "credits": 2,
+          "query": "miniz heap buffer overflow mz_zip_mem_read_func"
+        },
+        {
+          "operation": "search",
+          "request_id": "b7bcc85d-2f14-474d-b324-75ce39ccf2c6",
+          "credits": 2,
+          "query": "mz_zip_reader_read_central_dir heap overflow CVE"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "62f46cdb86d62fddc22adb1d816b49fa"
+      ],
+      "model_input_tokens": 499,
+      "model_output_tokens": 52,
+      "model_cost_usd": 0.0001965,
+      "host_rejected": 4,
+      "snippet_rejected": 0,
+      "frame_rejected": 0,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 0,
+      "latency_seconds": 5.426646
+    },
+    {
+      "set": "A",
+      "task_id": "42536112",
+      "project": "miniz",
+      "osv_record_id": "OSV-2024-551",
+      "label": "saved measured crash state from eval/results/arvo10.json; no new sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "miniz heap-buffer-overflow mz_zip_mem_read_func",
+        "mz_zip_validate_file buffer overflow",
+        "zip_fuzzer.c heap read overflow"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: miniz heap-buffer-overflow mz_zip_mem_read_func; mz_zip_validate_file buffer overflow; zip_fuzzer.c heap read overflow. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 0 by host, 0 by the frame gate, 0 by the quote guard. Search snippets rejected: 0. Source files rejected: 1. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "e7e12f79-ac69-47a0-b7fe-1c8e32f3eb29",
+        "c59763d5-a3aa-414f-8db3-e66b31f8a460"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "e7e12f79-ac69-47a0-b7fe-1c8e32f3eb29",
+          "credits": 2,
+          "query": "miniz heap-buffer-overflow mz_zip_mem_read_func"
+        },
+        {
+          "operation": "search",
+          "request_id": "c59763d5-a3aa-414f-8db3-e66b31f8a460",
+          "credits": 2,
+          "query": "mz_zip_validate_file buffer overflow"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "315b76021f2c4506b9eb0929f1a9d536"
+      ],
+      "model_input_tokens": 495,
+      "model_output_tokens": 59,
+      "model_cost_usd": 0.0002016,
+      "host_rejected": 0,
+      "snippet_rejected": 0,
+      "frame_rejected": 0,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 1,
+      "latency_seconds": 7.204559
+    },
+    {
+      "set": "A",
+      "task_id": "42508390",
+      "project": "libplist",
+      "osv_record_id": "OSV-2022-147",
+      "label": "saved measured crash state from eval/results/arvo10.json; no new sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "libplist heap buffer overflow strtol",
+        "parse_primitive plist_from_json crash"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: libplist heap buffer overflow strtol; parse_primitive plist_from_json crash. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 0 by host, 5 by the frame gate, 0 by the quote guard. Search snippets rejected: 0. Source files rejected: 0. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "ee5e65dc-50ce-4cdd-b97d-6de0092935a4",
+        "0a1c653c-e570-464e-a8e2-98a9b3dd4b97",
+        "ece2757a-af66-4130-be54-5d55c461b83c"
+      ],
+      "tavily_credits": 5,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "ee5e65dc-50ce-4cdd-b97d-6de0092935a4",
+          "credits": 2,
+          "query": "libplist heap buffer overflow strtol"
+        },
+        {
+          "operation": "search",
+          "request_id": "0a1c653c-e570-464e-a8e2-98a9b3dd4b97",
+          "credits": 2,
+          "query": "parse_primitive plist_from_json crash"
+        },
+        {
+          "operation": "extract",
+          "request_id": "ece2757a-af66-4130-be54-5d55c461b83c",
+          "credits": 1,
+          "query": "strtol parse_primitive plist_from_json"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "02ff5e1b0ff7a4487a72aa537163d82e"
+      ],
+      "model_input_tokens": 488,
+      "model_output_tokens": 44,
+      "model_cost_usd": 0.000186,
+      "host_rejected": 0,
+      "snippet_rejected": 0,
+      "frame_rejected": 5,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 0,
+      "latency_seconds": 1.832194
+    },
+    {
+      "set": "A",
+      "task_id": "42531297",
+      "project": "jq",
+      "osv_record_id": "OSV-2023-1344",
+      "label": "saved measured crash state from eval/results/arvo10.json; no new sandbox run",
+      "ran": true,
+      "state": "PUBLICLY_KNOWN_OPEN",
+      "evidence": [
+        {
+          "url": "https://github.com/jqlang/jq/security/advisories/GHSA-p7rr-28xf-3m5w",
+          "title": "AddressSanitizer: stack-buffer-overflow in jq_fuzz_execute (jv_string_vfmt) \u00b7 Advisory \u00b7 jqlang/jq \u00b7 GitHub",
+          "frames_matched": [
+            "jv_string_vfmt",
+            "jv_string_fmt",
+            "jv_get"
+          ],
+          "cve_ids": [],
+          "ghsa_ids": [],
+          "patched_versions": [],
+          "relation": "SAME_BUG",
+          "upstream_status": "UNKNOWN",
+          "upstream_version": "",
+          "ancestry": "NOT_CHECKABLE",
+          "checked_tag": "",
+          "checked_commit": "",
+          "stale_fields": [],
+          "match_reason": "top_frame_and_crash_type",
+          "model_request_id": "79bcd50f80788aa99a7d15fb1d64bd6a",
+          "dispute": false
+        },
+        {
+          "url": "https://github.com/jqlang/jq/releases",
+          "title": "Releases \u00b7 jqlang/jq \u00b7 GitHub",
+          "frames_matched": [
+            "jv_string_vfmt",
+            "jv_get"
+          ],
+          "cve_ids": [
+            "CVE-2024-23337",
+            "CVE-2024-53427",
+            "CVE-2025-48060",
+            "CVE-2026-32316",
+            "CVE-2026-33947",
+            "CVE-2026-33948",
+            "CVE-2026-39956",
+            "CVE-2026-39979",
+            "CVE-2026-40164",
+            "CVE-2026-40612",
+            "CVE-2026-41256"
+          ],
+          "ghsa_ids": [],
+          "patched_versions": [],
+          "relation": "SAME_BUG",
+          "upstream_status": "UNKNOWN",
+          "upstream_version": "",
+          "ancestry": "NOT_CHECKABLE",
+          "checked_tag": "",
+          "checked_commit": "",
+          "stale_fields": [],
+          "match_reason": "two_frames",
+          "model_request_id": "cff1f2642c4ad5b79a2277eb79587444",
+          "dispute": false
+        }
+      ],
+      "draft": [
+        {
+          "text": "This page matches this crash. The upstream fix was not verified. Source: https://github.com/jqlang/jq/security/advisories/GHSA-p7rr-28xf-3m5w. Date: 2026-10-05. Confidence: medium.",
+          "source_url": "https://github.com/jqlang/jq/security/advisories/GHSA-p7rr-28xf-3m5w",
+          "source_date": "2026-10-05",
+          "confidence": "medium"
+        },
+        {
+          "text": "This page matches this crash. The upstream fix was not verified. CVE ids in the extracted text: CVE-2024-23337, CVE-2024-53427, CVE-2025-48060, CVE-2026-32316, CVE-2026-33947, CVE-2026-33948, CVE-2026-39956, CVE-2026-39979, CVE-2026-40164, CVE-2026-40612, CVE-2026-41256. Source: https://github.com/jqlang/jq/releases. Date: 2026-10-05. Confidence: medium.",
+          "source_url": "https://github.com/jqlang/jq/releases",
+          "source_date": "2026-10-05",
+          "confidence": "medium"
+        }
+      ],
+      "queries_sent": [
+        "jq heap buffer overflow jv_string_vfmt",
+        "jv_string_fmt read overflow CVE"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: jq heap buffer overflow jv_string_vfmt; jv_string_fmt read overflow CVE. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org, jqlang.github.io. Rejected before the card: 2 by host, 0 by the frame gate, 0 by the quote guard. Search snippets rejected: 0. Source files rejected: 2. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "727c2f85-9061-4ef9-a497-7653dbd6c6b1",
+        "a388cbb7-f568-4bad-9682-cae63768fa16",
+        "2ec443bf-e367-49dd-9837-da2a529b5ed4"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "727c2f85-9061-4ef9-a497-7653dbd6c6b1",
+          "credits": 2,
+          "query": "jq heap buffer overflow jv_string_vfmt"
+        },
+        {
+          "operation": "search",
+          "request_id": "a388cbb7-f568-4bad-9682-cae63768fa16",
+          "credits": 2,
+          "query": "jv_string_fmt read overflow CVE"
+        },
+        {
+          "operation": "extract",
+          "request_id": "2ec443bf-e367-49dd-9837-da2a529b5ed4",
+          "credits": 0,
+          "query": "jv_string_vfmt jv_string_fmt jv_get"
+        }
+      ],
+      "model_calls": 3,
+      "model_request_ids": [
+        "064de7881d38ff8ebe34d8d9038f0183",
+        "79bcd50f80788aa99a7d15fb1d64bd6a",
+        "cff1f2642c4ad5b79a2277eb79587444"
+      ],
+      "model_input_tokens": 2823,
+      "model_output_tokens": 236,
+      "model_cost_usd": 0.0010593,
+      "host_rejected": 2,
+      "snippet_rejected": 0,
+      "frame_rejected": 0,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 2,
+      "latency_seconds": 13.009655
+    },
+    {
+      "set": "A",
+      "task_id": "42531223",
+      "project": "jq",
+      "osv_record_id": "OSV-2023-1329",
+      "label": "saved measured crash state from eval/results/arvo10.json; no new sandbox run",
+      "ran": true,
+      "state": "PUBLICLY_KNOWN_OPEN",
+      "evidence": [
+        {
+          "url": "https://github.com/jqlang/jq/security/advisories/GHSA-x6c3-qv5r-7q22",
+          "title": "Again, stack-buffer-overflow when comparing nan with payload \u00b7 Advisory \u00b7 jqlang/jq \u00b7 GitHub",
+          "frames_matched": [
+            "decNumberCopy",
+            "decNaNs",
+            "decCompareOp"
+          ],
+          "cve_ids": [],
+          "ghsa_ids": [],
+          "patched_versions": [],
+          "relation": "SAME_BUG",
+          "upstream_status": "UNKNOWN",
+          "upstream_version": "",
+          "ancestry": "NOT_CHECKABLE",
+          "checked_tag": "",
+          "checked_commit": "",
+          "stale_fields": [],
+          "match_reason": "top_frame_and_crash_type",
+          "model_request_id": "af2517b76b27bd73982a3966b2b7c8e2",
+          "dispute": false
+        }
+      ],
+      "draft": [
+        {
+          "text": "This page matches this crash. The upstream fix was not verified. Source: https://github.com/jqlang/jq/security/advisories/GHSA-x6c3-qv5r-7q22. Date: 2026-10-05. Confidence: medium.",
+          "source_url": "https://github.com/jqlang/jq/security/advisories/GHSA-x6c3-qv5r-7q22",
+          "source_date": "2026-10-05",
+          "confidence": "medium"
+        }
+      ],
+      "queries_sent": [
+        "jq stack buffer overflow decNumberCopy",
+        "decNaNs decCompareOp crash"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: jq stack buffer overflow decNumberCopy; decNaNs decCompareOp crash. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org, jqlang.github.io. Rejected before the card: 0 by host, 3 by the frame gate, 1 by the quote guard. Search snippets rejected: 0. Source files rejected: 1. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "a0ca9d92-60a3-4111-aea4-9d297baa4d21",
+        "73e3c263-792a-4785-89e8-5f1e361a40c3",
+        "15b31f29-4cbf-4c23-9e06-2f481a2f1384"
+      ],
+      "tavily_credits": 5,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "a0ca9d92-60a3-4111-aea4-9d297baa4d21",
+          "credits": 2,
+          "query": "jq stack buffer overflow decNumberCopy"
+        },
+        {
+          "operation": "search",
+          "request_id": "73e3c263-792a-4785-89e8-5f1e361a40c3",
+          "credits": 2,
+          "query": "decNaNs decCompareOp crash"
+        },
+        {
+          "operation": "extract",
+          "request_id": "15b31f29-4cbf-4c23-9e06-2f481a2f1384",
+          "credits": 1,
+          "query": "decNumberCopy decNaNs decCompareOp"
+        }
+      ],
+      "model_calls": 3,
+      "model_request_ids": [
+        "efe0d285ee55853485a7e50cd564aeb5",
+        "af2517b76b27bd73982a3966b2b7c8e2",
+        "f7d91ac7f68ed260493ac48eaf0653f5"
+      ],
+      "model_input_tokens": 2805,
+      "model_output_tokens": 272,
+      "model_cost_usd": 0.0010863,
+      "host_rejected": 0,
+      "snippet_rejected": 0,
+      "frame_rejected": 3,
+      "quote_rejected": 1,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 1,
+      "latency_seconds": 12.449279
+    },
+    {
+      "set": "A",
+      "task_id": "42476752",
+      "project": "libspng",
+      "osv_record_id": "OSV-2020-344",
+      "label": "saved measured crash state from eval/results/arvo10.json; no new sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "libspng heap-buffer-overflow spng_decode_image",
+        "spng_read_fuzzer.cc heap overflow",
+        "libspng CVE heap buffer overflow read"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: libspng heap-buffer-overflow spng_decode_image; spng_read_fuzzer.cc heap overflow; libspng CVE heap buffer overflow read. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org, libspng.org. Rejected before the card: 3 by host, 2 by the frame gate, 0 by the quote guard. Search snippets rejected: 0. Source files rejected: 0. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "4eadc5ae-6251-4404-85fa-bce88c71d5f9",
+        "8f1200b9-c472-4511-a1f4-12b29e956d8f",
+        "5200fdd8-1d54-4bdb-8120-7947c4f52e12"
+      ],
+      "tavily_credits": 5,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "4eadc5ae-6251-4404-85fa-bce88c71d5f9",
+          "credits": 2,
+          "query": "libspng heap-buffer-overflow spng_decode_image"
+        },
+        {
+          "operation": "search",
+          "request_id": "8f1200b9-c472-4511-a1f4-12b29e956d8f",
+          "credits": 2,
+          "query": "spng_read_fuzzer.cc heap overflow"
+        },
+        {
+          "operation": "extract",
+          "request_id": "5200fdd8-1d54-4bdb-8120-7947c4f52e12",
+          "credits": 1,
+          "query": "spng_decode_image spng_read_fuzzer.cc"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "fe871cc11fb56b74231558fc3fc9bcbb"
+      ],
+      "model_input_tokens": 487,
+      "model_output_tokens": 58,
+      "model_cost_usd": 0.0001983,
+      "host_rejected": 3,
+      "snippet_rejected": 0,
+      "frame_rejected": 2,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 0,
+      "latency_seconds": 4.995811
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-956",
+      "project": "ndpi",
+      "osv_record_id": "OSV-2020-956",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "ndpi heap-buffer-overflow ndpi_workflow_process_packet",
+        "fuzz_ndpi_reader.c heap overflow",
+        "HonggfuzzPersistentLoop ndpi crash"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: ndpi heap-buffer-overflow ndpi_workflow_process_packet; fuzz_ndpi_reader.c heap overflow; HonggfuzzPersistentLoop ndpi crash. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 1 by host, 3 by the frame gate, 0 by the quote guard. Search snippets rejected: 0. Source files rejected: 2. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "d734bf20-ad42-43a3-8cf0-29e37c911f80",
+        "e287f603-411e-4f5b-943c-a5371c6aea6e",
+        "686d893c-bc27-4615-91d5-5ac60f4c7b60"
+      ],
+      "tavily_credits": 5,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "d734bf20-ad42-43a3-8cf0-29e37c911f80",
+          "credits": 2,
+          "query": "ndpi heap-buffer-overflow ndpi_workflow_process_packet"
+        },
+        {
+          "operation": "search",
+          "request_id": "e287f603-411e-4f5b-943c-a5371c6aea6e",
+          "credits": 2,
+          "query": "fuzz_ndpi_reader.c heap overflow"
+        },
+        {
+          "operation": "extract",
+          "request_id": "686d893c-bc27-4615-91d5-5ac60f4c7b60",
+          "credits": 1,
+          "query": "ndpi_workflow_process_packet fuzz_ndpi_reader.c HonggfuzzPersistentLoop"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "83e49c5c71463fdc5742fe7897c838f5"
+      ],
+      "model_input_tokens": 496,
+      "model_output_tokens": 59,
+      "model_cost_usd": 0.0002019,
+      "host_rejected": 1,
+      "snippet_rejected": 0,
+      "frame_rejected": 3,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 2,
+      "latency_seconds": 9.710887
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2025-80",
+      "project": "ndpi",
+      "osv_record_id": "OSV-2025-80",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "PUBLICLY_KNOWN_OPEN",
+      "evidence": [
+        {
+          "url": "https://github.com/ntop/nDPI/commit/412ca8700fc53da705c6aa386c736a400279a614",
+          "title": "Added HTTP credentials extraction \u00b7 ntop/nDPI@412ca87 \u00b7 GitHub",
+          "frames_matched": [
+            "ndpi_snprintf",
+            "process_ndpi_collected_info"
+          ],
+          "cve_ids": [],
+          "ghsa_ids": [],
+          "patched_versions": [],
+          "relation": "SAME_BUG",
+          "upstream_status": "UNKNOWN",
+          "upstream_version": "",
+          "ancestry": "NOT_CHECKABLE",
+          "checked_tag": "",
+          "checked_commit": "",
+          "stale_fields": [],
+          "match_reason": "two_frames",
+          "model_request_id": "f6081830ba5a205dc7c4e4762ad80220",
+          "dispute": false
+        }
+      ],
+      "draft": [
+        {
+          "text": "This page matches this crash. The upstream fix was not verified. Source: https://github.com/ntop/nDPI/commit/412ca8700fc53da705c6aa386c736a400279a614. Date: 2026-10-05. Confidence: medium.",
+          "source_url": "https://github.com/ntop/nDPI/commit/412ca8700fc53da705c6aa386c736a400279a614",
+          "source_date": "2026-10-05",
+          "confidence": "medium"
+        }
+      ],
+      "queries_sent": [
+        "ndpi \"ndpi_snprintf\" segfault",
+        "\"process_ndpi_collected_info\" crash",
+        "ndpi_workflow_process_packet segmentation fault"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: ndpi \"ndpi_snprintf\" segfault; \"process_ndpi_collected_info\" crash; ndpi_workflow_process_packet segmentation fault. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 0 by host, 3 by the frame gate, 0 by the quote guard. Search snippets rejected: 1. Source files rejected: 2. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "568f0b0b-b3ef-431e-88d2-5fef4dbe5f4a",
+        "7a24813d-89c5-4eef-b451-d22643a9511c",
+        "5900b8a9-284f-43b8-b636-8a6e02dbe7aa"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "568f0b0b-b3ef-431e-88d2-5fef4dbe5f4a",
+          "credits": 2,
+          "query": "ndpi \"ndpi_snprintf\" segfault"
+        },
+        {
+          "operation": "search",
+          "request_id": "7a24813d-89c5-4eef-b451-d22643a9511c",
+          "credits": 2,
+          "query": "\"process_ndpi_collected_info\" crash"
+        },
+        {
+          "operation": "extract",
+          "request_id": "5900b8a9-284f-43b8-b636-8a6e02dbe7aa",
+          "credits": 0,
+          "query": "ndpi_snprintf process_ndpi_collected_info ndpi_workflow_process_packet"
+        }
+      ],
+      "model_calls": 2,
+      "model_request_ids": [
+        "15d38b8b27fc14127a7f5c26e22af8e8",
+        "f6081830ba5a205dc7c4e4762ad80220"
+      ],
+      "model_input_tokens": 1381,
+      "model_output_tokens": 150,
+      "model_cost_usd": 0.0005493,
+      "host_rejected": 0,
+      "snippet_rejected": 1,
+      "frame_rejected": 3,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 2,
+      "latency_seconds": 16.272163
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-121",
+      "project": "harfbuzz",
+      "osv_record_id": "OSV-2020-121",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "harfbuzz heap-buffer-overflow BEInt",
+        "OT::SegmentMaps::map buffer overflow",
+        "HarfBuzz IntType operator short crash"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: harfbuzz heap-buffer-overflow BEInt; OT::SegmentMaps::map buffer overflow; HarfBuzz IntType operator short crash. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 2 by host, 1 by the frame gate, 0 by the quote guard. Search snippets rejected: 1. Source files rejected: 1. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "bab56170-42ec-49d8-a352-861a9c64ee06",
+        "1010fd7c-a327-42ad-a6e2-0a8e46b9ce4a",
+        "002e5b5a-aa48-4470-bcba-53e05cd3897c"
+      ],
+      "tavily_credits": 5,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "bab56170-42ec-49d8-a352-861a9c64ee06",
+          "credits": 2,
+          "query": "harfbuzz heap-buffer-overflow BEInt"
+        },
+        {
+          "operation": "search",
+          "request_id": "1010fd7c-a327-42ad-a6e2-0a8e46b9ce4a",
+          "credits": 2,
+          "query": "OT::SegmentMaps::map buffer overflow"
+        },
+        {
+          "operation": "extract",
+          "request_id": "002e5b5a-aa48-4470-bcba-53e05cd3897c",
+          "credits": 1,
+          "query": "BEInt<short, 2>::operator short OT::IntType<short, 2u>::operator int OT::SegmentMaps::map"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "d04d605832d4df3f1ccbb693d8c99ad1"
+      ],
+      "model_input_tokens": 508,
+      "model_output_tokens": 56,
+      "model_cost_usd": 0.0002028,
+      "host_rejected": 2,
+      "snippet_rejected": 1,
+      "frame_rejected": 1,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 1,
+      "latency_seconds": 9.69678
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-1606",
+      "project": "harfbuzz",
+      "osv_record_id": "OSV-2020-1606",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "harfbuzz hb_set_digest_lowest_bits_t may_have",
+        "OT::hb_ot_layout_lookup_accelerator_t::may_have crash"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: harfbuzz hb_set_digest_lowest_bits_t may_have; OT::hb_ot_layout_lookup_accelerator_t::may_have crash. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 0 by host, 0 by the frame gate, 0 by the quote guard. Search snippets rejected: 0. Source files rejected: 0. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "66784cd1-33d3-4d57-a509-2e4d78802cae",
+        "502d3229-d4b0-434d-a752-8789bf7745fe"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "66784cd1-33d3-4d57-a509-2e4d78802cae",
+          "credits": 2,
+          "query": "harfbuzz hb_set_digest_lowest_bits_t may_have"
+        },
+        {
+          "operation": "search",
+          "request_id": "502d3229-d4b0-434d-a752-8789bf7745fe",
+          "credits": 2,
+          "query": "OT::hb_ot_layout_lookup_accelerator_t::may_have crash"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "6fd0e6265e88c308dc5bd508fc6627f2"
+      ],
+      "model_input_tokens": 536,
+      "model_output_tokens": 60,
+      "model_cost_usd": 0.0002148,
+      "host_rejected": 0,
+      "snippet_rejected": 0,
+      "frame_rejected": 0,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 0,
+      "latency_seconds": 9.758406
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-1331",
+      "project": "pcapplusplus",
+      "osv_record_id": "OSV-2020-1331",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "pcapplusplus GtpV1Layer getNextExtensionHeaderType heap buffer overflow",
+        "PcapPlusPlus GTP extension header out-of-bounds read"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: pcapplusplus GtpV1Layer getNextExtensionHeaderType heap buffer overflow; PcapPlusPlus GTP extension header out-of-bounds read. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 0 by host, 1 by the frame gate, 0 by the quote guard. Search snippets rejected: 1. Source files rejected: 1. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "5bdafbb2-6daa-453c-80ab-d5a97e4c255e",
+        "39fc7e00-8eb0-4e86-a555-fde147ab33af",
+        "e98711bb-d99a-4a83-9114-c07441f22d24"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "5bdafbb2-6daa-453c-80ab-d5a97e4c255e",
+          "credits": 2,
+          "query": "pcapplusplus GtpV1Layer getNextExtensionHeaderType heap buffer overflow"
+        },
+        {
+          "operation": "search",
+          "request_id": "39fc7e00-8eb0-4e86-a555-fde147ab33af",
+          "credits": 2,
+          "query": "PcapPlusPlus GTP extension header out-of-bounds read"
+        },
+        {
+          "operation": "extract",
+          "request_id": "e98711bb-d99a-4a83-9114-c07441f22d24",
+          "credits": 0,
+          "query": "pcpp::GtpV1Layer::GtpExtension::getNextExtensionHeaderType pcpp::GtpV1Layer::GtpExtension::getNextExtension pcpp::GtpV1Layer::getHeaderLen"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "a9b7b73510fb7a782082e5666c854485"
+      ],
+      "model_input_tokens": 524,
+      "model_output_tokens": 55,
+      "model_cost_usd": 0.0002067,
+      "host_rejected": 0,
+      "snippet_rejected": 1,
+      "frame_rejected": 1,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 1,
+      "latency_seconds": 9.424525
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-208",
+      "project": "pcapplusplus",
+      "osv_record_id": "OSV-2020-208",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "pcapplusplus Use-of-uninitialized-value std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<ch",
+        "pcapplusplus std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<ch pcpp::IDnsResource::IDnsResource"
+      ],
+      "query_source": "deterministic_fallback",
+      "failed_sources": [],
+      "note": "Searched queries: pcapplusplus Use-of-uninitialized-value std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<ch; pcapplusplus std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<ch pcpp::IDnsResource::IDnsResource. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 10 by host, 0 by the frame gate, 0 by the quote guard. Search snippets rejected: 0. Source files rejected: 0. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "e2ae7914-841c-408c-bc29-79920bb9a5d6",
+        "56e16095-e8a1-44ba-8ee9-3f2922d8e75e"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "e2ae7914-841c-408c-bc29-79920bb9a5d6",
+          "credits": 2,
+          "query": "pcapplusplus Use-of-uninitialized-value std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<ch"
+        },
+        {
+          "operation": "search",
+          "request_id": "56e16095-e8a1-44ba-8ee9-3f2922d8e75e",
+          "credits": 2,
+          "query": "pcapplusplus std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<ch pcpp::IDnsResource::IDnsResource"
+        }
+      ],
+      "model_calls": 2,
+      "model_request_ids": [
+        "e722dae80b76a7adde05727fb5ca8075",
+        "b44f6cb0ef053b3527e9824e01eaea80"
+      ],
+      "model_input_tokens": 1016,
+      "model_output_tokens": 88,
+      "model_cost_usd": 0.000384,
+      "host_rejected": 10,
+      "snippet_rejected": 0,
+      "frame_rejected": 0,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 0,
+      "latency_seconds": 10.714157
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2023-1276",
+      "project": "opensc",
+      "osv_record_id": "OSV-2023-1276",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "opensc heap-use-after-free authentic_emu_update_tokeninfo",
+        "sc_pkcs15init_update_tokeninfo UAF OpenSC"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: opensc heap-use-after-free authentic_emu_update_tokeninfo; sc_pkcs15init_update_tokeninfo UAF OpenSC. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 0 by host, 0 by the frame gate, 0 by the quote guard. Search snippets rejected: 3. Source files rejected: 0. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "af7b5e33-91c1-4302-a3f7-94b2b3035fd5",
+        "b43ce2dd-40b0-4a2d-9a78-148aa7f24c74"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "af7b5e33-91c1-4302-a3f7-94b2b3035fd5",
+          "credits": 2,
+          "query": "opensc heap-use-after-free authentic_emu_update_tokeninfo"
+        },
+        {
+          "operation": "search",
+          "request_id": "b43ce2dd-40b0-4a2d-9a78-148aa7f24c74",
+          "credits": 2,
+          "query": "sc_pkcs15init_update_tokeninfo UAF OpenSC"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "c0667c29168226b049821e5360a5f47f"
+      ],
+      "model_input_tokens": 503,
+      "model_output_tokens": 53,
+      "model_cost_usd": 0.0001986,
+      "host_rejected": 0,
+      "snippet_rejected": 3,
+      "frame_rejected": 0,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 0,
+      "latency_seconds": 8.07384
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2023-586",
+      "project": "opensc",
+      "osv_record_id": "OSV-2023-586",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "opensc heap-buffer-overflow setcos_create_key",
+        "sc_pkcs15init_generate_key buffer overflow",
+        "do_generate_key heap read overflow"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: opensc heap-buffer-overflow setcos_create_key; sc_pkcs15init_generate_key buffer overflow; do_generate_key heap read overflow. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 0 by host, 1 by the frame gate, 0 by the quote guard. Search snippets rejected: 2. Source files rejected: 2. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "efba87a1-4171-4f0a-b82c-e5ffbae593e8",
+        "e2fc0709-c4fa-4e6d-a094-c7dc4c8a9bb5",
+        "4173bde8-5959-4da5-b20b-8a8452ba4c30"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "efba87a1-4171-4f0a-b82c-e5ffbae593e8",
+          "credits": 2,
+          "query": "opensc heap-buffer-overflow setcos_create_key"
+        },
+        {
+          "operation": "search",
+          "request_id": "e2fc0709-c4fa-4e6d-a094-c7dc4c8a9bb5",
+          "credits": 2,
+          "query": "sc_pkcs15init_generate_key buffer overflow"
+        },
+        {
+          "operation": "extract",
+          "request_id": "4173bde8-5959-4da5-b20b-8a8452ba4c30",
+          "credits": 0,
+          "query": "setcos_create_key sc_pkcs15init_generate_key do_generate_key"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "692efd0ea7c7265cc96755e36d5222e7"
+      ],
+      "model_input_tokens": 495,
+      "model_output_tokens": 58,
+      "model_cost_usd": 0.0002007,
+      "host_rejected": 0,
+      "snippet_rejected": 2,
+      "frame_rejected": 1,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 2,
+      "latency_seconds": 8.598424
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2021-535",
+      "project": "libredwg",
+      "osv_record_id": "OSV-2021-535",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "libredwg heap-buffer-overflow encode_3dsolid",
+        "dwg_encode_BODY_private buffer overflow",
+        "libredwg CVE heap overflow"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: libredwg heap-buffer-overflow encode_3dsolid; dwg_encode_BODY_private buffer overflow; libredwg CVE heap overflow. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 0 by host, 5 by the frame gate, 0 by the quote guard. Search snippets rejected: 0. Source files rejected: 0. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "6caedfb8-c400-4b8c-86cf-6b4640d91e73",
+        "f3d06d26-0617-4079-b805-c6f935772596",
+        "66749f1c-3218-4ba8-9171-af37118e9110"
+      ],
+      "tavily_credits": 5,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "6caedfb8-c400-4b8c-86cf-6b4640d91e73",
+          "credits": 2,
+          "query": "libredwg heap-buffer-overflow encode_3dsolid"
+        },
+        {
+          "operation": "search",
+          "request_id": "f3d06d26-0617-4079-b805-c6f935772596",
+          "credits": 2,
+          "query": "dwg_encode_BODY_private buffer overflow"
+        },
+        {
+          "operation": "extract",
+          "request_id": "66749f1c-3218-4ba8-9171-af37118e9110",
+          "credits": 1,
+          "query": "encode_3dsolid dwg_encode_BODY_private dwg_encode_BODY"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "e9b5130c5d219a9380e1bf54b8bab215"
+      ],
+      "model_input_tokens": 495,
+      "model_output_tokens": 58,
+      "model_cost_usd": 0.0002007,
+      "host_rejected": 0,
+      "snippet_rejected": 0,
+      "frame_rejected": 5,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 0,
+      "latency_seconds": 8.052583
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2022-1252",
+      "project": "libredwg",
+      "osv_record_id": "OSV-2022-1252",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "libredwg heap-buffer-overflow bit_read_BB",
+        "dwg_decode_header_variables buffer overflow CVE"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: libredwg heap-buffer-overflow bit_read_BB; dwg_decode_header_variables buffer overflow CVE. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 0 by host, 0 by the frame gate, 0 by the quote guard. Search snippets rejected: 5. Source files rejected: 0. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "11c73940-69f9-41bd-9fc9-bccc2b1110d3",
+        "b6d70452-1e4a-4a8f-b1c9-87cf3bc5dd96"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "11c73940-69f9-41bd-9fc9-bccc2b1110d3",
+          "credits": 2,
+          "query": "libredwg heap-buffer-overflow bit_read_BB"
+        },
+        {
+          "operation": "search",
+          "request_id": "b6d70452-1e4a-4a8f-b1c9-87cf3bc5dd96",
+          "credits": 2,
+          "query": "dwg_decode_header_variables buffer overflow CVE"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "5d148c5c989031cb2b65a200f777d702"
+      ],
+      "model_input_tokens": 492,
+      "model_output_tokens": 48,
+      "model_cost_usd": 0.0001908,
+      "host_rejected": 0,
+      "snippet_rejected": 5,
+      "frame_rejected": 0,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 0,
+      "latency_seconds": 6.812974
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-2133",
+      "project": "fluent-bit",
+      "osv_record_id": "OSV-2020-2133",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "fluent-bit heap-buffer-overflow tdefl_compress_lz_codes",
+        "tdefl_compress_block overflow fluent bit"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: fluent-bit heap-buffer-overflow tdefl_compress_lz_codes; tdefl_compress_block overflow fluent bit. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 1 by host, 0 by the frame gate, 0 by the quote guard. Search snippets rejected: 1. Source files rejected: 0. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "9d85a55f-a97a-46e4-9358-a57c39e66c1e",
+        "6cc44e1b-4e72-4568-bda5-78b1089c9895"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "9d85a55f-a97a-46e4-9358-a57c39e66c1e",
+          "credits": 2,
+          "query": "fluent-bit heap-buffer-overflow tdefl_compress_lz_codes"
+        },
+        {
+          "operation": "search",
+          "request_id": "6cc44e1b-4e72-4568-bda5-78b1089c9895",
+          "credits": 2,
+          "query": "tdefl_compress_block overflow fluent bit"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "95ec9c06c233de6fcbd46d758aadd59b"
+      ],
+      "model_input_tokens": 498,
+      "model_output_tokens": 52,
+      "model_cost_usd": 0.0001962,
+      "host_rejected": 1,
+      "snippet_rejected": 1,
+      "frame_rejected": 0,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 0,
+      "latency_seconds": 6.98163
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2021-838",
+      "project": "fluent-bit",
+      "osv_record_id": "OSV-2021-838",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "fluent-bit heap-use-after-free multiline_parser_conf_file",
+        "fluent-bit flb_parser_conf_file UAF",
+        "config_fuzzer.c fluent-bit heap use after free"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: fluent-bit heap-use-after-free multiline_parser_conf_file; fluent-bit flb_parser_conf_file UAF; config_fuzzer.c fluent-bit heap use after free. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 0 by host, 1 by the frame gate, 0 by the quote guard. Search snippets rejected: 5. Source files rejected: 4. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "1e61d44a-f99e-4bf7-a613-6caf83ede1ac",
+        "1a3f6d53-a5fc-4fc3-a65d-3346c72c784f",
+        "30f8a523-2c21-41bb-8b6a-0c67020a0896"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "1e61d44a-f99e-4bf7-a613-6caf83ede1ac",
+          "credits": 2,
+          "query": "fluent-bit heap-use-after-free multiline_parser_conf_file"
+        },
+        {
+          "operation": "search",
+          "request_id": "1a3f6d53-a5fc-4fc3-a65d-3346c72c784f",
+          "credits": 2,
+          "query": "fluent-bit flb_parser_conf_file UAF"
+        },
+        {
+          "operation": "extract",
+          "request_id": "30f8a523-2c21-41bb-8b6a-0c67020a0896",
+          "credits": 0,
+          "query": "multiline_parser_conf_file flb_parser_conf_file config_fuzzer.c"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "c4c071e08a30400b0ed29f6be37bbcb0"
+      ],
+      "model_input_tokens": 492,
+      "model_output_tokens": 62,
+      "model_cost_usd": 0.0002034,
+      "host_rejected": 0,
+      "snippet_rejected": 5,
+      "frame_rejected": 1,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 4,
+      "latency_seconds": 11.738294
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2022-605",
+      "project": "mruby",
+      "osv_record_id": "OSV-2022-605",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "mruby heap-buffer-overflow mrb_bint_cmp",
+        "cmpnum num_gt buffer overflow mruby"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: mruby heap-buffer-overflow mrb_bint_cmp; cmpnum num_gt buffer overflow mruby. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 1 by host, 4 by the frame gate, 0 by the quote guard. Search snippets rejected: 2. Source files rejected: 0. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "2054dc50-20e3-49d3-bd6e-c2f2c12b1360",
+        "f063f452-e46f-463a-8604-76ca095e4363",
+        "ddb69705-893c-440a-8e6f-2322234079bc"
+      ],
+      "tavily_credits": 5,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "2054dc50-20e3-49d3-bd6e-c2f2c12b1360",
+          "credits": 2,
+          "query": "mruby heap-buffer-overflow mrb_bint_cmp"
+        },
+        {
+          "operation": "search",
+          "request_id": "f063f452-e46f-463a-8604-76ca095e4363",
+          "credits": 2,
+          "query": "cmpnum num_gt buffer overflow mruby"
+        },
+        {
+          "operation": "extract",
+          "request_id": "ddb69705-893c-440a-8e6f-2322234079bc",
+          "credits": 1,
+          "query": "mrb_bint_cmp cmpnum num_gt"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "3eddc8046ac478873e821f8e416fbea3"
+      ],
+      "model_input_tokens": 488,
+      "model_output_tokens": 48,
+      "model_cost_usd": 0.0001896,
+      "host_rejected": 1,
+      "snippet_rejected": 2,
+      "frame_rejected": 4,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 0,
+      "latency_seconds": 10.673764
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2024-29",
+      "project": "mruby",
+      "osv_record_id": "OSV-2024-29",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "mruby heap-buffer-overflow mrb_memsearch",
+        "str_convert_range buffer overflow mruby",
+        "mrb_str_aref read overflow"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: mruby heap-buffer-overflow mrb_memsearch; str_convert_range buffer overflow mruby; mrb_str_aref read overflow. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 1 by host, 0 by the frame gate, 0 by the quote guard. Search snippets rejected: 9. Source files rejected: 0. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "7fce7c08-1317-4d2d-a5d4-ce20207dbd53",
+        "c63dcfb6-6649-479f-85b0-b3ec41ba713c"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "7fce7c08-1317-4d2d-a5d4-ce20207dbd53",
+          "credits": 2,
+          "query": "mruby heap-buffer-overflow mrb_memsearch"
+        },
+        {
+          "operation": "search",
+          "request_id": "c63dcfb6-6649-479f-85b0-b3ec41ba713c",
+          "credits": 2,
+          "query": "str_convert_range buffer overflow mruby"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "aa1a48581106fd8b33927cb4c5286dc4"
+      ],
+      "model_input_tokens": 490,
+      "model_output_tokens": 55,
+      "model_cost_usd": 0.0001965,
+      "host_rejected": 1,
+      "snippet_rejected": 9,
+      "frame_rejected": 0,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 0,
+      "latency_seconds": 10.147043
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2021-897",
+      "project": "c-blosc2",
+      "osv_record_id": "OSV-2021-897",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "c-blosc2 heap buffer overflow read",
+        "ZSTD_decompressMultiFrame c-blosc2 crash"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: c-blosc2 heap buffer overflow read; ZSTD_decompressMultiFrame c-blosc2 crash. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 3 by host, 1 by the frame gate, 0 by the quote guard. Search snippets rejected: 1. Source files rejected: 5. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "ac330673-512d-4916-a968-6bb0963cae39",
+        "0c2954ed-07e9-4c7d-a734-be17b6fd4abc",
+        "f4bd9336-5df0-4ba3-9561-5d4001f1b9c8"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "ac330673-512d-4916-a968-6bb0963cae39",
+          "credits": 2,
+          "query": "c-blosc2 heap buffer overflow read"
+        },
+        {
+          "operation": "search",
+          "request_id": "0c2954ed-07e9-4c7d-a734-be17b6fd4abc",
+          "credits": 2,
+          "query": "ZSTD_decompressMultiFrame c-blosc2 crash"
+        },
+        {
+          "operation": "extract",
+          "request_id": "f4bd9336-5df0-4ba3-9561-5d4001f1b9c8",
+          "credits": 0,
+          "query": "ZSTD_decompressMultiFrame ZSTD_decompress_usingDDict blosc_d"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "b8f7d48e287be1413ffccfcaa4e001c0"
+      ],
+      "model_input_tokens": 499,
+      "model_output_tokens": 48,
+      "model_cost_usd": 0.0001929,
+      "host_rejected": 3,
+      "snippet_rejected": 1,
+      "frame_rejected": 1,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 5,
+      "latency_seconds": 7.856186
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2022-322",
+      "project": "c-blosc2",
+      "osv_record_id": "OSV-2022-322",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "c-blosc2 heap buffer overflow frame_get_metalayers",
+        "c-blosc2 frame_get_metalayers heap-buffer-overflow",
+        "blosc2 frame_to_schunk read overflow"
+      ],
+      "query_source": "model",
+      "failed_sources": [
+        "rejected query reasons: missing_project_and_frame"
+      ],
+      "note": "Searched queries: c-blosc2 heap buffer overflow frame_get_metalayers; c-blosc2 frame_get_metalayers heap-buffer-overflow; blosc2 frame_to_schunk read overflow. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Failed sources: rejected query reasons: missing_project_and_frame. Rejected before the card: 2 by host, 0 by the frame gate, 0 by the quote guard. Search snippets rejected: 6. Source files rejected: 2. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "37af904d-44fa-4dd7-8dfd-30edc9f9bb72",
+        "d06049d0-e477-4642-9f95-fe19de9b0f98"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "37af904d-44fa-4dd7-8dfd-30edc9f9bb72",
+          "credits": 2,
+          "query": "c-blosc2 heap buffer overflow frame_get_metalayers"
+        },
+        {
+          "operation": "search",
+          "request_id": "d06049d0-e477-4642-9f95-fe19de9b0f98",
+          "credits": 2,
+          "query": "c-blosc2 frame_get_metalayers heap-buffer-overflow"
+        }
+      ],
+      "model_calls": 2,
+      "model_request_ids": [
+        "f44300cedbea1c4d36be0fba7393c139",
+        "4f6fa07fdd4bc0138fb89fe9b7b1b282"
+      ],
+      "model_input_tokens": 1017,
+      "model_output_tokens": 100,
+      "model_cost_usd": 0.0003951,
+      "host_rejected": 2,
+      "snippet_rejected": 6,
+      "frame_rejected": 0,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 2,
+      "latency_seconds": 6.492893
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2026-623",
+      "project": "matio",
+      "osv_record_id": "OSV-2026-623",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "matio Mat_PrintNumber uninitialized",
+        "Matio library Mat_PrintData bug",
+        "\"Mat_VarPrint\" use-after-free"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: matio Mat_PrintNumber uninitialized; Matio library Mat_PrintData bug; \"Mat_VarPrint\" use-after-free. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 0 by host, 0 by the frame gate, 0 by the quote guard. Search snippets rejected: 4. Source files rejected: 6. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "408ac614-e4e9-484f-94ee-3ec421459c7f",
+        "a94dc27f-dd85-4210-8ba4-d87fb40d45e3"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "408ac614-e4e9-484f-94ee-3ec421459c7f",
+          "credits": 2,
+          "query": "matio Mat_PrintNumber uninitialized"
+        },
+        {
+          "operation": "search",
+          "request_id": "a94dc27f-dd85-4210-8ba4-d87fb40d45e3",
+          "credits": 2,
+          "query": "Matio library Mat_PrintData bug"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "33fdd114c682cf6f2afd4a91b4b44607"
+      ],
+      "model_input_tokens": 486,
+      "model_output_tokens": 53,
+      "model_cost_usd": 0.0001935,
+      "host_rejected": 0,
+      "snippet_rejected": 4,
+      "frame_rejected": 0,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 6,
+      "latency_seconds": 9.769041
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2026-752",
+      "project": "matio",
+      "osv_record_id": "OSV-2026-752",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "matio heap buffer overflow Mat_VarGetStructsLinear",
+        "\"Mat_VarGetStructsLinear\" fuzz",
+        "matio struct cell fuzzer crash"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: matio heap buffer overflow Mat_VarGetStructsLinear; \"Mat_VarGetStructsLinear\" fuzz; matio struct cell fuzzer crash. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 0 by host, 1 by the frame gate, 0 by the quote guard. Search snippets rejected: 3. Source files rejected: 1. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "1255e974-df23-4316-83c8-ea7ea980d4e4",
+        "084572e8-41fa-4d52-9807-3a85d2008bc3",
+        "668099c1-7076-4c84-89f4-c76ed1e7899a"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "1255e974-df23-4316-83c8-ea7ea980d4e4",
+          "credits": 2,
+          "query": "matio heap buffer overflow Mat_VarGetStructsLinear"
+        },
+        {
+          "operation": "search",
+          "request_id": "084572e8-41fa-4d52-9807-3a85d2008bc3",
+          "credits": 2,
+          "query": "\"Mat_VarGetStructsLinear\" fuzz"
+        },
+        {
+          "operation": "extract",
+          "request_id": "668099c1-7076-4c84-89f4-c76ed1e7899a",
+          "credits": 0,
+          "query": "Mat_VarGetStructsLinear matio_struct_cell_fuzzer.cpp"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "ff2b63ef22d18d9dd5ec208daf7930c7"
+      ],
+      "model_input_tokens": 491,
+      "model_output_tokens": 59,
+      "model_cost_usd": 0.0002004,
+      "host_rejected": 0,
+      "snippet_rejected": 3,
+      "frame_rejected": 1,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 1,
+      "latency_seconds": 9.003484
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-1365",
+      "project": "clamav",
+      "osv_record_id": "OSV-2020-1365",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "clamav cli_vba_readdir_new crash",
+        "clamav cli_vba_scandir_new unknown read"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: clamav cli_vba_readdir_new crash; clamav cli_vba_scandir_new unknown read. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 1 by host, 0 by the frame gate, 0 by the quote guard. Search snippets rejected: 0. Source files rejected: 0. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "e9f65315-6561-44de-95cb-19b16c4be058",
+        "257bd570-e554-4b97-b2a7-a9e5e905aa78"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "e9f65315-6561-44de-95cb-19b16c4be058",
+          "credits": 2,
+          "query": "clamav cli_vba_readdir_new crash"
+        },
+        {
+          "operation": "search",
+          "request_id": "257bd570-e554-4b97-b2a7-a9e5e905aa78",
+          "credits": 2,
+          "query": "clamav cli_vba_scandir_new unknown read"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "604e777ffe8e1a426acff10f39a15a6f"
+      ],
+      "model_input_tokens": 490,
+      "model_output_tokens": 48,
+      "model_cost_usd": 0.0001902,
+      "host_rejected": 1,
+      "snippet_rejected": 0,
+      "frame_rejected": 0,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 0,
+      "latency_seconds": 12.027222
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2021-1507",
+      "project": "clamav",
+      "osv_record_id": "OSV-2021-1507",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "clamav heap buffer overflow handle_gets",
+        "ClamAV uuencode read overflow CVE"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: clamav heap buffer overflow handle_gets; ClamAV uuencode read overflow CVE. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 7 by host, 0 by the frame gate, 0 by the quote guard. Search snippets rejected: 3. Source files rejected: 0. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "b38520cc-8127-4fb1-a478-9c6a20ac9c7a",
+        "44126ac5-8356-4523-a8ce-e07095968b3f"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "b38520cc-8127-4fb1-a478-9c6a20ac9c7a",
+          "credits": 2,
+          "query": "clamav heap buffer overflow handle_gets"
+        },
+        {
+          "operation": "search",
+          "request_id": "44126ac5-8356-4523-a8ce-e07095968b3f",
+          "credits": 2,
+          "query": "ClamAV uuencode read overflow CVE"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "90996d906027555b79184539b8982527"
+      ],
+      "model_input_tokens": 489,
+      "model_output_tokens": 45,
+      "model_cost_usd": 0.0001872,
+      "host_rejected": 7,
+      "snippet_rejected": 3,
+      "frame_rejected": 0,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 0,
+      "latency_seconds": 10.083734
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-1855",
+      "project": "openh264",
+      "osv_record_id": "OSV-2020-1855",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "openh264 heap-buffer-overflow UpdateP16x16MotionInfo",
+        "openh264 ParseInterPMotionInfoCabac buffer overflow",
+        "openh264 WelsDecodeMbCabacPSliceBaseMode0 crash"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: openh264 heap-buffer-overflow UpdateP16x16MotionInfo; openh264 ParseInterPMotionInfoCabac buffer overflow; openh264 WelsDecodeMbCabacPSliceBaseMode0 crash. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 0 by host, 4 by the frame gate, 0 by the quote guard. Search snippets rejected: 3. Source files rejected: 1. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "bcda650e-484e-4bfd-bbad-2090cf728310",
+        "5d1584c7-61df-43a8-9f6d-429a57071187",
+        "66f086e4-5ea8-4336-bda3-986a99c95d3c"
+      ],
+      "tavily_credits": 5,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "bcda650e-484e-4bfd-bbad-2090cf728310",
+          "credits": 2,
+          "query": "openh264 heap-buffer-overflow UpdateP16x16MotionInfo"
+        },
+        {
+          "operation": "search",
+          "request_id": "5d1584c7-61df-43a8-9f6d-429a57071187",
+          "credits": 2,
+          "query": "openh264 ParseInterPMotionInfoCabac buffer overflow"
+        },
+        {
+          "operation": "extract",
+          "request_id": "66f086e4-5ea8-4336-bda3-986a99c95d3c",
+          "credits": 1,
+          "query": "WelsDec::UpdateP16x16MotionInfo WelsDec::ParseInterPMotionInfoCabac WelsDec::WelsDecodeMbCabacPSliceBaseMode0"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "eba7246058a7f3a02798f5147214e319"
+      ],
+      "model_input_tokens": 519,
+      "model_output_tokens": 75,
+      "model_cost_usd": 0.0002232,
+      "host_rejected": 0,
+      "snippet_rejected": 3,
+      "frame_rejected": 4,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 1,
+      "latency_seconds": 7.038912
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-2274",
+      "project": "openh264",
+      "osv_record_id": "OSV-2020-2274",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "openh264 heap-buffer-overflow McCopyWidthEq4_c",
+        "openh264 McCopy_sse2 buffer overflow",
+        "openh264 McChroma_ssse3 read 4"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: openh264 heap-buffer-overflow McCopyWidthEq4_c; openh264 McCopy_sse2 buffer overflow; openh264 McChroma_ssse3 read 4. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 0 by host, 3 by the frame gate, 0 by the quote guard. Search snippets rejected: 3. Source files rejected: 0. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "bfc815a5-3d11-47ce-8665-ea4adbc52de2",
+        "81229605-c020-41cf-84c2-39bbe147d8a5",
+        "3dc6d3ca-7a42-480a-9203-c1fe904be096"
+      ],
+      "tavily_credits": 5,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "bfc815a5-3d11-47ce-8665-ea4adbc52de2",
+          "credits": 2,
+          "query": "openh264 heap-buffer-overflow McCopyWidthEq4_c"
+        },
+        {
+          "operation": "search",
+          "request_id": "81229605-c020-41cf-84c2-39bbe147d8a5",
+          "credits": 2,
+          "query": "openh264 McCopy_sse2 buffer overflow"
+        },
+        {
+          "operation": "extract",
+          "request_id": "3dc6d3ca-7a42-480a-9203-c1fe904be096",
+          "credits": 1,
+          "query": "McCopyWidthEq4_c McCopy_sse2 McChroma_ssse3"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "de54948cccf0e5a36cb2bc1b97e4080c"
+      ],
+      "model_input_tokens": 498,
+      "model_output_tokens": 68,
+      "model_cost_usd": 0.0002106,
+      "host_rejected": 0,
+      "snippet_rejected": 3,
+      "frame_rejected": 3,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 0,
+      "latency_seconds": 7.031268
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-455",
+      "project": "radare2",
+      "osv_record_id": "OSV-2020-455",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "radare2 heap buffer overflow write 8",
+        "\"r_core_lines_initcache\" \"cb_linesto\"",
+        "\"r_config_set_i\" CVE"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: radare2 heap buffer overflow write 8; \"r_core_lines_initcache\" \"cb_linesto\"; \"r_config_set_i\" CVE. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 4 by host, 0 by the frame gate, 0 by the quote guard. Search snippets rejected: 2. Source files rejected: 1. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "7a2f30fc-7746-4e8e-ab68-bc83e0fd77e1",
+        "4801b487-277c-495b-807f-c4dc8ea1c294"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "7a2f30fc-7746-4e8e-ab68-bc83e0fd77e1",
+          "credits": 2,
+          "query": "radare2 heap buffer overflow write 8"
+        },
+        {
+          "operation": "search",
+          "request_id": "4801b487-277c-495b-807f-c4dc8ea1c294",
+          "credits": 2,
+          "query": "\"r_core_lines_initcache\" \"cb_linesto\""
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "e08f2e1bdca7f26f5016731d0bc8e447"
+      ],
+      "model_input_tokens": 491,
+      "model_output_tokens": 57,
+      "model_cost_usd": 0.0001986,
+      "host_rejected": 4,
+      "snippet_rejected": 2,
+      "frame_rejected": 0,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 1,
+      "latency_seconds": 8.53007
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-522",
+      "project": "radare2",
+      "osv_record_id": "OSV-2020-522",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "radare2 heap buffer overflow buf_bytes_read",
+        "r_buf_read PE certificate overflow",
+        "bin_pe_get_certificate heap write"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: radare2 heap buffer overflow buf_bytes_read; r_buf_read PE certificate overflow; bin_pe_get_certificate heap write. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 4 by host, 0 by the frame gate, 0 by the quote guard. Search snippets rejected: 1. Source files rejected: 0. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "4649a303-4076-48e9-92be-e1b3b3d96062",
+        "ca3941e5-6aec-4f2f-8a7b-393bbd5704f0"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "4649a303-4076-48e9-92be-e1b3b3d96062",
+          "credits": 2,
+          "query": "radare2 heap buffer overflow buf_bytes_read"
+        },
+        {
+          "operation": "search",
+          "request_id": "ca3941e5-6aec-4f2f-8a7b-393bbd5704f0",
+          "credits": 2,
+          "query": "r_buf_read PE certificate overflow"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "8405e7d45371bcb4e1ddd6690b5994c3"
+      ],
+      "model_input_tokens": 489,
+      "model_output_tokens": 52,
+      "model_cost_usd": 0.0001935,
+      "host_rejected": 4,
+      "snippet_rejected": 1,
+      "frame_rejected": 0,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 0,
+      "latency_seconds": 8.319241
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-144",
+      "project": "arrow",
+      "osv_record_id": "OSV-2020-144",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "arrow Heap-use-after-free int arrow::BitUtil::BitReader::GetBatch<short>",
+        "arrow int arrow::BitUtil::BitReader::GetBatch<short> parquet::LevelDecoder::Decode parquet::internal::TypedRecordReader<parquet::PhysicalType<"
+      ],
+      "query_source": "deterministic_fallback",
+      "failed_sources": [
+        "rejected query reasons: missing_project_and_frame"
+      ],
+      "note": "Searched queries: arrow Heap-use-after-free int arrow::BitUtil::BitReader::GetBatch<short>; arrow int arrow::BitUtil::BitReader::GetBatch<short> parquet::LevelDecoder::Decode parquet::internal::TypedRecordReader<parquet::PhysicalType<. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Failed sources: rejected query reasons: missing_project_and_frame. Rejected before the card: 2 by host, 0 by the frame gate, 0 by the quote guard. Search snippets rejected: 2. Source files rejected: 5. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "d2ff1d37-5198-4227-8976-285c2fb4cef5",
+        "9c0b33ae-b83d-4e92-80fa-03476606a8be"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "d2ff1d37-5198-4227-8976-285c2fb4cef5",
+          "credits": 2,
+          "query": "arrow Heap-use-after-free int arrow::BitUtil::BitReader::GetBatch<short>"
+        },
+        {
+          "operation": "search",
+          "request_id": "9c0b33ae-b83d-4e92-80fa-03476606a8be",
+          "credits": 2,
+          "query": "arrow int arrow::BitUtil::BitReader::GetBatch<short> parquet::LevelDecoder::Decode parquet::internal::TypedRecordReader<parquet::PhysicalType<"
+        }
+      ],
+      "model_calls": 2,
+      "model_request_ids": [
+        "05e198f3d703fc2b0a72a73b9301aecf",
+        "9aeb08d8d5a61f3a712a9536ff249b14"
+      ],
+      "model_input_tokens": 1047,
+      "model_output_tokens": 100,
+      "model_cost_usd": 0.0004041,
+      "host_rejected": 2,
+      "snippet_rejected": 2,
+      "frame_rejected": 0,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 5,
+      "latency_seconds": 9.270874
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-187",
+      "project": "arrow",
+      "osv_record_id": "OSV-2020-187",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "arrow ipc MessageDecoder ConsumeDataBufferInt32 crash",
+        "Arrow IPC buffer overflow read unknown"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: arrow ipc MessageDecoder ConsumeDataBufferInt32 crash; Arrow IPC buffer overflow read unknown. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 3 by host, 0 by the frame gate, 0 by the quote guard. Search snippets rejected: 3. Source files rejected: 0. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "c7d2d9b8-da90-4ecf-8478-e97c7f968620",
+        "992bf8cb-89a1-444d-aa50-c1897e8b1b67"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "c7d2d9b8-da90-4ecf-8478-e97c7f968620",
+          "credits": 2,
+          "query": "arrow ipc MessageDecoder ConsumeDataBufferInt32 crash"
+        },
+        {
+          "operation": "search",
+          "request_id": "992bf8cb-89a1-444d-aa50-c1897e8b1b67",
+          "credits": 2,
+          "query": "Arrow IPC buffer overflow read unknown"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "6b2f0d7d2ea4eff9799db0962441d633"
+      ],
+      "model_input_tokens": 520,
+      "model_output_tokens": 46,
+      "model_cost_usd": 0.0001974,
+      "host_rejected": 3,
+      "snippet_rejected": 3,
+      "frame_rejected": 0,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 0,
+      "latency_seconds": 10.437632
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-383",
+      "project": "openthread",
+      "osv_record_id": "OSV-2020-383",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "openthread \"ot::NetworkData::Leader::IsStableUpdated\" stack buffer overflow",
+        "\"ot::NetworkData::Leader::RegisterNetworkData\" crash OpenThread"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: openthread \"ot::NetworkData::Leader::IsStableUpdated\" stack buffer overflow; \"ot::NetworkData::Leader::RegisterNetworkData\" crash OpenThread. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 2 by host, 0 by the frame gate, 0 by the quote guard. Search snippets rejected: 1. Source files rejected: 4. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "d7109fa6-b828-47b7-b171-2686e44c0dca",
+        "88db838a-859a-447f-aced-875318668bf0"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "d7109fa6-b828-47b7-b171-2686e44c0dca",
+          "credits": 2,
+          "query": "openthread \"ot::NetworkData::Leader::IsStableUpdated\" stack buffer overflow"
+        },
+        {
+          "operation": "search",
+          "request_id": "88db838a-859a-447f-aced-875318668bf0",
+          "credits": 2,
+          "query": "\"ot::NetworkData::Leader::RegisterNetworkData\" crash OpenThread"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "e104d3c8c51589b9f2d34bd17b809fa5"
+      ],
+      "model_input_tokens": 508,
+      "model_output_tokens": 60,
+      "model_cost_usd": 0.0002064,
+      "host_rejected": 2,
+      "snippet_rejected": 1,
+      "frame_rejected": 0,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 4,
+      "latency_seconds": 10.785392
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-396",
+      "project": "openthread",
+      "osv_record_id": "OSV-2020-396",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "openthread TaskletScheduler PopTasklet crash",
+        "radio_receive_done.cpp OpenThread unknown read"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: openthread TaskletScheduler PopTasklet crash; radio_receive_done.cpp OpenThread unknown read. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 2 by host, 0 by the frame gate, 0 by the quote guard. Search snippets rejected: 1. Source files rejected: 1. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "69785c19-eec5-4b7a-aac8-9f74fab7a99a",
+        "a6f8e378-4192-4ef4-ab74-bdcfdc42d5f6"
+      ],
+      "tavily_credits": 4,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "69785c19-eec5-4b7a-aac8-9f74fab7a99a",
+          "credits": 2,
+          "query": "openthread TaskletScheduler PopTasklet crash"
+        },
+        {
+          "operation": "search",
+          "request_id": "a6f8e378-4192-4ef4-ab74-bdcfdc42d5f6",
+          "credits": 2,
+          "query": "radio_receive_done.cpp OpenThread unknown read"
+        }
+      ],
+      "model_calls": 1,
+      "model_request_ids": [
+        "af9f7b13dbd1337caaa37d04634416c1"
+      ],
+      "model_input_tokens": 497,
+      "model_output_tokens": 46,
+      "model_cost_usd": 0.0001905,
+      "host_rejected": 2,
+      "snippet_rejected": 1,
+      "frame_rejected": 0,
+      "quote_rejected": 0,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 1,
+      "latency_seconds": 10.886189
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-1700",
+      "project": "php",
+      "osv_record_id": "OSV-2020-1700",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "PUBLICLY_KNOWN_OPEN",
+      "evidence": [
+        {
+          "url": "https://github.com/php/php-src/issues/18844",
+          "title": "Fuzzer `php-fuzz-execute` crashes at `zend_gc_delref` \u00b7 Issue #18844 \u00b7 php/php-src \u00b7 GitHub",
+          "frames_matched": [
+            "zend_gc_delref",
+            "i_zval_ptr_dtor"
+          ],
+          "cve_ids": [],
+          "ghsa_ids": [],
+          "patched_versions": [],
+          "relation": "SAME_BUG",
+          "upstream_status": "UNKNOWN",
+          "upstream_version": "",
+          "ancestry": "NOT_CHECKABLE",
+          "checked_tag": "",
+          "checked_commit": "",
+          "stale_fields": [],
+          "match_reason": "two_frames",
+          "model_request_id": "9369210d5064c11137c3b068260acc10",
+          "dispute": false
+        },
+        {
+          "url": "https://github.com/php/php-src/issues/14969",
+          "title": "Crash on coercion with throwing __toString() \u00b7 Issue #14969 \u00b7 php/php-src \u00b7 GitHub",
+          "frames_matched": [
+            "zend_gc_delref",
+            "i_zval_ptr_dtor"
+          ],
+          "cve_ids": [],
+          "ghsa_ids": [],
+          "patched_versions": [],
+          "relation": "SAME_BUG",
+          "upstream_status": "UNKNOWN",
+          "upstream_version": "",
+          "ancestry": "NOT_CHECKABLE",
+          "checked_tag": "",
+          "checked_commit": "",
+          "stale_fields": [],
+          "match_reason": "two_frames",
+          "model_request_id": "849935528be223e19afdddeb5de3432a",
+          "dispute": false
+        }
+      ],
+      "draft": [
+        {
+          "text": "This page matches this crash. The upstream fix was not verified. Source: https://github.com/php/php-src/issues/18844. Date: 2026-10-05. Confidence: medium.",
+          "source_url": "https://github.com/php/php-src/issues/18844",
+          "source_date": "2026-10-05",
+          "confidence": "medium"
+        },
+        {
+          "text": "This page matches this crash. The upstream fix was not verified. Source: https://github.com/php/php-src/issues/14969. Date: 2026-10-05. Confidence: medium.",
+          "source_url": "https://github.com/php/php-src/issues/14969",
+          "source_date": "2026-10-05",
+          "confidence": "medium"
+        }
+      ],
+      "queries_sent": [
+        "php \"zend_gc_delref\" crash",
+        "\"i_zval_ptr_dtor\" PHP bug",
+        "\"zend_unclean_zval_ptr_dtor\" issue"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: php \"zend_gc_delref\" crash; \"i_zval_ptr_dtor\" PHP bug; \"zend_unclean_zval_ptr_dtor\" issue. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 2 by host, 1 by the frame gate, 1 by the quote guard. Search snippets rejected: 1. Source files rejected: 1. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "d012b96d-45f8-4fbd-bccb-250c60a84820",
+        "8d8ae35e-5e51-41b7-a933-afacbda52995",
+        "d7ac3060-b7d1-4803-ae5c-1029286dd3dc"
+      ],
+      "tavily_credits": 5,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "d012b96d-45f8-4fbd-bccb-250c60a84820",
+          "credits": 2,
+          "query": "php \"zend_gc_delref\" crash"
+        },
+        {
+          "operation": "search",
+          "request_id": "8d8ae35e-5e51-41b7-a933-afacbda52995",
+          "credits": 2,
+          "query": "\"i_zval_ptr_dtor\" PHP bug"
+        },
+        {
+          "operation": "extract",
+          "request_id": "d7ac3060-b7d1-4803-ae5c-1029286dd3dc",
+          "credits": 1,
+          "query": "zend_gc_delref i_zval_ptr_dtor zend_unclean_zval_ptr_dtor"
+        }
+      ],
+      "model_calls": 4,
+      "model_request_ids": [
+        "e28a19c105e3d5ef20eb4146f2ce5fac",
+        "9369210d5064c11137c3b068260acc10",
+        "849935528be223e19afdddeb5de3432a",
+        "9b477ff1bc57022fed13b9b7ea8eba41"
+      ],
+      "model_input_tokens": 3348,
+      "model_output_tokens": 292,
+      "model_cost_usd": 0.0012672,
+      "host_rejected": 2,
+      "snippet_rejected": 1,
+      "frame_rejected": 1,
+      "quote_rejected": 1,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 1,
+      "latency_seconds": 20.329323
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-1779",
+      "project": "php",
+      "osv_record_id": "OSV-2020-1779",
+      "label": "OSV-recorded crash state; no sandbox run",
+      "ran": true,
+      "state": "NO_PUBLIC_FINDINGS",
+      "evidence": [],
+      "draft": [],
+      "queries_sent": [
+        "php \"zend_gc_addref\" heap-use-after-free",
+        "\"zend_generator_update_current\" UAF PHP",
+        "\"zend_generator_dtor_storage\" heap read"
+      ],
+      "query_source": "model",
+      "failed_sources": [],
+      "note": "Searched queries: php \"zend_gc_addref\" heap-use-after-free; \"zend_generator_update_current\" UAF PHP; \"zend_generator_dtor_storage\" heap read. Domains: github.com, nvd.nist.gov, cve.org, www.cve.org. Rejected before the card: 1 by host, 4 by the frame gate, 1 by the quote guard. Search snippets rejected: 1. Source files rejected: 0. Unrelated pages rejected: 0.",
+      "tavily_request_ids": [
+        "16151829-3a3a-490a-820c-5b5d9b03061c",
+        "91b46ff2-c896-46a6-8d72-5cfceeac59c6",
+        "2a1b8bc1-6e2b-4394-8fdc-a4aa7707e170"
+      ],
+      "tavily_credits": 5,
+      "tavily_calls": [
+        {
+          "operation": "search",
+          "request_id": "16151829-3a3a-490a-820c-5b5d9b03061c",
+          "credits": 2,
+          "query": "php \"zend_gc_addref\" heap-use-after-free"
+        },
+        {
+          "operation": "search",
+          "request_id": "91b46ff2-c896-46a6-8d72-5cfceeac59c6",
+          "credits": 2,
+          "query": "\"zend_generator_update_current\" UAF PHP"
+        },
+        {
+          "operation": "extract",
+          "request_id": "2a1b8bc1-6e2b-4394-8fdc-a4aa7707e170",
+          "credits": 1,
+          "query": "zend_gc_addref zend_generator_update_current zend_generator_dtor_storage"
+        }
+      ],
+      "model_calls": 2,
+      "model_request_ids": [
+        "d88782858280791524c3e3c04468b1c7",
+        "01adcfb47c237f6d2772dfd71cc2d3a1"
+      ],
+      "model_input_tokens": 1744,
+      "model_output_tokens": 132,
+      "model_cost_usd": 0.000642,
+      "host_rejected": 1,
+      "snippet_rejected": 1,
+      "frame_rejected": 4,
+      "quote_rejected": 1,
+      "unrelated_rejected": 0,
+      "source_file_rejected": 0,
+      "latency_seconds": 14.569309
+    }
+  ],
+  "baseline": [
+    {
+      "set": "A",
+      "task_id": "42530604",
+      "project": "jq",
+      "references": [
+        {
+          "source": "github_repo_advisories",
+          "url": "https://github.com/jqlang/jq/security/advisories/GHSA-686w-5m7m-54vc",
+          "ghsa_id": "GHSA-686w-5m7m-54vc",
+          "cve_id": "CVE-2023-50246",
+          "frames_matched": [
+            "decToString",
+            "decNumberToString",
+            "jvp_literal_number_literal"
+          ],
+          "match_reason": "top_frame_and_crash_type",
+          "patched_versions": [],
+          "ancestry": "NOT_CHECKABLE",
+          "checked_tag": "",
+          "checked_commit": "",
+          "stale_fields": []
+        }
+      ],
+      "host_rejected": 0,
+      "frame_rejected": 27,
+      "failed_sources": [],
+      "latency_seconds": 0.858116
+    },
+    {
+      "set": "A",
+      "task_id": "42507851",
+      "project": "libplist",
+      "references": [],
+      "host_rejected": 7,
+      "frame_rejected": 0,
+      "failed_sources": [],
+      "latency_seconds": 5.996751
+    },
+    {
+      "set": "A",
+      "task_id": "42496387",
+      "project": "wasm3",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 1,
+      "failed_sources": [],
+      "latency_seconds": 5.95738
+    },
+    {
+      "set": "A",
+      "task_id": "42508524",
+      "project": "libplist",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 0,
+      "failed_sources": [],
+      "latency_seconds": 5.951197
+    },
+    {
+      "set": "A",
+      "task_id": "42536108",
+      "project": "miniz",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 0,
+      "failed_sources": [],
+      "latency_seconds": 5.972795
+    },
+    {
+      "set": "A",
+      "task_id": "42536112",
+      "project": "miniz",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 0,
+      "failed_sources": [],
+      "latency_seconds": 9e-06
+    },
+    {
+      "set": "A",
+      "task_id": "42508390",
+      "project": "libplist",
+      "references": [],
+      "host_rejected": 7,
+      "frame_rejected": 0,
+      "failed_sources": [],
+      "latency_seconds": 7.2e-05
+    },
+    {
+      "set": "A",
+      "task_id": "42531297",
+      "project": "jq",
+      "references": [
+        {
+          "source": "github_repo_advisories",
+          "url": "https://github.com/jqlang/jq/security/advisories/GHSA-p7rr-28xf-3m5w",
+          "ghsa_id": "GHSA-p7rr-28xf-3m5w",
+          "cve_id": "CVE-2025-48060",
+          "frames_matched": [
+            "jv_string_vfmt",
+            "jv_string_fmt",
+            "jv_get"
+          ],
+          "match_reason": "top_frame_and_crash_type",
+          "patched_versions": [],
+          "ancestry": "NOT_CHECKABLE",
+          "checked_tag": "",
+          "checked_commit": "",
+          "stale_fields": []
+        }
+      ],
+      "host_rejected": 0,
+      "frame_rejected": 26,
+      "failed_sources": [],
+      "latency_seconds": 6.098034
+    },
+    {
+      "set": "A",
+      "task_id": "42531223",
+      "project": "jq",
+      "references": [
+        {
+          "source": "github_repo_advisories",
+          "url": "https://github.com/jqlang/jq/security/advisories/GHSA-x6c3-qv5r-7q22",
+          "ghsa_id": "GHSA-x6c3-qv5r-7q22",
+          "cve_id": "CVE-2024-53427",
+          "frames_matched": [
+            "decNumberCopy",
+            "decNaNs",
+            "decCompareOp"
+          ],
+          "match_reason": "top_frame_and_crash_type",
+          "patched_versions": [],
+          "ancestry": "NOT_CHECKABLE",
+          "checked_tag": "",
+          "checked_commit": "",
+          "stale_fields": []
+        }
+      ],
+      "host_rejected": 0,
+      "frame_rejected": 27,
+      "failed_sources": [],
+      "latency_seconds": 6.038704
+    },
+    {
+      "set": "A",
+      "task_id": "42476752",
+      "project": "libspng",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 1,
+      "failed_sources": [],
+      "latency_seconds": 5.846796
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-956",
+      "project": "ndpi",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 0,
+      "failed_sources": [],
+      "latency_seconds": 6.217346
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2025-80",
+      "project": "ndpi",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 0,
+      "failed_sources": [],
+      "latency_seconds": 5.777602
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-121",
+      "project": "harfbuzz",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 5,
+      "failed_sources": [],
+      "latency_seconds": 6.027688
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-1606",
+      "project": "harfbuzz",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 5,
+      "failed_sources": [],
+      "latency_seconds": 5.984781
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-1331",
+      "project": "pcapplusplus",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 0,
+      "failed_sources": [],
+      "latency_seconds": 5.984514
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-208",
+      "project": "pcapplusplus",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 0,
+      "failed_sources": [],
+      "latency_seconds": 6.079777
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2023-1276",
+      "project": "opensc",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 8,
+      "failed_sources": [],
+      "latency_seconds": 6.025546
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2023-586",
+      "project": "opensc",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 8,
+      "failed_sources": [],
+      "latency_seconds": 5.927214
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2021-535",
+      "project": "libredwg",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 3,
+      "failed_sources": [],
+      "latency_seconds": 5.954336
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2022-1252",
+      "project": "libredwg",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 4,
+      "failed_sources": [],
+      "latency_seconds": 6.366224
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-2133",
+      "project": "fluent-bit",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 3,
+      "failed_sources": [],
+      "latency_seconds": 8.016277
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2021-838",
+      "project": "fluent-bit",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 3,
+      "failed_sources": [],
+      "latency_seconds": 3.654924
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2022-605",
+      "project": "mruby",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 0,
+      "failed_sources": [],
+      "latency_seconds": 5.995708
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2024-29",
+      "project": "mruby",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 0,
+      "failed_sources": [],
+      "latency_seconds": 6.062902
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2021-897",
+      "project": "c-blosc2",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 0,
+      "failed_sources": [],
+      "latency_seconds": 5.87966
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2022-322",
+      "project": "c-blosc2",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 0,
+      "failed_sources": [],
+      "latency_seconds": 6.133232
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2026-623",
+      "project": "matio",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 2,
+      "failed_sources": [],
+      "latency_seconds": 5.942249
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2026-752",
+      "project": "matio",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 2,
+      "failed_sources": [],
+      "latency_seconds": 6.010661
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-1365",
+      "project": "clamav",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 0,
+      "failed_sources": [],
+      "latency_seconds": 5.967262
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2021-1507",
+      "project": "clamav",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 0,
+      "failed_sources": [],
+      "latency_seconds": 6.003639
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-1855",
+      "project": "openh264",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 1,
+      "failed_sources": [],
+      "latency_seconds": 5.979472
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-2274",
+      "project": "openh264",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 1,
+      "failed_sources": [],
+      "latency_seconds": 6.06769
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-455",
+      "project": "radare2",
+      "references": [],
+      "host_rejected": 11,
+      "frame_rejected": 0,
+      "failed_sources": [],
+      "latency_seconds": 6.037508
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-522",
+      "project": "radare2",
+      "references": [],
+      "host_rejected": 11,
+      "frame_rejected": 0,
+      "failed_sources": [],
+      "latency_seconds": 5.900005
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-144",
+      "project": "arrow",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 0,
+      "failed_sources": [],
+      "latency_seconds": 5.997268
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-187",
+      "project": "arrow",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 0,
+      "failed_sources": [],
+      "latency_seconds": 5.97677
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-383",
+      "project": "openthread",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 1,
+      "failed_sources": [],
+      "latency_seconds": 6.023995
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-396",
+      "project": "openthread",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 1,
+      "failed_sources": [],
+      "latency_seconds": 11.552204
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-1700",
+      "project": "php",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 64,
+      "failed_sources": [],
+      "latency_seconds": 0.91715
+    },
+    {
+      "set": "B",
+      "task_id": "OSV-2020-1779",
+      "project": "php",
+      "references": [],
+      "host_rejected": 0,
+      "frame_rejected": 64,
+      "failed_sources": [],
+      "latency_seconds": 6.235694
+    }
+  ],
+  "tavily_summary": {
+    "by_set": {
+      "A": {
+        "tasks": 10,
+        "ran": 10,
+        "not_run": 0,
+        "with_verified_reference": 3,
+        "no_public_findings": 7,
+        "states": {
+          "PUBLICLY_KNOWN_FIXED": 0,
+          "PUBLICLY_KNOWN_OPEN": 3,
+          "RELATED_VARIANTS_ONLY": 0,
+          "SOURCE_DISPUTE": 0,
+          "NO_PUBLIC_FINDINGS": 7
+        },
+        "unrelated_rejected": 0,
+        "frame_rejected": 22,
+        "host_rejected": 10,
+        "snippet_rejected": 1,
+        "tavily_credits": 46,
+        "model_calls": 16,
+        "latency_seconds": 85.535945
+      },
+      "B": {
+        "tasks": 30,
+        "ran": 30,
+        "not_run": 0,
+        "with_verified_reference": 2,
+        "no_public_findings": 28,
+        "states": {
+          "PUBLICLY_KNOWN_FIXED": 0,
+          "PUBLICLY_KNOWN_OPEN": 2,
+          "RELATED_VARIANTS_ONLY": 0,
+          "SOURCE_DISPUTE": 0,
+          "NO_PUBLIC_FINDINGS": 28
+        },
+        "unrelated_rejected": 0,
+        "frame_rejected": 33,
+        "host_rejected": 49,
+        "snippet_rejected": 65,
+        "tavily_credits": 128,
+        "model_calls": 38,
+        "latency_seconds": 299.08624
+      }
+    },
+    "fixed_in_claims": {
+      "precise": 0,
+      "prevented": 0,
+      "not_checkable": 0
+    },
+    "evidence_pages": 7
+  },
+  "baseline_fixed_in_claims": {
+    "precise": 0,
+    "prevented": 0,
+    "not_checkable": 0
+  },
+  "baseline_verified_references": 3,
+  "baseline_frame_rejected": 257,
+  "baseline_host_rejected": 36
+}

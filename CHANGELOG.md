@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Recorded the public-status evaluation in `eval/results/public_status.json`. Set A: 3 of 10 tasks have a verified reference, all `PUBLICLY_KNOWN_OPEN`, and 7 are `NO_PUBLIC_FINDINGS`. Set B: 2 of 30 are `PUBLICLY_KNOWN_OPEN` and 28 are `NO_PUBLIC_FINDINGS`. This run used 174 Tavily credits and 54 Nemotron calls. No kept page stated a patched version, so ancestry prevented 0 fixed-in claims. The GitHub compare of tag `jq-1.7.1` against `b86ff49f46a4a37e5a8e75a140cb5fd6e1331384` is ahead by 102. `GHSA-7hmr-442f-qc8j` is not in the result file.
 - Pre-registered the public-status evaluation before any search: the 10 saved ARVO crash states and 30 OSV records drawn with seed 20261005. The batch does not crawl. No Tavily or Nemotron call was made for this change.
 - Added the public-status block to the live triage page. The stage runs after the duplicate search and lists the state, links, matched frames, Tavily request ids, credits, and caps. A missing Tavily key or a lookup failure still returns the verdict. The non-live Python suite is 184 tests.
 - Added a public-status stage. Tavily searches and extracts, and a page is kept only when the top measured frame and the crash type match, or at least two measured frames match. Nemotron classifies those pages. Git ancestry checks a stated version before it is called the fix, and a contradicted patched-version field is marked stale. The triage verdict is unchanged. The non-live Python suite is 175 tests.

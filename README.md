@@ -138,8 +138,8 @@ phrase `READ of size 2`; it was corrected before this final run.
 ## Public status evaluation
 
 Registered on 2026-10-05, before any Tavily or Nemotron call for this stage. The frozen inputs are
-`eval/public_status_prereg.json`. A later results table uses only numbers printed by the committed
-run. This section does not contain those results.
+`eval/public_status_prereg.json`. The measured tables below use only fields in
+`eval/results/public_status.json`.
 
 Set A is the 10 tasks in `eval/results/arvo10.json`. Frames and crash type are the saved measured
 crash states. No sandbox is rerun, and that file is not overwritten. Fix commits are the 40-hex GIT
@@ -207,12 +207,130 @@ check. A fixed-in claim counts only when ancestry says the stated version contai
 OSV fix commit. A version that does not contain the commit is a related variant, and that
 patched-version field is marked stale.
 
-The pre-registered expectation, from a 2026-10-05 research pass and not from this run, is that
-about 3 of the 10 ARVO tasks have a public reference and the other 7 are `NO_PUBLIC_FINDINGS`. The
-committed run replaces that sentence with the measured counts. States are `PUBLICLY_KNOWN_FIXED`
-(only after ancestry), `PUBLICLY_KNOWN_OPEN`, `RELATED_VARIANTS_ONLY`, `SOURCE_DISPUTE`, and
-`NO_PUBLIC_FINDINGS`. `NO_PUBLIC_FINDINGS` names the queries that were sent and any source that
-failed.
+The pre-registered expectation, from a 2026-10-05 research pass and not from this run, was that
+about 3 of the 10 ARVO tasks would have a public reference and the other 7 would be
+`NO_PUBLIC_FINDINGS`. States are `PUBLICLY_KNOWN_FIXED` (only after ancestry),
+`PUBLICLY_KNOWN_OPEN`, `RELATED_VARIANTS_ONLY`, `SOURCE_DISPUTE`, and `NO_PUBLIC_FINDINGS`.
+`NO_PUBLIC_FINDINGS` names the queries that were sent and any source that failed.
+
+### Measured run
+
+`eval/run_public_status.py` wrote `eval/results/public_status.json`. Its `prereg_sha256` is
+`8f93a6e0e5dd69af452a1c6e67144e949f96b3f71f5e96f4a2c7800dba8bea9e`, the same hash as the committed
+pre-registration file. The batch did not crawl. All 40 tasks ran. None stopped for the credit or
+Nemotron budget.
+
+This run recorded 174 Tavily credits: 80 search calls account for 160, and 22 extract calls account
+for 14. The ledger started at the 7 recorded fixture credits and ended at 181. Nemotron calls: 54.
+The sum of the stored per-task `model_cost_usd` values is 0.0131517. Summed triage latency is
+85.535945 seconds on set A and 299.08624 seconds on set B.
+
+GitHub compare of `jqlang/jq` tag `jq-1.7.1` against
+`b86ff49f46a4a37e5a8e75a140cb5fd6e1331384` returned status `ahead`, `ahead_by` 102, `behind_by` 0,
+and an empty error. Under the rule above, that tag does not contain the OSV fix commit.
+`GHSA-7hmr-442f-qc8j` does not appear in the result file. No kept page and no baseline reference
+stored a patched version, an upstream version, or `FIXED`. The fixed-in counter is 0 precise, 0
+prevented, and 0 not checkable. `stale_fields` is empty on all 7 evidence pages. Each of those
+pages has ancestry `NOT_CHECKABLE`: the page stated nothing the checker could compare, so the
+upstream fix is not checkable.
+
+Set A kept a verified reference on 3 of 10 tasks. All 3 are `PUBLICLY_KNOWN_OPEN`. The other 7 are
+`NO_PUBLIC_FINDINGS`. `PUBLICLY_KNOWN_FIXED`, `RELATED_VARIANTS_ONLY`, and `SOURCE_DISPUTE` are 0.
+Rejections before the card: frame 22, host 10, snippet 1, unrelated 0, quote guard 2, source file
+5. Credits 46. Model calls 16. The 3 references are wasm3 42496387, jq 42531297, and jq 42531223.
+
+| Task | Project | State | Credits | Latency (s) | Model calls | Evidence |
+|---|---|---|---:|---:|---:|---|
+| 42530604 | jq | NO_PUBLIC_FINDINGS | 5 | 12.351041 | 2 | none |
+| 42507851 | libplist | NO_PUBLIC_FINDINGS | 5 | 8.898709 | 1 | none |
+| 42496387 | wasm3 | PUBLICLY_KNOWN_OPEN | 4 | 11.13846 | 2 | [wasm3#458](https://github.com/wasm3/wasm3/issues/458) (`ForEachModule`, `Runtime_Release`, `m3_FreeRuntime`) |
+| 42508524 | libplist | NO_PUBLIC_FINDINGS | 5 | 8.229591 | 1 | none |
+| 42536108 | miniz | NO_PUBLIC_FINDINGS | 4 | 5.426646 | 1 | none |
+| 42536112 | miniz | NO_PUBLIC_FINDINGS | 4 | 7.204559 | 1 | none |
+| 42508390 | libplist | NO_PUBLIC_FINDINGS | 5 | 1.832194 | 1 | none |
+| 42531297 | jq | PUBLICLY_KNOWN_OPEN | 4 | 13.009655 | 3 | [GHSA-p7rr-28xf-3m5w](https://github.com/jqlang/jq/security/advisories/GHSA-p7rr-28xf-3m5w) (`jv_string_vfmt`, `jv_string_fmt`, `jv_get`); [jq releases](https://github.com/jqlang/jq/releases) (`jv_string_vfmt`, `jv_get`) |
+| 42531223 | jq | PUBLICLY_KNOWN_OPEN | 5 | 12.449279 | 3 | [GHSA-x6c3-qv5r-7q22](https://github.com/jqlang/jq/security/advisories/GHSA-x6c3-qv5r-7q22) (`decNumberCopy`, `decNaNs`, `decCompareOp`) |
+| 42476752 | libspng | NO_PUBLIC_FINDINGS | 5 | 4.995811 | 1 | none |
+
+Set B kept a verified reference on 2 of 30 tasks, both `PUBLICLY_KNOWN_OPEN`: ndpi OSV-2025-80 and
+php OSV-2020-1700. The other 28 are `NO_PUBLIC_FINDINGS`. The other three states are 0. Rejections
+before the card: frame 33, host 49, snippet 65, unrelated 0, quote guard 2, source file 39.
+Credits 128. Model calls 38. Two tasks used the deterministic query fallback after the planner did
+not return an acceptable query: OSV-2020-208 and OSV-2020-144. Two tasks recorded a rejected query
+reason `missing_project_and_frame`: OSV-2022-322 and OSV-2020-144. No Tavily call failed.
+
+| OSV id | Project | State | Credits | Latency (s) | Model calls | Evidence |
+|---|---|---|---:|---:|---:|---|
+| OSV-2020-956 | ndpi | NO_PUBLIC_FINDINGS | 5 | 9.710887 | 1 | none |
+| OSV-2025-80 | ndpi | PUBLICLY_KNOWN_OPEN | 4 | 16.272163 | 2 | [412ca87](https://github.com/ntop/nDPI/commit/412ca8700fc53da705c6aa386c736a400279a614) |
+| OSV-2020-121 | harfbuzz | NO_PUBLIC_FINDINGS | 5 | 9.69678 | 1 | none |
+| OSV-2020-1606 | harfbuzz | NO_PUBLIC_FINDINGS | 4 | 9.758406 | 1 | none |
+| OSV-2020-1331 | pcapplusplus | NO_PUBLIC_FINDINGS | 4 | 9.424525 | 1 | none |
+| OSV-2020-208 | pcapplusplus | NO_PUBLIC_FINDINGS | 4 | 10.714157 | 2 | none |
+| OSV-2023-1276 | opensc | NO_PUBLIC_FINDINGS | 4 | 8.07384 | 1 | none |
+| OSV-2023-586 | opensc | NO_PUBLIC_FINDINGS | 4 | 8.598424 | 1 | none |
+| OSV-2021-535 | libredwg | NO_PUBLIC_FINDINGS | 5 | 8.052583 | 1 | none |
+| OSV-2022-1252 | libredwg | NO_PUBLIC_FINDINGS | 4 | 6.812974 | 1 | none |
+| OSV-2020-2133 | fluent-bit | NO_PUBLIC_FINDINGS | 4 | 6.98163 | 1 | none |
+| OSV-2021-838 | fluent-bit | NO_PUBLIC_FINDINGS | 4 | 11.738294 | 1 | none |
+| OSV-2022-605 | mruby | NO_PUBLIC_FINDINGS | 5 | 10.673764 | 1 | none |
+| OSV-2024-29 | mruby | NO_PUBLIC_FINDINGS | 4 | 10.147043 | 1 | none |
+| OSV-2021-897 | c-blosc2 | NO_PUBLIC_FINDINGS | 4 | 7.856186 | 1 | none |
+| OSV-2022-322 | c-blosc2 | NO_PUBLIC_FINDINGS | 4 | 6.492893 | 2 | none |
+| OSV-2026-623 | matio | NO_PUBLIC_FINDINGS | 4 | 9.769041 | 1 | none |
+| OSV-2026-752 | matio | NO_PUBLIC_FINDINGS | 4 | 9.003484 | 1 | none |
+| OSV-2020-1365 | clamav | NO_PUBLIC_FINDINGS | 4 | 12.027222 | 1 | none |
+| OSV-2021-1507 | clamav | NO_PUBLIC_FINDINGS | 4 | 10.083734 | 1 | none |
+| OSV-2020-1855 | openh264 | NO_PUBLIC_FINDINGS | 5 | 7.038912 | 1 | none |
+| OSV-2020-2274 | openh264 | NO_PUBLIC_FINDINGS | 5 | 7.031268 | 1 | none |
+| OSV-2020-455 | radare2 | NO_PUBLIC_FINDINGS | 4 | 8.53007 | 1 | none |
+| OSV-2020-522 | radare2 | NO_PUBLIC_FINDINGS | 4 | 8.319241 | 1 | none |
+| OSV-2020-144 | arrow | NO_PUBLIC_FINDINGS | 4 | 9.270874 | 2 | none |
+| OSV-2020-187 | arrow | NO_PUBLIC_FINDINGS | 4 | 10.437632 | 1 | none |
+| OSV-2020-383 | openthread | NO_PUBLIC_FINDINGS | 4 | 10.785392 | 1 | none |
+| OSV-2020-396 | openthread | NO_PUBLIC_FINDINGS | 4 | 10.886189 | 1 | none |
+| OSV-2020-1700 | php | PUBLICLY_KNOWN_OPEN | 5 | 20.329323 | 4 | [php#18844](https://github.com/php/php-src/issues/18844), [php#14969](https://github.com/php/php-src/issues/14969) |
+| OSV-2020-1779 | php | NO_PUBLIC_FINDINGS | 5 | 14.569309 | 2 | none |
+
+Every kept page was classified `SAME_BUG` with upstream status `UNKNOWN` and dispute false. The
+id columns are ids found in the extracted text. A GHSA id that appears only in the URL is not
+repeated as an extracted id.
+
+| Task | Page | Match | Frames | Extracted CVE ids | Extracted GHSA ids | Ancestry |
+|---|---|---|---|---|---|---|
+| 42496387 | wasm3#458 | top frame and crash type | `ForEachModule`, `Runtime_Release`, `m3_FreeRuntime` | none | none | NOT_CHECKABLE |
+| 42531297 | GHSA-p7rr-28xf-3m5w | top frame and crash type | `jv_string_vfmt`, `jv_string_fmt`, `jv_get` | none | none | NOT_CHECKABLE |
+| 42531297 | jqlang/jq releases | two frames | `jv_string_vfmt`, `jv_get` | CVE-2024-23337, CVE-2024-53427, CVE-2025-48060, CVE-2026-32316, CVE-2026-33947, CVE-2026-33948, CVE-2026-39956, CVE-2026-39979, CVE-2026-40164, CVE-2026-40612, CVE-2026-41256 | none | NOT_CHECKABLE |
+| 42531223 | GHSA-x6c3-qv5r-7q22 | top frame and crash type | `decNumberCopy`, `decNaNs`, `decCompareOp` | none | none | NOT_CHECKABLE |
+| OSV-2025-80 | nDPI 412ca87 | two frames | `ndpi_snprintf`, `process_ndpi_collected_info` | none | none | NOT_CHECKABLE |
+| OSV-2020-1700 | php#18844 | two frames | `zend_gc_delref`, `i_zval_ptr_dtor` | none | none | NOT_CHECKABLE |
+| OSV-2020-1700 | php#14969 | two frames | `zend_gc_delref`, `i_zval_ptr_dtor` | none | none | NOT_CHECKABLE |
+
+The 11 CVE ids on the jq releases row are every id the regex found on that index. They are not
+each scored as ARVO 42531297. `CVE-2024-27530` and `CVE-2023-50268` do not appear in the result
+file. Tavily request ids for the five tasks with evidence:
+
+- 42496387: `9bf889cd-f0c2-450f-bda7-3594e9c319c1`, `0b9c7ef0-f35f-4ba4-8718-c12b2f9bc88a`, `37ac7024-0068-4d00-a9bf-d1334ff0163d`
+- 42531297: `727c2f85-9061-4ef9-a497-7653dbd6c6b1`, `a388cbb7-f568-4bad-9682-cae63768fa16`, `2ec443bf-e367-49dd-9837-da2a529b5ed4`
+- 42531223: `a0ca9d92-60a3-4111-aea4-9d297baa4d21`, `73e3c263-792a-4785-89e8-5f1e361a40c3`, `15b31f29-4cbf-4c23-9e06-2f481a2f1384`
+- OSV-2025-80: `568f0b0b-b3ef-431e-88d2-5fef4dbe5f4a`, `7a24813d-89c5-4eef-b451-d22643a9511c`, `5900b8a9-284f-43b8-b636-8a6e02dbe7aa`
+- OSV-2020-1700: `d012b96d-45f8-4fbd-bccb-250c60a84820`, `8d8ae35e-5e51-41b7-a933-afacbda52995`, `d7ac3060-b7d1-4803-ae5c-1029286dd3dc`
+
+The no-Tavily baseline kept 3 references, all from
+`GET /repos/jqlang/jq/security-advisories`. NVD `keywordSearch` added none. Failed sources: 0 on
+all 40 tasks. Set A baseline latency is 42.719854 seconds, with 82 frame rejects and 14 host
+rejects. Set B baseline latency is 180.699298 seconds, with 175 frame rejects, 22 host rejects,
+and 0 references. The baseline fixed-in counter is 0 precise, 0 prevented, and 0 not checkable.
+Each baseline reference has an empty patched-version list and ancestry `NOT_CHECKABLE`.
+
+| Task | Advisory | GHSA id | CVE id | Frames | Ancestry |
+|---|---|---|---|---|---|
+| 42530604 | [GHSA-686w-5m7m-54vc](https://github.com/jqlang/jq/security/advisories/GHSA-686w-5m7m-54vc) | GHSA-686w-5m7m-54vc | CVE-2023-50246 | `decToString`, `decNumberToString`, `jvp_literal_number_literal` | NOT_CHECKABLE |
+| 42531297 | [GHSA-p7rr-28xf-3m5w](https://github.com/jqlang/jq/security/advisories/GHSA-p7rr-28xf-3m5w) | GHSA-p7rr-28xf-3m5w | CVE-2025-48060 | `jv_string_vfmt`, `jv_string_fmt`, `jv_get` | NOT_CHECKABLE |
+| 42531223 | [GHSA-x6c3-qv5r-7q22](https://github.com/jqlang/jq/security/advisories/GHSA-x6c3-qv5r-7q22) | GHSA-x6c3-qv5r-7q22 | CVE-2024-53427 | `decNumberCopy`, `decNaNs`, `decCompareOp` | NOT_CHECKABLE |
+
+Tavily kept no page for ARVO 42530604. The baseline kept GHSA-686w-5m7m-54vc for that task. Tavily
+and the baseline both kept GHSA-p7rr-28xf-3m5w and GHSA-x6c3-qv5r-7q22.
 
 The no-Tavily baseline uses the same two sets and no model. It calls paginated
 `GET /repos/{owner}/{repo}/security-advisories` (`per_page=100`) and NVD CVE API 2.0
