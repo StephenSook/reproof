@@ -12,7 +12,7 @@ import os
 import time
 import uuid
 from collections.abc import Callable
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
@@ -31,13 +31,104 @@ class Limits:
     in_flight_per_visitor: int
     per_ip_per_hour: int
     global_per_day: int
+    tavily_credits_per_day: int
+    public_reuse_seconds: int
 
     def public(self) -> dict[str, int]:
         return {
             "in_flight_per_visitor": self.in_flight_per_visitor,
             "per_ip_per_hour": self.per_ip_per_hour,
             "global_per_day": self.global_per_day,
+            "tavily_credits_per_day": self.tavily_credits_per_day,
+            "public_reuse_seconds": self.public_reuse_seconds,
         }
+
+
+def _utc_now() -> datetime:
+    return datetime.now(UTC)
+
+
+@dataclass(frozen=True)
+class PublicBudget:
+    """Tavily spend on one door instance.
+
+    A lookup for the same measured crash is reused for `limits.public_reuse_seconds`. A new
+    lookup first reserves its worst-case credits against the UTC day's cap, then
+    the reservation is replaced by the credits Tavily reported.
+    """
+
+    store: Path
+    limits: Limits
+    clock: Callable[[], datetime] = field(default=_utc_now)
+
+    def reuse(self, key: str) -> tuple[dict[str, Any], str] | None:
+        now = self.clock().astimezone(UTC)
+
+        def read(data: dict[str, Any]) -> tuple[dict[str, Any], str] | None:
+            entry = data.get("public", {}).get(key)
+            if not isinstance(entry, dict) or not isinstance(entry.get("status"), dict):
+                return None
+            try:
+                at = datetime.fromisoformat(str(entry.get("at", "")))
+            except ValueError:
+                return None
+            if at > now or now - at > timedelta(seconds=self.limits.public_reuse_seconds):
+                return None
+            return entry["status"], at.isoformat()
+
+        result: tuple[dict[str, Any], str] | None = _update(self.store, read)
+        return result
+
+    def reserve(self, credits: int) -> str | None:
+        """Hold `credits` against today's cap. Return the day key, or None when it is spent."""
+
+        day = self.clock().astimezone(UTC).strftime("%Y-%m-%d")
+
+        def mutate(data: dict[str, Any]) -> str | None:
+            spent = data.setdefault("tavily_days", {})
+            used = int(spent.get(day, 0))
+            if used + credits > self.limits.tavily_credits_per_day:
+                return None
+            spent[day] = used + credits
+            return day
+
+        result: str | None = _update(self.store, mutate)
+        return result
+
+    def settle(
+        self,
+        day: str,
+        *,
+        reserved: int,
+        spent: int | None,
+        key: str,
+        status: dict[str, Any] | None,
+    ) -> None:
+        """Swap the reservation for the credits spent. `spent=None` keeps the whole hold."""
+
+        now = self.clock().astimezone(UTC)
+
+        def mutate(data: dict[str, Any]) -> None:
+            days = data.setdefault("tavily_days", {})
+            if spent is not None:
+                days[day] = max(0, int(days.get(day, 0)) - reserved + spent)
+            oldest = (now - timedelta(days=2)).strftime("%Y-%m-%d")
+            for old in [name for name in days if name < oldest]:
+                del days[old]
+            public = data.setdefault("public", {})
+            if status is not None:
+                public[key] = {"at": now.isoformat(), "status": status}
+            cutoff = now - timedelta(seconds=self.limits.public_reuse_seconds)
+            for name in list(public):
+                entry = public[name]
+                try:
+                    stale = datetime.fromisoformat(str(entry.get("at", ""))) < cutoff
+                except (AttributeError, ValueError):
+                    stale = True
+                if stale:
+                    del public[name]
+
+        _update(self.store, mutate)
 
 
 @dataclass(frozen=True)
@@ -54,9 +145,17 @@ def load_limits(path: Path | None = None) -> Limits:
     flight = int(raw["in_flight_per_visitor"])
     hourly = int(raw["per_ip_per_hour"])
     daily = int(raw["global_per_day"])
-    if flight < 1 or hourly < 1 or daily < 1:
+    tavily = int(raw["tavily_credits_per_day"])
+    reuse = int(raw["public_reuse_seconds"])
+    if flight < 1 or hourly < 1 or daily < 1 or tavily < 1 or reuse < 1:
         raise ValueError("door limits must be positive")
-    return Limits(in_flight_per_visitor=flight, per_ip_per_hour=hourly, global_per_day=daily)
+    return Limits(
+        in_flight_per_visitor=flight,
+        per_ip_per_hour=hourly,
+        global_per_day=daily,
+        tavily_credits_per_day=tavily,
+        public_reuse_seconds=reuse,
+    )
 
 
 def default_store_path() -> Path:

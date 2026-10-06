@@ -14,6 +14,8 @@ from contree_sdk.sdk.exceptions import NotFoundError
 from reproof.claims import PRICE_SOURCE
 from reproof.crash import parse_crash
 from reproof.door import (
+    BUDGET_SPENT_NOTE,
+    LOOKUP_MAX_CREDITS,
     DoorResult,
     PublicLookupRequest,
     _usable_frames,
@@ -30,6 +32,7 @@ from reproof.door_data import (
     load_project_index,
     project_repository,
 )
+from reproof.door_limits import Limits, PublicBudget
 from reproof.dup import OsvIndex, parse_osv_record
 from reproof.models import (
     Claim,
@@ -252,6 +255,7 @@ def _run(
     world: dict[str, object],
     *,
     public_lookup: Callable[[PublicLookupRequest], PublicStatus] | None = _quiet_lookup,
+    public_budget: PublicBudget | None = None,
 ) -> DoorResult:
     calls: list[str] = world["calls"]  # type: ignore[assignment]
 
@@ -267,6 +271,7 @@ def _run(
         runner=world["runner"],  # type: ignore[arg-type]
         extractor=extractor,
         public_lookup=public_lookup,
+        public_budget=public_budget,
     )
 
 
@@ -604,6 +609,121 @@ def test_injected_stub_replaces_the_network(monkeypatch: pytest.MonkeyPatch) -> 
     assert seen[0].repo == "jq"
     assert seen[0].project_site == "https://jqlang.github.io/jq"
     assert "abc" in seen[0].fix_commits
+
+
+def _door_budget(store: Path, cap: int) -> PublicBudget:
+    limits = Limits(
+        in_flight_per_visitor=1,
+        per_ip_per_hour=8,
+        global_per_day=60,
+        tavily_credits_per_day=cap,
+        public_reuse_seconds=3600,
+    )
+    return PublicBudget(store=store, limits=limits)
+
+
+def test_budget_reuses_a_recent_lookup_without_new_calls(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    captured: list[dict[str, object]] = []
+
+    def capture(**kwargs: object) -> PublicStatus:
+        captured.append(kwargs)
+        return _quiet_status(
+            tavily_credits=4,
+            tavily_request_ids=["tavily-req-live"],
+            model_calls=[_public_model_call()],
+        )
+
+    monkeypatch.setenv("TAVILY_API_KEY", TAVILY_SENTINEL)
+    monkeypatch.setattr("reproof.door.lookup_public_status", capture)
+    budget = _door_budget(tmp_path / "limits.json", 100)
+    world = _world(FIXTURE.read_text(encoding="utf-8"))
+    first = _run(world, public_lookup=None, public_budget=budget)
+    assert len(captured) == 1
+    ledger = captured[0]["ledger"]
+    assert getattr(ledger, "limit", None) == LOOKUP_MAX_CREDITS == 5
+    assert first.card is not None and first.card.public_status is not None
+    assert first.card.public_status.reused_from == ""
+    assert first.card.public_status.tavily_credits == 4
+
+    second = _run(world, public_lookup=None, public_budget=budget)
+    assert len(captured) == 1
+    assert second.card is not None
+    status = second.card.public_status
+    assert status is not None
+    assert status.reused_from
+    assert status.tavily_credits == 0
+    assert status.model_calls == []
+    assert status.tavily_request_ids == ["tavily-req-live"]
+    assert status.note.startswith("Reused the lookup made at ")
+    assert second.card.model_cost_usd == pytest.approx(
+        first.card.model_cost_usd - PUBLIC_MODEL_COST, abs=1e-9
+    )
+    step = _public_step(second)
+    assert step["reused_from"] == status.reused_from
+    assert step["credits"] == 0
+    assert step["caps"] == {
+        "searches": 2,
+        "extract_urls": 5,
+        "tavily_credits": LOOKUP_MAX_CREDITS,
+        "nemotron_calls": step["caps"]["nemotron_calls"],
+        "tavily_credits_per_day": 100,
+    }
+    # The hold of 5 was replaced by the 4 credits Tavily reported.
+    assert budget.reserve(96) is not None
+
+
+def test_spent_budget_sends_no_search(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    monkeypatch.setenv("TAVILY_API_KEY", TAVILY_SENTINEL)
+    _block_lookup(monkeypatch)
+    budget = _door_budget(tmp_path / "limits.json", LOOKUP_MAX_CREDITS - 1)
+    result = _run(
+        _world(FIXTURE.read_text(encoding="utf-8")), public_lookup=None, public_budget=budget
+    )
+    assert result.verdict is Verdict.DUPLICATE
+    assert result.card is not None
+    status = result.card.public_status
+    assert status is not None
+    assert status.state == "LOOKUP_UNAVAILABLE"
+    assert status.failed_sources == [BUDGET_SPENT_NOTE]
+    assert status.tavily_credits == 0
+
+
+def test_unavailable_or_failed_lookups_are_not_reused(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    outcomes: list[object] = [
+        RuntimeError("lookup blew up"),
+        _quiet_status(state="LOOKUP_UNAVAILABLE", tavily_credits=2),
+        _quiet_status(tavily_credits=3),
+    ]
+    calls: list[int] = []
+
+    def scripted(**_kwargs: object) -> PublicStatus:
+        calls.append(1)
+        outcome = outcomes.pop(0)
+        if isinstance(outcome, Exception):
+            raise outcome
+        assert isinstance(outcome, PublicStatus)
+        return outcome
+
+    monkeypatch.setenv("TAVILY_API_KEY", TAVILY_SENTINEL)
+    monkeypatch.setattr("reproof.door.lookup_public_status", scripted)
+    budget = _door_budget(tmp_path / "limits.json", 100)
+    world = _world(FIXTURE.read_text(encoding="utf-8"))
+    states = []
+    for _ in range(3):
+        result = _run(world, public_lookup=None, public_budget=budget)
+        assert result.card is not None and result.card.public_status is not None
+        states.append((result.card.public_status.state, result.card.public_status.reused_from))
+    assert len(calls) == 3
+    assert states[0] == ("LOOKUP_UNAVAILABLE", "")
+    assert states[1] == ("LOOKUP_UNAVAILABLE", "")
+    assert states[2] == ("NO_PUBLIC_FINDINGS", "")
+    # Holds: 5 kept for the failure, 2 and 3 settled. 100 - 10 leaves exactly 90.
+    assert budget.reserve(90) is not None
+    assert budget.reserve(1) is None
 
 
 def test_public_step_omits_page_text_and_counts_model_cost() -> None:

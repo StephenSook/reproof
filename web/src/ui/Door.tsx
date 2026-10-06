@@ -143,9 +143,13 @@ function PublicStatusBlock({ status }: { status: Record<string, unknown> }) {
   const caps = status.caps;
   const capRecord = caps !== null && typeof caps === "object" ? (caps as Record<string, unknown>) : null;
   const state = typeof status.state === "string" ? status.state : "";
+  const reusedFrom = typeof status.reused_from === "string" ? status.reused_from : "";
   return (
     <div data-public-status={state || undefined}>
       <Field label="State" value={status.state} />
+      {reusedFrom ? (
+        <p data-reused-from={reusedFrom}>Reused lookup from {reusedFrom} UTC. This triage sent no Tavily call.</p>
+      ) : null}
       <Field label="Note" value={status.note} />
       {failed.length ? <Field label="Failed sources" value={failed} /> : null}
       {requestIds.map((requestId) => (
@@ -158,6 +162,9 @@ function PublicStatusBlock({ status }: { status: Record<string, unknown> }) {
         <p data-public-caps>
           Caps: {asText(capRecord.searches)} searches, {asText(capRecord.extract_urls)} extract URLs,{" "}
           {asText(capRecord.tavily_credits)} Tavily credits, {asText(capRecord.nemotron_calls)} Nemotron calls.
+          {typeof capRecord.tavily_credits_per_day === "number"
+            ? ` This server instance spends at most ${capRecord.tavily_credits_per_day} Tavily credits per UTC day.`
+            : null}
         </p>
       ) : null}
       {queries.length ? <Field label="Queries" value={queries} /> : null}

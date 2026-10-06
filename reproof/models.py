@@ -198,6 +198,8 @@ class PublicStatus(StrictModel):
     unrelated_rejected: int = Field(default=0, ge=0)
     source_file_rejected: int = Field(default=0, ge=0)
     latency_seconds: float = Field(default=0, ge=0)
+    # When set, this card reuses a lookup made at that UTC time and spent no credits itself.
+    reused_from: str = ""
 
 
 class TriageCard(StrictModel):

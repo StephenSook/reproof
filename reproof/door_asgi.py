@@ -16,6 +16,7 @@ from typing import Any
 
 from reproof.door import iter_cached_triage, scrub_text
 from reproof.door_limits import (
+    PublicBudget,
     begin,
     client_ip,
     cookie_header,
@@ -65,17 +66,19 @@ def _parse_arvo_id(body: bytes) -> int:
     return value
 
 
-def iter_triage_lines(arvo_id: int) -> Iterator[bytes]:
+def iter_triage_lines(arvo_id: int, budget: PublicBudget | None = None) -> Iterator[bytes]:
     """Yield one NDJSON line per door event. Lines are scrubbed."""
 
-    for event in iter_cached_triage(arvo_id):
+    for event in iter_cached_triage(arvo_id, public_budget=budget):
         raw = json.dumps(event, sort_keys=True, separators=(",", ":"))
         yield (scrub_text(raw) + "\n").encode("utf-8")
 
 
-def _limited_lines(arvo_id: int, visitor_id: str, store: Path) -> Iterator[bytes]:
+def _limited_lines(
+    arvo_id: int, visitor_id: str, store: Path, budget: PublicBudget
+) -> Iterator[bytes]:
     try:
-        yield from iter_triage_lines(arvo_id)
+        yield from iter_triage_lines(arvo_id, budget)
     finally:
         finish(visitor_id, store)
 
@@ -108,13 +111,16 @@ def dispatch(
     decision = begin(visitor, ip, now or datetime.now(UTC), store)
     if meta is not None and decision.minted:
         meta.set_cookie = cookie_header(decision.visitor_id, secure)
+    limits = load_limits()
     if not decision.allowed:
-        message = _json_bytes({"error": decision.error, "limits": load_limits().public()})
+        message = _json_bytes({"error": decision.error, "limits": limits.public()})
         return decision.status, "application/json; charset=utf-8", iter((message,))
+    # Tavily credits on this instance share the triage count file and its lock.
+    budget = PublicBudget(store=store, limits=limits)
     return (
         200,
         "application/x-ndjson; charset=utf-8",
-        _limited_lines(arvo_id, decision.visitor_id, store),
+        _limited_lines(arvo_id, decision.visitor_id, store, budget),
     )
 
 

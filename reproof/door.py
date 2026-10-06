@@ -6,13 +6,14 @@ creation, and this entry point never creates a checkpoint.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import time
 from collections.abc import Callable, Iterator
 from dataclasses import dataclass
 from datetime import UTC, datetime
-from typing import Any, Literal
+from typing import TYPE_CHECKING, Any, Literal
 
 from pydantic import Field, model_validator
 
@@ -48,14 +49,26 @@ from reproof.provenance import source_sha256, text_sha256
 from reproof.public_match import FRAME_MIN_LENGTH
 from reproof.public_model import NEMOTRON_CALL_BUDGET
 from reproof.public_status import attach_public_status, lookup_public_status
-from reproof.public_tavily import MAX_EXTRACT_URLS, MAX_SEARCHES, TAVILY_CREDIT_BUDGET
+from reproof.public_tavily import (
+    ADVANCED_SEARCH_ESTIMATE,
+    MAX_EXTRACT_URLS,
+    MAX_SEARCHES,
+    CreditLedger,
+    extract_estimate,
+)
 from reproof.sandbox import CheckpointError, SandboxRunner
 from reproof.triage import _verdict
+
+if TYPE_CHECKING:
+    from reproof.door_limits import PublicBudget
 
 SECRET_ENV_NAMES = ("NEBIUS_API_KEY", "NEBIUS_PROJECT_ID", "TAVILY_API_KEY")
 NO_LOCAL_SLICE = "The server does not create a replacement checkpoint from a local slice."
 NO_FRAME_NOTE = "No measured crash frame was available, so no search was sent."
 MISSING_KEY_NOTE = "TAVILY_API_KEY is not set"
+BUDGET_SPENT_NOTE = "daily Tavily budget for this server instance is spent"
+# Two advanced searches and one basic extract of up to five URLs. The door's ledger stops here.
+LOOKUP_MAX_CREDITS = MAX_SEARCHES * ADVANCED_SEARCH_ESTIMATE + extract_estimate(MAX_EXTRACT_URLS)
 DoorStepName = Literal["claim", "sandbox", "crash", "duplicates", "public_status", "verdict"]
 ClaimExtractor = Callable[[str], tuple[Claim, ModelCall]]
 
@@ -301,9 +314,44 @@ def _public_request(
     )
 
 
+def _lookup_key(request: PublicLookupRequest) -> str:
+    """Same measured crash, same key. The retrieval date is not part of it."""
+
+    fields = [
+        request.project,
+        request.crash_type,
+        list(request.frames),
+        request.owner,
+        request.repo,
+        request.project_site,
+        list(request.fix_commits),
+    ]
+    return hashlib.sha256(json.dumps(fields).encode("utf-8")).hexdigest()
+
+
+def _reused_status(stored: dict[str, Any], looked_up_at: str) -> PublicStatus:
+    """A lookup from the reuse window. This triage spent no credits and no model calls."""
+
+    status = PublicStatus.model_validate(stored)
+    note = (
+        f"Reused the lookup made at {looked_up_at}. This triage sent no Tavily or Nemotron "
+        f"call, so its credits are 0. The Tavily request ids are from that lookup. {status.note}"
+    )
+    return status.model_copy(
+        update={
+            "tavily_credits": 0,
+            "model_calls": [],
+            "latency_seconds": 0.0,
+            "reused_from": looked_up_at,
+            "note": note,
+        }
+    )
+
+
 def _lookup_status(
     request: PublicLookupRequest,
     public_lookup: PublicLookup | None,
+    budget: PublicBudget | None = None,
 ) -> PublicStatus:
     """Run the stage, or record why it did not run. A stub replaces the network."""
 
@@ -316,6 +364,21 @@ def _lookup_status(
             f"No Tavily search was sent. Failed sources: {MISSING_KEY_NOTE}.",
             failed_source=MISSING_KEY_NOTE,
         )
+    key = _lookup_key(request)
+    day = ""
+    if budget is not None:
+        reused = budget.reuse(key)
+        if reused is not None:
+            return _reused_status(*reused)
+        reserved_day = budget.reserve(LOOKUP_MAX_CREDITS)
+        if reserved_day is None:
+            cap = budget.limits.tavily_credits_per_day
+            return _lookup_unavailable(
+                f"No Tavily search was sent. The {BUDGET_SPENT_NOTE} ({cap} credits). "
+                "It resets at 00:00 UTC.",
+                failed_source=BUDGET_SPENT_NOTE,
+            )
+        day = reserved_day
     try:
         status = lookup_public_status(
             project=request.project,
@@ -326,26 +389,51 @@ def _lookup_status(
             fix_commits=request.fix_commits,
             project_site=request.project_site,
             retrieved_on=request.retrieved_on,
+            ledger=CreditLedger(limit=LOOKUP_MAX_CREDITS),
             crawl_fallback=False,
         )
     except Exception as error:
         # A lookup failure must not drop the reproduction that already finished.
         reason = scrub_text(str(error)).replace("\n", " ")[:300]
         failed_source = f"public status failed: {reason}"
+        if budget is not None:
+            # The credits spent before the failure are unknown, so the whole hold stays.
+            budget.settle(day, reserved=LOOKUP_MAX_CREDITS, spent=None, key=key, status=None)
         # Searches may have run before the failure; their credits are not counted on this card.
         return _lookup_unavailable(
             f"The lookup did not finish, so nothing is claimed either way. "
             f"Failed sources: {failed_source}.",
             failed_source=failed_source,
         )
-    return _note_missing_repo(status, request.owner, request.project)
+    status = _note_missing_repo(status, request.owner, request.project)
+    if budget is not None:
+        keep = status.state != "LOOKUP_UNAVAILABLE"
+        budget.settle(
+            day,
+            reserved=LOOKUP_MAX_CREDITS,
+            spent=status.tavily_credits,
+            key=key,
+            status=status.model_dump(mode="json") if keep else None,
+        )
+    return status
 
 
-def _public_step_payload(status: PublicStatus) -> dict[str, Any]:
+def _public_step_payload(
+    status: PublicStatus, budget: PublicBudget | None = None
+) -> dict[str, Any]:
     """Fields the page shows. Matched lines and page text stay off this step."""
 
+    caps: dict[str, Any] = {
+        "searches": MAX_SEARCHES,
+        "extract_urls": MAX_EXTRACT_URLS,
+        "tavily_credits": LOOKUP_MAX_CREDITS,
+        "nemotron_calls": NEMOTRON_CALL_BUDGET,
+    }
+    if budget is not None:
+        caps["tavily_credits_per_day"] = budget.limits.tavily_credits_per_day
     return {
         "state": status.state,
+        "reused_from": status.reused_from,
         "credits": status.tavily_credits,
         "latency_seconds": status.latency_seconds,
         "request_ids": list(status.tavily_request_ids),
@@ -361,12 +449,7 @@ def _public_step_payload(status: PublicStatus) -> dict[str, Any]:
         "source_file_rejected": status.source_file_rejected,
         "model_request_ids": [call.request_id for call in status.model_calls],
         "model_cost_usd": round(sum(call.cost_usd for call in status.model_calls), 8),
-        "caps": {
-            "searches": MAX_SEARCHES,
-            "extract_urls": MAX_EXTRACT_URLS,
-            "tavily_credits": TAVILY_CREDIT_BUDGET,
-            "nemotron_calls": NEMOTRON_CALL_BUDGET,
-        },
+        "caps": caps,
         "evidence": [
             {
                 "url": item.url,
@@ -404,6 +487,7 @@ def iter_cached_triage(
     runner: SandboxRunner | None = None,
     extractor: ClaimExtractor | None = None,
     public_lookup: PublicLookup | None = None,
+    public_budget: PublicBudget | None = None,
 ) -> Iterator[dict[str, Any]]:
     """Yield live steps, then one result. A missing checkpoint is NEEDS_INFO."""
 
@@ -576,11 +660,12 @@ def iter_cached_triage(
             index=index,
         ),
         public_lookup,
+        public_budget,
     )
     card = attach_public_status(card, status).model_copy(
         update={"wall_seconds": round(time.perf_counter() - started, 6)}
     )
-    steps.append(_step("public_status", _public_step_payload(status)))
+    steps.append(_step("public_status", _public_step_payload(status, public_budget)))
     yield {"type": "step", "step": steps[-1].model_dump(mode="json")}
     steps.append(
         _step(
@@ -625,6 +710,7 @@ def run_cached_triage(
     runner: SandboxRunner | None = None,
     extractor: ClaimExtractor | None = None,
     public_lookup: PublicLookup | None = None,
+    public_budget: PublicBudget | None = None,
 ) -> DoorResult:
     """Run one cached triage and return its result, including a NEEDS_INFO refusal."""
 
@@ -637,6 +723,7 @@ def run_cached_triage(
         runner=runner,
         extractor=extractor,
         public_lookup=public_lookup,
+        public_budget=public_budget,
     ):
         if event["type"] == "result":
             found = DoorResult.model_validate(event["result"])

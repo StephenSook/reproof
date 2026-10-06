@@ -400,6 +400,15 @@ shares 60 triages per day. The Python service keeps the counts. On Vercel, each 
 keeps its own count file, and instances do not share a disk. A refused start returns HTTP 429 and
 does not invent a verdict.
 
+The public-status lookup on the door spends at most 5 Tavily credits per triage (2 advanced searches
+and one basic extract of up to 5 URLs), and its credit ledger stops there. Before a lookup, the door
+holds those 5 credits against a cap of 100 credits per UTC day on that instance, then replaces the
+hold with the credits Tavily reported. A lookup that fails keeps the whole hold, because its spend is
+unknown. When the cap is spent, no search is sent and the state is `LOOKUP_UNAVAILABLE`. A lookup of
+the same measured crash in the last 60 minutes is reused. The page then shows the time of the
+original lookup and its Tavily request ids, and this triage's credits are 0. A `LOOKUP_UNAVAILABLE`
+result is never reused. The cap and the window are in `reproof/assets/limits.json`.
+
 The triage service is a Vercel Python function beside the Next.js app, configured in `vercel.json`.
 The measured runtime tree is 166,799,055 bytes. A fresh local process imported `reproof.door` in
 3.615514 seconds. That figure is a local import, not a deployed cold start. `maxDuration` is 120

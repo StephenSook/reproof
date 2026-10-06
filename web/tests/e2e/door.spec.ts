@@ -221,6 +221,38 @@ test("an unavailable lookup is not shown as no findings", async ({ page }) => {
   await expect(block.getByText("No public page passed the checks for this crash.")).toHaveCount(0);
 });
 
+test("a reused lookup names its time and the daily credit cap", async ({ page }) => {
+  const payload = {
+    state: "NO_PUBLIC_FINDINGS",
+    reused_from: "2026-10-06T01:00:00+00:00",
+    credits: 0,
+    latency_seconds: 0,
+    request_ids: ["tavily-req-earlier"],
+    queries: ["jq heap buffer overflow decToString"],
+    domains: ["github.com"],
+    failed_sources: [],
+    note: "Reused the lookup made at 2026-10-06T01:00:00+00:00.",
+    model_request_ids: [],
+    model_cost_usd: 0,
+    caps: { searches: 2, extract_urls: 5, tavily_credits: 5, nemotron_calls: 120, tavily_credits_per_day: 100 },
+    evidence: [],
+    draft: [],
+  };
+  const body = [JSON.stringify({ type: "step", step: { step: "public_status", kind: null, payload } }), ""].join(
+    "\n",
+  );
+  await page.route("**/api/triage", (route) =>
+    route.fulfill({ status: 200, contentType: "application/x-ndjson", body }),
+  );
+  await page.goto("/");
+  await page.getByRole("button", { name: "Triage", exact: true }).click();
+  const block = page.locator('[data-step="public_status"] [data-public-status]');
+  await expect(block.locator('[data-reused-from="2026-10-06T01:00:00+00:00"]')).toBeVisible();
+  await expect(block.locator("[data-public-caps]")).toContainText("5 Tavily credits");
+  await expect(block.locator("[data-public-caps]")).toContainText("at most 100 Tavily credits per UTC day");
+  await expect(block.locator('[data-tavily-request-id="tavily-req-earlier"]')).toBeVisible();
+});
+
 test("axe reports zero violations", async ({ page }) => {
   for (const width of widths) {
     await page.setViewportSize({ width, height: 900 });
