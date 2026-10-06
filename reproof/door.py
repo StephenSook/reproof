@@ -343,6 +343,7 @@ def _reused_status(stored: dict[str, Any], looked_up_at: str) -> PublicStatus:
     return status.model_copy(
         update={
             "tavily_credits": 0,
+            "tavily_unanswered_credits": 0,
             "model_calls": [],
             "latency_seconds": 0.0,
             "reused_from": looked_up_at,
@@ -422,12 +423,13 @@ def _lookup_status(
     status = _note_missing_repo(status, request.owner, request.project)
     if budget is not None:
         keep = status.state != "LOOKUP_UNAVAILABLE"
-        # Never settle below the hold: a call that errored may be billed and still unreported.
-        # A report above the hold is charged as reported, so the day count stays honest.
+        # Charge reported credits plus the estimate of every call sent with no answer, and
+        # never less than the hold. A report above the hold is charged as reported.
+        possible = status.tavily_credits + status.tavily_unanswered_credits
         _settle_or_keep_hold(
             budget,
             day,
-            spent=max(status.tavily_credits, LOOKUP_MAX_CREDITS),
+            spent=max(possible, LOOKUP_MAX_CREDITS),
             key=key,
             status=status.model_dump(mode="json") if keep else None,
         )
@@ -467,6 +469,7 @@ def _public_step_payload(
         "state": status.state,
         "reused_from": status.reused_from,
         "credits": status.tavily_credits,
+        "unanswered_credits": status.tavily_unanswered_credits,
         "latency_seconds": status.latency_seconds,
         "request_ids": list(status.tavily_request_ids),
         "queries": list(status.queries_sent),

@@ -559,6 +559,9 @@ def test_a_later_search_error_keeps_the_first_result_list() -> None:
     assert status.state == "PUBLICLY_KNOWN_OPEN"
     assert status.queries_sent == ["jq Stack-buffer-overflow decNaNs"]
     assert any(item.startswith("search stopped: error:") for item in status.failed_sources)
+    # The failed search is not reported as charged, but its estimate is carried for the budget.
+    assert status.tavily_credits == 3
+    assert status.tavily_unanswered_credits == 2
 
 
 def test_a_later_response_without_request_id_is_kept_as_sent() -> None:

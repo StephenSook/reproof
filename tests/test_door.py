@@ -741,6 +741,23 @@ def test_a_report_above_the_hold_is_charged_as_reported(
     assert budget.reserve(1) is None
 
 
+def test_unanswered_estimates_are_charged_to_the_day(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    def partly_answered(**_kwargs: object) -> PublicStatus:
+        return _quiet_status(tavily_credits=4, tavily_unanswered_credits=2)
+
+    monkeypatch.setenv("TAVILY_API_KEY", TAVILY_SENTINEL)
+    monkeypatch.setattr("reproof.door.lookup_public_status", partly_answered)
+    budget = _door_budget(tmp_path / "limits.json", 100)
+    result = _run(
+        _world(FIXTURE.read_text(encoding="utf-8")), public_lookup=None, public_budget=budget
+    )
+    assert _public_step(result)["unanswered_credits"] == 2
+    assert budget.reserve(94) is not None
+    assert budget.reserve(1) is None
+
+
 @pytest.mark.parametrize("method", ["reuse", "reserve"])
 def test_a_failing_budget_store_sends_no_search(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path, method: str

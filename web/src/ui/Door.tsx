@@ -133,6 +133,8 @@ function numberField(record: Record<string, unknown>, key: string): number | nul
 
 function PublicStatusBlock({ status }: { status: Record<string, unknown> }) {
   const credits = numberField(status, "credits") ?? numberField(status, "tavily_credits");
+  const unanswered =
+    numberField(status, "unanswered_credits") ?? numberField(status, "tavily_unanswered_credits") ?? 0;
   const requestIds = textList(status.request_ids).length
     ? textList(status.request_ids)
     : textList(status.tavily_request_ids);
@@ -158,6 +160,11 @@ function PublicStatusBlock({ status }: { status: Record<string, unknown> }) {
         </p>
       ))}
       <Field label="Tavily credits" value={credits} />
+      {unanswered > 0 ? (
+        <p data-unanswered-credits={unanswered}>
+          Plus an estimated {unanswered} credits for calls that were sent and got no answer. Tavily did not report them.
+        </p>
+      ) : null}
       {capRecord ? (
         <p data-public-caps>
           Caps: {asText(capRecord.searches)} searches, {asText(capRecord.extract_urls)} extract URLs,{" "}

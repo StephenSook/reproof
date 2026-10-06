@@ -536,6 +536,7 @@ def lookup_public_status(
     book = ledger if ledger is not None else CreditLedger()
     budget = model_budget if model_budget is not None else ModelBudget()
     call_start = len(book.calls)
+    unanswered_start = book.unanswered
     domains = list(default_domains(project_site))
     extra_hosts = _site_hosts(project_site)
     commits = _fix_commits(fix_commits)
@@ -582,6 +583,7 @@ def lookup_public_status(
             tavily_request_ids=[call.request_id for call in tavily if call.request_id != "missing"],
             tavily_calls=tavily,
             tavily_credits=sum(call.credits for call in new_calls),
+            tavily_unanswered_credits=book.unanswered - unanswered_start,
             model_calls=list(model_calls),
             draft=draft,
             host_rejected=counts["host"],

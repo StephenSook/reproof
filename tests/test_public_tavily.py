@@ -302,8 +302,23 @@ def test_api_error_is_not_charged_and_the_key_is_scrubbed(monkeypatch: pytest.Mo
         _search(client=client, ledger=ledger)
     assert ledger.used == 0
     assert ledger.calls == []
+    # Not reported as charged, but the budget counts the estimate: it may have been billed.
+    assert ledger.unanswered == ADVANCED_SEARCH_ESTIMATE
     assert "tvly-test-secret-value" not in str(caught.value)
     assert "[redacted]" in str(caught.value)
+
+
+def test_unanswered_estimates_count_against_the_budget() -> None:
+    issue = "https://github.com/jqlang/jq/issues/1"
+    client = FakeTavily(extracts=[RuntimeError("extract timed out")])
+    ledger = CreditLedger(limit=5, used=2, unanswered=2)
+    with pytest.raises(TavilyApiError):
+        perform_extract(urls=[issue], frames=FRAMES, client=client, ledger=ledger)
+    assert ledger.used == 2
+    assert ledger.unanswered == 3
+    refused = perform_extract(urls=[issue], frames=FRAMES, client=client, ledger=ledger)
+    assert refused.stopped == "budget"
+    assert len(client.extract_calls) == 1
 
 
 def test_budget_stops_before_the_second_search() -> None:

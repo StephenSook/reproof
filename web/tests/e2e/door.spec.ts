@@ -92,6 +92,7 @@ test("a canned triage shows public status without page text", async ({ page }) =
   const payload = {
     state: "PUBLICLY_KNOWN_OPEN",
     credits: 2,
+    unanswered_credits: 2,
     latency_seconds: 1.2,
     request_ids: ["tavily-req-1"],
     queries: ["jq Stack-buffer-overflow decNaNs"],
@@ -179,6 +180,7 @@ test("a canned triage shows public status without page text", async ({ page }) =
     await expect(block.locator("[data-public-caps]")).toContainText("200 Tavily credits");
     await expect(block.locator("[data-public-caps]")).toContainText("120 Nemotron calls");
     await expect(block).toContainText("Tavily credits: 2");
+    await expect(block.locator('[data-unanswered-credits="2"]')).toContainText("Tavily did not report them");
     await expect(block).toContainText("blocked link");
     await expect(page.locator('a[href^="javascript"]')).toHaveCount(0);
     await expect(page.getByText("NAN1000000000")).toHaveCount(0);

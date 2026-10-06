@@ -81,15 +81,21 @@ class CreditLedger:
     used: int = 0
     usage_missing: bool = False
     calls: list[TavilyCall] = field(default_factory=list)
+    # Estimates for calls that were sent and got no answer. Tavily may have billed them,
+    # so the budget counts them, but they are not reported credits.
+    unanswered: int = 0
 
     def ensure(self, estimate: int) -> None:
         if self.usage_missing:
             raise TavilyStopped("an earlier response had no usage.credits", kind="usage_missing")
         if estimate < 0:
             raise ValueError("estimate must be >= 0")
-        if self.used + estimate > self.limit:
-            remain = self.limit - self.used
+        if self.used + self.unanswered + estimate > self.limit:
+            remain = self.limit - self.used - self.unanswered
             raise TavilyStopped(f"need {estimate} credits and {remain} remain", kind="budget")
+
+    def note_unanswered(self, estimate: int) -> None:
+        self.unanswered += estimate
 
     def record(self, call: TavilyCall) -> None:
         self.used += call.credits
@@ -481,6 +487,7 @@ def perform_search(
                 timeout=SEARCH_TIMEOUT_S,
             )
         except TavilyApiError as exc:
+            book.note_unanswered(ADVANCED_SEARCH_ESTIMATE)
             if not sent:
                 raise
             # A later search failed. Keep what the earlier responses already gave.
@@ -605,15 +612,19 @@ def perform_extract(
         return ExtractOutcome((), (), (), exc.kind, {})
     api = _client(client)
     started = time.perf_counter()
-    raw = _call(
-        api,
-        "extract",
-        urls=list(chosen),
-        query=query,
-        chunks_per_source=EXTRACT_CHUNKS,
-        include_usage=True,
-        timeout=EXTRACT_TIMEOUT_S,
-    )
+    try:
+        raw = _call(
+            api,
+            "extract",
+            urls=list(chosen),
+            query=query,
+            chunks_per_source=EXTRACT_CHUNKS,
+            include_usage=True,
+            timeout=EXTRACT_TIMEOUT_S,
+        )
+    except TavilyApiError:
+        book.note_unanswered(extract_estimate(len(chosen)))
+        raise
     try:
         call = _account(
             book,
@@ -655,16 +666,20 @@ def perform_crawl(
         return CrawlOutcome((), (), exc.kind, {})
     api = _client(client)
     started = time.perf_counter()
-    raw = _call(
-        api,
-        "crawl",
-        url=url,
-        limit=CRAWL_PAGE_LIMIT,
-        max_depth=1,
-        extract_depth="basic",
-        include_usage=True,
-        timeout=120,
-    )
+    try:
+        raw = _call(
+            api,
+            "crawl",
+            url=url,
+            limit=CRAWL_PAGE_LIMIT,
+            max_depth=1,
+            extract_depth="basic",
+            include_usage=True,
+            timeout=120,
+        )
+    except TavilyApiError:
+        book.note_unanswered(estimate)
+        raise
     try:
         call = _account(
             book,

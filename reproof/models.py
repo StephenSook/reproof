@@ -189,6 +189,8 @@ class PublicStatus(StrictModel):
     tavily_request_ids: list[str]
     tavily_calls: list[PublicTavilyCall]
     tavily_credits: int = Field(default=0, ge=0)
+    # Estimate for calls sent with no answer. Tavily did not report them; budgets count them.
+    tavily_unanswered_credits: int = Field(default=0, ge=0)
     model_calls: list[ModelCall]
     draft: list[PublicDraftLine]
     host_rejected: int = Field(default=0, ge=0)
