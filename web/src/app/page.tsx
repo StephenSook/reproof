@@ -5,38 +5,117 @@ import { limitsSentence } from "@/lib/measured";
 import { Door } from "@/ui/Door";
 import { Mark } from "@/ui/Mark";
 import { Measured } from "@/ui/Measured";
+import { SquashButton } from "@/ui/SquashButton";
+import { VerdictStamp } from "@/ui/Stamp";
+
+const REPO_URL = "https://github.com/StephenSook/reproof";
+
+const LEGEND = [
+  {
+    verdict: "REPRODUCED",
+    text: "The vulnerable build produced a measured sanitizer crash and the fixed build was clean.",
+  },
+  { verdict: "DUPLICATE", text: "The measured crash state matched one or more public OSV records." },
+  { verdict: "NOT_REPRODUCED", text: "The vulnerable build completed cleanly without a sanitizer crash." },
+  { verdict: "NEEDS_INFO", text: "The run cannot support another verdict. The card says what is missing." },
+];
 
 export default function Page() {
+  const count = catalog.tasks.length;
   return (
-    <main className="mx-auto min-w-0 max-w-6xl px-4 py-8">
-      <a
-        className="absolute left-4 top-4 -translate-y-24 bg-[var(--card)] px-3 py-2 focus:translate-y-0"
-        href="#reports"
-      >
+    <div className="page">
+      <a className="skip-link" href="#reports">
         Skip to reports
       </a>
-      <header className="flex min-w-0 items-center gap-3">
-        <Mark />
-        <div>
-          <p className="text-sm text-[var(--muted)]">No login. No key.</p>
-          <h1 className="text-5xl sm:text-6xl">Reproof</h1>
-        </div>
-      </header>
-      <p className="mt-4 max-w-3xl">
-        Pick one of the 10 public ARVO reports. Triage runs the claim, both builds, the crash parse,
-        the duplicate search, and a public-status lookup.
-      </p>
-      <p className="mt-3 max-w-3xl border border-[var(--line)] bg-[var(--card)] p-3" data-limits>
-        {limitsSentence(limits)}
-      </p>
-      <Door recordedTasks={evaluation.tasks} tasks={catalog.tasks} />
-      <Measured evaluation={evaluation} />
-      <footer className="mt-10 text-sm text-[var(--muted)]">
-        Fonts are Bricolage Grotesque, Figtree, and Caveat, used under the SIL Open Font License.{" "}
-        <a className="underline" href="/fonts-LICENSE.txt">
-          Font license
+      <header className="site-head">
+        <a aria-label="Reproof, top of page" className="brand-pill" href="#top">
+          <Mark size={34} />
+          <span className="display">Reproof</span>
         </a>
+        <nav aria-label="Page sections">
+          <ul className="nav-pills">
+            <li>
+              <a className="nav-pill" href="#reports">
+                Reports
+              </a>
+            </li>
+            <li>
+              <a className="nav-pill" href="#measured">
+                Measured
+              </a>
+            </li>
+            <li>
+              <a className="nav-pill" href={REPO_URL}>
+                Code
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <main className="grid min-w-0 gap-3" id="top">
+        <section aria-labelledby="hero-title" className="section-card tone-ink-section">
+          <div className="hero-grid">
+            <div className="min-w-0">
+              <p className="hand hero-note">No login. No key.</p>
+              <h1 className="hero-title" id="hero-title">
+                Reproof
+              </h1>
+              <p className="hero-tagline">Is this crash real, already reported, or already fixed?</p>
+              <p className="hero-lede">
+                Reproof reads a public security report and runs its input against the vulnerable and the fixed
+                build in disposable sandboxes. It searches OSV for the same crash and checks public pages. When a
+                page names a fixed version, it checks that the release&apos;s git tag contains the fix commit. A
+                person makes the decision. Reproof files nothing upstream.
+              </p>
+              <div className="hero-actions">
+                <SquashButton href="#reports" onInk>
+                  Pick a report
+                </SquashButton>
+                <SquashButton href="#measured" icon={"↓"} onInk variant="secondary">
+                  See the saved evaluation
+                </SquashButton>
+              </div>
+            </div>
+            <aside aria-labelledby="legend-title" className="legend-card">
+              <h2 id="legend-title">What a verdict says</h2>
+              <ul className="legend-list">
+                {LEGEND.map((row) => (
+                  <li key={row.verdict}>
+                    <VerdictStamp className="stamp-small" verdict={row.verdict} />
+                    <p>{row.text}</p>
+                  </li>
+                ))}
+              </ul>
+              <p className="legend-foot">Public status is a separate line. It does not change the verdict.</p>
+            </aside>
+          </div>
+        </section>
+        <section aria-labelledby="door-title" className="section-card tone-sky-section">
+          <div className="section-heading door-intro">
+            <p className="hand">pick one, then run it</p>
+            <h2 id="door-title">{count} public reports</h2>
+            <p className="section-lede">
+              Pick one of the {count} public ARVO reports. Triage runs the claim, both builds, the crash parse, the
+              duplicate search, and a public-status lookup.
+            </p>
+            <p className="limits-note" data-limits>
+              {limitsSentence(limits)}
+            </p>
+          </div>
+          <Door recordedTasks={evaluation.tasks} tasks={catalog.tasks} />
+        </section>
+        <Measured evaluation={evaluation} />
+      </main>
+      <footer className="site-foot">
+        <p>
+          Reproof is open source under Apache-2.0.{" "}
+          <a href={REPO_URL}>Source on GitHub</a>
+        </p>
+        <p>
+          Fonts are Bricolage Grotesque, Figtree, and Caveat, used under the SIL Open Font License.{" "}
+          <a href="/fonts-LICENSE.txt">Font license</a>
+        </p>
       </footer>
-    </main>
+    </div>
   );
 }

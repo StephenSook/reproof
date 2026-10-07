@@ -4,6 +4,8 @@ import { useState } from "react";
 import { takeLines, type DoorStepEvent } from "@/lib/events";
 import { money, seconds } from "@/lib/measured";
 import { recordedView, type RecordedTask } from "@/lib/recorded";
+import { SquashButton } from "@/ui/SquashButton";
+import { Stamp } from "@/ui/Stamp";
 
 export type ReportTask = {
   arvo_id: number;
@@ -266,7 +268,7 @@ function StepView({ step }: { step: DoorStepEvent }) {
   const operationId = typeof payload.operation_uuid === "string" ? payload.operation_uuid : undefined;
   return (
     <li
-      className="min-w-0 border-l-4 border-[var(--line)] py-2 pl-3"
+      className="min-w-0 rounded-2xl border-2 border-[var(--ink)] bg-[var(--card)] px-4 py-3"
       data-kind={step.kind ?? undefined}
       data-operation-id={operationId}
       data-step={step.step}
@@ -363,12 +365,14 @@ function FinalCard({ result, source }: { result: ShownResult; source: "LIVE" | "
   return (
     <article
       aria-label="Verdict"
-      className="mt-4 min-w-0 border-4 border-[var(--line)] bg-[var(--card)] p-4"
+      className="mt-4 min-w-0 rounded-[1.25rem] border-[3px] border-[var(--ink)] bg-[var(--card)] p-4 shadow-[5px_6px_0_var(--ink)]"
       data-result
       data-source={source}
       data-verdict={result.verdict}
     >
-      <p className="stamp text-[var(--violet)]">{source}</p>
+      <Stamp className="stamp-small" tone="slate">
+        {source}
+      </Stamp>
       <h2 className="mt-2 text-4xl">{result.verdict}</h2>
       <p>{gloss(result.verdict)}</p>
       {source === "RECORDED" ? (
@@ -528,8 +532,9 @@ export function Door({
   }
 
   return (
-    <div className="mt-8 grid min-w-0 gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+    <div className="door-grid">
       <form
+        className="min-w-0"
         id="reports"
         onSubmit={(event) => {
           event.preventDefault();
@@ -537,69 +542,65 @@ export function Door({
         }}
       >
         <fieldset className="min-w-0 border-0 p-0">
-          <legend className="mb-3 font-[family-name:var(--font-display)] text-3xl">Reports</legend>
-          <div aria-label="ARVO reports" className="grid gap-2" role="radiogroup">
+          <legend className="picker-legend">Reports</legend>
+          <div aria-label="ARVO reports" className="picker" role="radiogroup">
             {tasks.map((task) => (
-              <label
-                className="grid min-h-11 cursor-pointer gap-1 border border-[var(--line)] bg-[var(--card)] px-3 py-3 has-[:checked]:border-[var(--violet)]"
-                data-task={task.arvo_id}
-                key={task.arvo_id}
-              >
-                <span className="flex flex-wrap gap-x-3">
-                  <input
-                    checked={task.arvo_id === current?.arvo_id}
-                    className="mt-1"
-                    name="arvo-report"
-                    onChange={() => setSelected(task.arvo_id)}
-                    type="radio"
-                    value={task.arvo_id}
-                  />
-                  <span>ARVO {task.arvo_id}</span>
-                  <span>{task.project}</span>
-                  <span>{task.osv_record_id}</span>
+              <label className="pick" data-task={task.arvo_id} key={task.arvo_id}>
+                <input
+                  checked={task.arvo_id === current?.arvo_id}
+                  name="arvo-report"
+                  onChange={() => setSelected(task.arvo_id)}
+                  type="radio"
+                  value={task.arvo_id}
+                />
+                <span className="grid min-w-0">
+                  <span className="pick-id">ARVO {task.arvo_id}</span>
+                  <span className="pick-osv">{task.osv_record_id}</span>
                 </span>
+                <span className="chip pick-project">{task.project}</span>
               </label>
             ))}
           </div>
         </fieldset>
       </form>
-      <section aria-labelledby="work-heading" className="min-w-0">
-        <h2 className="text-3xl" id="work-heading">
-          {current ? `ARVO ${current.arvo_id}` : "No report"}
-        </h2>
-        {current ? (
-          <>
-            <p className="mt-2 text-[var(--muted)]">{current.report_source}</p>
-            <pre className="mt-3 border border-[var(--line)] bg-[var(--card)] p-3" data-report>
-              {current.report_text}
-            </pre>
-          </>
-        ) : null}
-        <div className="mt-4 flex flex-wrap gap-3">
-          <button
-            className="min-h-11 border border-[var(--ink)] bg-[var(--ink)] px-4 text-[var(--paper)] disabled:opacity-60"
-            disabled={busy || !current}
-            form="reports"
-            type="submit"
-          >
-            {busy ? "Triage running" : "Triage"}
-          </button>
-          <button
-            className="min-h-11 border border-[var(--ink)] bg-[var(--card)] px-4 text-[var(--ink)] disabled:opacity-60"
-            disabled={busy || !current}
-            onClick={showRecorded}
-            type="button"
-          >
-            Show recorded result
-          </button>
+      <section aria-labelledby="work-heading" className="work">
+        <div className="report-card">
+          <div className="report-head">
+            <h2 id="work-heading">{current ? `ARVO ${current.arvo_id}` : "No report"}</h2>
+            {current ? <span className="chip">{current.project}</span> : null}
+            {current ? <span className="chip">{current.osv_record_id}</span> : null}
+          </div>
+          {current ? (
+            <>
+              <p className="report-source">{current.report_source}</p>
+              <pre className="report-text" data-report>
+                {current.report_text}
+              </pre>
+            </>
+          ) : null}
+          <div className="actions">
+            <SquashButton disabled={busy || !current} form="reports" icon={"▶"} type="submit">
+              {busy ? "Triage running" : "Triage"}
+            </SquashButton>
+            <SquashButton disabled={busy || !current} icon={"↺"} onClick={showRecorded} variant="secondary">
+              Show recorded result
+            </SquashButton>
+          </div>
+          <p className="action-note">
+            Triage makes real model, sandbox, and search calls now. Show recorded result makes none.
+          </p>
         </div>
         {notice ? (
-          <p className="mt-4 border border-[var(--amber)] bg-[var(--card)] p-3" role="alert">
+          <p className="notice" role="alert">
             {notice}
           </p>
         ) : null}
-        <div aria-busy={busy} aria-live="polite" className="mt-4">
-          {source ? <p className="stamp">{source}</p> : null}
+        <div aria-busy={busy} aria-live="polite" className="min-w-0">
+          {source ? (
+            <Stamp className="stamp-small" tone="slate">
+              {source}
+            </Stamp>
+          ) : null}
           <ol className="mt-2 grid list-none gap-2 p-0">
             {steps.map((step, index) => (
               <StepView key={`${step.step}-${step.kind ?? ""}-${index}`} step={step} />

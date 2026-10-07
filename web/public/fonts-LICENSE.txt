@@ -1,4 +1,4 @@
-The font files used by Labelhand are self-hosted copies of these families:
+The font files used by Reproof are self-hosted copies of these families:
 
 - Bricolage Grotesque
 - Figtree

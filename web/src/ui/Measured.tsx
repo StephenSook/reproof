@@ -1,4 +1,5 @@
-import { money, measuredSummary, seconds, type MeasuredEvaluation } from "@/lib/measured";
+import { money, measuredSummary, PHASE1_NOTE, seconds, type MeasuredEvaluation } from "@/lib/measured";
+import { verdictTone, Stamp } from "@/ui/Stamp";
 
 type MeasuredTask = {
   arvo_id: number;
@@ -15,36 +16,36 @@ type MeasuredFile = Omit<MeasuredEvaluation, "tasks"> & {
 
 export function Measured({ evaluation }: { evaluation: MeasuredFile }) {
   const lines = measuredSummary(evaluation);
+  const tiles = lines.filter((line) => line !== PHASE1_NOTE);
+  const verdictLines = new Set(tiles.filter((line) => /^\d+ [A-Z_]+$/.test(line)));
   return (
-    <section aria-labelledby="measured-heading" className="mt-12 border-t border-[var(--line)] pt-8" id="measured">
-      <h2 className="text-4xl" id="measured-heading">
-        Measured
-      </h2>
-      <p className="mt-3 max-w-3xl text-[var(--muted)]">
-        These numbers are the saved ARVO 10 evaluation. They are not a new run.
-      </p>
-      <ul className="mt-4 grid gap-1">
-        {lines.map((line) => (
-          <li key={line}>{line}</li>
+    <section aria-labelledby="measured-heading" className="section-card tone-sage-section" id="measured">
+      <div className="section-heading">
+        <p className="hand">the saved run, not a new one</p>
+        <h2 id="measured-heading">Measured</h2>
+        <p className="section-lede">These numbers are the saved ARVO 10 evaluation. They are not a new run.</p>
+      </div>
+      <ul className="measured-tiles">
+        {tiles.map((line) => (
+          <li className={`measured-tile ${verdictLines.has(line) ? "measured-tile-lead" : ""}`} key={line}>
+            {line}
+          </li>
         ))}
       </ul>
-      <ol className="mt-6 grid list-none gap-3 p-0">
+      {lines.includes(PHASE1_NOTE) ? <p className="measured-note">{PHASE1_NOTE}</p> : null}
+      <ol className="measured-rows">
         {evaluation.tasks.map((task) => (
-          <li
-            className="flex min-w-0 flex-wrap gap-x-4 gap-y-1 border border-[var(--line)] bg-[var(--card)] px-3 py-3"
-            data-measured-task={task.arvo_id}
-            key={task.arvo_id}
-          >
-            <span>ARVO {task.arvo_id}</span>
+          <li className="measured-row" data-measured-task={task.arvo_id} key={task.arvo_id}>
+            <span className="display">ARVO {task.arvo_id}</span>
             <span>{task.project}</span>
-            <span data-verdict={task.verdict}>{task.verdict}</span>
+            <Stamp className="stamp-small" data-verdict={task.verdict} tone={verdictTone(task.verdict)}>
+              {task.verdict}
+            </Stamp>
             <span>
-              {task.duplicate_candidates.length
-                ? task.duplicate_candidates.join(", ")
-                : "no duplicate candidate"}
+              {task.duplicate_candidates.length ? task.duplicate_candidates.join(", ") : "no duplicate candidate"}
             </span>
-            <span>{money(task.cost_usd)} USD</span>
-            <span>{seconds(task.wall_seconds)} seconds</span>
+            <span className="num">{money(task.cost_usd)} USD</span>
+            <span className="num">{seconds(task.wall_seconds)} seconds</span>
           </li>
         ))}
       </ol>
