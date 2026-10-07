@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import functools
+import itertools
 import json
 import os
 import subprocess
@@ -23,6 +25,7 @@ from reproof.door import (
     public_payload,
     run_cached_triage,
 )
+from reproof.door_asgi import iter_triage_lines
 from reproof.door_data import (
     ASSETS_DIR,
     DOOR_PROJECTS,
@@ -46,7 +49,8 @@ from reproof.models import (
     Verdict,
 )
 from reproof.provenance import source_sha256, text_sha256
-from reproof.public_status import UrllibGitHub
+from reproof.public_match import build_draft_line
+from reproof.public_status import UrllibGitHub, _sentence
 from reproof.sandbox import CheckpointError, CheckpointRegistry, SandboxRunner
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -165,7 +169,9 @@ class FakeRunner:
         return operation("vul"), operation("fix")
 
 
-def _world(stderr: str, *, leak_credentials: bool = False) -> dict[str, object]:
+def _world(
+    stderr: str, *, leak_credentials: bool = False, include_other: bool = True
+) -> dict[str, object]:
     crash = parse_crash(stderr)
     records = [
         parse_osv_record(_raw_record("OSV-SELF", "jq", TASK_ID, crash.state)),
@@ -173,6 +179,8 @@ def _world(stderr: str, *, leak_credentials: bool = False) -> dict[str, object]:
     ]
     parsed = [record for record in records if record is not None]
     assert [record.id for record in parsed] == ["OSV-SELF", "OSV-OTHER"]
+    if not include_other:
+        parsed = parsed[:1]
     report_text = parsed[0].report_text
     catalog = {
         "tasks": [
@@ -984,3 +992,119 @@ def test_public_status_redacts_the_tavily_key(monkeypatch: pytest.MonkeyPatch) -
     rendered = json.dumps(public_payload(result), sort_keys=True)
     assert secret not in rendered
     assert "[redacted]" in json.dumps(_public_step(result))
+
+
+WEB_STREAM_FIXTURE = ROOT / "web" / "tests" / "fixtures" / "door-stream.ndjson"
+FIXED_ADVISORY = "https://github.com/jqlang/jq/security/advisories/GHSA-686w-5m7m-54vc"
+
+
+def _fixed_advisory_status() -> PublicStatus:
+    """A CONTAINS_FIX lookup. The draft line is written by the producer's own sentence code."""
+
+    evidence = PublicEvidence.model_validate(
+        {
+            "url": FIXED_ADVISORY,
+            "title": "GHSA-686w-5m7m-54vc",
+            "frames_matched": ["decToString", "decNumberToString"],
+            "matched_lines": [FORBIDDEN_PAGE_TEXT],
+            "cve_ids": ["CVE-2023-50246"],
+            "ghsa_ids": ["GHSA-686w-5m7m-54vc"],
+            "patched_versions": ["1.7.1"],
+            "mentioned_commits": [],
+            "relation": "SAME_BUG",
+            "upstream_status": "FIXED",
+            "upstream_version": "1.7.1",
+            "ancestry": "CONTAINS_FIX",
+            "checked_tag": "jq-1.7.1",
+            "checked_commit": "71c2ab509a8628dbbad4bc7b3f98a64aa90d3297",
+            "version_sources": ["github_advisory_api:1.7.1"],
+            "stale_fields": [],
+            "quotes": [FORBIDDEN_PAGE_TEXT],
+            "dispute": False,
+            "match_reason": "top frame and crash type",
+            "model_request_id": "public-model",
+        }
+    )
+    line = build_draft_line(
+        sentence=_sentence(evidence, "jq"),
+        source_url=FIXED_ADVISORY,
+        source_date="2026-10-06",
+        confidence="high",
+    )
+    calls = [
+        PublicTavilyCall(operation="search", request_id="tavily-req-a", credits=2, query="q1"),
+        PublicTavilyCall(operation="search", request_id="tavily-req-b", credits=2, query="q2"),
+        PublicTavilyCall(operation="extract", request_id="tavily-req-c", credits=1, query="q3"),
+    ]
+    return _quiet_status(
+        state="PUBLICLY_KNOWN_FIXED",
+        evidence=[evidence],
+        queries_sent=["jq heap buffer overflow decToString", "decNumberToString crash"],
+        domains=["github.com"],
+        note="One advisory version contains the recorded fix.",
+        tavily_request_ids=[call.request_id for call in calls],
+        tavily_calls=calls,
+        tavily_credits=sum(call.credits for call in calls),
+        model_calls=[_public_model_call()],
+        draft=[
+            PublicDraftLine(
+                text=line.text,
+                source_url=line.source_url,
+                source_date=line.source_date,
+                confidence="high",
+            )
+        ],
+    )
+
+
+def _web_stream(monkeypatch: pytest.MonkeyPatch) -> str:
+    """The NDJSON the door sends, from the real producer and serializer with stubbed services."""
+
+    world = _world(FIXTURE.read_text(encoding="utf-8"), include_other=False)
+    clock = itertools.count(start=100.0, step=2.35)
+    monkeypatch.setattr("reproof.door.time", SimpleNamespace(perf_counter=lambda: next(clock)))
+    monkeypatch.setattr("reproof.door.source_sha256", lambda: "f" * 64)
+    monkeypatch.setattr(
+        "reproof.door_asgi.iter_cached_triage",
+        functools.partial(
+            iter_cached_triage,
+            catalog=world["catalog"],
+            manifest=world["manifest"],
+            project_index=world["index"],
+            runner=world["runner"],
+            extractor=lambda _text: (_claim(), _model_call()),
+            public_lookup=lambda _request: _fixed_advisory_status(),
+        ),
+    )
+    return b"".join(iter_triage_lines(TASK_ID)).decode("utf-8")
+
+
+def test_web_stream_fixture_matches_the_producer(monkeypatch: pytest.MonkeyPatch) -> None:
+    text = _web_stream(monkeypatch)
+    if os.environ.get("REPROOF_WRITE_WEB_FIXTURE") == "1":
+        WEB_STREAM_FIXTURE.parent.mkdir(parents=True, exist_ok=True)
+        WEB_STREAM_FIXTURE.write_text(text, encoding="utf-8", newline="\n")
+    stored = WEB_STREAM_FIXTURE.read_text(encoding="utf-8")
+    assert stored == text, (
+        "web/tests/fixtures/door-stream.ndjson is stale. Regenerate it with "
+        "REPROOF_WRITE_WEB_FIXTURE=1 uv run pytest tests/test_door.py -k web_stream"
+    )
+    events = [json.loads(line) for line in text.splitlines()]
+    steps = [event["step"] for event in events if event["type"] == "step"]
+    assert [(step["step"], step["kind"]) for step in steps] == [
+        ("claim", None),
+        ("sandbox", "vul"),
+        ("sandbox", "fix"),
+        ("crash", None),
+        ("duplicates", None),
+        ("public_status", None),
+        ("verdict", None),
+    ]
+    assert events[-1]["type"] == "result"
+    assert events[-1]["result"]["verdict"] == "REPRODUCED"
+    public = steps[5]["payload"]
+    assert public["evidence"][0]["ancestry"] == "CONTAINS_FIX"
+    assert public["draft"][0]["text"].startswith(
+        "Fixed in jq 1.7.1. Git ancestry: tag jq-1.7.1 contains OSV fix 71c2ab5."
+    )
+    assert FORBIDDEN_PAGE_TEXT not in json.dumps(public)

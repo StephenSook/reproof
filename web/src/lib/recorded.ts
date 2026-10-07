@@ -9,6 +9,8 @@ export type RecordedTask = {
   crash_type: string;
   crash_state: string[];
   sanitizer_kind: string;
+  vulnerable_clean: boolean;
+  fix_clean: boolean;
   vulnerable_exit_code: number;
   fixed_exit_code: number;
   model_request_ids: string[];
