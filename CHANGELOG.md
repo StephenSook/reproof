@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Added `tests/test_facts.py` to compare every JSON-key-backed `MEASURED` row in `FACTS.md` with its committed source. A deliberate `10` to `11` mutation failed with `FACTS.md drift for Requested ARVO tasks`, then the restored sheet passed. The final local gates checked 47 Ruff-formatted files, found no lint issues, checked 21 mypy source files, and passed 241 non-live tests with 3 live tests deselected.
 - Added `FACTS.md` as the code-audited source for evaluation, live-run, service, limit, test, and CI claims used by the README, Devpost writeup, and demo narration. The four local gates passed before this commit: Ruff format checked 46 files, Ruff lint found no issues, mypy checked 21 source files, and pytest passed 240 tests with 3 live tests deselected.
 - The reuse-key hash now covers `door.py` as well, because the door builds the lookup call. Without it, the transport fix above would have deployed behind a stored card the transport-less code made.
 - The judge door now passes a GitHub transport to the public-status lookup. It passed none, so on the deployed door git ancestry and the advisory read never ran and every stated version came out `NOT_CHECKABLE` with no failed source. Found on 2026-10-06 when a live triage of ARVO 42530604 kept the jq advisory and showed no version source. The evaluation script always passed a transport, so `eval/results/public_status.json` is unaffected. A door test fails without the transport.

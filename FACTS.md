@@ -100,10 +100,10 @@ These values are only for the two recorded runs named in the source column.
 
 | Claim | Exact value | Source | Tag |
 |---|---:|---|---|
-| Ruff format check | `46 files already formatted` | `uv run ruff format --check .`; output `46 files already formatted`; run `2026-10-07` | MEASURED |
+| Ruff format check | `47 files already formatted` | `uv run ruff format --check .`; output `47 files already formatted`; run `2026-10-07` | MEASURED |
 | Ruff lint check | `0 findings` | `uv run ruff check .`; output `All checks passed!`; run `2026-10-07` | MEASURED |
 | Mypy check | `0 issues in 21 source files` | `uv run mypy reproof`; output `Success: no issues found in 21 source files`; run `2026-10-07` | MEASURED |
-| Non-live pytest check | `240 passed; 3 deselected; 1 warning` | `uv run pytest -m "not live"`; output `240 passed, 3 deselected, 1 warning in 9.74s`; run `2026-10-07` | MEASURED |
+| Non-live pytest check | `241 passed; 3 deselected; 1 warning` | `uv run pytest -m "not live"`; output summary `241 passed, 3 deselected, 1 warning`; run `2026-10-07` | MEASURED |
 | CI workflow jobs | `test; web` | `.github/workflows/ci.yml:7-42` | MEASURED |
 | Live probe workflow job | `probe` | `.github/workflows/live.yml:15-38` | MEASURED |
 
