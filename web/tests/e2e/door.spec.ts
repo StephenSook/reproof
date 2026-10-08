@@ -165,6 +165,9 @@ test("a canned triage shows public status without page text", async ({ page }) =
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/");
     await page.getByRole("button", { name: "Triage", exact: true }).click();
+    await expect(page.locator('[data-result][data-source="LIVE"]')).toBeVisible();
+    // The evidence closes when the verdict arrives; the judge opens it with one click.
+    await page.locator('[data-step="public_status"] summary').click();
     const block = page.locator('[data-step="public_status"] [data-public-status]');
     await expect(block).toBeVisible();
     await expect(block).toHaveAttribute("data-public-status", "PUBLICLY_KNOWN_OPEN");
@@ -265,6 +268,15 @@ test("a fixed advisory shows the version source and the ancestry sentence", asyn
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/");
     await page.getByRole("button", { name: "Triage", exact: true }).click();
+    await expect(page.locator('[data-result][data-source="LIVE"]')).toBeVisible();
+    // The ancestry sentence is the summary's public line, and it appears on the page exactly once.
+    await expect(page.locator('[data-summary-public="PUBLICLY_KNOWN_FIXED"]')).toContainText(sentence);
+    const occurrences = await page.evaluate(
+      (text) => (document.body.textContent ?? "").split(text).length - 1,
+      sentence,
+    );
+    expect(occurrences, `${width}px`).toBe(1);
+    await page.locator('[data-step="public_status"] summary').click();
     const block = page.locator('[data-step="public_status"] [data-public-status]');
     await expect(block).toHaveAttribute("data-public-status", "PUBLICLY_KNOWN_FIXED");
     await expect(block.locator('[data-version-source="github_advisory_api:1.7.1"]')).toHaveText(
@@ -274,12 +286,13 @@ test("a fixed advisory shows the version source and the ancestry sentence", asyn
       "href",
       advisory,
     );
-    await expect(block).toContainText(sentence);
+    await expect(block).toContainText("Checked tag: jq-1.7.1");
+    await expect(block).toContainText("Checked commit: 71c2ab509a8628dbbad4bc7b3f98a64aa90d3297");
+    await expect(block.locator("[data-draft-line]")).toContainText(`Source: ${advisory}.`);
     await expect(block.locator('[data-matched-frame="decNaNs"]')).toBeVisible();
     await expect(block.locator('[data-tavily-request-id="tavily-req-fixed"]')).toBeVisible();
-    const card = page.locator('[data-result] [data-public-status]');
-    await expect(card.locator('[data-version-source="github_advisory_api:1.7.1"]')).toBeVisible();
-    await expect(card).toContainText(sentence);
+    // The card does not repeat the public-status block the step already shows.
+    await expect(page.locator("[data-public-status]")).toHaveCount(1);
     const size = await page.evaluate(() => ({
       clientWidth: document.documentElement.clientWidth,
       scrollWidth: document.documentElement.scrollWidth,

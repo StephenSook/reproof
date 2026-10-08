@@ -77,6 +77,7 @@ export const PUBLIC_PENDING_LINE = "Waiting for the public-status step.";
 export const PUBLIC_NOT_RUN_LINE = "This result has no public-status step.";
 export const PUBLIC_NOT_RECORDED_LINE = `The public-status lookup is ${NOT_IN_RECORDED_SUMMARY}.`;
 export const RUNNING_SENTENCE = "Triage is running. Each part of this summary fills in when its step arrives.";
+export const ENDED_SENTENCE = "The stream ended before a verdict arrived.";
 
 type Row = Record<string, unknown>;
 
@@ -265,7 +266,11 @@ export function liveResultFrom(raw: Row): LiveResult {
 }
 
 /** Build the answer-first summary from what the stream has sent so far. */
-export function liveSummary(steps: DoorStepEvent[], result: LiveResult | null): DoorSummary {
+export function liveSummary(
+  steps: DoorStepEvent[],
+  result: LiveResult | null,
+  { ended = false }: { ended?: boolean } = {},
+): DoorSummary {
   const card = result?.card ?? null;
   const evidence = record(card?.evidence);
   const cardCrash = record(evidence?.crash);
@@ -323,7 +328,7 @@ export function liveSummary(steps: DoorStepEvent[], result: LiveResult | null): 
   const projectName = text(card?.project) ?? "";
   const publicPayload = publicStep ?? cardPublic;
   const fields = publicPayload ? publicFields(publicPayload, projectName) : null;
-  const finished = result !== null || verdictStep !== null;
+  const finished = ended || result !== null || verdictStep !== null;
   let publicStatus: PublicSummary;
   if (fields) publicStatus = publicSummary(fields);
   else if (finished) publicStatus = { kind: "NOT_RUN", line: PUBLIC_NOT_RUN_LINE };
@@ -348,7 +353,7 @@ export function liveSummary(steps: DoorStepEvent[], result: LiveResult | null): 
   return {
     source: "LIVE",
     verdict,
-    sentence: verdictSentence(verdict, duplicateIds),
+    sentence: verdict === null && ended ? ENDED_SENTENCE : verdictSentence(verdict, duplicateIds),
     details,
     duplicateIds,
     vulnerable,

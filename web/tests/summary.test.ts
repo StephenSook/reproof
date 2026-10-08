@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import evaluation from "../src/content/arvo10.json";
 import type { DoorStepEvent } from "../src/lib/events";
 import {
+  ENDED_SENTENCE,
   PUBLIC_NO_PAGE_LINE,
   PUBLIC_NOT_RECORDED_LINE,
   PUBLIC_NOT_RUN_LINE,
@@ -227,6 +228,15 @@ describe("live summary edge cases", () => {
       ancestrySentence: null,
       ribbon: { ancestry: "DOES_NOT_CONTAIN_FIX", tag: "v2.0", shortCommit: "0123456" },
     });
+  });
+
+  it("says when the stream ended before a verdict", () => {
+    const steps = replay(3).steps;
+    const ended = liveSummary(steps, null, { ended: true });
+    expect(ended.verdict).toBeNull();
+    expect(ended.sentence).toBe(ENDED_SENTENCE);
+    expect(ended.publicStatus).toEqual({ kind: "NOT_RUN", line: PUBLIC_NOT_RUN_LINE });
+    expect(liveSummary(steps, null).sentence).toBe(RUNNING_SENTENCE);
   });
 
   it("keeps a NEEDS_INFO reason and does not invent a public step", () => {
