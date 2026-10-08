@@ -524,6 +524,9 @@ pnpm exec playwright test tests/e2e/live.spec.ts
 
 `node scripts/agent-check.mjs <url>` opens that URL, runs ARVO 42530604, and fails unless the
 verdict and every step arrive, including both sandbox operation ids. A missing URL exits 2.
+On a failed attempt, it records the `/api/triage` request and response metadata, browser errors,
+failed requests, and the first 500 characters of a non-200 body. It retries once after 60 seconds
+in a fresh browser context and saves the JSON report and Playwright trace under `web/test-results/`.
 `.github/workflows/live.yml` runs the probe on `ubuntu-24.04` once a day at 15:17 UTC and when
 started by hand. The URL is a required workflow input, or the repository variable
 `REPROOF_DOOR_URL`. An empty URL fails the job. Until a public URL is set, the scheduled run is
