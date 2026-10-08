@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { money } from "@/lib/measured";
 import type { DoorSummary, FixedTile, PublicSummary, VulnerableTile } from "@/lib/summary";
+import { AncestryRibbon } from "@/ui/AncestryRibbon";
 import { Stamp, VerdictStamp, verdictTone, type Tone } from "@/ui/Stamp";
 
 const PUBLIC_TONE: Record<string, Tone> = {
@@ -74,7 +75,7 @@ function FixedBuild({ tile, running }: { tile: FixedTile; running: boolean }) {
   );
 }
 
-function PublicLine({ status, ribbon }: { status: PublicSummary; ribbon?: ReactNode }) {
+function PublicLine({ status }: { status: PublicSummary }) {
   const state = status.kind === "STATUS" ? status.state : status.kind;
   return (
     <section aria-label="Public status" className="public-line" data-summary-public={state}>
@@ -89,7 +90,7 @@ function PublicLine({ status, ribbon }: { status: PublicSummary; ribbon?: ReactN
       <p className="public-sentence" data-summary-public-line>
         {status.line}
       </p>
-      {status.kind === "STATUS" ? ribbon : null}
+      {status.kind === "STATUS" && status.ribbon ? <AncestryRibbon ribbon={status.ribbon} /> : null}
       {status.kind === "STATUS" && status.link ? (
         <p className="public-link">
           <span className="field-label">Source page: </span>
@@ -165,13 +166,11 @@ export function Summary({
   running,
   arvoId,
   progress,
-  ribbon,
 }: {
   summary: DoorSummary;
   running: boolean;
   arvoId: number | null;
   progress: Progress;
-  ribbon?: ReactNode;
 }) {
   const tone = summary.verdict ? verdictTone(summary.verdict) : "slate";
   return (
@@ -215,7 +214,7 @@ export function Summary({
         <VulnerableBuild running={running} tile={summary.vulnerable} />
         <FixedBuild running={running} tile={summary.fixed} />
       </div>
-      <PublicLine ribbon={ribbon} status={summary.publicStatus} />
+      <PublicLine status={summary.publicStatus} />
       <Totals running={running} summary={summary} />
     </div>
   );

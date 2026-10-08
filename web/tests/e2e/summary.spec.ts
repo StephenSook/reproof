@@ -61,6 +61,7 @@ test("the recorded result answers first and keeps the evidence one click away", 
     await expect(summary.locator('[data-summary-public="NOT_RECORDED"]')).toContainText(
       "The public-status lookup is not in the recorded summary.",
     );
+    await expect(page.locator("[data-ribbon]")).toHaveCount(0);
     const totals = summary.locator("[data-summary-totals]");
     await expect(totals).toContainText("4.73 s");
     await expect(totals).toContainText("0.00089983 USD");
@@ -111,6 +112,16 @@ test("a live result from the producer's stream puts the answer and the git proof
       "href",
       advisory,
     );
+    const ribbon = publicLine.locator('[data-ribbon="CONTAINS_FIX"]');
+    await expect(ribbon).toBeVisible();
+    await expect(ribbon).toContainText("release tagjq-1.7.1");
+    await expect(ribbon).toContainText("contains");
+    await expect(ribbon).not.toContainText("does not contain");
+    await expect(ribbon).toContainText("OSV fix commit71c2ab5");
+    await expect(ribbon.locator(".ribbon-commit")).toHaveAttribute(
+      "title",
+      "71c2ab509a8628dbbad4bc7b3f98a64aa90d3297",
+    );
     const totals = summary.locator("[data-summary-totals]");
     await expect(totals).toContainText("Tavily credits5");
     await expect(totals).toContainText("Model calls2");
@@ -138,6 +149,57 @@ test("a live result from the producer's stream puts the answer and the git proof
     await expect(page.locator("[data-model-call]")).toHaveCount(2);
     await noOverflow(page, `${width}px open`);
     await axeClean(page, `${width}px open`);
+  }
+});
+
+test("the ancestry ribbon is drawn only when the evidence decided the ancestry", async ({ page }) => {
+  const row = {
+    url: "https://example.org/advisory",
+    title: "Example advisory",
+    frames_matched: ["decNaNs"],
+    relation: "SAME_BUG",
+    upstream_status: "FIXED",
+    upstream_version: "2.0",
+    checked_tag: "v2.0",
+    checked_commit: "0123456789abcdef0123456789abcdef01234567",
+  };
+  const bodyFor = (ancestry: string) =>
+    [
+      JSON.stringify({
+        type: "step",
+        step: {
+          step: "public_status",
+          kind: null,
+          payload: { state: "RELATED_VARIANTS_ONLY", project: "demo", evidence: [{ ...row, ancestry }], draft: [] },
+        },
+      }),
+      JSON.stringify({ type: "result", result: { verdict: "DUPLICATE", reason: "", missing_details: [], wall_seconds: 1, card: null } }),
+      "",
+    ].join("\n");
+  let body = bodyFor("DOES_NOT_CONTAIN_FIX");
+  await page.route("**/api/triage", (route) => route.fulfill({ status: 200, contentType: "application/x-ndjson", body }));
+
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    body = bodyFor("DOES_NOT_CONTAIN_FIX");
+    await page.goto("/");
+    await page.getByRole("button", { name: "Triage", exact: true }).click();
+    const missing = page.locator('[data-summary-public] [data-ribbon="DOES_NOT_CONTAIN_FIX"]');
+    await expect(missing).toBeVisible();
+    await expect(missing).toContainText("v2.0");
+    await expect(missing).toContainText("does not contain");
+    await expect(missing).toContainText("0123456");
+    await expect(page.locator('[data-summary-public="RELATED_VARIANTS_ONLY"]')).toContainText(
+      "1 public page passed the checks for this crash.",
+    );
+    await noOverflow(page, `${width}px`);
+    await axeClean(page, `${width}px`);
+
+    body = bodyFor("NOT_CHECKABLE");
+    await page.goto("/");
+    await page.getByRole("button", { name: "Triage", exact: true }).click();
+    await expect(page.locator("[data-result]")).toBeVisible();
+    await expect(page.locator("[data-ribbon]")).toHaveCount(0);
   }
 });
 

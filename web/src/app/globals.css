@@ -1234,6 +1234,175 @@ mark[data-matched-frame] {
   font-size: 0.82rem;
 }
 
+/* Ancestry ribbon: release tag, relation, fix commit */
+.ribbon {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0.15rem 0 0;
+  min-width: 0;
+}
+
+.ribbon-track {
+  align-items: center;
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(5.5rem, 1fr) minmax(0, auto);
+  max-width: 34rem;
+  min-width: 0;
+}
+
+.ribbon-end {
+  border: 2px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  display: grid;
+  gap: 0.1rem;
+  min-width: 0;
+  padding: 0.45rem 0.75rem 0.45rem 1.45rem;
+  position: relative;
+  z-index: 1;
+}
+
+.ribbon-end::before {
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  content: "";
+  height: 0.5rem;
+  left: 0.55rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.5rem;
+}
+
+.ribbon-end code {
+  font-size: 0.95rem;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.ribbon-kicker {
+  color: var(--ink-soft);
+  font-size: 0.6rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.ribbon-tag {
+  background: #fbe6b8;
+  border-radius: 1.25rem 0.45rem 0.45rem 1.25rem;
+}
+
+.ribbon-tag::before {
+  background: var(--card);
+}
+
+.ribbon-commit {
+  border-radius: 999px;
+}
+
+.ribbon-contains .ribbon-commit {
+  background: var(--proof-soft);
+}
+
+.ribbon-contains .ribbon-commit::before {
+  background: var(--proof);
+}
+
+.ribbon-missing .ribbon-commit {
+  background: var(--crash-soft);
+}
+
+.ribbon-missing .ribbon-commit::before {
+  background: var(--crash);
+}
+
+.ribbon-link {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 2.6rem;
+  min-width: 0;
+  position: relative;
+}
+
+.ribbon-line {
+  background: var(--ink);
+  height: 4px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  transform-origin: left center;
+}
+
+.ribbon-missing .ribbon-line {
+  background: repeating-linear-gradient(90deg, var(--crash) 0 10px, transparent 10px 17px);
+}
+
+.ribbon-word {
+  background: var(--card);
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  color: var(--proof);
+  font-size: 0.78rem;
+  font-weight: 900;
+  line-height: 1.15;
+  margin: 0 0.35rem;
+  padding: 0.2rem 0.55rem;
+  position: relative;
+  text-align: center;
+  z-index: 1;
+}
+
+.ribbon-missing .ribbon-word {
+  color: var(--crash);
+}
+
+.ribbon-word {
+  white-space: nowrap;
+}
+
+/* On a phone the ribbon stands up: tag, then the relation, then the commit. */
+@media (max-width: 480px) {
+  .ribbon-track {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: start;
+  }
+
+  .ribbon-link {
+    justify-content: flex-start;
+    min-height: 3rem;
+    padding-left: 2rem;
+    width: 100%;
+  }
+
+  .ribbon-line {
+    height: 100%;
+    left: 0.85rem;
+    right: auto;
+    top: 0;
+    transform: none;
+    transform-origin: center top;
+    width: 4px;
+  }
+
+  .ribbon-missing .ribbon-line {
+    background: repeating-linear-gradient(180deg, var(--crash) 0 8px, transparent 8px 13px);
+  }
+
+  .ribbon-word {
+    margin: 0;
+  }
+}
+
+.ribbon figcaption {
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
 @media (max-width: 1100px) {
   .measured-row {
     grid-template-columns: repeat(3, minmax(0, auto));
