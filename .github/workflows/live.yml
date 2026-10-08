@@ -36,3 +36,11 @@ jobs:
         env:
           DOOR_URL: ${{ github.event.inputs.url || vars.REPROOF_DOOR_URL }}
         run: node scripts/agent-check.mjs "$DOOR_URL"
+      - name: Upload probe artifacts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: live-probe-${{ github.run_id }}-${{ github.run_attempt }}
+          path: web/test-results/
+          if-no-files-found: error
+          retention-days: 14

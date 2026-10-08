@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Added an always-running live-probe artifact upload for `web/test-results/`, pinned `actions/upload-artifact` to the full `v4.6.2` commit, and set retention to 14 days.
 - Made the live browser probe record `/api/triage` requests and response metadata, browser errors, failed requests, and the first 500 characters of non-200 bodies. It writes the JSON report before retrying, waits 60 seconds, and runs the same verdict, step, sandbox operation-id, and credential checks in a fresh browser context.
 - Kept each summary total whole at laptop width. At 1024 px the four total tiles in one row split the cost mid-number (`0.0008998` above `3`). The tiles now sit four in a row only when the summary itself is at least 36rem wide, measured with a container query, and two by two otherwise; a number now breaks only if it cannot fit a tile on its own. Stills at 390, 768, 1024 and 1440 px show every total on one line.
 - Rewrote the README's judge door section for the answer-first page: what the summary shows, where the evidence is, that the ancestry sentence appears once, that the recorded row holds no public-status lookup, and that reduced motion stops all motion. The testing paragraph now names the summary, ribbon and reduced-motion checks and says how to regenerate the stream fixture.
