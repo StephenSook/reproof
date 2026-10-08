@@ -1,7 +1,10 @@
-import type { ReactNode } from "react";
+"use client";
+
+import { useRef, type ReactNode } from "react";
 import { money } from "@/lib/measured";
 import type { DoorSummary, FixedTile, PublicSummary, VulnerableTile } from "@/lib/summary";
 import { AncestryRibbon } from "@/ui/AncestryRibbon";
+import { plop, settle, useArrival } from "@/ui/motion/motion";
 import { Stamp, VerdictStamp, verdictTone, type Tone } from "@/ui/Stamp";
 
 const PUBLIC_TONE: Record<string, Tone> = {
@@ -30,13 +33,17 @@ function TileRow({ label, children }: { label: string; children: ReactNode }) {
 
 function VulnerableBuild({ tile, running }: { tile: VulnerableTile; running: boolean }) {
   const tone: Tone = tile.state === "CRASHED" ? "crash" : tile.state === "CLEAN" ? "slate" : "info";
+  const stampRef = useRef<HTMLSpanElement>(null);
+  useArrival(stampRef, tile.state, settle);
   return (
     <section aria-label="Vulnerable build" className="build-tile" data-summary-vulnerable={tile.state ?? ""}>
       <h4>Vulnerable build</h4>
       {tile.state ? (
-        <Stamp icon={tile.state === "CRASHED" ? "✕" : tile.state === "CLEAN" ? "✓" : "?"} tone={tone}>
-          {tile.state}
-        </Stamp>
+        <span className="motion-wrap" ref={stampRef}>
+          <Stamp icon={tile.state === "CRASHED" ? "✕" : tile.state === "CLEAN" ? "✓" : "?"} tone={tone}>
+            {tile.state}
+          </Stamp>
+        </span>
       ) : (
         <Stamp className="stamp-waiting" tone="slate">
           {waitingWord(running)}
@@ -56,13 +63,17 @@ function VulnerableBuild({ tile, running }: { tile: VulnerableTile; running: boo
 }
 
 function FixedBuild({ tile, running }: { tile: FixedTile; running: boolean }) {
+  const stampRef = useRef<HTMLSpanElement>(null);
+  useArrival(stampRef, tile.state, settle);
   return (
     <section aria-label="Fixed build" className="build-tile" data-summary-fixed={tile.state ?? ""}>
       <h4>Fixed build</h4>
       {tile.state ? (
-        <Stamp icon={tile.state === "CLEAN" ? "✓" : "!"} tone={tile.state === "CLEAN" ? "proof" : "crash"}>
-          {tile.state === "CLEAN" ? "CLEAN" : "NOT CLEAN"}
-        </Stamp>
+        <span className="motion-wrap" ref={stampRef}>
+          <Stamp icon={tile.state === "CLEAN" ? "✓" : "!"} tone={tile.state === "CLEAN" ? "proof" : "crash"}>
+            {tile.state === "CLEAN" ? "CLEAN" : "NOT CLEAN"}
+          </Stamp>
+        </span>
       ) : (
         <Stamp className="stamp-waiting" tone="slate">
           {waitingWord(running)}
@@ -173,6 +184,8 @@ export function Summary({
   progress: Progress;
 }) {
   const tone = summary.verdict ? verdictTone(summary.verdict) : "slate";
+  const verdictRef = useRef<HTMLSpanElement>(null);
+  useArrival(verdictRef, summary.verdict, plop);
   return (
     <div className={`summary tone-${tone}`} data-summary data-summary-source={summary.source}>
       <div className="summary-top">
@@ -186,7 +199,9 @@ export function Summary({
       ) : null}
       <div className="summary-verdict" data-summary-verdict={summary.verdict ?? ""}>
         {summary.verdict ? (
-          <VerdictStamp className="stamp-verdict" verdict={summary.verdict} />
+          <span className="motion-wrap" ref={verdictRef}>
+            <VerdictStamp className="stamp-verdict" verdict={summary.verdict} />
+          </span>
         ) : (
           <Stamp className="stamp-verdict stamp-waiting" tone="slate">
             {running ? "Running" : "No verdict"}

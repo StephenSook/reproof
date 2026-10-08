@@ -1,4 +1,8 @@
+"use client";
+
+import { useRef } from "react";
 import type { AncestryRibbon as RibbonData } from "@/lib/summary";
+import { drawRibbon, useArrival } from "@/ui/motion/motion";
 
 /**
  * The git proof as a picture: the release tag on the left, the OSV fix commit on the right, and the
@@ -7,8 +11,14 @@ import type { AncestryRibbon as RibbonData } from "@/lib/summary";
  */
 export function AncestryRibbon({ ribbon }: { ribbon: RibbonData }) {
   const contains = ribbon.ancestry === "CONTAINS_FIX";
+  const figureRef = useRef<HTMLElement>(null);
+  useArrival(figureRef, `${ribbon.ancestry}:${ribbon.tag}:${ribbon.commit}`, drawRibbon);
   return (
-    <figure className={`ribbon ${contains ? "ribbon-contains" : "ribbon-missing"}`} data-ribbon={ribbon.ancestry}>
+    <figure
+      ref={figureRef}
+      className={`ribbon ${contains ? "ribbon-contains" : "ribbon-missing"}`}
+      data-ribbon={ribbon.ancestry}
+    >
       <div className="ribbon-track">
         <span className="ribbon-end ribbon-tag">
           <span className="ribbon-kicker">release tag</span>

@@ -404,6 +404,15 @@ pre {
   padding: 0.6rem;
 }
 
+.squash-glyph,
+.motion-wrap {
+  display: inline-block;
+}
+
+.motion-wrap {
+  transform-origin: left center;
+}
+
 .squash-secondary .squash-label {
   background: var(--card);
   color: var(--ink);

@@ -6,6 +6,7 @@ import { stepKey, takeLines, type DoorStepEvent } from "@/lib/events";
 import { recordedView, type RecordedTask } from "@/lib/recorded";
 import { liveResultFrom, liveSummary, recordedSummary, type DoorSummary } from "@/lib/summary";
 import { CardBody, Disclosure, STEP_LABEL, StepItem, stepLabel, type ShownCard, type ShownResult } from "@/ui/Evidence";
+import { scrollToElement } from "@/ui/motion/motion";
 import { SquashButton } from "@/ui/SquashButton";
 import { Summary, type Progress } from "@/ui/Summary";
 
@@ -33,10 +34,6 @@ async function readFailure(response: Response): Promise<string> {
   }
 }
 
-function prefersReducedMotion(): boolean {
-  return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-
 export function Door({
   tasks,
   recordedTasks,
@@ -60,7 +57,7 @@ export function Door({
   function bringResultIntoView() {
     const element = resultRef.current;
     if (!element) return;
-    element.scrollIntoView({ block: "start", behavior: prefersReducedMotion() ? "auto" : "smooth" });
+    scrollToElement(element);
     element.querySelector<HTMLElement>("#result-heading")?.focus({ preventScroll: true });
   }
 

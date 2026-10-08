@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import type { ReactNode } from "react";
+import { SmoothScroll } from "@/ui/motion/SmoothScroll";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 
 const display = localFont({
@@ -37,7 +39,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html className={`${display.variable} ${body.variable} ${hand.variable}`} lang="en">
-      <body>{children}</body>
+      <body>
+        <SmoothScroll />
+        {children}
+      </body>
     </html>
   );
 }

@@ -203,6 +203,40 @@ test("the ancestry ribbon is drawn only when the evidence decided the ancestry",
   }
 });
 
+test("motion runs only when the visitor allows it", async ({ page }) => {
+  // Record every inline transform GSAP writes on a motion wrapper while the recorded result appears.
+  const watchMotion = () =>
+    page.evaluate(() => {
+      const host = window as unknown as { __moved: number };
+      host.__moved = 0;
+      new MutationObserver((records) => {
+        for (const record of records) {
+          const target = record.target as HTMLElement;
+          if (target.classList?.contains("motion-wrap") && target.style.transform) host.__moved += 1;
+        }
+      }).observe(document.body, { attributes: true, attributeFilter: ["style"], subtree: true });
+    });
+  const moved = () => page.evaluate(() => (window as unknown as { __moved: number }).__moved);
+
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveClass(/lenis/);
+  await watchMotion();
+  await page.getByRole("button", { name: "Show recorded result" }).click();
+  await expect(page.locator("[data-summary]")).toBeVisible();
+  await expect.poll(moved).toBeGreaterThan(0);
+
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await expect(page.locator("[data-summary]")).toHaveCount(0);
+  expect(await page.evaluate(() => document.documentElement.classList.contains("lenis"))).toBe(false);
+  await watchMotion();
+  await page.getByRole("button", { name: "Show recorded result" }).click();
+  await expect(page.locator("[data-summary]")).toBeVisible();
+  await page.waitForTimeout(1200);
+  expect(await moved()).toBe(0);
+});
+
 test("the summary fills in while the stream arrives and the evidence closes at the verdict", async ({ page }) => {
   await page.addInitScript(() => {
     const host = window as unknown as {
