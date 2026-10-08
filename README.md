@@ -421,21 +421,36 @@ A judge opens one site, with no login and no key, picks one of the 10 public ARV
 presses Triage. The page shows that report's public text and its source OSV id. The browser does
 not receive `NEBIUS_API_KEY` or the Nebius project id. Those values stay in the Python process.
 
-Triage streams each step as it finishes. Nemotron 3 Super extracts the claim. The vulnerable and
-fixed builds run in parallel disposable branches of that task's cached ConTree checkpoint. The
-sanitizer output is parsed. Duplicates are searched in the committed per-project OSV index, and
-the task's own issue is excluded. A public-status lookup then runs on the measured crash, with git
-ancestry and the advisory read going to the GitHub REST API without a token (GitHub allows 60
-unauthenticated requests per hour per address; a refused call is listed as a failed source). The page
-shows that state, the links, the matched frames, the Tavily request ids, the credits, and the caps.
-The verdict field is unchanged. The verdict card still shows the model calls, sandbox operation ids,
-cost, and time. If the committed checkpoint is missing, the result is `NEEDS_INFO` and the server
-does not build a replacement from a local slice.
+The result starts with the answer. A summary at the top shows the verdict and one sentence, the
+vulnerable and fixed builds side by side (crashed or clean, the crash type, the top frame, and each
+exit code), the public-status line, and the wall time, cost, Tavily credits, and model calls. It is
+labelled `LIVE` or `RECORDED`. When git ancestry decided the fix, the public-status line gives the
+sentence, for example `Fixed in jq 1.7.1. Git ancestry: tag jq-1.7.1 contains OSV fix 71c2ab5.`, a
+link to the page, and a ribbon that joins the release tag to the fix commit. Every value in the
+summary comes from the stream or the saved row. A value that has not arrived says so.
 
-Show recorded result fills the same steps from `eval/results/arvo10.json` and labels the card
-`RECORDED`. It does not call the model or a sandbox. The Measured section is rendered from that
-file. It shows 6 `REPRODUCED`, 4 `DUPLICATE`, the saved costs, and the 2026-10-05 note that the
-phase 1 table counted four self-matches.
+Triage streams each step as it finishes, and the summary fills in as the steps arrive. Nemotron 3
+Super extracts the claim. The vulnerable and fixed builds run in parallel disposable branches of
+that task's cached ConTree checkpoint. The sanitizer output is parsed. Duplicates are searched in
+the committed per-project OSV index, and the task's own issue is excluded. A public-status lookup
+then runs on the measured crash, with git ancestry and the advisory read going to the GitHub REST
+API without a token (GitHub allows 60 unauthenticated requests per hour per address; a refused call
+is listed as a failed source). The public status does not change the verdict. If the committed
+checkpoint is missing, the result is `NEEDS_INFO` and the server does not build a replacement from
+a local slice.
+
+Below the summary, under Evidence, each step is a disclosure. It is open while the stream runs and
+closes when the verdict arrives. It holds every id and cost: the model request id, both sandbox
+operation ids, the matched frames, the Tavily request ids, the credits and caps, the checked tag and
+commit, and the triage card's model calls. The ancestry sentence appears once, in the summary.
+
+Show recorded result fills the summary and the same steps from `eval/results/arvo10.json` and labels
+them `RECORDED`. It does not call the model or a sandbox. That file holds no public-status lookup,
+and the summary says so. The Measured section is rendered from that file. It shows 6 `REPRODUCED`,
+4 `DUPLICATE`, the saved costs, and the 2026-10-05 note that the phase 1 table counted four
+self-matches.
+
+The page uses GSAP and Lenis for motion. When the browser asks for reduced motion, nothing moves.
 
 This browser can run 1 triage at a time. This address can start 8 triages per hour. Everyone
 shares 60 triages per day. The Python service keeps the counts. On Vercel, each function instance
@@ -493,9 +508,13 @@ pnpm build
 pnpm e2e
 ```
 
-`pnpm e2e` checks the picker, the recorded result, the Measured section, horizontal overflow at
-390, 768, 1024, and 1440 px, and axe. It skips the paid triage. To run that one triage, start both
-servers, then:
+`pnpm e2e` checks the picker, the recorded result, the summary and the evidence disclosures, the
+ancestry ribbon, reduced motion, the Measured section, horizontal overflow at 390, 768, 1024, and
+1440 px, and axe. The live summary tests replay `web/tests/fixtures/door-stream.ndjson`, which a
+test in `tests/test_door.py` writes from `reproof/door.py` and the door's NDJSON serializer with
+stubbed services; that Python test fails when the stored file no longer matches. Regenerate it with
+`REPROOF_WRITE_WEB_FIXTURE=1 uv run pytest tests/test_door.py -k web_stream`. The e2e suite skips
+the paid triage. To run that one triage, start both servers, then:
 
 ```powershell
 $env:REPROOF_LIVE = "1"
