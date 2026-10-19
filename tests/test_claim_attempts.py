@@ -217,3 +217,22 @@ def test_known_project_is_never_listed_as_missing(
     client = SimpleNamespace(chat=SimpleNamespace(completions=Completions()))
     claim, _call = extract_claim("public test report", client=client, project=project)  # type: ignore[arg-type]
     assert claim.missing_details == expected
+
+
+def test_schema_field_names_in_missing_details_become_plain_phrases() -> None:
+    # Production 2026-10-19, ARVO 42530604: one run returned these exact strings.
+    assert claims.plain_missing_details(
+        ["files", "trigger", "poc_attachesd (should be boolean)", "affected_version"]
+    ) == ["file locations", "triggering input", "proof-of-concept input", "affected version"]
+    assert claims.plain_missing_details(
+        [
+            "Affected version (e.g., git commit hash or release tag)",
+            "File where `decToString` is defined",
+            "affected version",
+            "affected_version",
+        ]
+    ) == [
+        "Affected version (e.g., git commit hash or release tag)",
+        "File where `decToString` is defined",
+        "affected version",
+    ]
