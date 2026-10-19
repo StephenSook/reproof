@@ -8,6 +8,7 @@ import sys
 from pathlib import Path
 
 from reproof.door_data import ASSETS_DIR, build_door_assets
+from reproof.eval_prepare import run_eval_prepare
 from reproof.evaluation import run_eval
 from reproof.triage import run_triage
 
@@ -28,6 +29,15 @@ def build_parser() -> argparse.ArgumentParser:
         "--resume",
         action="store_true",
         help="reuse strict per-task cards from an interrupted eval",
+    )
+
+    prepare = commands.add_parser("eval-prepare", help="prepare the registered eval-100 images")
+    prepare.add_argument("--prereg", type=Path, required=True)
+    prepare.add_argument("--ledger", type=Path, required=True)
+    prepare.add_argument(
+        "--stop-after-prepared",
+        type=int,
+        help="stop after this many prepared tasks for a bounded smoke run",
     )
 
     door_data = commands.add_parser(
@@ -57,6 +67,13 @@ def main(argv: list[str] | None = None) -> int:
                 output_path=args.output,
             )
             print(card.model_dump_json(indent=2))
+        elif args.command == "eval-prepare":
+            ledger = run_eval_prepare(
+                args.prereg,
+                args.ledger,
+                stop_after_prepared=args.stop_after_prepared,
+            )
+            print(ledger.model_dump_json(indent=2))
         elif args.command == "door-data":
             summary = build_door_assets(
                 checkpoints=args.checkpoints,
