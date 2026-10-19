@@ -632,7 +632,9 @@ def iter_cached_triage(
         yield _finish(result)
         return
 
-    active_extractor = extractor or extract_claim
+    # The intake project reaches the claim step as trusted context (claims.system_prompt).
+    # Without it the live door once asked for "version of json-c affected" on a jq report.
+    active_extractor = extractor or functools.partial(extract_claim, project=str(task["project"]))
     try:
         claim, model_call = active_extractor(report_text)
     except Exception as error:

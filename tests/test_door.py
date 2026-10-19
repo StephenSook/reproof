@@ -325,6 +325,36 @@ def test_unknown_task_returns_needs_info_without_calls() -> None:
     assert calls == []
 
 
+def test_default_extractor_receives_the_catalog_project(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # Production 2026-10-19: 8b30db6 passed the project only in triage.py, so the live door
+    # still called extract_claim(report_text) and asked for "version of json-c affected".
+    monkeypatch.chdir(tmp_path)
+    _block_lookup(monkeypatch)
+    world = _world(FIXTURE.read_text(encoding="utf-8"))
+    projects: list[str | None] = []
+
+    def fake_extract_claim(
+        _report_text: str, client: object = None, *, project: str | None = None
+    ) -> tuple[Claim, ModelCall]:
+        projects.append(project)
+        return _claim(), _model_call()
+
+    monkeypatch.setattr("reproof.door.extract_claim", fake_extract_claim)
+    list(
+        iter_cached_triage(
+            TASK_ID,
+            catalog=world["catalog"],  # type: ignore[arg-type]
+            manifest=world["manifest"],  # type: ignore[arg-type]
+            project_index=world["index"],  # type: ignore[arg-type]
+            runner=world["runner"],  # type: ignore[arg-type]
+            public_lookup=_quiet_lookup,
+        )
+    )
+    assert projects == ["jq"]
+
+
 def test_excluded_ids_are_not_duplicate_candidates(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
