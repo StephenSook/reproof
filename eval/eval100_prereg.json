@@ -1,0 +1,177 @@
+{
+  "schema_version": "1.0",
+  "created": "2026-10-19",
+  "inputs": {
+    "arvo_database": {
+      "sha256": "331184ca807c2f136f98dac9f1df94c893f4ee2fdf9329dca517ff88e72f97ce"
+    },
+    "osv_archive": {
+      "sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c"
+    },
+    "monorail_mapping": {
+      "sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513"
+    },
+    "population_fixture": {
+      "path": "eval/fixtures/arvo_population-2026-10-19.tsv",
+      "sha256": "052f34e5330618496ca81dbf574b0d1b57f8041367d48f95beca2daf20d8c950",
+      "rows": 927
+    }
+  },
+  "population": {
+    "exclude_arvo_ids": [
+      42530604,
+      42507851,
+      42496387,
+      42508524,
+      42536108,
+      42536112,
+      42508390,
+      42531297,
+      42531223,
+      42476752
+    ],
+    "criteria": [
+      "sanitizer == asan",
+      "fuzz_engine == libfuzzer",
+      "required ARVO fields present",
+      "same-project mapped OSV record in the pinned archive",
+      "memory-safety or SEGV crash family"
+    ]
+  },
+  "selection": {
+    "seed": 20261019,
+    "shuffle": "random.Random(seed).shuffle(sorted(population_arvo_ids))",
+    "size_cap_bytes": 1500000000,
+    "project_cap_combined": 3,
+    "historical_arvo_ids": [
+      42530604,
+      42507851,
+      42496387,
+      42508524,
+      42536108,
+      42536112,
+      42508390,
+      42531297,
+      42531223,
+      42476752
+    ],
+    "target_new_tasks": 90,
+    "selected_arvo_ids": [
+      42477302,
+      42481221,
+      42523942,
+      42481224,
+      42481945,
+      42525192,
+      42520614,
+      42504114,
+      42497241,
+      42500367,
+      42518269,
+      42471044,
+      42522233,
+      42504387,
+      42501162,
+      42532259,
+      42486565,
+      42470538,
+      42513620,
+      42471105,
+      42501200,
+      42471108,
+      42475782,
+      42481193,
+      42498970,
+      42477222,
+      42496936,
+      42475195,
+      42499827,
+      42510753,
+      42501143,
+      42474141,
+      42533590,
+      42517374,
+      42490025,
+      42517725,
+      42476618,
+      42496031,
+      42522531,
+      42488737,
+      42483517,
+      42477355,
+      42513189,
+      42522285,
+      42517205,
+      42513988,
+      420198855,
+      42479852,
+      42532046,
+      42509841,
+      42534483,
+      42517450,
+      42499939,
+      42517796,
+      42525816,
+      42523860,
+      396777457,
+      42512228,
+      42498959,
+      42522804,
+      42501136,
+      42507220,
+      379418968,
+      42517530,
+      42517784,
+      42481233,
+      42532885,
+      42498712,
+      42536328,
+      42488172,
+      411460530,
+      42501148,
+      42528883,
+      42513361,
+      42526388,
+      42513154,
+      42481492,
+      42532225,
+      42471287,
+      42487660,
+      42523626,
+      42479408,
+      42487077,
+      42499964,
+      42497297,
+      42523506,
+      42527431,
+      42533290,
+      42530151,
+      42536751
+    ],
+    "summary": {
+      "walked": 159,
+      "accepted": 90,
+      "skipped": {
+        "over_size_cap": 31,
+        "project_cap": 38
+      },
+      "projects_in_new_draw": 48,
+      "max_tasks_per_project_combined": 3
+    }
+  },
+  "prepare": {
+    "walk_order": "selection shuffle order",
+    "continue_after_failure": true,
+    "stop_after_prepared": 90,
+    "failure_reasons": [
+      "pull_error",
+      "slice_exception",
+      "tag_not_removed"
+    ]
+  },
+  "run": {
+    "exclude_after_prepare": false,
+    "transport_retries": 1,
+    "second_transport_failure": "RUN_FAILED"
+  }
+}
