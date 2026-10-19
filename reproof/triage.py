@@ -180,7 +180,7 @@ def run_triage(
     elif report_source is None:
         report_source = "user-supplied local report file"
 
-    claim, model_call = extract_claim(report_text)
+    claim, model_call = extract_claim(report_text, project=task.project)
     state: dict[str, Any] = {}
     try:
         return _complete_triage(

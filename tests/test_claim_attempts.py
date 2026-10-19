@@ -127,3 +127,46 @@ def test_success_attempt_log_write_preserves_request_id(
     with pytest.raises(ClaimExtractionError, match="response succeeded") as captured:
         extract_claim("public test report", client=client)  # type: ignore[arg-type]
     assert captured.value.request_ids == ["request-success"]
+
+
+def test_intake_project_goes_to_the_system_message_and_never_into_report_text(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # A jq report once came back asking for "version of json-c affected"; the report text never
+    # named a project, so the maintainer's intake field now supplies it as trusted context.
+    monkeypatch.setenv("REPROOF_CACHE_DIR", str(tmp_path))
+    seen: list[list[dict[str, str]]] = []
+    content = json.dumps(
+        {
+            "project": "jq",
+            "bug_class": "heap-buffer-overflow",
+            "functions": ["jv_parse"],
+            "files": [],
+            "trigger": "input",
+            "poc_attached": True,
+            "affected_version": "",
+            "missing_details": [],
+        }
+    )
+
+    class Completions:
+        def create(self, **kwargs: object) -> object:
+            seen.append(kwargs["messages"])  # type: ignore[arg-type]
+            return SimpleNamespace(
+                _request_id="request-project",
+                choices=[
+                    SimpleNamespace(finish_reason="stop", message=SimpleNamespace(content=content))
+                ],
+                usage=SimpleNamespace(prompt_tokens=10, completion_tokens=5, total_tokens=15),
+            )
+
+    client = SimpleNamespace(chat=SimpleNamespace(completions=Completions()))
+    claim, _call = extract_claim("public test report", client=client, project="jq")  # type: ignore[arg-type]
+    assert claim.project == "jq"
+    system, user = seen[0]
+    assert system["role"] == "system" and '"jq"' in system["content"]
+    assert "never ask for a detail about a different project" in system["content"]
+    assert user == {"role": "user", "content": "public test report"}
+
+    extract_claim("public test report", client=client)  # type: ignore[arg-type]
+    assert seen[1][0]["content"] == claims.SYSTEM_PROMPT

@@ -46,7 +46,13 @@ def test_post_model_slice_failure_preserves_request_id(
         affected_version="1.0",
         missing_details=[],
     )
-    monkeypatch.setattr(triage, "extract_claim", lambda _text: (claim, model_call()))
+    projects: list[str | None] = []
+
+    def fake_extract(_text: str, *, project: str | None = None) -> tuple[Claim, object]:
+        projects.append(project)
+        return claim, model_call()
+
+    monkeypatch.setattr(triage, "extract_claim", fake_extract)
 
     def fail_slice(*_args: object, **_kwargs: object) -> None:
         raise FileNotFoundError("image missing")
@@ -61,6 +67,7 @@ def test_post_model_slice_failure_preserves_request_id(
             osv_index=index,  # type: ignore[arg-type]
         )
     assert captured.value.request_ids == ["request-paid"]
+    assert projects == ["demo"]
 
 
 def test_triage_failure_unions_prior_checkpoint_and_child_ids() -> None:
