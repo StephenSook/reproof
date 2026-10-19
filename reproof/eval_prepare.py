@@ -588,7 +588,9 @@ def run_eval_prepare(
     repo = repository or ArvoRepository(actual_inputs.arvo_database)
     docker_client = docker or DockerClient()
     ledger = (
-        _load_ledger(ledger_path, selection) if ledger_path.is_file() else _new_ledger(selection)
+        load_eval100_prep_ledger(ledger_path, selection)
+        if ledger_path.is_file()
+        else _new_ledger(selection)
     )
     if stop_after_prepared is not None and stop_after_prepared < 0:
         raise ValueError("stop_after_prepared must be non-negative")

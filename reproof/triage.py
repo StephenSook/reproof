@@ -42,6 +42,7 @@ def _triage_failure(
     error: Exception,
     model_call: Any,
     state: dict[str, Any],
+    started: float,
 ) -> TriageExecutionError:
     request_ids = [model_call.request_id]
     request_ids.extend(getattr(error, "request_ids", None) or [])
@@ -71,12 +72,36 @@ def _triage_failure(
                 operation.kind, operation.checkpoint_operation_uuid
             )
 
+    operations = state.get("operations", []) or getattr(error, "completed_operations", [])
+    sandbox_cost = 0.0
+    counted_checkpoints: set[str] = set()
+    for kind in ("vul", "fix"):
+        checkpoint = state.get(f"{kind}_checkpoint")
+        if checkpoint is None or str(checkpoint.uuid) in counted_checkpoints:
+            continue
+        checkpoint_uuid = str(checkpoint.uuid)
+        metadata = getattr(runner, "checkpoint_metadata", {}).get(checkpoint_uuid, {})
+        if metadata.get("cost_usd") is not None:
+            counted_checkpoints.add(checkpoint_uuid)
+            sandbox_cost += float(metadata["cost_usd"])
+    for operation in operations:
+        checkpoint_uuid = str(getattr(operation, "checkpoint_uuid", ""))
+        if checkpoint_uuid and checkpoint_uuid not in counted_checkpoints:
+            counted_checkpoints.add(checkpoint_uuid)
+            sandbox_cost += float(getattr(operation, "checkpoint_cost_usd", 0.0))
+        sandbox_cost += float(getattr(operation, "cost_usd", 0.0) or 0.0)
+
     return TriageExecutionError(
         f"Triage failed after model request: {type(error).__name__}: {error}",
         request_ids=request_ids,
         operation_uuids=operation_uuids,
         checkpoint_uuids=checkpoint_uuids,
         checkpoint_operation_uuids=checkpoint_operation_uuids,
+        input_tokens=int(model_call.input_tokens),
+        output_tokens=int(model_call.output_tokens),
+        model_cost_usd=float(model_call.cost_usd),
+        sandbox_cost_usd=round(sandbox_cost, 8),
+        wall_seconds=round(time.perf_counter() - started, 6),
     )
 
 
@@ -200,7 +225,7 @@ def run_triage(
             state=state,
         )
     except Exception as error:
-        raise _triage_failure(error, model_call, state) from error
+        raise _triage_failure(error, model_call, state, started) from error
 
 
 def _complete_triage(

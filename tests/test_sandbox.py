@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+from datetime import timedelta
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -57,6 +58,43 @@ def test_checkpoint_cache_does_not_hide_transport_failure(tmp_path: Path) -> Non
     with pytest.raises(RuntimeError, match="transport failed"):
         runner.ensure_checkpoint(1, "vul", slice_dir)
     assert registry.read()[f"1:vul:{digest}"]["checkpoint_uuid"] == "checkpoint-test"
+
+
+def test_checkpoint_cache_preserves_history_without_charging_current_attempt(
+    tmp_path: Path,
+) -> None:
+    slice_dir = tmp_path / "slice"
+    slice_dir.mkdir()
+    (slice_dir / "manifest.json").write_text('{"files":{}}', encoding="utf-8")
+    digest = manifest_digest(slice_dir)
+    registry = CheckpointRegistry(tmp_path / "checkpoints.json")
+    registry.write(
+        {
+            f"1:vul:{digest}": {
+                "checkpoint_uuid": "checkpoint-test",
+                "create_operation_uuid": "operation-test",
+                "checkpoint_wall_seconds": 1.25,
+                "checkpoint_cost_usd": 0.5,
+            }
+        }
+    )
+
+    checkpoint = SimpleNamespace(uuid="checkpoint-test")
+    images = SimpleNamespace(use=lambda _reference, strict: checkpoint)
+    runner = SandboxRunner(
+        client=SimpleNamespace(images=images),  # type: ignore[arg-type]
+        registry=registry,
+    )
+
+    assert runner.ensure_checkpoint(1, "vul", slice_dir) is checkpoint
+    assert runner.checkpoint_metadata["checkpoint-test"] == {
+        "operation_uuid": "operation-test",
+        "wall_seconds": 0.0,
+        "cost_usd": 0.0,
+        "historical_wall_seconds": 1.25,
+        "historical_cost_usd": 0.5,
+        "cache_hit": True,
+    }
 
 
 def test_stale_checkpoint_cleanup_failure_preserves_cached_ids(tmp_path: Path) -> None:
@@ -229,3 +267,67 @@ def test_parallel_failure_collects_both_branch_ids() -> None:
         "fix": "checkpoint-operation-fix",
     }
     assert set(error.request_ids) == {"request-vul", "request-fix"}
+
+
+def test_parallel_failure_preserves_completed_branch_accounting() -> None:
+    class WaitError(RuntimeError):
+        operation_uuid = "operation-fix"
+        request_id = "request-fix"
+
+    class Prepared:
+        def __init__(self, kind: str) -> None:
+            self.kind = kind
+
+        def wait(self) -> object:
+            if self.kind == "fix":
+                raise WaitError("fix failed")
+            return SimpleNamespace(
+                stdout="vulnerable output",
+                stderr="",
+                exit_code=1,
+                elapsed=timedelta(seconds=0.25),
+                result=SimpleNamespace(cost=0.125),
+            )
+
+    class Internal:
+        async def _start_operation(self, request: object) -> str:
+            return f"operation-{str(request.hostname).rsplit('-', 2)[1]}"  # type: ignore[attr-defined]
+
+    class Checkpoint:
+        def __init__(self, kind: str, internal: Internal) -> None:
+            self.kind = kind
+            self.uuid = f"checkpoint-{kind}"
+            self.client = internal
+
+        def run(self, *_args: object, **kwargs: object) -> Prepared:
+            asyncio.run(self.client._start_operation(SimpleNamespace(hostname=kwargs["hostname"])))
+            return Prepared(self.kind)
+
+    internal = Internal()
+    vulnerable = Checkpoint("vul", internal)
+    fixed = Checkpoint("fix", internal)
+    runner = SandboxRunner(client=SimpleNamespace())  # type: ignore[arg-type]
+    runner.checkpoint_metadata = {
+        "checkpoint-vul": {
+            "operation_uuid": "checkpoint-operation-vul",
+            "wall_seconds": 0.5,
+            "cost_usd": 0.05,
+        },
+        "checkpoint-fix": {
+            "operation_uuid": "checkpoint-operation-fix",
+            "wall_seconds": 0.75,
+            "cost_usd": 0.07,
+        },
+    }
+
+    with pytest.raises(SandboxPairError) as captured:
+        runner.run_pair(1, vulnerable, fixed)
+
+    error = captured.value
+    assert error.request_ids == ["request-fix"]
+    assert len(error.completed_operations) == 1
+    operation = error.completed_operations[0]
+    assert operation.kind == "vul"
+    assert operation.operation_uuid == "operation-vul"
+    assert operation.checkpoint_cost_usd == 0.05
+    assert operation.cost_usd == 0.125

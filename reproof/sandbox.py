@@ -52,12 +52,14 @@ class SandboxPairError(RuntimeError):
         checkpoint_uuids: dict[str, str],
         checkpoint_operation_uuids: dict[str, str],
         request_ids: list[str],
+        completed_operations: list[SandboxOperation] | None = None,
     ) -> None:
         super().__init__(message)
         self.operation_uuids = operation_uuids
         self.checkpoint_uuids = checkpoint_uuids
         self.checkpoint_operation_uuids = checkpoint_operation_uuids
         self.request_ids = request_ids
+        self.completed_operations = list(completed_operations or [])
         self.operation_uuid = next(iter(operation_uuids.values()), None)
         self.request_id = request_ids[0] if request_ids else None
 
@@ -124,8 +126,10 @@ class SandboxRunner:
                 checkpoint = self.client.images.use(cached["checkpoint_uuid"], strict=True)
                 self.checkpoint_metadata[str(checkpoint.uuid)] = {
                     "operation_uuid": cached.get("create_operation_uuid"),
-                    "wall_seconds": float(cached.get("checkpoint_wall_seconds", 0.0)),
-                    "cost_usd": float(cached.get("checkpoint_cost_usd", 0.0)),
+                    "wall_seconds": 0.0,
+                    "cost_usd": 0.0,
+                    "historical_wall_seconds": float(cached.get("checkpoint_wall_seconds", 0.0)),
+                    "historical_cost_usd": float(cached.get("checkpoint_cost_usd", 0.0)),
                     "cache_hit": True,
                 }
                 return checkpoint
@@ -389,6 +393,7 @@ class SandboxRunner:
                     },
                     checkpoint_operation_uuids=checkpoint_operations,
                     request_ids=request_ids,
+                    completed_operations=list(results.values()),
                 )
             return results["vul"], results["fix"]
         except SandboxPairError:

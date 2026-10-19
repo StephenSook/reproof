@@ -127,6 +127,11 @@ def test_success_attempt_log_write_preserves_request_id(
     with pytest.raises(ClaimExtractionError, match="response succeeded") as captured:
         extract_claim("public test report", client=client)  # type: ignore[arg-type]
     assert captured.value.request_ids == ["request-success"]
+    assert captured.value.input_tokens == 10
+    assert captured.value.output_tokens == 5
+    assert captured.value.model_cost_usd == 0.0000075
+    assert captured.value.cost_usd == 0.0000075
+    assert captured.value.wall_seconds >= 0
 
 
 def test_intake_project_goes_to_the_system_message_and_never_into_report_text(

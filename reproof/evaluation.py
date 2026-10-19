@@ -189,6 +189,9 @@ def run_eval(
     *,
     resume: bool = False,
 ) -> EvalReport:
+    legacy_output = Path(__file__).resolve().parents[1] / "eval" / "results" / "arvo10.json"
+    if n != 10 and output.resolve() == legacy_output.resolve():
+        raise ValueError("refusing to overwrite eval/results/arvo10.json for a non-10 selection")
     repository = ArvoRepository()
     index = OsvIndex.from_archive()
     selected = select_tasks(n, index)

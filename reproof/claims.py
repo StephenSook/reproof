@@ -24,10 +24,25 @@ PRICE_SOURCE = "https://nebius.com/services/token-factory/models/nvidia-nemotron
 
 
 class ClaimExtractionError(RuntimeError):
-    def __init__(self, message: str, request_id: str | None = None) -> None:
+    def __init__(
+        self,
+        message: str,
+        request_id: str | None = None,
+        *,
+        input_tokens: int = 0,
+        output_tokens: int = 0,
+        cost_usd: float = 0.0,
+        wall_seconds: float = 0.0,
+    ) -> None:
         super().__init__(message)
         self.request_id = request_id
         self.request_ids = [request_id] if request_id else []
+        self.input_tokens = input_tokens
+        self.output_tokens = output_tokens
+        self.model_cost_usd = cost_usd
+        self.sandbox_cost_usd = 0.0
+        self.cost_usd = cost_usd
+        self.wall_seconds = wall_seconds
 
 
 def _attempt_log_path() -> Path:
@@ -60,10 +75,11 @@ def _raise_recorded(
             + Decimal(output_tokens) * OUTPUT_PRICE_PER_MILLION
         ) / Decimal(1_000_000)
         cost_usd = round(float(cost), 8)
+    latency_seconds = round(time.perf_counter() - started, 6)
     attempt = {
         "model": MODEL,
         "status": "failed",
-        "latency_seconds": round(time.perf_counter() - started, 6),
+        "latency_seconds": latency_seconds,
         "request_id": request_id,
         "input_tokens": input_tokens,
         "output_tokens": output_tokens,
@@ -80,8 +96,19 @@ def _raise_recorded(
         raise ClaimExtractionError(
             f"{message}; attempt log write failed: {type(log_error).__name__}: {log_error}",
             request_id=request_id,
+            input_tokens=input_tokens if isinstance(input_tokens, int) else 0,
+            output_tokens=output_tokens if isinstance(output_tokens, int) else 0,
+            cost_usd=cost_usd or 0.0,
+            wall_seconds=latency_seconds,
         ) from log_error
-    raise ClaimExtractionError(message, request_id=request_id)
+    raise ClaimExtractionError(
+        message,
+        request_id=request_id,
+        input_tokens=input_tokens if isinstance(input_tokens, int) else 0,
+        output_tokens=output_tokens if isinstance(output_tokens, int) else 0,
+        cost_usd=cost_usd or 0.0,
+        wall_seconds=latency_seconds,
+    )
 
 
 def _request_id_from_error(error: BaseException) -> str | None:
@@ -299,6 +326,10 @@ def extract_claim(
             "Token Factory response succeeded but attempt log write failed: "
             f"{type(log_error).__name__}: {log_error}",
             request_id=call.request_id,
+            input_tokens=call.input_tokens,
+            output_tokens=call.output_tokens,
+            cost_usd=call.cost_usd,
+            wall_seconds=call.latency_seconds,
         ) from log_error
     return claim, call
 

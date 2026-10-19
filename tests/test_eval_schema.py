@@ -18,6 +18,7 @@ def eval_payload() -> dict[str, object]:
 
 def test_eval_schema_accepts_tracked_result() -> None:
     report = EvalReport.model_validate(eval_payload())
+    assert report.schema_version == "1.5"
     assert len(report.tasks) == 10
 
 

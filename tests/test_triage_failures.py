@@ -7,7 +7,7 @@ import pytest
 from reproof import triage
 from reproof.errors import TriageExecutionError
 from reproof.models import Claim, ModelCall
-from reproof.sandbox import CheckpointError
+from reproof.sandbox import CheckpointError, SandboxPairError
 
 
 def model_call() -> ModelCall:
@@ -94,7 +94,7 @@ def test_triage_failure_unions_prior_checkpoint_and_child_ids() -> None:
         checkpoint_uuid="checkpoint-fix",
         request_id="request-fix",
     )
-    wrapped = triage._triage_failure(child, model_call(), state)
+    wrapped = triage._triage_failure(child, model_call(), state, triage.time.perf_counter())
     assert wrapped.request_ids == ["request-paid", "request-fix"]
     assert wrapped.checkpoint_uuids == {
         "fix": "checkpoint-fix",
@@ -105,3 +105,36 @@ def test_triage_failure_unions_prior_checkpoint_and_child_ids() -> None:
         "vul": "checkpoint-operation-vul",
     }
     assert wrapped.operation_uuids == {"vul": "run-vul", "fix": "run-fix"}
+
+
+def test_triage_failure_counts_completed_sibling_and_both_checkpoints() -> None:
+    runner = SimpleNamespace(
+        checkpoint_metadata={
+            "checkpoint-vul": {"cost_usd": 0.05},
+            "checkpoint-fix": {"cost_usd": 0.07},
+        }
+    )
+    state = {
+        "runner": runner,
+        "vul_checkpoint": SimpleNamespace(uuid="checkpoint-vul"),
+        "fix_checkpoint": SimpleNamespace(uuid="checkpoint-fix"),
+    }
+    child = SandboxPairError(
+        "fixed branch failed",
+        operation_uuids={"vul": "run-vul", "fix": "run-fix"},
+        checkpoint_uuids={"vul": "checkpoint-vul", "fix": "checkpoint-fix"},
+        checkpoint_operation_uuids={},
+        request_ids=["request-fix"],
+        completed_operations=[
+            SimpleNamespace(
+                kind="vul",
+                checkpoint_uuid="checkpoint-vul",
+                checkpoint_cost_usd=0.05,
+                cost_usd=0.125,
+            )
+        ],  # type: ignore[list-item]
+    )
+
+    wrapped = triage._triage_failure(child, model_call(), state, triage.time.perf_counter())
+
+    assert wrapped.sandbox_cost_usd == 0.245

@@ -10,6 +10,7 @@ from pathlib import Path
 from reproof.door_data import ASSETS_DIR, build_door_assets
 from reproof.eval_prepare import run_eval_prepare
 from reproof.evaluation import run_eval
+from reproof.evaluation100 import DEFAULT_EVAL100_OUTPUT, run_eval100
 from reproof.triage import run_triage
 
 
@@ -23,8 +24,11 @@ def build_parser() -> argparse.ArgumentParser:
     triage.add_argument("--output", type=Path)
 
     evaluate = commands.add_parser("eval", help="run the deterministic ARVO evaluation")
-    evaluate.add_argument("--n", type=int, default=10)
-    evaluate.add_argument("--output", type=Path, default=Path("eval/results/arvo10.json"))
+    selection = evaluate.add_mutually_exclusive_group()
+    selection.add_argument("--n", type=int)
+    selection.add_argument("--prereg", type=Path)
+    evaluate.add_argument("--output", type=Path)
+    evaluate.add_argument("--cards-dir", type=Path)
     evaluate.add_argument(
         "--resume",
         action="store_true",
@@ -86,9 +90,23 @@ def main(argv: list[str] | None = None) -> int:
                 cards=args.cards,
             )
             print(json.dumps(summary, indent=2, sort_keys=True))
+        elif args.prereg is not None:
+            eval100_report = run_eval100(
+                args.prereg,
+                args.output or DEFAULT_EVAL100_OUTPUT,
+                cards_dir=args.cards_dir or Path("eval/results/cards100"),
+                resume=args.resume,
+            )
+            print(eval100_report.model_dump_json(indent=2))
         else:
-            report = run_eval(args.n, args.output, resume=args.resume)
-            print(report.model_dump_json(indent=2))
+            if args.cards_dir is not None:
+                raise ValueError("--cards-dir requires --prereg")
+            legacy_report = run_eval(
+                args.n if args.n is not None else 10,
+                args.output or Path("eval/results/arvo10.json"),
+                resume=args.resume,
+            )
+            print(legacy_report.model_dump_json(indent=2))
     except Exception as error:
         operation_id = getattr(error, "operation_uuid", None)
         operation_ids = getattr(error, "operation_uuids", None)

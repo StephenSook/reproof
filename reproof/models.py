@@ -558,3 +558,212 @@ class EvalReport(StrictModel):
             if not math.isclose(getattr(self.totals, field), expected_float, abs_tol=1e-7):
                 raise ValueError(f"eval total {field} does not match task rows")
         return self
+
+
+class EvalPrepFailure(StrictModel):
+    arvo_id: int = Field(gt=0)
+    project: str = Field(min_length=1)
+    kind: Literal["vul", "fix"]
+    reason: Literal["pull_error", "slice_exception", "tag_not_removed"]
+    error_type: str = Field(min_length=1)
+    error: str = Field(min_length=1)
+
+
+class EvalRunAttempt(StrictModel):
+    arvo_id: int = Field(gt=0)
+    project: str = Field(min_length=1)
+    attempt: int = Field(ge=1, le=2)
+    error_type: str = Field(min_length=1)
+    error: str = Field(min_length=1)
+    request_ids: list[str]
+    operation_uuids: dict[str, str]
+    checkpoint_uuids: dict[str, str]
+    checkpoint_operation_uuids: dict[str, str]
+    input_tokens: int = Field(ge=0)
+    output_tokens: int = Field(ge=0)
+    model_cost_usd: float = Field(ge=0)
+    sandbox_cost_usd: float = Field(ge=0)
+    cost_usd: float = Field(ge=0)
+    wall_seconds: float = Field(ge=0)
+
+    @model_validator(mode="after")
+    def validate_cost(self) -> EvalRunAttempt:
+        if not math.isclose(
+            self.cost_usd,
+            self.model_cost_usd + self.sandbox_cost_usd,
+            abs_tol=1e-7,
+        ):
+            raise ValueError("eval run attempt cost does not equal model plus sandbox cost")
+        return self
+
+
+class EvalRunFailure(StrictModel):
+    arvo_id: int = Field(gt=0)
+    project: str = Field(min_length=1)
+    attempts: int = Field(ge=1, le=2)
+    error_type: str = Field(min_length=1)
+    error: str = Field(min_length=1)
+    request_ids: list[str]
+    operation_uuids: dict[str, str]
+    checkpoint_uuids: dict[str, str]
+    checkpoint_operation_uuids: dict[str, str]
+    attempt_evidence: list[EvalRunAttempt]
+
+    @model_validator(mode="after")
+    def validate_attempts(self) -> EvalRunFailure:
+        if len(self.attempt_evidence) != self.attempts:
+            raise ValueError("eval run failure attempt count does not match its evidence")
+        if [row.attempt for row in self.attempt_evidence] != list(range(1, self.attempts + 1)):
+            raise ValueError("eval run failure attempts must be contiguous")
+        if any(
+            row.arvo_id != self.arvo_id or row.project != self.project
+            for row in self.attempt_evidence
+        ):
+            raise ValueError("eval run failure attempt evidence belongs to another task")
+        return self
+
+
+class Eval100Totals(EvalTotals):
+    prep_failures: int = Field(ge=0)
+    run_failures: int = Field(ge=0)
+
+
+class Eval100Provenance(StrictModel):
+    prereg_sha256: str
+    population_fixture_sha256: str
+    arvo_database_sha256: str
+    osv_archive_sha256: str
+    monorail_mapping_sha256: str
+    execution_source_sha256: str
+    derivation_source_sha256: str
+    derivation_method: Literal["live-execution"] = "live-execution"
+
+    @model_validator(mode="after")
+    def validate_hashes(self) -> Eval100Provenance:
+        for field in (
+            "prereg_sha256",
+            "population_fixture_sha256",
+            "arvo_database_sha256",
+            "osv_archive_sha256",
+            "monorail_mapping_sha256",
+            "execution_source_sha256",
+            "derivation_source_sha256",
+        ):
+            if re.fullmatch(r"[0-9a-f]{64}", getattr(self, field)) is None:
+                raise ValueError(f"{field} must be a SHA-256 digest")
+        if self.execution_source_sha256 != self.derivation_source_sha256:
+            raise ValueError("live execution requires identical source hashes")
+        return self
+
+
+class Eval100Report(StrictModel):
+    schema_version: Literal["1.6"] = "1.6"
+    selection_rule: str = Field(min_length=1)
+    historical_arvo_ids: list[int]
+    random_draw_arvo_ids: list[int]
+    selected_arvo_ids: list[int]
+    provenance: Eval100Provenance
+    prep_failed: list[EvalPrepFailure]
+    retry_attempts: list[EvalRunAttempt]
+    run_failed: list[EvalRunFailure]
+    tasks: list[EvalTaskResult]
+    totals: Eval100Totals
+
+    @model_validator(mode="after")
+    def validate_report_shape(self) -> Eval100Report:
+        if len(self.historical_arvo_ids) != 10:
+            raise ValueError("eval-100 requires exactly 10 historical ARVO IDs")
+        if len(self.random_draw_arvo_ids) != 90:
+            raise ValueError("eval-100 requires exactly 90 random-draw ARVO IDs")
+        if len(self.selected_arvo_ids) != 100:
+            raise ValueError("eval-100 requires exactly 100 selected ARVO IDs")
+        if self.selected_arvo_ids != self.historical_arvo_ids + self.random_draw_arvo_ids:
+            raise ValueError("eval-100 selected IDs must equal historical plus random draw IDs")
+        if len(set(self.selected_arvo_ids)) != len(self.selected_arvo_ids):
+            raise ValueError("eval-100 selected IDs must be unique")
+        task_by_id = {task.arvo_id: task for task in self.tasks}
+        failed_by_id = {failure.arvo_id: failure for failure in self.run_failed}
+        if len(task_by_id) != len(self.tasks) or len(failed_by_id) != len(self.run_failed):
+            raise ValueError("eval-100 task and run failure IDs must be unique")
+        if set(task_by_id) & set(failed_by_id):
+            raise ValueError("eval-100 task cannot be both completed and run failed")
+        if any(row.attempt != 1 or row.arvo_id not in task_by_id for row in self.retry_attempts):
+            raise ValueError("eval-100 retry attempts must precede a completed task")
+        retry_keys = [(row.arvo_id, row.attempt) for row in self.retry_attempts]
+        if len(set(retry_keys)) != len(retry_keys):
+            raise ValueError("eval-100 retry attempt evidence must be unique")
+        observed_order = [
+            task_id
+            for task_id in self.selected_arvo_ids
+            if task_id in task_by_id or task_id in failed_by_id
+        ]
+        if observed_order != self.selected_arvo_ids:
+            raise ValueError("every selected eval-100 task must complete or run fail")
+        if [task.arvo_id for task in self.tasks] != [
+            task_id for task_id in self.selected_arvo_ids if task_id in task_by_id
+        ]:
+            raise ValueError("eval-100 completed tasks must retain selection order")
+        if [failure.arvo_id for failure in self.run_failed] != [
+            task_id for task_id in self.selected_arvo_ids if task_id in failed_by_id
+        ]:
+            raise ValueError("eval-100 run failures must retain selection order")
+        prep_ids = [failure.arvo_id for failure in self.prep_failed]
+        if len(set(prep_ids)) != len(prep_ids):
+            raise ValueError("eval-100 prep failure IDs must be unique")
+        if set(prep_ids) & set(self.selected_arvo_ids):
+            raise ValueError("a prep-failed task cannot enter the eval-100 run")
+        expected_counts = {
+            "tasks_requested": len(self.selected_arvo_ids),
+            "tasks_completed": len(self.tasks),
+            "prep_failures": len(self.prep_failed),
+            "run_failures": len(self.run_failed),
+        }
+        for field, expected in expected_counts.items():
+            if getattr(self.totals, field) != expected:
+                raise ValueError(f"eval-100 total {field} does not match report rows")
+        for task in self.tasks:
+            card_provenance = task.card_provenance
+            if card_provenance.osv_archive_sha256 != self.provenance.osv_archive_sha256:
+                raise ValueError("card OSV archive provenance does not match eval-100 provenance")
+            if card_provenance.monorail_mapping_sha256 != self.provenance.monorail_mapping_sha256:
+                raise ValueError("card mapping provenance does not match eval-100 provenance")
+            if card_provenance.execution_source_sha256 != self.provenance.execution_source_sha256:
+                raise ValueError("card execution source does not match eval-100 provenance")
+            if card_provenance.derivation_source_sha256 != self.provenance.derivation_source_sha256:
+                raise ValueError("card derivation source does not match eval-100 provenance")
+            if card_provenance.derivation_method != self.provenance.derivation_method:
+                raise ValueError("card derivation method does not match eval-100 provenance")
+        failed_attempts = self.retry_attempts + [
+            attempt for failure in self.run_failed for attempt in failure.attempt_evidence
+        ]
+        integer_totals = {
+            "crash_state_agreements": sum(
+                task.crash_state_agreement_with_osv for task in self.tasks
+            ),
+            "fixes_clean": sum(task.fix_clean for task in self.tasks),
+            "claims_agree": sum(task.claim_agreement for task in self.tasks),
+            "total_duplicate_candidates": sum(
+                len(task.duplicate_candidates) for task in self.tasks
+            ),
+            "total_input_tokens": sum(task.input_tokens for task in self.tasks)
+            + sum(attempt.input_tokens for attempt in failed_attempts),
+            "total_output_tokens": sum(task.output_tokens for task in self.tasks)
+            + sum(attempt.output_tokens for attempt in failed_attempts),
+        }
+        for field, expected in integer_totals.items():
+            if getattr(self.totals, field) != expected:
+                raise ValueError(f"eval-100 total {field} does not match task rows")
+        float_totals = {
+            "total_model_cost_usd": sum(task.model_cost_usd for task in self.tasks)
+            + sum(attempt.model_cost_usd for attempt in failed_attempts),
+            "total_sandbox_cost_usd": sum(task.sandbox_cost_usd for task in self.tasks)
+            + sum(attempt.sandbox_cost_usd for attempt in failed_attempts),
+            "total_cost_usd": sum(task.cost_usd for task in self.tasks)
+            + sum(attempt.cost_usd for attempt in failed_attempts),
+            "total_wall_seconds": sum(task.wall_seconds for task in self.tasks)
+            + sum(attempt.wall_seconds for attempt in failed_attempts),
+        }
+        for field, expected_float in float_totals.items():
+            if not math.isclose(getattr(self.totals, field), expected_float, abs_tol=1e-7):
+                raise ValueError(f"eval-100 total {field} does not match task rows")
+        return self
