@@ -114,9 +114,30 @@ def system_prompt(project: str | None) -> str:
     return (
         f"{SYSTEM_PROMPT} Trusted intake field set by the maintainer, not by the report: "
         f"the report was filed against the project {json.dumps(project)}. Use that name for "
-        "the project field when the report does not contradict it, and never ask for a "
-        "detail about a different project."
+        "the project field when the report does not contradict it, never list the project "
+        "name as missing, and never ask for a detail about a different project."
     )
+
+
+_PROJECT_NAME_DETAIL = re.compile(
+    r"\bproject(?:'s)?\s+name\b|\bname of the project\b", re.IGNORECASE
+)
+
+
+def drop_known_project_details(claim: Claim, project: str | None) -> Claim:
+    """Remove "project name" from missing details when the intake already supplied it.
+
+    Production 2026-10-19 (jq, ARVO 42530604): with the project supplied, the card still
+    listed "project name (inferred from context)". Removing a request for a field the
+    maintainer already gave cannot add a claim.
+    """
+
+    if not project:
+        return claim
+    kept = [detail for detail in claim.missing_details if not _PROJECT_NAME_DETAIL.search(detail)]
+    if len(kept) == len(claim.missing_details):
+        return claim
+    return claim.model_copy(update={"missing_details": kept})
 
 
 def extract_claim(
@@ -186,7 +207,7 @@ def extract_claim(
             response=response,
         )
     try:
-        claim = Claim.model_validate(json.loads(content))
+        claim = drop_known_project_details(Claim.model_validate(json.loads(content)), project)
     except (json.JSONDecodeError, ValueError) as error:
         _raise_recorded(
             f"Token Factory returned invalid strict claim JSON: {type(error).__name__}: {error}",

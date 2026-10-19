@@ -170,3 +170,50 @@ def test_intake_project_goes_to_the_system_message_and_never_into_report_text(
 
     extract_claim("public test report", client=client)  # type: ignore[arg-type]
     assert seen[1][0]["content"] == claims.SYSTEM_PROMPT
+
+
+@pytest.mark.parametrize(
+    ("project", "expected"),
+    [
+        ("jq", ["specific version affected"]),
+        (None, ["project name (inferred from context)", "specific version affected"]),
+    ],
+)
+def test_known_project_is_never_listed_as_missing(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    project: str | None,
+    expected: list[str],
+) -> None:
+    # Production 2026-10-19, ARVO 42530604: the card listed "project name (inferred from
+    # context)" although the intake had supplied jq.
+    monkeypatch.setenv("REPROOF_CACHE_DIR", str(tmp_path))
+    content = json.dumps(
+        {
+            "project": "jq",
+            "bug_class": "heap-buffer-overflow",
+            "functions": ["jv_parse"],
+            "files": [],
+            "trigger": "input",
+            "poc_attached": True,
+            "affected_version": "",
+            "missing_details": [
+                "project name (inferred from context)",
+                "specific version affected",
+            ],
+        }
+    )
+
+    class Completions:
+        def create(self, **_kwargs: object) -> object:
+            return SimpleNamespace(
+                _request_id="request-details",
+                choices=[
+                    SimpleNamespace(finish_reason="stop", message=SimpleNamespace(content=content))
+                ],
+                usage=SimpleNamespace(prompt_tokens=10, completion_tokens=5, total_tokens=15),
+            )
+
+    client = SimpleNamespace(chat=SimpleNamespace(completions=Completions()))
+    claim, _call = extract_claim("public test report", client=client, project=project)  # type: ignore[arg-type]
+    assert claim.missing_details == expected
