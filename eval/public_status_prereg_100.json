@@ -1,0 +1,2024 @@
+{
+  "schema_version": "public-status-prereg-2",
+  "registered_on": "2026-10-19",
+  "seed": 20261019,
+  "source_eval100_prereg": {
+    "path": "eval/eval100_prereg.json",
+    "sha256": "e774c26140ad82d46f039e73d7a8051013801f740c4a636c3d6e3eb6ce6bb675"
+  },
+  "input_sha256": {
+    "arvo_database": "331184ca807c2f136f98dac9f1df94c893f4ee2fdf9329dca517ff88e72f97ce",
+    "osv_archive": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513"
+  },
+  "task_order": "the historical 10 in their committed order, followed by the 90 metadata-selected draw tasks in registered draw acceptance order",
+  "paid_scope": "the historical 10 plus the first 40 accepted draw tasks",
+  "baseline_scope": "all 100 tasks",
+  "task_count": 100,
+  "paid_task_count": 50,
+  "batch_crawl": false,
+  "ledger_starts_at_recorded_credits": 0,
+  "tavily_credit_budget": 250,
+  "max_tavily_credits_per_started_task": 5,
+  "nemotron_call_budget": 200,
+  "max_nemotron_calls_per_started_task": 12,
+  "tasks": [
+    {
+      "set": "historical",
+      "task_id": 42530604,
+      "project": "jq",
+      "crash_type": "Heap-buffer-overflow WRITE 1",
+      "frames": [
+        "decToString",
+        "decNumberToString",
+        "jvp_literal_number_literal"
+      ],
+      "owner": "jqlang",
+      "repo": "jq",
+      "project_site": "",
+      "fix_commits": [
+        "71c2ab509a8628dbbad4bc7b3f98a64aa90d3297"
+      ],
+      "osv_record_id": "OSV-2023-1239",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "historical",
+      "task_id": 42507851,
+      "project": "libplist",
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "frames": [
+        "strtol",
+        "parse_primitive",
+        "plist_from_json"
+      ],
+      "owner": "libimobiledevice",
+      "repo": "libplist",
+      "project_site": "",
+      "fix_commits": [
+        "8ea84caa3cba801c4f240648a6b7919e9b3e0b0d"
+      ],
+      "osv_record_id": "OSV-2022-93",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "historical",
+      "task_id": 42496387,
+      "project": "wasm3",
+      "crash_type": "Heap-use-after-free READ 8",
+      "frames": [
+        "ForEachModule",
+        "Runtime_Release",
+        "m3_FreeRuntime"
+      ],
+      "owner": "wasm3",
+      "repo": "wasm3",
+      "project_site": "",
+      "fix_commits": [
+        "6bb612ccbfd5f8993a07a99092fab534722df1c3",
+        "3c0a7c159a77a58bbe128324091d39b02e77822f"
+      ],
+      "osv_record_id": "OSV-2021-701",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "historical",
+      "task_id": 42508524,
+      "project": "libplist",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "parse_primitive",
+        "plist_from_json",
+        "jplist_fuzzer.cc"
+      ],
+      "owner": "libimobiledevice",
+      "repo": "libplist",
+      "project_site": "",
+      "fix_commits": [
+        "106c4ee7f53ef800a82fce9638f29756e8b78640"
+      ],
+      "osv_record_id": "OSV-2022-158",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "historical",
+      "task_id": 42536108,
+      "project": "miniz",
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "frames": [
+        "mz_zip_mem_read_func",
+        "mz_zip_reader_read_central_dir",
+        "mz_zip_reader_init_mem"
+      ],
+      "owner": "richgel999",
+      "repo": "miniz",
+      "project_site": "",
+      "fix_commits": [
+        "8573fd7cd6f49b262a0ccc447f3c6acfc415e556"
+      ],
+      "osv_record_id": "OSV-2024-550",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "historical",
+      "task_id": 42536112,
+      "project": "miniz",
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "frames": [
+        "mz_zip_mem_read_func",
+        "mz_zip_validate_file",
+        "zip_fuzzer.c"
+      ],
+      "owner": "richgel999",
+      "repo": "miniz",
+      "project_site": "",
+      "fix_commits": [
+        "8573fd7cd6f49b262a0ccc447f3c6acfc415e556"
+      ],
+      "osv_record_id": "OSV-2024-551",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "historical",
+      "task_id": 42508390,
+      "project": "libplist",
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "frames": [
+        "strtol",
+        "parse_primitive",
+        "plist_from_json"
+      ],
+      "owner": "libimobiledevice",
+      "repo": "libplist",
+      "project_site": "",
+      "fix_commits": [
+        "7d2cdc6f378f1d6d5631b7739398dd50bea62663"
+      ],
+      "osv_record_id": "OSV-2022-147",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "historical",
+      "task_id": 42531297,
+      "project": "jq",
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "frames": [
+        "jv_string_vfmt",
+        "jv_string_fmt",
+        "jv_get"
+      ],
+      "owner": "jqlang",
+      "repo": "jq",
+      "project_site": "",
+      "fix_commits": [
+        "9d6efec1987b544ac2f8030e3c22036f7cb70cd9"
+      ],
+      "osv_record_id": "OSV-2023-1344",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "historical",
+      "task_id": 42531223,
+      "project": "jq",
+      "crash_type": "Stack-buffer-overflow WRITE 2",
+      "frames": [
+        "decNumberCopy",
+        "decNaNs",
+        "decCompareOp"
+      ],
+      "owner": "jqlang",
+      "repo": "jq",
+      "project_site": "",
+      "fix_commits": [
+        "b86ff49f46a4a37e5a8e75a140cb5fd6e1331384"
+      ],
+      "osv_record_id": "OSV-2023-1329",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "historical",
+      "task_id": 42476752,
+      "project": "libspng",
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "frames": [
+        "spng_decode_image",
+        "spng_read_fuzzer.cc"
+      ],
+      "owner": "randy408",
+      "repo": "libspng",
+      "project_site": "",
+      "fix_commits": [
+        "bace14e344502fce5984ab4fd9177d8db60351f8"
+      ],
+      "osv_record_id": "OSV-2020-344",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42477302,
+      "project": "libavc",
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "frames": [
+        "ih264d_cavlc_parse4x4coeff_n8",
+        "ih264d_cavlc_parse_8x8block_both_available",
+        "ih264d_parse_residual4x4_cavlc"
+      ],
+      "owner": "",
+      "repo": "",
+      "project_site": "",
+      "fix_commits": [
+        "6b7b0ac4eefa224de0d33a5036b55f416ee4e224"
+      ],
+      "osv_record_id": "OSV-2020-1242",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42481221,
+      "project": "arrow",
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "frames": [
+        "Visit",
+        "arrow::Status arrow::VisitArrayInline<arrow::internal::ValidateArrayDataVisitor>",
+        "arrow::internal::ValidateArrayData"
+      ],
+      "owner": "apache",
+      "repo": "arrow",
+      "project_site": "",
+      "fix_commits": [
+        "724da320eaac94003a8f1229d6a820fe8c8c1816"
+      ],
+      "osv_record_id": "OSV-2020-974",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42523942,
+      "project": "mruby",
+      "crash_type": "Heap-use-after-free READ 4",
+      "frames": [
+        "mrb_gc_mark",
+        "gc_mark_children",
+        "incremental_marking_phase"
+      ],
+      "owner": "mruby",
+      "repo": "mruby",
+      "project_site": "",
+      "fix_commits": [
+        "b47c8b738ae3e400ec02269fae9857222218e9d5"
+      ],
+      "osv_record_id": "OSV-2023-366",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42481224,
+      "project": "arrow",
+      "crash_type": "Heap-buffer-overflow WRITE 4",
+      "frames": [
+        "arrow::UnionType::UnionType",
+        "__compressed_pair_elem<const",
+        "__compressed_pair<std::__1::allocator<arrow::UnionType>"
+      ],
+      "owner": "apache",
+      "repo": "arrow",
+      "project_site": "",
+      "fix_commits": [
+        "a6307cc8a0127a4852b7d3d2c20940a094eed0d6"
+      ],
+      "osv_record_id": "OSV-2020-1058",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42481945,
+      "project": "ndpi",
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "frames": [
+        "ndpi_workflow_process_packet",
+        "fuzz_ndpi_reader.c"
+      ],
+      "owner": "ntop",
+      "repo": "nDPI",
+      "project_site": "",
+      "fix_commits": [
+        "e9195589d29d86da1849ad0d195900e6567354cf"
+      ],
+      "osv_record_id": "OSV-2020-40",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42525192,
+      "project": "libxml2",
+      "crash_type": "Global-buffer-overflow READ 1",
+      "frames": [
+        "xmlDictComputeFastKey",
+        "xmlDictLookup",
+        "xmlParseNCNameComplex"
+      ],
+      "owner": "",
+      "repo": "",
+      "project_site": "",
+      "fix_commits": [
+        "b236b7a588ac2973a057ec578011cdc17c26f16d"
+      ],
+      "osv_record_id": "OSV-2023-474",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42520614,
+      "project": "libredwg",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "bit_read_BB",
+        "dwg_decode_MINSERT_private",
+        "dwg_decode_MINSERT"
+      ],
+      "owner": "LibreDWG",
+      "repo": "libredwg",
+      "project_site": "",
+      "fix_commits": [
+        "02fd447dbbcc68d6e3cf819ccc0f8fb6c9bb07aa"
+      ],
+      "osv_record_id": "OSV-2023-42",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42504114,
+      "project": "qpid-proton",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "pni_consumer_readf8",
+        "consume_list",
+        "pn_amqp_decode_DqEoQBIoIe"
+      ],
+      "owner": "apache",
+      "repo": "qpid-proton",
+      "project_site": "",
+      "fix_commits": [
+        "b788baad3e9d9ba028d3d115e272e94a30227e17"
+      ],
+      "osv_record_id": "OSV-2021-1540",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42497241,
+      "project": "espeak-ng",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "string_decoder_getc_utf_8",
+        "text_decoder_getc",
+        "GetC"
+      ],
+      "owner": "espeak-ng",
+      "repo": "espeak-ng",
+      "project_site": "",
+      "fix_commits": [
+        "9decedb8c229e1a4219baceaab7a3d656e889e31"
+      ],
+      "osv_record_id": "OSV-2021-787",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42500367,
+      "project": "harfbuzz",
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "frames": [
+        "hb_array_t<OT::IntType<unsigned int, 4u> const> hb_array_t<OT::IntType<unsigned",
+        "OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >::copy",
+        "_hb_head_t<OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >*, decltype"
+      ],
+      "owner": "harfbuzz",
+      "repo": "harfbuzz",
+      "project_site": "",
+      "fix_commits": [
+        "829b0f33531b3c14b2e08331b8cc5b31fed73129"
+      ],
+      "osv_record_id": "OSV-2021-1153",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42518269,
+      "project": "libredwg",
+      "crash_type": "Heap-buffer-overflow READ 8",
+      "frames": [
+        "json_common_entity_data",
+        "dwg_json_LOAD",
+        "dwg_json_object"
+      ],
+      "owner": "LibreDWG",
+      "repo": "libredwg",
+      "project_site": "",
+      "fix_commits": [
+        "756d716867a4e862faa07ae395254b048b1322dc"
+      ],
+      "osv_record_id": "OSV-2022-1180",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42471044,
+      "project": "harfbuzz",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "BEInt<unsigned int, 4>::operator unsigned int",
+        "OT::OffsetTo<OT::UnsizedArrayOf<OT::IntType<short, 2u> >, OT::IntType<unsigned i",
+        "AAT::KerxSubTableFormat1::driver_context_t::driver_context_t"
+      ],
+      "owner": "harfbuzz",
+      "repo": "harfbuzz",
+      "project_site": "",
+      "fix_commits": [
+        "40f2b9355cf827c7b82ea5e55b112ce0032a9abf"
+      ],
+      "osv_record_id": "OSV-2018-162",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42522233,
+      "project": "mruby",
+      "crash_type": "Segv on unknown address",
+      "frames": [
+        "mrb_bint_sub",
+        "int_sub",
+        "mrb_vm_exec"
+      ],
+      "owner": "mruby",
+      "repo": "mruby",
+      "project_site": "",
+      "fix_commits": [
+        "62a8ea711329477ec0e22f17df77a37ceaff9322"
+      ],
+      "osv_record_id": "OSV-2023-178",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42504387,
+      "project": "open62541",
+      "crash_type": "Heap-use-after-free READ 8",
+      "frames": [
+        "UA_Subscription_answerPublishRequestsNoSubscription",
+        "processDelayedCallbacks",
+        "UA_Server_run_shutdown"
+      ],
+      "owner": "open62541",
+      "repo": "open62541",
+      "project_site": "",
+      "fix_commits": [
+        "d9208207e458a973e481ded5f7c2cf765dd7ea4c"
+      ],
+      "osv_record_id": "OSV-2017-10",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42501162,
+      "project": "kamailio",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "q_memchr",
+        "parse_quoted_param",
+        "parse_param_body"
+      ],
+      "owner": "kamailio",
+      "repo": "kamailio",
+      "project_site": "",
+      "fix_commits": [
+        "20db418f1e35f31d7a90d7cabbd22ae989b7266c"
+      ],
+      "osv_record_id": "OSV-2021-1201",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42532259,
+      "project": "simdutf",
+      "crash_type": "Heap-buffer-overflow WRITE 16",
+      "frames": [
+        "store_ascii_as_utf32",
+        "store_ascii_as_utf32",
+        "convert"
+      ],
+      "owner": "simdutf",
+      "repo": "simdutf",
+      "project_site": "",
+      "fix_commits": [
+        "c708a9e4c1dc880241c252bec76fada53ab84da3"
+      ],
+      "osv_record_id": "OSV-2024-39",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42486565,
+      "project": "libxml2",
+      "crash_type": "Heap-use-after-free READ 4",
+      "frames": [
+        "xmlXIncludeIncludeNode",
+        "xmlXIncludeDoProcess",
+        "xmlXIncludeLoadFallback"
+      ],
+      "owner": "",
+      "repo": "",
+      "project_site": "",
+      "fix_commits": [
+        "dba82a8c0453b7d4d138167a771c1c2988b889be"
+      ],
+      "osv_record_id": "OSV-2020-1623",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42470538,
+      "project": "radare2",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "r_str_utf16_to_utf8",
+        "sections",
+        "r_bin_object_set_items"
+      ],
+      "owner": "radare",
+      "repo": "radare2",
+      "project_site": "",
+      "fix_commits": [
+        "533da1306534ece22d67eaa3c32e46b717cd9199"
+      ],
+      "osv_record_id": "OSV-2018-201",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42513620,
+      "project": "mruby",
+      "crash_type": "Heap-buffer-overflow READ 8",
+      "frames": [
+        "mpz_get_int",
+        "bint_norm",
+        "mrb_bint_add"
+      ],
+      "owner": "mruby",
+      "repo": "mruby",
+      "project_site": "",
+      "fix_commits": [
+        "b84bca666fdc4fe94286b49b6f6b9a64e4c3a534"
+      ],
+      "osv_record_id": "OSV-2022-606",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42471105,
+      "project": "harfbuzz",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "BEInt<unsigned short, 2>::operator unsigned short",
+        "OT::IndexSubtable::get_extents",
+        "OT::IndexSubtableRecord::get_extents"
+      ],
+      "owner": "harfbuzz",
+      "repo": "harfbuzz",
+      "project_site": "",
+      "fix_commits": [
+        "4c27da7638f6d072c3ff93223488c4ab316236c1"
+      ],
+      "osv_record_id": "OSV-2018-185",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42501200,
+      "project": "json",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "nlohmann::basic_json<std::__1::map, std::__1::vector, std::__1::basic_string<cha",
+        "nlohmann::basic_json<std::__1::map, std::__1::vector, std::__1::basic_string<cha",
+        "from_cbor"
+      ],
+      "owner": "nlohmann",
+      "repo": "json",
+      "project_site": "",
+      "fix_commits": [
+        "476507031890fd6effb7b447a156168803b0bd37"
+      ],
+      "osv_record_id": "OSV-2017-59",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42471108,
+      "project": "libgit2",
+      "crash_type": "Heap-buffer-overflow READ 13",
+      "frames": [
+        "git_buf_vprintf",
+        "giterr_set",
+        "git__strntol32"
+      ],
+      "owner": "libgit2",
+      "repo": "libgit2",
+      "project_site": "",
+      "fix_commits": [
+        "bea65980c7a42e34edfafbdc40b199ba7b2a564e"
+      ],
+      "osv_record_id": "OSV-2018-2",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42475782,
+      "project": "radare2",
+      "crash_type": "Negative-size-param",
+      "frames": [
+        "r_buf_read",
+        "parse_function_starts",
+        "init_items"
+      ],
+      "owner": "radare",
+      "repo": "radare2",
+      "project_site": "",
+      "fix_commits": [
+        "2ec8d3c9f2103c7da8bcb7d864db000b9e93a05a"
+      ],
+      "osv_record_id": "OSV-2020-722",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42481193,
+      "project": "ndpi",
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "frames": [
+        "ndpi_workflow_process_packet",
+        "fuzz_ndpi_reader.c"
+      ],
+      "owner": "ntop",
+      "repo": "nDPI",
+      "project_site": "",
+      "fix_commits": [
+        "812505b56bb4508bc42e1615d6425ad26444d3f8"
+      ],
+      "osv_record_id": "OSV-2020-242",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42498970,
+      "project": "open62541",
+      "crash_type": "Negative-size-param",
+      "frames": [
+        "appendChunk",
+        "UA_SecureChannel_finalizeChunk",
+        "UA_SecureChannel_processChunk"
+      ],
+      "owner": "open62541",
+      "repo": "open62541",
+      "project_site": "",
+      "fix_commits": [
+        "3e9fdcb66c5a1adf0e1cdc9485b4e6efe8103e1b"
+      ],
+      "osv_record_id": "OSV-2017-78",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42477222,
+      "project": "libavc",
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "frames": [
+        "ih264d_cavlc_4x4res_block_totalcoeff_11to16",
+        "ih264d_cavlc_parse4x4coeff_n0to7",
+        "ih264d_cavlc_parse_8x8block_both_available"
+      ],
+      "owner": "",
+      "repo": "",
+      "project_site": "",
+      "fix_commits": [
+        "6b7b0ac4eefa224de0d33a5036b55f416ee4e224"
+      ],
+      "osv_record_id": "OSV-2020-1153",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42496936,
+      "project": "c-blosc2",
+      "crash_type": "Negative-size-param",
+      "frames": [
+        "get_vlmeta_from_trailer",
+        "frame_get_vlmetalayers",
+        "frame_to_schunk"
+      ],
+      "owner": "Blosc",
+      "repo": "c-blosc2",
+      "project_site": "",
+      "fix_commits": [
+        "ac7b9359e84d796bfb1ff1fd3f7c9eaf9a506799"
+      ],
+      "osv_record_id": "OSV-2021-766",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42475195,
+      "project": "radare2",
+      "crash_type": "Heap-buffer-overflow WRITE 8",
+      "frames": [
+        "r_core_lines_initcache",
+        "cb_linesto",
+        "r_config_set_i"
+      ],
+      "owner": "radare",
+      "repo": "radare2",
+      "project_site": "",
+      "fix_commits": [
+        "a875795bb5d8c216fa17d685b49784c4d5c93f87"
+      ],
+      "osv_record_id": "OSV-2020-455",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42499827,
+      "project": "spice-usbredir",
+      "crash_type": "Heap-use-after-free WRITE 4",
+      "frames": [
+        "usbredirparser_serialize",
+        "try_serialize",
+        "usbredirparserfuzz.cc"
+      ],
+      "owner": "",
+      "repo": "",
+      "project_site": "",
+      "fix_commits": [
+        "03c519ff5831ba75120e00ebebbf1d5a1f7220ab"
+      ],
+      "osv_record_id": "OSV-2021-1102",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42510753,
+      "project": "quickjs",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "build_for_in_iterator",
+        "js_for_in_start",
+        "JS_CallInternal"
+      ],
+      "owner": "bellard",
+      "repo": "quickjs",
+      "project_site": "",
+      "fix_commits": [
+        "daa35bc1e5d43192098af9b51caeb4f18f73f9f9"
+      ],
+      "osv_record_id": "OSV-2022-349",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42501143,
+      "project": "kamailio",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "trim_leading",
+        "parse_contacts",
+        "contact_parser"
+      ],
+      "owner": "kamailio",
+      "repo": "kamailio",
+      "project_site": "",
+      "fix_commits": [
+        "20db418f1e35f31d7a90d7cabbd22ae989b7266c"
+      ],
+      "osv_record_id": "OSV-2021-1195",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42474141,
+      "project": "openthread",
+      "crash_type": "Stack-use-after-return READ 1",
+      "frames": [
+        "ot::MeshCoP::ChannelMaskEntryBase::GetChannelPage",
+        "ot::MeshCoP::ChannelMaskTlv::GetChannelMask",
+        "ot::MeshCoP::ChannelMaskTlv::GetChannelMask"
+      ],
+      "owner": "openthread",
+      "repo": "openthread",
+      "project_site": "",
+      "fix_commits": [
+        "fab45352f5d6b2f516fed8a86c0d197bb7c27958"
+      ],
+      "osv_record_id": "OSV-2020-343",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42533590,
+      "project": "gpac",
+      "crash_type": "Heap-buffer-overflow READ 13",
+      "frames": [
+        "gf_strmemstr",
+        "txtin_probe_data",
+        "gf_filter_pid_raw_new"
+      ],
+      "owner": "gpac",
+      "repo": "gpac",
+      "project_site": "",
+      "fix_commits": [
+        "96b474ec59b3490eed7a874b14f78ad4b3a9d2bd"
+      ],
+      "osv_record_id": "OSV-2024-157",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42517374,
+      "project": "opensc",
+      "crash_type": "Stack-buffer-overflow READ 1",
+      "frames": [
+        "authentic_parse_size",
+        "authentic_get_tagged_data",
+        "authentic_parse_credential_data"
+      ],
+      "owner": "OpenSC",
+      "repo": "OpenSC",
+      "project_site": "",
+      "fix_commits": [
+        "e6593b237eea851072e0d545795ee23ec0b4b524"
+      ],
+      "osv_record_id": "OSV-2022-1084",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42490025,
+      "project": "libavc",
+      "crash_type": "Heap-buffer-overflow READ 8",
+      "frames": [
+        "ih264d_fill_bs1_16x16mb_pslice",
+        "ih264d_compute_bs_non_mbaff_thread",
+        "ih264d_recon_deblk_slice"
+      ],
+      "owner": "",
+      "repo": "",
+      "project_site": "",
+      "fix_commits": [
+        "a9345b686dbbfa927a51598ec7582cf61e35ef55",
+        "0b601e1a4fb246ce7c60aa101af5af4edd0a842d"
+      ],
+      "osv_record_id": "OSV-2020-2212",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42517725,
+      "project": "fluent-bit",
+      "crash_type": "Heap-buffer-overflow READ 8",
+      "frames": [
+        "add_bytes",
+        "add_compile_string",
+        "compile_string_node"
+      ],
+      "owner": "fluent",
+      "repo": "fluent-bit",
+      "project_site": "",
+      "fix_commits": [
+        "5ddb06fe4273bdec0171bc30877959c7bef666c2"
+      ],
+      "osv_record_id": "OSV-2022-1132",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42476618,
+      "project": "openthread",
+      "crash_type": "Stack-buffer-overflow READ 8",
+      "frames": [
+        "ot::NetworkData::Leader::IsStableUpdated",
+        "ot::NetworkData::Leader::RegisterNetworkData",
+        "ot::NetworkData::Leader::HandleServerData"
+      ],
+      "owner": "openthread",
+      "repo": "openthread",
+      "project_site": "",
+      "fix_commits": [
+        "a211901f62b96fb6fb0ee792dab4007c64b44e18"
+      ],
+      "osv_record_id": "OSV-2020-383",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42496031,
+      "project": "irssi",
+      "crash_type": "Heap-use-after-free READ 4",
+      "frames": [
+        "module_check_cast",
+        "server_connect_unref",
+        "server_unref"
+      ],
+      "owner": "irssi",
+      "repo": "irssi",
+      "project_site": "",
+      "fix_commits": [
+        "3dbfac5699c6887b7149a0b1c805c4730f63d0f4"
+      ],
+      "osv_record_id": "OSV-2021-664",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42522531,
+      "project": "hdf5",
+      "crash_type": "Heap-buffer-overflow READ 5",
+      "frames": [
+        "H5G__node_cmp3",
+        "H5B_find",
+        "H5G__stab_lookup"
+      ],
+      "owner": "HDFGroup",
+      "repo": "hdf5",
+      "project_site": "",
+      "fix_commits": [],
+      "osv_record_id": "OSV-2023-216",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42488737,
+      "project": "ndpi",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "ndpi_workflow_process_packet",
+        "fuzz_ndpi_reader.c"
+      ],
+      "owner": "ntop",
+      "repo": "nDPI",
+      "project_site": "",
+      "fix_commits": [
+        "9f050fa0a65f3403c1f8296faf5f9d88d4900a8d"
+      ],
+      "osv_record_id": "OSV-2020-2126",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": true
+    },
+    {
+      "set": "draw",
+      "task_id": 42483517,
+      "project": "fluent-bit",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "u8_read_escape_sequence",
+        "flb_unescape_string_utf8",
+        "logfmt_parser"
+      ],
+      "owner": "fluent",
+      "repo": "fluent-bit",
+      "project_site": "",
+      "fix_commits": [
+        "512556c951076a4a07dd436b57921a63fd85f95a",
+        "d6c4796b9d952eb4e1aedc349cb05b98f37cf01c"
+      ],
+      "osv_record_id": "OSV-2020-112",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42477355,
+      "project": "file",
+      "crash_type": "Heap-buffer-overflow WRITE 4",
+      "frames": [
+        "cdf_read_property_info",
+        "cdf_unpack_summary_info",
+        "cdf_file_summary_info"
+      ],
+      "owner": "file",
+      "repo": "file",
+      "project_site": "",
+      "fix_commits": [
+        "06de62c022138f63de9bcd04074491945eaa8662"
+      ],
+      "osv_record_id": "OSV-2020-1193",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42513189,
+      "project": "fluent-bit",
+      "crash_type": "Segv on unknown address",
+      "frames": [
+        "AtomicallySetQuarantineFlagIfAllocated",
+        "onig_free_body",
+        "onig_free"
+      ],
+      "owner": "fluent",
+      "repo": "fluent-bit",
+      "project_site": "",
+      "fix_commits": [
+        "9cc2ff55a146b2b3e8c321a87920c0d39a2b2ba6",
+        "3c13edab76389a7412deef12ac61a25b85f00c39"
+      ],
+      "osv_record_id": "OSV-2022-558",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42522285,
+      "project": "libxml2",
+      "crash_type": "Global-buffer-overflow READ 1",
+      "frames": [
+        "xmlParseContentInternal",
+        "xmlParseContent",
+        "xmlParseExternalEntityPrivate"
+      ],
+      "owner": "",
+      "repo": "",
+      "project_site": "",
+      "fix_commits": [
+        "ca2bfecea9c23f8d2e11741fff7c6a5372c56bb8"
+      ],
+      "osv_record_id": "OSV-2023-193",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42517205,
+      "project": "curl",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "loop",
+        "loop",
+        "ftp_pl_insert_finfo"
+      ],
+      "owner": "curl",
+      "repo": "curl",
+      "project_site": "",
+      "fix_commits": [
+        "cb5accab9ee3abdee777b59b463b5e0ca05a490a",
+        "2c0c4dff083f9b258c18456567cf15fa32e3acd7"
+      ],
+      "osv_record_id": "OSV-2018-209",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42513988,
+      "project": "libredwg",
+      "crash_type": "Heap-buffer-overflow WRITE {*}",
+      "frames": [
+        "dynapi_set_helper",
+        "dwg_dynapi_entity_set_value",
+        "dxf_blocks_read"
+      ],
+      "owner": "LibreDWG",
+      "repo": "libredwg",
+      "project_site": "",
+      "fix_commits": [
+        "428d1ed6a874d11b39a34f779140755f087fc9e2"
+      ],
+      "osv_record_id": "OSV-2022-657",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 420198855,
+      "project": "readstat",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "sav_parse_long_variable_names_record",
+        "sav_parse_records_pass2",
+        "readstat_parse_sav"
+      ],
+      "owner": "WizardMac",
+      "repo": "ReadStat",
+      "project_site": "",
+      "fix_commits": [
+        "b2d5407d62caf3c33caadc0495c9f7684b6a0df7"
+      ],
+      "osv_record_id": "OSV-2025-408",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42479852,
+      "project": "libgit2",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "git_buf_decode_base85",
+        "parse_patch_binary_side",
+        "parse_patch_binary"
+      ],
+      "owner": "libgit2",
+      "repo": "libgit2",
+      "project_site": "",
+      "fix_commits": [
+        "7f6fdb8293a94267fead2424c90450de228db157"
+      ],
+      "osv_record_id": "OSV-2020-313",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42532046,
+      "project": "quickjs",
+      "crash_type": "Heap-use-after-free WRITE 8",
+      "frames": [
+        "__list_add",
+        "list_add_tail",
+        "add_gc_object"
+      ],
+      "owner": "bellard",
+      "repo": "quickjs",
+      "project_site": "",
+      "fix_commits": [],
+      "osv_record_id": "OSV-2024-204",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42509841,
+      "project": "opensc",
+      "crash_type": "Stack-use-after-return READ 1",
+      "frames": [
+        "template_sanity_check",
+        "process_tmpl",
+        "process_block"
+      ],
+      "owner": "OpenSC",
+      "repo": "OpenSC",
+      "project_site": "",
+      "fix_commits": [
+        "8697a01850d5e02a3099acd5160d0a0ee2d31077"
+      ],
+      "osv_record_id": "OSV-2022-268",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42534483,
+      "project": "matio",
+      "crash_type": "Heap-buffer-overflow READ 8",
+      "frames": [
+        "Mat_VarDuplicate",
+        "MatioRead",
+        "matio_fuzzer.cpp"
+      ],
+      "owner": "tbeu",
+      "repo": "matio",
+      "project_site": "",
+      "fix_commits": [
+        "b6219380c57afa91e9357ff09a33866237748d30"
+      ],
+      "osv_record_id": "OSV-2024-265",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42517450,
+      "project": "openexr",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "fasthuf_read_bits",
+        "fasthuf_initialize",
+        "internal_huf_decompress"
+      ],
+      "owner": "AcademySoftwareFoundation",
+      "repo": "openexr",
+      "project_site": "",
+      "fix_commits": [
+        "063a881e7a5cd57156dbd0c9b6ad4d30f7023e55"
+      ],
+      "osv_record_id": "OSV-2022-1098",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42499939,
+      "project": "net-snmp",
+      "crash_type": "Stack-buffer-overflow READ 8",
+      "frames": [
+        "getoid",
+        "parse_objectid",
+        "parse_asntype"
+      ],
+      "owner": "net-snmp",
+      "repo": "net-snmp",
+      "project_site": "",
+      "fix_commits": [
+        "7274e4b843683ed7bc657988227e8d65469b8829"
+      ],
+      "osv_record_id": "OSV-2021-1113",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42517796,
+      "project": "oniguruma",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "onigenc_mbn_mbc_case_fold",
+        "euckr_mbc_case_fold",
+        "string_cmp_ic"
+      ],
+      "owner": "kkos",
+      "repo": "oniguruma",
+      "project_site": "",
+      "fix_commits": [
+        "34eac8830181bc348dab845932ae3368d1bcf3ff"
+      ],
+      "osv_record_id": "OSV-2022-1144",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42525816,
+      "project": "serenity",
+      "crash_type": "Heap-buffer-overflow READ 7",
+      "frames": [
+        "fill_reservoir",
+        "BooleanDecoder",
+        "Gfx::BooleanDecoder::initialize"
+      ],
+      "owner": "SerenityOS",
+      "repo": "serenity",
+      "project_site": "",
+      "fix_commits": [
+        "a098b6e371f3f794a0a43b259cf7aa0b2f9bbe73"
+      ],
+      "osv_record_id": "OSV-2023-538",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42523860,
+      "project": "hdf5",
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "frames": [
+        "H5MM_memcpy",
+        "H5O__cache_chk_serialize",
+        "H5C__generate_image"
+      ],
+      "owner": "HDFGroup",
+      "repo": "hdf5",
+      "project_site": "",
+      "fix_commits": [],
+      "osv_record_id": "OSV-2023-359",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 396777457,
+      "project": "net-snmp",
+      "crash_type": "Heap-use-after-free READ 1",
+      "frames": [
+        "netsnmp_hex_to_binary",
+        "snmpv3_parse_arg",
+        "netsnmp_parse_args"
+      ],
+      "owner": "net-snmp",
+      "repo": "net-snmp",
+      "project_site": "",
+      "fix_commits": [
+        "cbedf0cba170b967ab312ebc794eabdd6f67c6d5",
+        "6af1dd2e6ab3820d949e24bc640bdcd75a05e48f"
+      ],
+      "osv_record_id": "OSV-2025-132",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42512228,
+      "project": "libjxl",
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "frames": [
+        "jxl::JxlBoxContentDecoder::Process",
+        "HandleBoxes",
+        "JxlDecoderProcessInput"
+      ],
+      "owner": "libjxl",
+      "repo": "libjxl",
+      "project_site": "",
+      "fix_commits": [
+        "746d1f5e8498f501238894899c301e70ea57e2aa"
+      ],
+      "osv_record_id": "OSV-2022-480",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42498959,
+      "project": "libpng",
+      "crash_type": "Heap-buffer-overflow WRITE {*}",
+      "frames": [
+        "OSS_FUZZ_png_combine_row",
+        "OSS_FUZZ_png_read_row",
+        "libpng_read_fuzzer.cc"
+      ],
+      "owner": "glennrp",
+      "repo": "libpng",
+      "project_site": "",
+      "fix_commits": [
+        "a3d1057a735d923626f1f6bdc0f662a13d0cba6f"
+      ],
+      "osv_record_id": "OSV-2017-67",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42522804,
+      "project": "libxslt",
+      "crash_type": "Heap-double-free",
+      "frames": [
+        "xmlHashDefaultDeallocator",
+        "xmlHashFree",
+        "xmlFreeParserCtxt"
+      ],
+      "owner": "",
+      "repo": "",
+      "project_site": "",
+      "fix_commits": [
+        "677b2e8fe8187f3ba981dc97f65e75fec2dec62c"
+      ],
+      "osv_record_id": "OSV-2023-265",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42501136,
+      "project": "matio",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "H5O__linfo_decode",
+        "H5O_msg_read_oh",
+        "H5O_msg_read"
+      ],
+      "owner": "",
+      "repo": "",
+      "project_site": "",
+      "fix_commits": [
+        "04d1deab800d962055a1c5509e25ad8dfe05c4f1"
+      ],
+      "osv_record_id": "OSV-2021-1197",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42507220,
+      "project": "c-blosc2",
+      "crash_type": "Heap-buffer-overflow WRITE {*}",
+      "frames": [
+        "ndlz8_decompress",
+        "blosc_d",
+        "serial_blosc"
+      ],
+      "owner": "Blosc",
+      "repo": "c-blosc2",
+      "project_site": "",
+      "fix_commits": [
+        "ce2e8fe5f2fdb3779505935f05f93481d4905e62"
+      ],
+      "osv_record_id": "OSV-2022-33",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 379418968,
+      "project": "assimp",
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "frames": [
+        "Assimp::FBXExporter::WriteObjects",
+        "WriteAllNodes",
+        "Assimp::FBXExporter::ExportBinary"
+      ],
+      "owner": "assimp",
+      "repo": "assimp",
+      "project_site": "",
+      "fix_commits": [
+        "5aa38fe3cd9385eb10af16b9cb714eb759b886ef"
+      ],
+      "osv_record_id": "OSV-2024-1324",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42517530,
+      "project": "libraw",
+      "crash_type": "Heap-buffer-overflow WRITE 2",
+      "frames": [
+        "LibRaw::kodak_rgb_load_raw",
+        "LibRaw::kodak_thumb_loader",
+        "LibRaw::unpack_thumb"
+      ],
+      "owner": "libraw",
+      "repo": "libraw",
+      "project_site": "",
+      "fix_commits": [
+        "63794a2471b426ff4268de6982e8a6f711163e2e"
+      ],
+      "osv_record_id": "OSV-2022-1107",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42517784,
+      "project": "oniguruma",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "onigenc_unicode_mbc_case_fold",
+        "mbc_case_fold",
+        "string_cmp_ic"
+      ],
+      "owner": "kkos",
+      "repo": "oniguruma",
+      "project_site": "",
+      "fix_commits": [
+        "34eac8830181bc348dab845932ae3368d1bcf3ff"
+      ],
+      "osv_record_id": "OSV-2022-1142",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42481233,
+      "project": "arrow",
+      "crash_type": "Segv on unknown address",
+      "frames": [
+        "SafeLoadAs<int>",
+        "arrow::ipc::ReadMessage",
+        "arrow::ipc::RecordBatchFileReader::RecordBatchFileReaderImpl::ReadMessageFromBlo"
+      ],
+      "owner": "apache",
+      "repo": "arrow",
+      "project_site": "",
+      "fix_commits": [
+        "724da320eaac94003a8f1229d6a820fe8c8c1816"
+      ],
+      "osv_record_id": "OSV-2020-1159",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42532885,
+      "project": "matio",
+      "crash_type": "Stack-buffer-overflow WRITE 8",
+      "frames": [
+        "H5S_extent_get_dims",
+        "H5S_get_simple_extent_dims",
+        "H5Sget_simple_extent_dims"
+      ],
+      "owner": "tbeu",
+      "repo": "matio",
+      "project_site": "",
+      "fix_commits": [
+        "1565241343f00b203ee86810694d42992336b7f4"
+      ],
+      "osv_record_id": "OSV-2024-163",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42498712,
+      "project": "dnsmasq",
+      "crash_type": "Heap-buffer-overflow WRITE 1",
+      "frames": [
+        "extract_name",
+        "hash_questions",
+        "fuzz_util.c"
+      ],
+      "owner": "",
+      "repo": "",
+      "project_site": "",
+      "fix_commits": [
+        "d242cbffa4f20c9f7472f79b3a9e47008b6fe77c"
+      ],
+      "osv_record_id": "OSV-2021-929",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42536328,
+      "project": "libssh2",
+      "crash_type": "Heap-double-free",
+      "frames": [
+        "libssh2_default_free",
+        "diffie_hellman_sha_algo",
+        "kex_method_diffie_hellman_group14_key_exchange"
+      ],
+      "owner": "libssh2",
+      "repo": "libssh2",
+      "project_site": "",
+      "fix_commits": [
+        "b3465418471ffa4cf0bbe1e8f28c4d007f060f99"
+      ],
+      "osv_record_id": "OSV-2024-859",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42488172,
+      "project": "libcoap",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "coap_opt_length",
+        "coap_pdu_parse_opt",
+        "coap_pdu_parse"
+      ],
+      "owner": "obgm",
+      "repo": "libcoap",
+      "project_site": "",
+      "fix_commits": [
+        "238fded2d8d6288429810573c2b27dc73898134f"
+      ],
+      "osv_record_id": "OSV-2020-2080",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 411460530,
+      "project": "openthread",
+      "crash_type": "Stack-buffer-overflow READ {*}",
+      "frames": [
+        "ot::Cli::OutputImplementer::OutputV",
+        "ot::Cli::Utils::OutputFormatV",
+        "ot::Cli::Utils::OutputLine"
+      ],
+      "owner": "openthread",
+      "repo": "openthread",
+      "project_site": "",
+      "fix_commits": [
+        "3e7528e4e9cc992166dba8db471d063443d60710"
+      ],
+      "osv_record_id": "OSV-2025-289",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42501148,
+      "project": "kamailio",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "parse_param_name",
+        "parse_param2",
+        "parse_params2"
+      ],
+      "owner": "kamailio",
+      "repo": "kamailio",
+      "project_site": "",
+      "fix_commits": [
+        "20db418f1e35f31d7a90d7cabbd22ae989b7266c"
+      ],
+      "osv_record_id": "OSV-2021-1198",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42528883,
+      "project": "libdwarf",
+      "crash_type": "Heap-buffer-overflow READ 8",
+      "frames": [
+        "_dwarf_memcpy_noswap_bytes",
+        "fill_in_uni_arch_64",
+        "_dwarf_object_detector_universal_head_fd"
+      ],
+      "owner": "davea42",
+      "repo": "libdwarf-code",
+      "project_site": "",
+      "fix_commits": [
+        "3a658bd1dd7437948cecbf82bb9b24f5f6122a7d"
+      ],
+      "osv_record_id": "OSV-2023-977",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42513361,
+      "project": "libjxl",
+      "crash_type": "Heap-buffer-overflow WRITE {*}",
+      "frames": [
+        "jxl::WriteToImageBundleStage::ProcessRow",
+        "jxl::LowMemoryRenderPipeline::RenderPadding",
+        "jxl::LowMemoryRenderPipeline::ProcessBuffers"
+      ],
+      "owner": "libjxl",
+      "repo": "libjxl",
+      "project_site": "",
+      "fix_commits": [
+        "658017a0256aab2c35cf96ed478c8339757608f4"
+      ],
+      "osv_record_id": "OSV-2022-580",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42526388,
+      "project": "c-blosc2",
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "frames": [
+        "ZSTD_copyRawBlock",
+        "ZSTD_decompressFrame",
+        "ZSTD_decompressMultiFrame"
+      ],
+      "owner": "Blosc",
+      "repo": "c-blosc2",
+      "project_site": "",
+      "fix_commits": [],
+      "osv_record_id": "OSV-2023-606",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42513154,
+      "project": "libpcap",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "fixup_pcap_pkthdr",
+        "pcap_next_packet",
+        "pcap_offline_read"
+      ],
+      "owner": "the-tcpdump-group",
+      "repo": "libpcap",
+      "project_site": "",
+      "fix_commits": [
+        "e2c0fd75e48a3cbf1bf48b8afe28fff50d8e0877",
+        "a774407d41419bc8f3069b70e9d9be26c82f0f70"
+      ],
+      "osv_record_id": "OSV-2022-551",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42481492,
+      "project": "jbig2dec",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "jbig2_image_get_pixels_fast",
+        "jbig2_decode_generic_template0_TPGDON",
+        "jbig2_immediate_generic_region"
+      ],
+      "owner": "",
+      "repo": "",
+      "project_site": "",
+      "fix_commits": [
+        "ce3e3aa738f1f5102fea63dfb9de15fea555c559"
+      ],
+      "osv_record_id": "OSV-2020-197",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42532225,
+      "project": "gpac",
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "frames": [
+        "my_strstr",
+        "ctxload_probe_data",
+        "gf_filter_pid_raw_new"
+      ],
+      "owner": "gpac",
+      "repo": "gpac",
+      "project_site": "",
+      "fix_commits": [
+        "5bc64556b45beb8c48e2e40e419beb335fa468c7"
+      ],
+      "osv_record_id": "OSV-2024-33",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42471287,
+      "project": "libgit2",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "parse_mode",
+        "git_tree__parse_raw",
+        "git_object__from_raw"
+      ],
+      "owner": "libgit2",
+      "repo": "libgit2",
+      "project_site": "",
+      "fix_commits": [
+        "f647bbc88d243a81d8771ba2fd1c346c34a3d9d7"
+      ],
+      "osv_record_id": "OSV-2018-202",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42487660,
+      "project": "libavif",
+      "crash_type": "Heap-use-after-free READ 4",
+      "frames": [
+        "avifFileTypeIsCompatible",
+        "avifDecoderParse",
+        "avif_decode_fuzzer.cc"
+      ],
+      "owner": "AOMediaCodec",
+      "repo": "libavif",
+      "project_site": "",
+      "fix_commits": [
+        "468ded88b6ee5ccc4ce1ed029a7d310e5764947c",
+        "76556c4c24cb935039e1ba87006d80fb513a8d7b"
+      ],
+      "osv_record_id": "OSV-2020-1840",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42523626,
+      "project": "libssh2",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "_libssh2_ntohu32",
+        "packet_authagent_open",
+        "_libssh2_packet_add"
+      ],
+      "owner": "libssh2",
+      "repo": "libssh2",
+      "project_site": "",
+      "fix_commits": [
+        "88a960a86b9ffbabd17a4bbcf767e26514c4678e"
+      ],
+      "osv_record_id": "OSV-2023-343",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42479408,
+      "project": "opensc",
+      "crash_type": "Invalid-free",
+      "frames": [
+        "sc_pkcs15_decode_prkdf_entry",
+        "fuzz_pkcs15_decode.c"
+      ],
+      "owner": "OpenSC",
+      "repo": "OpenSC",
+      "project_site": "",
+      "fix_commits": [
+        "6ce6152284c47ba9b1d4fe8ff9d2e6a3f5ee02c7"
+      ],
+      "osv_record_id": "OSV-2020-680",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42487077,
+      "project": "rnp",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "ru32",
+        "rnp_key_store_kbx_parse_header_blob",
+        "rnp_key_store_kbx_parse_blob"
+      ],
+      "owner": "rnpgp",
+      "repo": "rnp",
+      "project_site": "",
+      "fix_commits": [
+        "a78cdb748a715796613c59f07575737b767fcab9",
+        "6a5fb890eb30a59f7aa46b3e915a236d4bbe4176",
+        "f390442dc9bc3a4cf44c35a642f6094f11075f5d"
+      ],
+      "osv_record_id": "OSV-2020-1699",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42499964,
+      "project": "serenity",
+      "crash_type": "Use-after-poison READ 1",
+      "frames": [
+        "JS::PrimitiveString::string",
+        "JS::abstract_relation",
+        "JS::less_than"
+      ],
+      "owner": "SerenityOS",
+      "repo": "serenity",
+      "project_site": "",
+      "fix_commits": [
+        "be07e2e91bda0e1bfb7eb2702eac5a5d182c4684"
+      ],
+      "osv_record_id": "OSV-2021-1116",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42497297,
+      "project": "serenity",
+      "crash_type": "Heap-use-after-free WRITE 8",
+      "frames": [
+        "AK::Atomic<unsigned long,",
+        "AK::RefPtrTraits<AK::StringImpl>::lock",
+        "AK::RefPtr<AK::StringImpl, AK::RefPtrTraits<AK::StringImpl> >::add_ref_raw"
+      ],
+      "owner": "SerenityOS",
+      "repo": "serenity",
+      "project_site": "",
+      "fix_commits": [
+        "6af596d9e8a0dfd9c175b7e56b848b969af191ae"
+      ],
+      "osv_record_id": "OSV-2021-793",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42523506,
+      "project": "libheif",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "parse_signed",
+        "RegionGeometry_Polygon::parse",
+        "RegionItem::parse"
+      ],
+      "owner": "strukturag",
+      "repo": "libheif",
+      "project_site": "",
+      "fix_commits": [
+        "4b05bad7e5e63603bfc33d2ce3d00e3a4e6d2b28"
+      ],
+      "osv_record_id": "OSV-2023-332",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42527431,
+      "project": "libheif",
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "frames": [
+        "HeifContext::interpret_heif_file",
+        "HeifContext::read_from_memory",
+        "heif_context_read_from_memory"
+      ],
+      "owner": "strukturag",
+      "repo": "libheif",
+      "project_site": "",
+      "fix_commits": [
+        "cd6274a9e5e106ea990fb150e781d79848b74337"
+      ],
+      "osv_record_id": "OSV-2023-736",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42533290,
+      "project": "igraph",
+      "crash_type": "Global-buffer-overflow READ 2",
+      "frames": [
+        "igraph_dl_yylex",
+        "igraph_dl_yyparse",
+        "igraph_read_graph_dl"
+      ],
+      "owner": "igraph",
+      "repo": "igraph",
+      "project_site": "",
+      "fix_commits": [
+        "3d19cd132ca57040c6680b54c45a014c9f0f0ea7"
+      ],
+      "osv_record_id": "OSV-2024-137",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42530151,
+      "project": "lcms",
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "frames": [
+        "WriteCLUT",
+        "WriteOutputLUT",
+        "GenerateCRD"
+      ],
+      "owner": "mm2",
+      "repo": "Little-CMS",
+      "project_site": "",
+      "fix_commits": [
+        "1176e61afea4b58c5f92c6f226cdb7b1c76797d5"
+      ],
+      "osv_record_id": "OSV-2023-1164",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    },
+    {
+      "set": "draw",
+      "task_id": 42536751,
+      "project": "gpac",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "frames": [
+        "gf_hevc_compute_ref_list",
+        "gf_hevc_parse_nalu_bs",
+        "gf_inspect_dump_nalu_internal"
+      ],
+      "owner": "gpac",
+      "repo": "gpac",
+      "project_site": "",
+      "fix_commits": [
+        "2ea39f5e8561ebcb74304c55fc6071fbb3dc0a42"
+      ],
+      "osv_record_id": "OSV-2024-627",
+      "label": "saved ARVO crash output and pinned OSS-Fuzz OSV record; no new sandbox run",
+      "paid": false
+    }
+  ]
+}

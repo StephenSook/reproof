@@ -15,6 +15,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -36,7 +37,7 @@ from reproof.public_status import (
     _github_get,
     lookup_public_status,
 )
-from reproof.public_tavily import RECORDED_CALL_CREDITS, CreditLedger
+from reproof.public_tavily import CreditLedger
 
 ROOT = Path(__file__).resolve().parent.parent
 PREREG_PATH = ROOT / "eval" / "public_status_prereg.json"
@@ -45,6 +46,7 @@ PROBE_COMMIT = "b86ff49f46a4a37e5a8e75a140cb5fd6e1331384"
 PROBE_TAG = "jq-1.7.1"
 NVD_PAUSE_S = 6
 MAX_ADVISORY_PAGES = 10
+MAX_NEMOTRON_CALLS_PER_STARTED_TASK = 12
 _SECRET_NAMES = (
     "TAVILY_API_KEY",
     "NEBIUS_API_KEY",
@@ -63,19 +65,91 @@ def scrub(text: str) -> str:
     return cleaned
 
 
-def partial_path() -> Path:
+def partial_path(
+    prereg_path: Path = PREREG_PATH,
+    out_path: Path = OUT_PATH,
+) -> Path:
     directory = os.environ.get("TEMP") or os.environ.get("TMP") or "."
-    return Path(directory) / "reproof-public-status-partial.json"
+    if prereg_path.resolve() == PREREG_PATH.resolve() and out_path.resolve() == OUT_PATH.resolve():
+        name = "reproof-public-status-partial.json"
+    else:
+        identity = f"{prereg_path.resolve()}\0{out_path.resolve()}".encode()
+        name = f"reproof-public-status-partial-{hashlib.sha256(identity).hexdigest()[:16]}.json"
+    return Path(directory) / name
 
 
-def load_prereg() -> dict[str, Any]:
-    payload = json.loads(PREREG_PATH.read_text(encoding="utf-8"))
-    if payload.get("seed") != 20261005 or payload.get("batch_crawl") is not False:
-        raise SystemExit("pre-registration file does not match the registered seed or crawl rule")
+def _positive_int(value: object, label: str) -> int:
+    if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
+        raise SystemExit(f"{label} must be a positive integer")
+    return value
+
+
+def load_prereg(path: Path = PREREG_PATH) -> dict[str, Any]:
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if payload.get("batch_crawl") is not False:
+        raise SystemExit("pre-registration must disable batch crawl")
+    _positive_int(payload.get("tavily_credit_budget"), "tavily_credit_budget")
+    _positive_int(payload.get("nemotron_call_budget"), "nemotron_call_budget")
+    start = payload.get("ledger_starts_at_recorded_credits")
+    if isinstance(start, bool) or not isinstance(start, int) or start < 0:
+        raise SystemExit("ledger_starts_at_recorded_credits must be a non-negative integer")
+    if "tasks" in payload:
+        if payload.get("seed") != 20261019:
+            raise SystemExit("eval-100 public-status seed must be 20261019")
+        _positive_int(
+            payload.get("max_tavily_credits_per_started_task"),
+            "max_tavily_credits_per_started_task",
+        )
+        _positive_int(
+            payload.get("max_nemotron_calls_per_started_task"),
+            "max_nemotron_calls_per_started_task",
+        )
+    elif payload.get("seed") != 20261005:
+        raise SystemExit("legacy public-status seed must be 20261005")
     return payload
 
 
 def tasks_from(prereg: dict[str, Any]) -> list[dict[str, Any]]:
+    if "tasks" in prereg:
+        raw_tasks = prereg["tasks"]
+        if not isinstance(raw_tasks, list):
+            raise SystemExit("pre-registration tasks must be an array")
+        rows = []
+        required = {
+            "set",
+            "task_id",
+            "project",
+            "crash_type",
+            "frames",
+            "owner",
+            "repo",
+            "project_site",
+            "fix_commits",
+            "osv_record_id",
+            "label",
+            "paid",
+        }
+        for raw in raw_tasks:
+            if not isinstance(raw, dict) or set(raw) != required:
+                raise SystemExit("eval-100 public-status task has an invalid field set")
+            if not isinstance(raw["paid"], bool):
+                raise SystemExit("eval-100 public-status task paid must be boolean")
+            if not isinstance(raw["frames"], list) or not isinstance(raw["fix_commits"], list):
+                raise SystemExit("eval-100 public-status frames and fix commits must be arrays")
+            rows.append({**raw, "task_id": str(raw["task_id"])})
+        expected_tasks = _positive_int(prereg.get("task_count"), "task_count")
+        expected_paid = _positive_int(prereg.get("paid_task_count"), "paid_task_count")
+        if len(rows) != expected_tasks or sum(bool(row["paid"]) for row in rows) != expected_paid:
+            raise SystemExit("eval-100 public-status task counts differ from the preregistration")
+        if [bool(row["paid"]) for row in rows] != [True] * expected_paid + [False] * (
+            expected_tasks - expected_paid
+        ):
+            raise SystemExit("eval-100 public-status paid tasks must be the registered prefix")
+        task_ids = [row["task_id"] for row in rows]
+        if len(set(task_ids)) != len(task_ids):
+            raise SystemExit("eval-100 public-status task IDs must be unique")
+        return rows
+
     rows: list[dict[str, Any]] = []
     for row in prereg["set_a_arvo10"]:
         rows.append(
@@ -91,6 +165,7 @@ def tasks_from(prereg: dict[str, Any]) -> list[dict[str, Any]]:
                 "fix_commits": list(row["fix_commits"]),
                 "osv_record_id": row["osv_record_id"],
                 "label": row["label"],
+                "paid": True,
             }
         )
     for row in prereg["set_b_osv30"]:
@@ -107,6 +182,7 @@ def tasks_from(prereg: dict[str, Any]) -> list[dict[str, Any]]:
                 "fix_commits": list(row["fix_commits"]),
                 "osv_record_id": row["osv_id"],
                 "label": row["label"],
+                "paid": True,
             }
         )
     if len(rows) != 40 or sum(row["set"] == "A" for row in rows) != 10:
@@ -393,50 +469,61 @@ def baseline_task(
     failed: list[str] = []
     hits: list[dict[str, Any]] = []
     rejected = {"host": 0, "frame": 0}
-    if not frames or not task["owner"] or not task["repo"]:
-        failed.append("baseline not checkable: missing frame or repository")
+    if not frames:
+        failed.append("baseline not checkable: missing frame")
     else:
-        listing = github_advisories(task["owner"], task["repo"], advisories)
-        if listing["error"]:
-            failed.append(
-                f"GET /repos/{task['owner']}/{task['repo']}/security-advisories: {listing['error']}"
-            )
-        if listing["truncated"]:
-            failed.append("repository advisory list truncated at 10 pages")
-        for item in listing["advisories"]:
-            text = f"{item.get('summary', '')}\n{item.get('description', '')}"
-            url = str(item.get("html_url") or "")
-            decision = host_allowed(
-                url,
-                owner=task["owner"],
-                repo=task["repo"],
-                project=task["project"],
-                text=text,
-            )
-            if not decision.allowed:
-                rejected["host"] += 1
-                continue
-            gate = match_frames(text, frames, task["crash_type"])
-            if not gate.passes:
-                rejected["frame"] += 1
-                continue
-            ids = extract_ids(text)
-            versions = list(ids.patched_versions)
-            ancestry = ancestry_of(
-                transport, task["owner"], task["repo"], versions, task["fix_commits"], tag_cache
-            )
-            hits.append(
-                {
-                    "source": "github_repo_advisories",
-                    "url": url,
-                    "ghsa_id": item.get("ghsa_id") or "",
-                    "cve_id": item.get("cve_id") or "",
-                    "frames_matched": list(gate.frames_matched),
-                    "match_reason": gate.reason,
-                    "patched_versions": versions,
-                    **ancestry,
-                }
-            )
+        has_repository = bool(task["owner"] and task["repo"])
+        if not has_repository:
+            failed.append("GitHub baseline not checkable: missing repository")
+        else:
+            listing = github_advisories(task["owner"], task["repo"], advisories)
+            if listing["error"]:
+                failed.append(
+                    f"GET /repos/{task['owner']}/{task['repo']}/security-advisories: "
+                    f"{listing['error']}"
+                )
+            if listing["truncated"]:
+                failed.append("repository advisory list truncated at 10 pages")
+            for item in listing["advisories"]:
+                text = f"{item.get('summary', '')}\n{item.get('description', '')}"
+                url = str(item.get("html_url") or "")
+                decision = host_allowed(
+                    url,
+                    owner=task["owner"],
+                    repo=task["repo"],
+                    project=task["project"],
+                    text=text,
+                )
+                if not decision.allowed:
+                    rejected["host"] += 1
+                    continue
+                gate = match_frames(text, frames, task["crash_type"])
+                if not gate.passes:
+                    rejected["frame"] += 1
+                    continue
+                ids = extract_ids(text)
+                versions = list(ids.patched_versions)
+                ancestry = ancestry_of(
+                    transport,
+                    task["owner"],
+                    task["repo"],
+                    versions,
+                    task["fix_commits"],
+                    tag_cache,
+                )
+                hits.append(
+                    {
+                        "source": "github_repo_advisories",
+                        "url": url,
+                        "ghsa_id": item.get("ghsa_id") or "",
+                        "cve_id": item.get("cve_id") or "",
+                        "frames_matched": list(gate.frames_matched),
+                        "match_reason": gate.reason,
+                        "patched_versions": versions,
+                        **ancestry,
+                    }
+                )
+
         if nvd_blocked[0]:
             failed.append(f"NVD skipped after {nvd_blocked[0]}")
         else:
@@ -472,14 +559,26 @@ def baseline_task(
                         rejected["frame"] += 1
                         continue
                     ids = extract_ids(text)
-                    ancestry = ancestry_of(
-                        transport,
-                        task["owner"],
-                        task["repo"],
-                        list(ids.patched_versions),
-                        task["fix_commits"],
-                        tag_cache,
-                    )
+                    if has_repository:
+                        ancestry = ancestry_of(
+                            transport,
+                            task["owner"],
+                            task["repo"],
+                            list(ids.patched_versions),
+                            task["fix_commits"],
+                            tag_cache,
+                        )
+                    else:
+                        ancestry = {
+                            "ancestry": NOT_CHECKABLE,
+                            "checked_tag": "",
+                            "checked_commit": "",
+                            "checked_version": (
+                                ids.patched_versions[0] if ids.patched_versions else ""
+                            ),
+                            "stale_fields": [],
+                            "errors": ["GitHub ancestry not checkable: missing repository"],
+                        }
                     hits.append(
                         {
                             "source": "nvd_keyword",
@@ -531,7 +630,7 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
     evidence = [item for row in ran for item in row.get("evidence", [])]
     claims = claim_counts(evidence)
     by_set: dict[str, Any] = {}
-    for name in ("A", "B"):
+    for name in dict.fromkeys(str(row["set"]) for row in records):
         chosen = [row for row in records if row["set"] == name]
         chosen_ran = [row for row in chosen if row.get("ran")]
         by_set[name] = {
@@ -564,29 +663,64 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
     return {"by_set": by_set, "fixed_in_claims": claims, "evidence_pages": len(evidence)}
 
 
-def save_partial(payload: dict[str, Any]) -> None:
-    path = partial_path()
+def save_partial(payload: dict[str, Any], path: Path | None = None) -> None:
+    path = path or partial_path()
+    path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(".json.tmp")
     temporary.write_text(json.dumps(payload), encoding="utf-8")
     temporary.replace(path)
 
 
-def main() -> None:
+def _assert_within_budget(ledger: CreditLedger, budget: ModelBudget) -> None:
+    if ledger.used + ledger.unanswered > ledger.limit:
+        raise RuntimeError("Tavily accounting exceeded the preregistered credit cap")
+    if budget.used > budget.limit:
+        raise RuntimeError("Nemotron accounting exceeded the preregistered call cap")
+
+
+def _utc_date() -> str:
+    return datetime.now(UTC).date().isoformat()
+
+
+def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser()
+    parser.add_argument("--prereg", type=Path, default=PREREG_PATH)
+    parser.add_argument("--out", type=Path, default=OUT_PATH)
     parser.add_argument("--dry-run", action="store_true")
-    args = parser.parse_args()
-    prereg = load_prereg()
+    args = parser.parse_args(argv)
+    prereg_path = args.prereg.resolve()
+    out_path = args.out.resolve()
+    if prereg_path != PREREG_PATH.resolve() and out_path == OUT_PATH.resolve():
+        raise SystemExit(
+            "refusing a non-default pre-registration with the legacy public-status output"
+        )
+    prereg = load_prereg(prereg_path)
     rows = tasks_from(prereg)
     if args.dry_run:
-        jq = next(row for row in rows if row["task_id"] == "42531223")
-        print(f"tasks {len(rows)} jq_top {jq['frames'][0]} crawl {prereg['batch_crawl']}")
+        paid = sum(bool(row.get("paid", True)) for row in rows)
+        print(
+            f"tasks {len(rows)} paid {paid} seed {prereg['seed']}"
+            f" credits {prereg['tavily_credit_budget']}"
+            f" nemotron {prereg['nemotron_call_budget']}"
+            f" crawl {prereg['batch_crawl']}"
+        )
         return
     for name in ("TAVILY_API_KEY", "NEBIUS_API_KEY"):
         if len(os.environ.get(name) or "") < 8:
             raise SystemExit(f"missing {name}")
-    digest = hashlib.sha256(PREREG_PATH.read_bytes()).hexdigest()
+    digest = hashlib.sha256(prereg_path.read_bytes()).hexdigest()
+    credit_limit = int(prereg["tavily_credit_budget"])
+    model_limit = int(prereg["nemotron_call_budget"])
+    ledger_start = int(prereg["ledger_starts_at_recorded_credits"])
+    task_credit_max = int(prereg.get("max_tavily_credits_per_started_task", 5))
+    task_model_max = int(
+        prereg.get(
+            "max_nemotron_calls_per_started_task",
+            MAX_NEMOTRON_CALLS_PER_STARTED_TASK,
+        )
+    )
     transport = UrllibGitHub()
-    path = partial_path()
+    path = partial_path(prereg_path, out_path)
     if path.is_file():
         state = json.loads(path.read_text(encoding="utf-8"))
         print(f"resume tasks {len(state.get('tasks', []))}")
@@ -599,7 +733,8 @@ def main() -> None:
         )
         state = {
             "prereg_sha256": digest,
-            "ledger_start_credits": RECORDED_CALL_CREDITS,
+            "retrieved_on": _utc_date(),
+            "ledger_start_credits": ledger_start,
             "ancestry_probe": {
                 "owner": "jqlang",
                 "repo": "jq",
@@ -612,24 +747,97 @@ def main() -> None:
             },
             "tasks": [],
             "baseline": [],
-            "ledger_used": RECORDED_CALL_CREDITS,
+            "ledger_used": ledger_start,
+            "ledger_unanswered": 0,
+            "ledger_usage_missing": False,
             "nemotron_used": 0,
+            "nemotron_reserved": 0,
+            "interrupted": [],
+            "in_progress": None,
         }
-        save_partial(state)
+        save_partial(state, path)
     if state.get("prereg_sha256") != digest:
         raise SystemExit("partial file was built from a different pre-registration")
+    if not isinstance(state.get("retrieved_on"), str) or not state["retrieved_on"]:
+        state["retrieved_on"] = _utc_date()
+        save_partial(state, path)
+    in_progress = state.get("in_progress")
+    if in_progress is not None:
+        expected_hold = {
+            "task_id": str(in_progress.get("task_id")) if isinstance(in_progress, dict) else "",
+            "tavily_credits": task_credit_max,
+            "nemotron_calls": task_model_max,
+        }
+        if not isinstance(in_progress, dict) or in_progress != expected_hold:
+            raise SystemExit("partial file has an invalid in-progress budget reservation")
+        task_by_id = {str(row["task_id"]): row for row in rows}
+        interrupted_task = task_by_id.get(expected_hold["task_id"])
+        if interrupted_task is None or any(
+            str(row.get("task_id")) == expected_hold["task_id"] for row in state["tasks"]
+        ):
+            raise SystemExit("partial file has an invalid in-progress task")
+        state["ledger_unanswered"] = int(state.get("ledger_unanswered", 0)) + task_credit_max
+        state["nemotron_used"] = int(state.get("nemotron_used", 0)) + task_model_max
+        state["nemotron_reserved"] = int(state.get("nemotron_reserved", 0)) + task_model_max
+        state.setdefault("interrupted", []).append(expected_hold)
+        state["tasks"].append(
+            not_run(
+                interrupted_task,
+                "not retried: prior process stopped after reserving paid-call budget",
+            )
+        )
+        state["in_progress"] = None
+        save_partial(state, path)
     done = {row["task_id"] for row in state["tasks"]}
-    ledger = CreditLedger(used=int(state["ledger_used"]))
-    budget = ModelBudget(used=int(state["nemotron_used"]))
+    ledger = CreditLedger(
+        limit=credit_limit,
+        used=int(state["ledger_used"]),
+        unanswered=int(state.get("ledger_unanswered", 0)),
+        usage_missing=bool(state.get("ledger_usage_missing", False)),
+    )
+    budget = ModelBudget(limit=model_limit, used=int(state["nemotron_used"]))
+    try:
+        _assert_within_budget(ledger, budget)
+    except RuntimeError as error:
+        raise SystemExit("partial file exceeds the registered public-status budget") from error
     for task in rows:
         if task["task_id"] in done:
             continue
-        if ledger.usage_missing or ledger.used >= ledger.limit or budget.used >= budget.limit:
-            reason = "stopped before this task: credit or Nemotron budget"
-            if ledger.usage_missing:
-                reason = "stopped before this task: an earlier Tavily response had no usage.credits"
-            record = not_run(task, reason)
+        if not task.get("paid", True):
+            record = not_run(task, "not run: outside the preregistered paid subset")
+        elif not usable_frames(task["frames"]):
+            status = lookup_public_status(
+                project=task["project"],
+                crash_type=task["crash_type"],
+                frames=task["frames"],
+                owner=task["owner"],
+                repo=task["repo"],
+                fix_commits=task["fix_commits"],
+                project_site=task["project_site"],
+                ledger=ledger,
+                model_budget=budget,
+                transport=transport,
+                retrieved_on=str(state["retrieved_on"]),
+                forbidden=("NAN1000000000",),
+                crawl_fallback=False,
+            )
+            record = compact_status(task, status)
+        elif ledger.usage_missing:
+            record = not_run(
+                task,
+                "stopped before this task: an earlier Tavily response had no usage.credits",
+            )
+        elif ledger.used + ledger.unanswered + task_credit_max > ledger.limit:
+            record = not_run(task, "stopped before this task: Tavily credit cap")
+        elif budget.used + task_model_max > budget.limit:
+            record = not_run(task, "stopped before this task: Nemotron call cap")
         else:
+            state["in_progress"] = {
+                "task_id": str(task["task_id"]),
+                "tavily_credits": task_credit_max,
+                "nemotron_calls": task_model_max,
+            }
+            save_partial(state, path)
             try:
                 status = lookup_public_status(
                     project=task["project"],
@@ -642,7 +850,7 @@ def main() -> None:
                     ledger=ledger,
                     model_budget=budget,
                     transport=transport,
-                    retrieved_on="2026-10-05",
+                    retrieved_on=str(state["retrieved_on"]),
                     forbidden=("NAN1000000000",),
                     crawl_fallback=False,
                 )
@@ -650,10 +858,14 @@ def main() -> None:
             except Exception as exc:
                 record = not_run(task, "lookup failed: " + scrub(f"{type(exc).__name__}: {exc}"))
                 record["ran"] = False
+        _assert_within_budget(ledger, budget)
         state["tasks"].append(record)
         state["ledger_used"] = ledger.used
+        state["ledger_unanswered"] = ledger.unanswered
+        state["ledger_usage_missing"] = ledger.usage_missing
         state["nemotron_used"] = budget.used
-        save_partial(state)
+        state["in_progress"] = None
+        save_partial(state, path)
         print(
             f"{task['set']} {task['task_id']} {record.get('state') or 'NOT_RUN'}"
             f" credits={ledger.used} nemotron={budget.used} refs={len(record.get('evidence', []))}"
@@ -671,7 +883,7 @@ def main() -> None:
             task, transport, advisories, nvd_cache, tag_cache, nvd_clock, nvd_blocked
         )
         state["baseline"].append(record)
-        save_partial(state)
+        save_partial(state, path)
         print(
             f"baseline {task['set']} {task['task_id']}"
             f" refs={len(record['references'])} failed={len(record['failed_sources'])}"
@@ -679,14 +891,21 @@ def main() -> None:
     base_hits = [item for row in state["baseline"] for item in row["references"]]
     payload = {
         "schema": "public-status-eval-1",
-        "registered_on": "2026-10-05",
+        "registered_on": prereg["registered_on"],
+        "retrieved_on": state["retrieved_on"],
         "prereg_sha256": digest,
-        "ledger_start_credits": RECORDED_CALL_CREDITS,
+        "ledger_start_credits": ledger_start,
         "batch_crawl": False,
+        "tavily_credit_cap": credit_limit,
+        "nemotron_call_cap": model_limit,
         "ancestry_probe": state["ancestry_probe"],
         "tavily_credits_used_including_recorded": ledger.used,
-        "tavily_credits_this_run": ledger.used - RECORDED_CALL_CREDITS,
+        "tavily_unanswered_credits": ledger.unanswered,
+        "tavily_usage_missing": ledger.usage_missing,
+        "tavily_credits_this_run": ledger.used - ledger_start,
         "nemotron_calls": budget.used,
+        "nemotron_reserved_after_interruption": int(state.get("nemotron_reserved", 0)),
+        "interrupted_reservations": state.get("interrupted", []),
         "tasks": state["tasks"],
         "baseline": state["baseline"],
         "tavily_summary": summarize(state["tasks"]),
@@ -695,10 +914,11 @@ def main() -> None:
         "baseline_frame_rejected": sum(row["frame_rejected"] for row in state["baseline"]),
         "baseline_host_rejected": sum(row["host_rejected"] for row in state["baseline"]),
     }
-    temporary = OUT_PATH.with_suffix(".json.tmp")
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = out_path.with_suffix(".json.tmp")
     temporary.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
-    temporary.replace(OUT_PATH)
-    print("wrote", OUT_PATH)
+    temporary.replace(out_path)
+    print("wrote", out_path)
     print(json.dumps(payload["tavily_summary"], indent=2))
     print("baseline_refs", payload["baseline_verified_references"])
     print("baseline_fixed_in", json.dumps(payload["baseline_fixed_in_claims"]))
