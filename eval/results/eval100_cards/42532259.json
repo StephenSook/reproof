@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42532259,
+  "project": "simdutf",
+  "report_source": "public OSS-Fuzz OSV report OSV-2024-39; this is not a private report",
+  "report_text": "Heap-buffer-overflow in simdutf::westmere::implementation::convert_utf8_to_utf32\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=66063\n\n```\nCrash type: Heap-buffer-overflow WRITE 16\nCrash state:\nsimdutf::westmere::implementation::convert_utf8_to_utf32\nroundtrip.cc\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [
+    "version of simdutf affected",
+    "input that triggers the overflow",
+    "steps to reproduce outside OSS-Fuzz environment"
+  ],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow WRITE {*}",
+      "crash_state": [
+        "store_ascii_as_utf32",
+        "store_ascii_as_utf32",
+        "convert"
+      ],
+      "sanitizer_excerpt": "==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x621000004ce7 at pc 0x00000062cc61 bp 0x7fffffffdfb0 sp 0x7fffffffdfa8\nWRITE of size 32 at 0x621000004ce7 thread T0\nSCARINESS: 45 (multi-byte-write-heap-buffer-overflow)\n    #0 0x62cc60 in store_ascii_as_utf32 /src/simdutf/build/singleheader/simdutf.cpp:1770:7\n    #1 0x62cc60 in store_ascii_as_utf32 /src/simdutf/build/singleheader/simdutf.cpp:2041:23\n    #2 0x62cc60 in convert /src/simdutf/build/singleheader/simdutf.cpp:25543:17\n    #3 0x62cc60 in simdutf::haswell::implementation::convert_utf8_to_utf32(char const*, unsigned long, char32_t*) const /src/simdutf/build/singleheader/simdutf.cpp:26374:20\n    #4 0x6676ab in LLVMFuzzerTestOneInput /src/simdutf/fuzz/roundtrip.cc:176:30\n    #5 0x43ed03 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #6 0x42a462 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #7 0x42fd0c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #8 0x459242 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #9 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: e678fe54a5d2c2092f8e47eb0b33105e380f7340)\n    #10 0x42062d in _start (/out/roundtrip+0x42062d)\n\nDEDUP_TOKEN: store_ascii_as_utf32--store_ascii_as_utf32--convert\n0x621000004ce7 is located 3 bytes to the right of 4068-byte region [0x621000003d00,0x621000004ce4)\nallocated by thread T0 here:\n    #0 0x56aded in operator new[](unsigned long) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:98:3\n    #1 0x66733f in LLVMFuzzerTestOneInput /src/simdutf/fuzz/roundtrip.cc:173:9\n    #2 0x43ed03 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #3 0x42a462 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #4 0x42fd0c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #5 0x459242 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #6 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: e678fe54a5d2c2092f8e47eb0b33105e380f7340)\n\nDEDUP_TOKEN: operator new[](unsigned long)--LLVMFuzzerTestOneInput--fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/simdutf/build/singleheader/simdutf.cpp:1770:7 in store_ascii_as_utf32",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2024-39"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-buffer-overflow",
+        "measured": "Heap-buffer-overflow WRITE {*}",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "simdutf::westmere::implementation::convert_utf8_to_utf32"
+        ],
+        "measured": [
+          "store_ascii_as_utf32",
+          "store_ascii_as_utf32",
+          "convert"
+        ],
+        "matches": false,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.439643,
+      "input_tokens": 234,
+      "output_tokens": 110,
+      "total_tokens": 344,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001692,
+      "request_id": "2495b09ec87dbf62b98f8e6f47728970"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42532259,
+      "kind": "vul",
+      "checkpoint_uuid": "e78513f1-5a2e-45f6-9a7e-2cf030740204",
+      "checkpoint_operation_uuid": "01a157a5-608c-7436-b67c-a27c9fb35bd0",
+      "checkpoint_wall_seconds": 9.029095,
+      "checkpoint_cost_usd": 0.00006298,
+      "operation_uuid": "01a157a5-8a59-74bb-a060-b2b4914e125b",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1588154869\nINFO: Loaded 1 modules   (6636 inline 8-bit counters): 6636 [0x7d93d8, 0x7dadc4), \nINFO: Loaded 1 PC tables (6636 PCs): 6636 [0x74e1c8,0x768088), \n/out/roundtrip: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x621000004ce7 at pc 0x00000062cc61 bp 0x7fffffffdfb0 sp 0x7fffffffdfa8\nWRITE of size 32 at 0x621000004ce7 thread T0\nSCARINESS: 45 (multi-byte-write-heap-buffer-overflow)\n    #0 0x62cc60 in store_ascii_as_utf32 /src/simdutf/build/singleheader/simdutf.cpp:1770:7\n    #1 0x62cc60 in store_ascii_as_utf32 /src/simdutf/build/singleheader/simdutf.cpp:2041:23\n    #2 0x62cc60 in convert /src/simdutf/build/singleheader/simdutf.cpp:25543:17\n    #3 0x62cc60 in simdutf::haswell::implementation::convert_utf8_to_utf32(char const*, unsigned long, char32_t*) const /src/simdutf/build/singleheader/simdutf.cpp:26374:20\n    #4 0x6676ab in LLVMFuzzerTestOneInput /src/simdutf/fuzz/roundtrip.cc:176:30\n    #5 0x43ed03 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #6 0x42a462 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #7 0x42fd0c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #8 0x459242 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #9 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: e678fe54a5d2c2092f8e47eb0b33105e380f7340)\n    #10 0x42062d in _start (/out/roundtrip+0x42062d)\n\nDEDUP_TOKEN: store_ascii_as_utf32--store_ascii_as_utf32--convert\n0x621000004ce7 is located 3 bytes to the right of 4068-byte region [0x621000003d00,0x621000004ce4)\nallocated by thread T0 here:\n    #0 0x56aded in operator new[](unsigned long) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:98:3\n    #1 0x66733f in LLVMFuzzerTestOneInput /src/simdutf/fuzz/roundtrip.cc:173:9\n    #2 0x43ed03 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #3 0x42a462 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #4 0x42fd0c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #5 0x459242 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #6 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: e678fe54a5d2c2092f8e47eb0b33105e380f7340)\n\nDEDUP_TOKEN: operator new[](unsigned long)--LLVMFuzzerTestOneInput--fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/simdutf/build/singleheader/simdutf.cpp:1770:7 in store_ascii_as_utf32\nShadow bytes around the buggy address:\n  0x0c427fff8940: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c427fff8950: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c427fff8960: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c427fff8970: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c427fff8980: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n=>0x0c427fff8990: 00 00 00 00 00 00 00 00 00 00 00 00[04]fa fa fa\n  0x0c427fff89a0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c427fff89b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c427fff89c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c427fff89d0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c427fff89e0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==9==ABORTING\n",
+      "wall_seconds": 0.93585,
+      "server_elapsed_seconds": 0.013463,
+      "cost_usd": 0.00034089,
+      "disposable": true
+    },
+    {
+      "task_id": 42532259,
+      "kind": "fix",
+      "checkpoint_uuid": "23cb3a61-b1ad-42c9-a7df-c7ab8fb650fd",
+      "checkpoint_operation_uuid": "01a157a5-83bf-77ed-8011-917f2d8e066b",
+      "checkpoint_wall_seconds": 8.774737,
+      "checkpoint_cost_usd": 0.00006306,
+      "operation_uuid": "01a157a5-8b56-771c-ac74-1479054cac54",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1588930985\nINFO: Loaded 1 modules   (6661 inline 8-bit counters): 6661 [0x7da448, 0x7dbe4d), \nINFO: Loaded 1 PC tables (6661 PCs): 6661 [0x74f1c8,0x769218), \n/out/roundtrip: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 3 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.511507,
+      "server_elapsed_seconds": 0.012313,
+      "cost_usd": 0.00032461,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "32a08df5a672a6c646ebe2ecc2b50ffb9bc0a742de6ef851a9588ee734e232cb",
+    "fix": "6be3c5f5fdc6a96a4eaf70bf9dde7648b4fa06296e5fa4dc9f0469add1d5366f"
+  },
+  "provenance": {
+    "arvo_task_sha256": "96d94829605495b4a7ed24747c29157d9a6cecc20f8f54f7323721693c84bc35",
+    "report_sha256": "67152f12e203865065bfc09d032ae4e950f1676163d29ee4db5fce7fd42beb36",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2024-39"
+  },
+  "model_cost_usd": 0.0001692,
+  "sandbox_cost_usd": 0.00079154,
+  "total_cost_usd": 0.00096074,
+  "wall_seconds": 22.298948,
+  "public_status": null
+}

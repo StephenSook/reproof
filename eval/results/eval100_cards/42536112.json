@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42536112,
+  "project": "miniz",
+  "report_source": "public OSS-Fuzz OSV report OSV-2024-551; this is not a private report",
+  "report_text": "Heap-buffer-overflow in mz_zip_mem_read_func\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=69531\n\n```\nCrash type: Heap-buffer-overflow READ {*}\nCrash state:\nmz_zip_mem_read_func\nmz_zip_validate_file\nzip_fuzzer.c\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "crash_state": [
+        "mz_zip_mem_read_func",
+        "mz_zip_validate_file",
+        "zip_fuzzer.c"
+      ],
+      "sanitizer_excerpt": "==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x5070000000d4 at pc 0x5555556cfada bp 0x7fffffffe210 sp 0x7fffffffd9d0\nREAD of size 17 at 0x5070000000d4 thread T0\nSCARINESS: 26 (multi-byte-read-heap-buffer-overflow)\n    #0 0x5555556cfad9 in __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3\n    #1 0x55555572d48d in mz_zip_mem_read_func /src/miniz/build/amalgamation/miniz.c:4050:9\n    #2 0x555555738478 in mz_zip_validate_file /src/miniz/build/amalgamation/miniz.c:5410:13\n    #3 0x555555710cbf in LLVMFuzzerTestOneInput /src/miniz/tests/zip_fuzzer.c:38:9\n    #4 0x5555555c3480 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:614:13\n    #5 0x5555555adc14 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6\n    #6 0x5555555b36aa in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9\n    #7 0x5555555dfaa2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #8 0x7ffff7c3c082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: 0702430aef5fa3dda43986563e9ffcc47efbd75e)\n    #9 0x5555555a46ed in _start (/out/zip_fuzzer+0x506ed)\n\nDEDUP_TOKEN: __asan_memcpy--mz_zip_mem_read_func--mz_zip_validate_file\n0x5070000000d4 is located 0 bytes after 68-byte region [0x507000000090,0x5070000000d4)\nallocated by thread T0 here:\n    #0 0x5555556d1a1e in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:69:3\n    #1 0x5555555e1256 in operator new(unsigned long) cxa_noexception.cpp\n    #2 0x5555555adc14 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6\n    #3 0x5555555b36aa in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9\n    #4 0x5555555dfaa2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #5 0x7ffff7c3c082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: 0702430aef5fa3dda43986563e9ffcc47efbd75e)\n\nDEDUP_TOKEN: __interceptor_malloc--operator new(unsigned long)--fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3 in __asan_memcpy",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2024-551"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-buffer-overflow",
+        "measured": "Heap-buffer-overflow READ {*}",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "mz_zip_mem_read_func"
+        ],
+        "measured": [
+          "mz_zip_mem_read_func",
+          "mz_zip_validate_file",
+          "zip_fuzzer.c"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 0.953776,
+      "input_tokens": 218,
+      "output_tokens": 74,
+      "total_tokens": 292,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.000132,
+      "request_id": "0917bebfc78c4d185ec0257bba510428"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42536112,
+      "kind": "vul",
+      "checkpoint_uuid": "678dfe19-a35c-4cf7-ab46-2dde33f37e57",
+      "checkpoint_operation_uuid": "01a10d42-7e41-7706-ad95-28fa6ab5fb68",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a1579a-02fb-76b3-b578-ea333262822a",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 832779677\nINFO: Loaded 1 modules   (2992 inline 8-bit counters): 2992 [0x5555557ce360, 0x5555557cef10), \nINFO: Loaded 1 PC tables (2992 PCs): 2992 [0x5555557cef10,0x5555557daa10), \n/out/zip_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x5070000000d4 at pc 0x5555556cfada bp 0x7fffffffe210 sp 0x7fffffffd9d0\nREAD of size 17 at 0x5070000000d4 thread T0\nSCARINESS: 26 (multi-byte-read-heap-buffer-overflow)\n    #0 0x5555556cfad9 in __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3\n    #1 0x55555572d48d in mz_zip_mem_read_func /src/miniz/build/amalgamation/miniz.c:4050:9\n    #2 0x555555738478 in mz_zip_validate_file /src/miniz/build/amalgamation/miniz.c:5410:13\n    #3 0x555555710cbf in LLVMFuzzerTestOneInput /src/miniz/tests/zip_fuzzer.c:38:9\n    #4 0x5555555c3480 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:614:13\n    #5 0x5555555adc14 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6\n    #6 0x5555555b36aa in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9\n    #7 0x5555555dfaa2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #8 0x7ffff7c3c082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: 0702430aef5fa3dda43986563e9ffcc47efbd75e)\n    #9 0x5555555a46ed in _start (/out/zip_fuzzer+0x506ed)\n\nDEDUP_TOKEN: __asan_memcpy--mz_zip_mem_read_func--mz_zip_validate_file\n0x5070000000d4 is located 0 bytes after 68-byte region [0x507000000090,0x5070000000d4)\nallocated by thread T0 here:\n    #0 0x5555556d1a1e in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:69:3\n    #1 0x5555555e1256 in operator new(unsigned long) cxa_noexception.cpp\n    #2 0x5555555adc14 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6\n    #3 0x5555555b36aa in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9\n    #4 0x5555555dfaa2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #5 0x7ffff7c3c082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: 0702430aef5fa3dda43986563e9ffcc47efbd75e)\n\nDEDUP_TOKEN: __interceptor_malloc--operator new(unsigned long)--fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3 in __asan_memcpy\nShadow bytes around the buggy address:\n  0x506ffffffe00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x506ffffffe80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x506fffffff00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x506fffffff80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x507000000000: fa fa fa fa 00 00 00 00 00 00 00 00 04 fa fa fa\n=>0x507000000080: fa fa 00 00 00 00 00 00 00 00[04]fa fa fa fa fa\n  0x507000000100: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x507000000180: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x507000000200: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x507000000280: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x507000000300: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==9==ABORTING\n",
+      "wall_seconds": 0.932592,
+      "server_elapsed_seconds": 0.011705,
+      "cost_usd": 0.00032901,
+      "disposable": true
+    },
+    {
+      "task_id": 42536112,
+      "kind": "fix",
+      "checkpoint_uuid": "22c35b82-83ae-487c-bcf8-0489da4e45c7",
+      "checkpoint_operation_uuid": "01a10d42-88be-7114-b4e9-ab29866ba60c",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a1579a-03eb-7230-b243-cef07886a5f3",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 833204836\nINFO: Loaded 1 modules   (2996 inline 8-bit counters): 2996 [0x5555557ce360, 0x5555557cef14), \nINFO: Loaded 1 PC tables (2996 PCs): 2996 [0x5555557cef18,0x5555557daa58), \n/out/zip_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 0 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.468247,
+      "server_elapsed_seconds": 0.010352,
+      "cost_usd": 0.00030901999999999997,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "34fad9e8516811830d0672b91be9d561630303b8c6c58f3cd68eb19fec7f9456",
+    "fix": "ee5942c5c8b85f5ca741a05deab9a7b6562ef1a417a7fa38dcbd1789d864a81c"
+  },
+  "provenance": {
+    "arvo_task_sha256": "ac2a363343cf4da0ba51969034b38ebba084885fcb287b9ca5ad6c6e663b7e47",
+    "report_sha256": "52caf296ca1e3cc05a0064df64c84e56a64d9592d8187a612b2a875603fb7983",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2024-551"
+  },
+  "model_cost_usd": 0.000132,
+  "sandbox_cost_usd": 0.00063803,
+  "total_cost_usd": 0.00077003,
+  "wall_seconds": 3.274175,
+  "public_status": null
+}

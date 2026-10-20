@@ -1,0 +1,4 @@
+# Hand-verified false positives. Each flagged string is an AddressSanitizer DEDUP_TOKEN
+# (stack frame names from an hdf5 crash in ARVO 42522531), not a credential.
+eval/results/eval100_cards/42522531.json:generic-api-key:21
+eval/results/eval100_cards/42522531.json:generic-api-key:81

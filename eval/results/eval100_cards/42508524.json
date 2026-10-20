@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42508524,
+  "project": "libplist",
+  "report_source": "public OSS-Fuzz OSV report OSV-2022-158; this is not a private report",
+  "report_text": "Heap-buffer-overflow in parse_primitive\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=44695\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nparse_primitive\nplist_from_json\njplist_fuzzer.cc\n```",
+  "verdict": "DUPLICATE",
+  "missing_details": [],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "parse_primitive",
+        "plist_from_json",
+        "jplist_fuzzer.cc"
+      ],
+      "sanitizer_excerpt": "==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000000b2 at pc 0x0000005601db bp 0x7fffffffe050 sp 0x7fffffffe048\nREAD of size 1 at 0x6020000000b2 thread T0\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\n    #0 0x5601da in parse_primitive /src/libplist/src/jplist.c:470:134\n    #1 0x55f147 in plist_from_json /src/libplist/src/jplist.c:786:22\n    #2 0x55cf92 in LLVMFuzzerTestOneInput /src/libplist/fuzz/jplist_fuzzer.cc:28:2\n    #3 0x455203 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #4 0x440e92 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #5 0x4466dc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #6 0x46f2d2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #7 0x7ffff7c5c0b2 in __libc_start_main (/arvo-lib/libc.so.6+0x270b2)\n    #8 0x41f6bd in _start (/out/jplist_fuzzer+0x41f6bd)\n\nDEDUP_TOKEN: parse_primitive--plist_from_json--LLVMFuzzerTestOneInput\n0x6020000000b2 is located 0 bytes to the right of 2-byte region [0x6020000000b0,0x6020000000b2)\nallocated by thread T0 here:\n    #0 0x523aed in __interceptor_malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:129:3\n    #1 0x436e97 in operator new(unsigned long) cxa_noexception.cpp\n    #2 0x440e92 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #3 0x4466dc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #4 0x46f2d2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #5 0x7ffff7c5c0b2 in __libc_start_main (/arvo-lib/libc.so.6+0x270b2)\n\nDEDUP_TOKEN: __interceptor_malloc--operator new(unsigned long)--fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/libplist/src/jplist.c:470:134 in parse_primitive",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2022-158"
+    ],
+    "duplicate_candidates": [
+      {
+        "id": "OSV-2022-147",
+        "summary": "Heap-buffer-overflow in parse_primitive",
+        "fixed_commits": [
+          "7d2cdc6f378f1d6d5631b7739398dd50bea62663"
+        ],
+        "match_kind": "exact"
+      }
+    ],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-buffer-overflow",
+        "measured": "Heap-buffer-overflow READ 1",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "parse_primitive"
+        ],
+        "measured": [
+          "parse_primitive",
+          "plist_from_json",
+          "jplist_fuzzer.cc"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.257125,
+      "input_tokens": 213,
+      "output_tokens": 72,
+      "total_tokens": 285,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001287,
+      "request_id": "451b5326eb0f9532983e18e15743be16"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42508524,
+      "kind": "vul",
+      "checkpoint_uuid": "a5604230-4975-4469-bc6b-17c04345050f",
+      "checkpoint_operation_uuid": "01a10d3d-8296-7799-9cdf-62b41714c758",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a15799-e401-7415-8908-43158cf8e253",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 824927197\nINFO: Loaded 1 modules   (2719 inline 8-bit counters): 2719 [0x5f5450, 0x5f5eef), \nINFO: Loaded 1 PC tables (2719 PCs): 2719 [0x5f5ef0,0x6008e0), \n/out/jplist_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000000b2 at pc 0x0000005601db bp 0x7fffffffe050 sp 0x7fffffffe048\nREAD of size 1 at 0x6020000000b2 thread T0\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\n    #0 0x5601da in parse_primitive /src/libplist/src/jplist.c:470:134\n    #1 0x55f147 in plist_from_json /src/libplist/src/jplist.c:786:22\n    #2 0x55cf92 in LLVMFuzzerTestOneInput /src/libplist/fuzz/jplist_fuzzer.cc:28:2\n    #3 0x455203 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #4 0x440e92 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #5 0x4466dc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #6 0x46f2d2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #7 0x7ffff7c5c0b2 in __libc_start_main (/arvo-lib/libc.so.6+0x270b2)\n    #8 0x41f6bd in _start (/out/jplist_fuzzer+0x41f6bd)\n\nDEDUP_TOKEN: parse_primitive--plist_from_json--LLVMFuzzerTestOneInput\n0x6020000000b2 is located 0 bytes to the right of 2-byte region [0x6020000000b0,0x6020000000b2)\nallocated by thread T0 here:\n    #0 0x523aed in __interceptor_malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:129:3\n    #1 0x436e97 in operator new(unsigned long) cxa_noexception.cpp\n    #2 0x440e92 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #3 0x4466dc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #4 0x46f2d2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #5 0x7ffff7c5c0b2 in __libc_start_main (/arvo-lib/libc.so.6+0x270b2)\n\nDEDUP_TOKEN: __interceptor_malloc--operator new(unsigned long)--fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/libplist/src/jplist.c:470:134 in parse_primitive\nShadow bytes around the buggy address:\n  0x0c047fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff8000: fa fa 00 00 fa fa 00 fa fa fa 00 fa fa fa 00 fa\n=>0x0c047fff8010: fa fa 02 fa fa fa[02]fa fa fa fa fa fa fa fa fa\n  0x0c047fff8020: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==9==ABORTING\n",
+      "wall_seconds": 1.131655,
+      "server_elapsed_seconds": 0.011645,
+      "cost_usd": 0.00029807,
+      "disposable": true
+    },
+    {
+      "task_id": 42508524,
+      "kind": "fix",
+      "checkpoint_uuid": "b572cb04-86b8-492b-bd77-6ef71614a675",
+      "checkpoint_operation_uuid": "01a10d3d-ac3b-75a3-8f92-7b83e7688563",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a15799-e541-72b8-9633-e44e991c1f11",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 825304701\nINFO: Loaded 1 modules   (2745 inline 8-bit counters): 2745 [0x5f7450, 0x5f7f09), \nINFO: Loaded 1 PC tables (2745 PCs): 2745 [0x5f7f10,0x602aa0), \n/out/jplist_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 0 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.555399,
+      "server_elapsed_seconds": 0.010175,
+      "cost_usd": 0.00027183000000000003,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "00136075125bd8721da47cfd6d2294c5a57894488b346906bed57ec931a2afca",
+    "fix": "76e404794a07d294f08363aa5c55d7edc82529b23761d9b78e231c15b7712202"
+  },
+  "provenance": {
+    "arvo_task_sha256": "8f38572059570167b7a886ec5457729e44f42bd19c503ea3c79f0623fcf1b3f0",
+    "report_sha256": "bb84e88eb53ab1dce4d07d826c731d2a6623c84ad65a5a630d183db160c37bd8",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2022-158"
+  },
+  "model_cost_usd": 0.0001287,
+  "sandbox_cost_usd": 0.0005699,
+  "total_cost_usd": 0.0006986,
+  "wall_seconds": 3.659284,
+  "public_status": null
+}

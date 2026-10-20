@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42496936,
+  "project": "c-blosc2",
+  "report_source": "public OSS-Fuzz OSV report OSV-2021-766; this is not a private report",
+  "report_text": "Negative-size-param in frame_get_vlmetalayers\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=34259\n\n```\nCrash type: Negative-size-param\nCrash state:\nframe_get_vlmetalayers\nframe_to_schunk\nblosc2_schunk_from_buffer\n```",
+  "verdict": "NEEDS_INFO",
+  "missing_details": [
+    "The vulnerable build did not produce a recognized sanitizer trace and did not complete cleanly (exit code 127); inspect its captured stdout and stderr.",
+    "The fixed build did not exit cleanly; inspect its captured stdout and stderr."
+  ],
+  "evidence": {
+    "crash": null,
+    "fix_clean": false,
+    "fixed_exit_code": 127,
+    "excluded_osv_ids": [
+      "OSV-2021-766"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Negative-size-param",
+        "measured": "",
+        "matches": false,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "frame_get_vlmetalayers",
+          "frame_to_schunk",
+          "blosc2_schunk_from_buffer"
+        ],
+        "measured": [],
+        "matches": false,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.218503,
+      "input_tokens": 216,
+      "output_tokens": 83,
+      "total_tokens": 299,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001395,
+      "request_id": "a1caaaf02c05da7954b2e630696477c3"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42496936,
+      "kind": "vul",
+      "checkpoint_uuid": "abd2e825-81df-458c-9787-b7f2beccd557",
+      "checkpoint_operation_uuid": "01a157ad-5790-77e4-9fa4-f2c25ceb3114",
+      "checkpoint_wall_seconds": 13.581769,
+      "checkpoint_cost_usd": 0.000051790000000000004,
+      "operation_uuid": "01a157ad-acbd-75ca-8c7d-8cfe84d9048f",
+      "exit_code": 127,
+      "stdout": "",
+      "stderr": "/out/decompress_frame_fuzzer: error while loading shared libraries: librt.so.1: wrong ELF class: ELFCLASS64\n",
+      "wall_seconds": 0.938926,
+      "server_elapsed_seconds": 0.004855,
+      "cost_usd": 0.00009699,
+      "disposable": true
+    },
+    {
+      "task_id": 42496936,
+      "kind": "fix",
+      "checkpoint_uuid": "19042732-01b3-49ca-9b6b-b8700412621a",
+      "checkpoint_operation_uuid": "01a157ad-a4cf-73dc-be46-e771373b2c68",
+      "checkpoint_wall_seconds": 19.707669,
+      "checkpoint_cost_usd": 0.00006214999999999999,
+      "operation_uuid": "01a157ad-adba-7122-9f21-4f10844d310b",
+      "exit_code": 127,
+      "stdout": "",
+      "stderr": "/out/decompress_frame_fuzzer: error while loading shared libraries: librt.so.1: wrong ELF class: ELFCLASS64\n",
+      "wall_seconds": 1.188886,
+      "server_elapsed_seconds": 0.004941,
+      "cost_usd": 0.00009884999999999999,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "a41978e686fd021ce62c070850f33c2bf2743acee39bd544a0256acbe73a0af4",
+    "fix": "76a31d80965840d45c77c4dbf23b3d289a5ddae3b8e0a04dbd77a7958db0c89e"
+  },
+  "provenance": {
+    "arvo_task_sha256": "c78e1d97ec96dc60bfb13486eb6dc8de5b3478b21378719ac4beb1f883ea3b0c",
+    "report_sha256": "db093892edb1dd819bbd7b58bdcd8e39055438ba65d1b12e54415c02a0eb39af",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2021-766"
+  },
+  "model_cost_usd": 0.0001395,
+  "sandbox_cost_usd": 0.00030978,
+  "total_cost_usd": 0.00044928,
+  "wall_seconds": 37.243509,
+  "public_status": null
+}

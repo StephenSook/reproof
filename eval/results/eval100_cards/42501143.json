@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42501143,
+  "project": "kamailio",
+  "report_source": "public OSS-Fuzz OSV report OSV-2021-1195; this is not a private report",
+  "report_text": "Heap-buffer-overflow in trim_leading\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=38048\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\ntrim_leading\nparse_contacts\ncontact_parser\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [
+    "source code location of trim_leading function",
+    "specific input triggering overflow",
+    "version of kamailio affected"
+  ],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "trim_leading",
+        "parse_contacts",
+        "contact_parser"
+      ],
+      "sanitizer_excerpt": "==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x603000000111 at pc 0x000000eb96d3 bp 0x7fffffffde80 sp 0x7fffffffde78\nREAD of size 1 at 0x603000000111 thread T0\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\n    #0 0xeb96d2 in trim_leading /src/kamailio/src/core/parser/contact/../../trim.h:59:3\n    #1 0xeb166c in parse_contacts /src/kamailio/src/core/parser/contact/contact.c:236:4\n    #2 0xe4a638 in contact_parser /src/kamailio/src/core/parser/contact/parse_contact.c:55:7\n    #3 0xe49405 in parse_contact /src/kamailio/src/core/parser/contact/parse_contact.c:84:6\n    #4 0x87e4f4 in parse_contact_header /src/kamailio/src/core/select_core.c:234:9\n    #5 0x56c0fb in LLVMFuzzerTestOneInput /src/kamailio/./misc/fuzz/fuzz_parse_msg.c:28:5\n    #6 0x459023 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) (/out/fuzz_parse_msg+0x459023)\n    #7 0x444792 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\n    #8 0x44a45e in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) (/out/fuzz_parse_msg+0x44a45e)\n    #9 0x473d32 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #10 0x7ffff7a5c0b2 in __libc_start_main (/arvo-lib/libc.so.6+0x270b2)\n    #11 0x41fa3d in _start (/out/fuzz_parse_msg+0x41fa3d)\n\nDEDUP_TOKEN: trim_leading--parse_contacts--contact_parser\n0x603000000111 is located 0 bytes to the right of 17-byte region [0x603000000100,0x603000000111)\nallocated by thread T0 here:\n    #0 0x521efd in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:145:3\n    #1 0x43a0a7 in operator new(unsigned long) (/out/fuzz_parse_msg+0x43a0a7)\n    #2 0x444792 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\n    #3 0x44a45e in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) (/out/fuzz_parse_msg+0x44a45e)\n    #4 0x473d32 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #5 0x7ffff7a5c0b2 in __libc_start_main (/arvo-lib/libc.so.6+0x270b2)\n\nDEDUP_TOKEN: malloc--operator new(unsigned long)--fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/kamailio/src/core/parser/contact/../../trim.h:59:3 in trim_leading",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2021-1195"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-buffer-overflow",
+        "measured": "Heap-buffer-overflow READ 1",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "trim_leading"
+        ],
+        "measured": [
+          "trim_leading",
+          "parse_contacts",
+          "contact_parser"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.071882,
+      "input_tokens": 205,
+      "output_tokens": 87,
+      "total_tokens": 292,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001398,
+      "request_id": "10f98ba67e6ab78e00ae49123a6e15a3"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42501143,
+      "kind": "vul",
+      "checkpoint_uuid": "bec1c6a3-2064-48db-83d2-39dde149db49",
+      "checkpoint_operation_uuid": "01a157b0-cdb9-701b-be07-948a9832cfb9",
+      "checkpoint_wall_seconds": 14.322192,
+      "checkpoint_cost_usd": 0.00006176,
+      "operation_uuid": "01a157b1-0fd4-725f-81fb-c025504e943d",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 2343241934\nINFO: Loaded 1 modules   (82565 inline 8-bit counters): 82565 [0x1352650, 0x13668d5), \nINFO: Loaded 1 PC tables (82565 PCs): 82565 [0x10a7e58,0x11ea6a8), \n/out/fuzz_parse_msg: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x603000000111 at pc 0x000000eb96d3 bp 0x7fffffffde80 sp 0x7fffffffde78\nREAD of size 1 at 0x603000000111 thread T0\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\n    #0 0xeb96d2 in trim_leading /src/kamailio/src/core/parser/contact/../../trim.h:59:3\n    #1 0xeb166c in parse_contacts /src/kamailio/src/core/parser/contact/contact.c:236:4\n    #2 0xe4a638 in contact_parser /src/kamailio/src/core/parser/contact/parse_contact.c:55:7\n    #3 0xe49405 in parse_contact /src/kamailio/src/core/parser/contact/parse_contact.c:84:6\n    #4 0x87e4f4 in parse_contact_header /src/kamailio/src/core/select_core.c:234:9\n    #5 0x56c0fb in LLVMFuzzerTestOneInput /src/kamailio/./misc/fuzz/fuzz_parse_msg.c:28:5\n    #6 0x459023 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) (/out/fuzz_parse_msg+0x459023)\n    #7 0x444792 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\n    #8 0x44a45e in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) (/out/fuzz_parse_msg+0x44a45e)\n    #9 0x473d32 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #10 0x7ffff7a5c0b2 in __libc_start_main (/arvo-lib/libc.so.6+0x270b2)\n    #11 0x41fa3d in _start (/out/fuzz_parse_msg+0x41fa3d)\n\nDEDUP_TOKEN: trim_leading--parse_contacts--contact_parser\n0x603000000111 is located 0 bytes to the right of 17-byte region [0x603000000100,0x603000000111)\nallocated by thread T0 here:\n    #0 0x521efd in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:145:3\n    #1 0x43a0a7 in operator new(unsigned long) (/out/fuzz_parse_msg+0x43a0a7)\n    #2 0x444792 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\n    #3 0x44a45e in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) (/out/fuzz_parse_msg+0x44a45e)\n    #4 0x473d32 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #5 0x7ffff7a5c0b2 in __libc_start_main (/arvo-lib/libc.so.6+0x270b2)\n\nDEDUP_TOKEN: malloc--operator new(unsigned long)--fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/kamailio/src/core/parser/contact/../../trim.h:59:3 in trim_leading\nShadow bytes around the buggy address:\n  0x0c067fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c067fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c067fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c067fff8000: fa fa 00 00 00 fa fa fa 00 00 00 fa fa fa 00 00\n  0x0c067fff8010: 00 fa fa fa 00 00 00 00 fa fa 00 00 01 fa fa fa\n=>0x0c067fff8020: 00 00[01]fa fa fa 00 00 01 fa fa fa 00 00 04 fa\n  0x0c067fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c067fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c067fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c067fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c067fff8070: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n  Shadow gap:              cc\n==9==ABORTING\n",
+      "wall_seconds": 0.918446,
+      "server_elapsed_seconds": 0.015019,
+      "cost_usd": 0.00039521,
+      "disposable": true
+    },
+    {
+      "task_id": 42501143,
+      "kind": "fix",
+      "checkpoint_uuid": "8b2cf46e-2a94-48aa-961e-90f7e8515597",
+      "checkpoint_operation_uuid": "01a157b1-091e-7684-a798-b614b421c872",
+      "checkpoint_wall_seconds": 14.722877,
+      "checkpoint_cost_usd": 0.00006209,
+      "operation_uuid": "01a157b1-10d6-719d-a810-97475a586944",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 2343754102\nINFO: Loaded 1 modules   (82639 inline 8-bit counters): 82639 [0x13559f0, 0x1369cbf), \nINFO: Loaded 1 PC tables (82639 PCs): 82639 [0x10aa4d8,0x11ed1c8), \n/out/fuzz_parse_msg: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 2 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.520098,
+      "server_elapsed_seconds": 0.013715,
+      "cost_usd": 0.00037247,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "7f97f780a7dd8250dd913d2e2a1ec047c7d4dfc73c512fd51c033ac9529a44ea",
+    "fix": "b96af69e845727b714336fb98ebd34d62b19de85a8e801400bd186a2c8e8e926"
+  },
+  "provenance": {
+    "arvo_task_sha256": "b65f86076496229227e4bed662e03f9d5572011bc60f77f6c5ffb9fa933d1553",
+    "report_sha256": "75de3cb7fb88bdaa76936343b90e56d83c55d35e7bbd8f729736d471e46cedd5",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2021-1195"
+  },
+  "model_cost_usd": 0.0001398,
+  "sandbox_cost_usd": 0.00089153,
+  "total_cost_usd": 0.00103133,
+  "wall_seconds": 33.219516,
+  "public_status": null
+}

@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42475782,
+  "project": "radare2",
+  "report_source": "public OSS-Fuzz OSV report OSV-2020-722; this is not a private report",
+  "report_text": "Heap-buffer-overflow in r_buf_read\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=15218\n\n```\nCrash type: Heap-buffer-overflow WRITE {*}\nCrash state:\nr_buf_read\nparse_function_starts\ninit_items\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [],
+  "evidence": {
+    "crash": {
+      "crash_type": "Negative-size-param",
+      "crash_state": [
+        "r_buf_read",
+        "parse_function_starts",
+        "init_items"
+      ],
+      "sanitizer_excerpt": "==9==ERROR: AddressSanitizer: negative-size-param: (size=-1)\nSCARINESS: 10 (negative-size-param)\n    #0 0x53280c in __asan_memset /src/llvm/projects/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cc:26:3\n    #1 0x83c7e5 in r_buf_read /src/radare2/libr/util/buf.c:418:3\n    #2 0xbfefed in parse_function_starts /src/radare2/libr/../libr/bin/p/../format/mach0/mach0.c:1036:8\n    #3 0xbf58c3 in init_items /src/radare2/libr/../libr/bin/p/../format/mach0/mach0.c:1474:9\n    #4 0xbea0b0 in init /src/radare2/libr/../libr/bin/p/../format/mach0/mach0.c:1495:7\n    #5 0xbea411 in new_buf /src/radare2/libr/../libr/bin/p/../format/mach0/mach0.c:1601:7\n    #6 0xb3b4a3 in load_buffer /src/radare2/libr/../libr/bin/p/bin_mach0.c:38:8\n    #7 0xc34dcf in r_bin_object_new /src/radare2/libr/bin/obj.c:181:16\n    #8 0xae2e5f in r_bin_file_new_from_bytes /src/radare2/libr/bin/bfile.c:465:18\n    #9 0xae9e64 in r_bin_open_io /src/radare2/libr/bin/bin.c:414:13\n    #10 0x6682c0 in cmd_open_bin /src/radare2/libr/core/./cmd_open.c:252:6\n    #11 0x5b2368 in cmd_open /src/radare2/libr/core/./cmd_open.c:1342:3\n    #12 0x695a38 in r_cmd_call /src/radare2/libr/core/cmd_api.c:244:10\n    #13 0x5dea73 in r_core_cmd_subst_i /src/radare2/libr/core/cmd.c:3221:12\n    #14 0x58429a in r_core_cmd_subst /src/radare2/libr/core/cmd.c:2121:9\n    #15 0x57cf02 in r_core_cmd /src/radare2/libr/core/cmd.c:4045:9\n    #16 0x5648c3 in LLVMFuzzerTestOneInput /src/radare2/targets/ia_fuzz.cc:13:2\n    #17 0x46ccf4 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:553:15\n    #18 0x4578c1 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:286:6\n    #19 0x45cf1a in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:717:9\n    #20 0x488102 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\n    #21 0x7ffff602082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n    #22 0x41f938 in _start (/out/ia_fuzz+0x41f938)\n\nDEDUP_TOKEN: __asan_memset--r_buf_read--parse_function_starts\n0x602000035310 is located 0 bytes inside of 1-byte region [0x602000035310,0x602000035311)\nallocated by thread T0 here:\n    #0 0x533292 in calloc /src/llvm/projects/compiler-rt/lib/asan/asan_malloc_linux.cc:154:3\n    #1 0xbfee33 in parse_function_starts /src/radare2/libr/../libr/bin/p/../format/mach0/mach0.c:1024:8\n    #2 0xbf58c3 in init_items /src/radare2/libr/../libr/bin/p/../format/mach0/mach0.c:1474:9\n    #3 0xbea0b0 in init /src/radare2/libr/../libr/bin/p/../format/mach0/mach0.c:1495:7\n    #4 0xbea411 in new_buf /src/radare2/libr/../libr/bin/p/../format/mach0/mach0.c:1601:7\n    #5 0xb3b4a3 in load_buffer /src/radare2/libr/../libr/bin/p/bin_mach0.c:38:8\n    #6 0xc34dcf in r_bin_object_new /src/radare2/libr/bin/obj.c:181:16\n    #7 0xae2e5f in r_bin_file_new_from_bytes /src/radare2/libr/bin/bfile.c:465:18\n    #8 0xae9e64 in r_bin_open_io /src/radare2/libr/bin/bin.c:414:13\n    #9 0x6682c0 in cmd_open_bin /src/radare2/libr/core/./cmd_open.c:252:6\n    #10 0x5b2368 in cmd_open /src/radare2/libr/core/./cmd_open.c:1342:3\n    #11 0x695a38 in r_cmd_call /src/radare2/libr/core/cmd_api.c:244:10\n    #12 0x5dea73 in r_core_cmd_subst_i /src/radare2/libr/core/cmd.c:3221:12\n    #13 0x58429a in r_core_cmd_subst /src/radare2/libr/core/cmd.c:2121:9\n    #14 0x57cf02 in r_core_cmd /src/radare2/libr/core/cmd.c:4045:9\n    #15 0x5648c3 in LLVMFuzzerTestOneInput /src/radare2/targets/ia_fuzz.cc:13:2\n    #16 0x46ccf4 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:553:15\n    #17 0x4578c1 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:286:6\n    #18 0x45cf1a in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:717:9\n    #19 0x488102 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\n    #20 0x7ffff602082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n\nDEDUP_TOKEN: calloc--parse_function_starts--init_items\nSUMMARY: AddressSanitizer: negative-size-param /src/llvm/projects/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cc:26:3 in __asan_memset",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2020-722"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-buffer-overflow",
+        "measured": "Negative-size-param",
+        "matches": false,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "r_buf_read",
+          "parse_function_starts",
+          "init_items"
+        ],
+        "measured": [
+          "r_buf_read",
+          "parse_function_starts",
+          "init_items"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 0.934406,
+      "input_tokens": 205,
+      "output_tokens": 73,
+      "total_tokens": 278,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001272,
+      "request_id": "27bc82df4abcb48c954af93f41280af7"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42475782,
+      "kind": "vul",
+      "checkpoint_uuid": "f7a899c4-535a-4c4b-84fd-23c80bc2d1cb",
+      "checkpoint_operation_uuid": "01a157aa-f3d3-7361-9c24-ed44b912b367",
+      "checkpoint_wall_seconds": 55.184083,
+      "checkpoint_cost_usd": 0.00006267999999999999,
+      "operation_uuid": "01a157ab-cea4-718e-aaae-286c110aa435",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Seed: 1998853613\nINFO: Loaded 1 modules   (159222 inline 8-bit counters): 159222 [0x25d9c90, 0x2600a86), \nINFO: Loaded 1 PC tables (159222 PCs): 159222 [0x2600a88,0x286e9e8), \n/out/ia_fuzz: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n3\n=================================================================\n==9==ERROR: AddressSanitizer: negative-size-param: (size=-1)\nSCARINESS: 10 (negative-size-param)\n    #0 0x53280c in __asan_memset /src/llvm/projects/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cc:26:3\n    #1 0x83c7e5 in r_buf_read /src/radare2/libr/util/buf.c:418:3\n    #2 0xbfefed in parse_function_starts /src/radare2/libr/../libr/bin/p/../format/mach0/mach0.c:1036:8\n    #3 0xbf58c3 in init_items /src/radare2/libr/../libr/bin/p/../format/mach0/mach0.c:1474:9\n    #4 0xbea0b0 in init /src/radare2/libr/../libr/bin/p/../format/mach0/mach0.c:1495:7\n    #5 0xbea411 in new_buf /src/radare2/libr/../libr/bin/p/../format/mach0/mach0.c:1601:7\n    #6 0xb3b4a3 in load_buffer /src/radare2/libr/../libr/bin/p/bin_mach0.c:38:8\n    #7 0xc34dcf in r_bin_object_new /src/radare2/libr/bin/obj.c:181:16\n    #8 0xae2e5f in r_bin_file_new_from_bytes /src/radare2/libr/bin/bfile.c:465:18\n    #9 0xae9e64 in r_bin_open_io /src/radare2/libr/bin/bin.c:414:13\n    #10 0x6682c0 in cmd_open_bin /src/radare2/libr/core/./cmd_open.c:252:6\n    #11 0x5b2368 in cmd_open /src/radare2/libr/core/./cmd_open.c:1342:3\n    #12 0x695a38 in r_cmd_call /src/radare2/libr/core/cmd_api.c:244:10\n    #13 0x5dea73 in r_core_cmd_subst_i /src/radare2/libr/core/cmd.c:3221:12\n    #14 0x58429a in r_core_cmd_subst /src/radare2/libr/core/cmd.c:2121:9\n    #15 0x57cf02 in r_core_cmd /src/radare2/libr/core/cmd.c:4045:9\n    #16 0x5648c3 in LLVMFuzzerTestOneInput /src/radare2/targets/ia_fuzz.cc:13:2\n    #17 0x46ccf4 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:553:15\n    #18 0x4578c1 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:286:6\n    #19 0x45cf1a in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:717:9\n    #20 0x488102 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\n    #21 0x7ffff602082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n    #22 0x41f938 in _start (/out/ia_fuzz+0x41f938)\n\nDEDUP_TOKEN: __asan_memset--r_buf_read--parse_function_starts\n0x602000035310 is located 0 bytes inside of 1-byte region [0x602000035310,0x602000035311)\nallocated by thread T0 here:\n    #0 0x533292 in calloc /src/llvm/projects/compiler-rt/lib/asan/asan_malloc_linux.cc:154:3\n    #1 0xbfee33 in parse_function_starts /src/radare2/libr/../libr/bin/p/../format/mach0/mach0.c:1024:8\n    #2 0xbf58c3 in init_items /src/radare2/libr/../libr/bin/p/../format/mach0/mach0.c:1474:9\n    #3 0xbea0b0 in init /src/radare2/libr/../libr/bin/p/../format/mach0/mach0.c:1495:7\n    #4 0xbea411 in new_buf /src/radare2/libr/../libr/bin/p/../format/mach0/mach0.c:1601:7\n    #5 0xb3b4a3 in load_buffer /src/radare2/libr/../libr/bin/p/bin_mach0.c:38:8\n    #6 0xc34dcf in r_bin_object_new /src/radare2/libr/bin/obj.c:181:16\n    #7 0xae2e5f in r_bin_file_new_from_bytes /src/radare2/libr/bin/bfile.c:465:18\n    #8 0xae9e64 in r_bin_open_io /src/radare2/libr/bin/bin.c:414:13\n    #9 0x6682c0 in cmd_open_bin /src/radare2/libr/core/./cmd_open.c:252:6\n    #10 0x5b2368 in cmd_open /src/radare2/libr/core/./cmd_open.c:1342:3\n    #11 0x695a38 in r_cmd_call /src/radare2/libr/core/cmd_api.c:244:10\n    #12 0x5dea73 in r_core_cmd_subst_i /src/radare2/libr/core/cmd.c:3221:12\n    #13 0x58429a in r_core_cmd_subst /src/radare2/libr/core/cmd.c:2121:9\n    #14 0x57cf02 in r_core_cmd /src/radare2/libr/core/cmd.c:4045:9\n    #15 0x5648c3 in LLVMFuzzerTestOneInput /src/radare2/targets/ia_fuzz.cc:13:2\n    #16 0x46ccf4 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:553:15\n    #17 0x4578c1 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:286:6\n    #18 0x45cf1a in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:717:9\n    #19 0x488102 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\n    #20 0x7ffff602082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n\nDEDUP_TOKEN: calloc--parse_function_starts--init_items\nSUMMARY: AddressSanitizer: negative-size-param /src/llvm/projects/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cc:26:3 in __asan_memset\n==9==ABORTING\n",
+      "wall_seconds": 0.983443,
+      "server_elapsed_seconds": 0.050989,
+      "cost_usd": 0.00089565,
+      "disposable": true
+    },
+    {
+      "task_id": 42475782,
+      "kind": "fix",
+      "checkpoint_uuid": "bad16b06-b0dd-4d63-9572-176f66496f92",
+      "checkpoint_operation_uuid": "01a157ab-c566-71e4-8af4-b920763c8008",
+      "checkpoint_wall_seconds": 53.052632,
+      "checkpoint_cost_usd": 0.00006293,
+      "operation_uuid": "01a157ab-cf87-73cd-9ca7-dbe2909627f4",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Seed: 1999372660\nINFO: Loaded 1 modules   (159765 inline 8-bit counters): 159765 [0x25fb4f0, 0x2622505), \nINFO: Loaded 1 PC tables (159765 PCs): 159765 [0x2622508,0x2892658), \n/out/ia_fuzz: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n3\nWARNING: get_entrypoint: assertion 'bin && bin->sects' failed (line 2372)\nWARNING: get_entrypoint: assertion 'bin && bin->sects' failed (line 2372)\nWARNING: get_imports: assertion 'bin && bin->sects' failed (line 2091)\nUnknown arch 0\n3\nWARNING: get_entrypoint: assertion 'bin && bin->sects' failed (line 2372)\nWARNING: get_entrypoint: assertion 'bin && bin->sects' failed (line 2372)\nWARNING: get_imports: assertion 'bin && bin->sects' failed (line 2091)\nUnknown arch 0\nExecuted /tmp/poc in 73 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.489777,
+      "server_elapsed_seconds": 0.077447,
+      "cost_usd": 0.0011652300000000002,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "0f95c081333deae38a98e92fcc11941bd8c3e070d47c763077dc0cbd396ada46",
+    "fix": "f17b9a0b4f29cc9265a227c8dfee4549820f4604568c0a3340d0d1ed30353cfd"
+  },
+  "provenance": {
+    "arvo_task_sha256": "6a81388475236a7f1d369e05e222162d75a1031c0e68a478201972928fb2c62d",
+    "report_sha256": "b5aa8a071bc48a94cb5ce72c52270c964eddd43abaa09172704830476a80d1a9",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2020-722"
+  },
+  "model_cost_usd": 0.0001272,
+  "sandbox_cost_usd": 0.00218649,
+  "total_cost_usd": 0.00231369,
+  "wall_seconds": 112.543989,
+  "public_status": null
+}

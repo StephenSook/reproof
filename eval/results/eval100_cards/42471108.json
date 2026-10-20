@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42471108,
+  "project": "libgit2",
+  "report_source": "public OSS-Fuzz OSV report OSV-2018-2; this is not a private report",
+  "report_text": "Heap-buffer-overflow in git_buf_vprintf\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=11004\n\n```\nCrash type: Heap-buffer-overflow READ 13\nCrash state:\ngit_buf_vprintf\ngiterr_set\ngit__strntol32\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow READ 13",
+      "crash_state": [
+        "git_buf_vprintf",
+        "giterr_set",
+        "git__strntol32"
+      ],
+      "sanitizer_excerpt": "==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6070000000d7 at pc 0x00000044d121 bp 0x7fffffffcf30 sp 0x7fffffffc6e0\nREAD of size 13 at 0x6070000000d7 thread T0\nSCARINESS: 26 (multi-byte-read-heap-buffer-overflow)\n    #0 0x44d120 in printf_common(void*, char const*, __va_list_tag*) /src/llvm/projects/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors_format.inc:548\n    #1 0x49d0ed in vsnprintf /src/llvm/projects/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:1610\n    #2 0x676f08 in git_buf_vprintf /src/libgit2/src/buffer.c:506:9\n    #3 0x6153bb in giterr_set /src/libgit2/src/errors.c:64:3\n    #4 0x724467 in git__strntol32 /src/libgit2/src/util.c:176:3\n    #5 0x724208 in git__strtol32 /src/libgit2/src/util.c:162:9\n    #6 0x7e903d in git_signature__parse /src/libgit2/src/signature.c:249:5\n    #7 0x61e55a in git_commit__parse_raw /src/libgit2/src/commit.c:419:6\n    #8 0x5dd010 in git_object__from_raw /src/libgit2/src/object.c:94:15\n    #9 0x5c03cb in LLVMFuzzerTestOneInput /src/libgit2/build/../fuzzers/objects_fuzzer.c:40:7\n    #10 0x55b765 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:570:15\n    #11 0x53166d in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:280:6\n    #12 0x53ceb6 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:713:9\n    #13 0x530cec in main /src/libfuzzer/FuzzerMain.cpp:20:10\n    #14 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n    #15 0x41d918 in _start (/out/objects_fuzzer+0x41d918)\n\nDEDUP_TOKEN: printf_common(void*, char const*, __va_list_tag*)--vsnprintf--git_buf_vprintf\n0x6070000000d7 is located 0 bytes to the right of 71-byte region [0x607000000090,0x6070000000d7)\nallocated by thread T0 here:\n    #0 0x52c958 in operator new[](unsigned long) /src/llvm/projects/compiler-rt/lib/asan/asan_new_delete.cc:109\n    #1 0x55b517 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:557:23\n    #2 0x53166d in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:280:6\n    #3 0x53ceb6 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:713:9\n    #4 0x530cec in main /src/libfuzzer/FuzzerMain.cpp:20:10\n    #5 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n\nDEDUP_TOKEN: operator new[](unsigned long)--fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long)--fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/llvm/projects/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors_format.inc:548 in printf_common(void*, char const*, __va_list_tag*)",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2018-2"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-buffer-overflow",
+        "measured": "Heap-buffer-overflow READ 13",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "git_buf_vprintf",
+          "giterr_set",
+          "git__strntol32"
+        ],
+        "measured": [
+          "git_buf_vprintf",
+          "giterr_set",
+          "git__strntol32"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.343097,
+      "input_tokens": 214,
+      "output_tokens": 78,
+      "total_tokens": 292,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001344,
+      "request_id": "78b4bf3b8585768cc4472f1a89aa979b"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42471108,
+      "kind": "vul",
+      "checkpoint_uuid": "ec463387-5415-48a0-8d5b-c990bbfa054d",
+      "checkpoint_operation_uuid": "01a157a9-c46c-75d4-a266-f40a22581a11",
+      "checkpoint_wall_seconds": 17.878577,
+      "checkpoint_cost_usd": 0.00006252,
+      "operation_uuid": "01a157aa-130c-7344-b88c-2553c81b9924",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Seed: 1885278090\nINFO: Loaded 1 modules   (27397 inline 8-bit counters): 27397 [0xe072f0, 0xe0ddf5), \nINFO: Loaded 1 PC tables (27397 PCs): 27397 [0xadb5a0,0xb465f0), \n/out/objects_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6070000000d7 at pc 0x00000044d121 bp 0x7fffffffcf30 sp 0x7fffffffc6e0\nREAD of size 13 at 0x6070000000d7 thread T0\nSCARINESS: 26 (multi-byte-read-heap-buffer-overflow)\n    #0 0x44d120 in printf_common(void*, char const*, __va_list_tag*) /src/llvm/projects/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors_format.inc:548\n    #1 0x49d0ed in vsnprintf /src/llvm/projects/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:1610\n    #2 0x676f08 in git_buf_vprintf /src/libgit2/src/buffer.c:506:9\n    #3 0x6153bb in giterr_set /src/libgit2/src/errors.c:64:3\n    #4 0x724467 in git__strntol32 /src/libgit2/src/util.c:176:3\n    #5 0x724208 in git__strtol32 /src/libgit2/src/util.c:162:9\n    #6 0x7e903d in git_signature__parse /src/libgit2/src/signature.c:249:5\n    #7 0x61e55a in git_commit__parse_raw /src/libgit2/src/commit.c:419:6\n    #8 0x5dd010 in git_object__from_raw /src/libgit2/src/object.c:94:15\n    #9 0x5c03cb in LLVMFuzzerTestOneInput /src/libgit2/build/../fuzzers/objects_fuzzer.c:40:7\n    #10 0x55b765 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:570:15\n    #11 0x53166d in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:280:6\n    #12 0x53ceb6 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:713:9\n    #13 0x530cec in main /src/libfuzzer/FuzzerMain.cpp:20:10\n    #14 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n    #15 0x41d918 in _start (/out/objects_fuzzer+0x41d918)\n\nDEDUP_TOKEN: printf_common(void*, char const*, __va_list_tag*)--vsnprintf--git_buf_vprintf\n0x6070000000d7 is located 0 bytes to the right of 71-byte region [0x607000000090,0x6070000000d7)\nallocated by thread T0 here:\n    #0 0x52c958 in operator new[](unsigned long) /src/llvm/projects/compiler-rt/lib/asan/asan_new_delete.cc:109\n    #1 0x55b517 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:557:23\n    #2 0x53166d in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:280:6\n    #3 0x53ceb6 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:713:9\n    #4 0x530cec in main /src/libfuzzer/FuzzerMain.cpp:20:10\n    #5 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n\nDEDUP_TOKEN: operator new[](unsigned long)--fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long)--fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/llvm/projects/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors_format.inc:548 in printf_common(void*, char const*, __va_list_tag*)\nShadow bytes around the buggy address:\n  0x0c0e7fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c0e7fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c0e7fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c0e7fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c0e7fff8000: fa fa fa fa 00 00 00 00 00 00 00 00 07 fa fa fa\n=>0x0c0e7fff8010: fa fa 00 00 00 00 00 00 00 00[07]fa fa fa fa fa\n  0x0c0e7fff8020: fd fd fd fd fd fd fd fd fd fa fa fa fa fa fd fd\n  0x0c0e7fff8030: fd fd fd fd fd fd fd fd fa fa fa fa fa fa fa fa\n  0x0c0e7fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c0e7fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c0e7fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n  Shadow gap:              cc\n==9==ABORTING\n",
+      "wall_seconds": 0.939242,
+      "server_elapsed_seconds": 0.013351,
+      "cost_usd": 0.00036653,
+      "disposable": true
+    },
+    {
+      "task_id": 42471108,
+      "kind": "fix",
+      "checkpoint_uuid": "dbe2770e-4c74-4fef-8ebf-534f44a347c9",
+      "checkpoint_operation_uuid": "01a157aa-0c59-71fb-8cd4-2a3d3b8c4d22",
+      "checkpoint_wall_seconds": 17.86864,
+      "checkpoint_cost_usd": 0.00005196,
+      "operation_uuid": "01a157aa-13fd-746d-a451-19fcb9c76bd4",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Seed: 1886204757\nINFO: Loaded 1 modules   (27403 inline 8-bit counters): 27403 [0xe072a8, 0xe0ddb3), \nINFO: Loaded 1 PC tables (27403 PCs): 27403 [0xadbac0,0xb46b70), \n/out/objects_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 1 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.815942,
+      "server_elapsed_seconds": 0.013487,
+      "cost_usd": 0.00035463,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "f3c4760ed6bff01be6378714459baf20be3475e27ea0f17ce5603ad8f5ca2839",
+    "fix": "f203bd56863fe60e6825784e303017e5b9c30c5ef8b20921ab6d071e1d4761d2"
+  },
+  "provenance": {
+    "arvo_task_sha256": "b5630c789b1e4142e3183859c0fcf082d1edb16ef9d6a10df160d621a35148e3",
+    "report_sha256": "d428501c510408221cedb03cb1022f6380c139fe2035e8ca05ac0061952389e3",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2018-2"
+  },
+  "model_cost_usd": 0.0001344,
+  "sandbox_cost_usd": 0.00083564,
+  "total_cost_usd": 0.00097004,
+  "wall_seconds": 40.505003,
+  "public_status": null
+}

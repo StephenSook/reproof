@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42510753,
+  "project": "quickjs",
+  "report_source": "public OSS-Fuzz OSV report OSV-2022-349; this is not a private report",
+  "report_text": "Heap-buffer-overflow in JS_CallInternal\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=46701\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nJS_CallInternal\nJS_EvalFunctionInternal\n__JS_EvalInternal\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [
+    "version of quickjs affected"
+  ],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "build_for_in_iterator",
+        "js_for_in_start",
+        "JS_CallInternal"
+      ],
+      "sanitizer_excerpt": "==10==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x607000000005 at pc 0x0000006877b9 bp 0x7fffffffcbf0 sp 0x7fffffffcbe8\nREAD of size 1 at 0x607000000005 thread T0\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\n    #0 0x6877b8 in build_for_in_iterator /src/quickjs/quickjs.c:15131:12\n    #1 0x5bc9ce in js_for_in_start /src/quickjs/quickjs.c:15193:14\n    #2 0x5bc9ce in JS_CallInternal /src/quickjs/quickjs.c:17396:17\n    #3 0x5eded9 in JS_CallFree /src/quickjs/quickjs.c:18722:19\n    #4 0x5eded9 in JS_EvalFunctionInternal /src/quickjs/quickjs.c:33522:19\n    #5 0x62aeb8 in __JS_EvalInternal /src/quickjs/quickjs.c:33676:19\n    #6 0x5ee6b8 in JS_EvalInternal /src/quickjs/quickjs.c:33694:12\n    #7 0x5ee6b8 in JS_EvalThis /src/quickjs/quickjs.c:33725:11\n    #8 0x5ee6b8 in JS_Eval /src/quickjs/quickjs.c:33733:12\n    #9 0x558260 in LLVMFuzzerTestOneInput /src/fuzz_eval.c:64:23\n    #10 0x45acf3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:599:15\n    #11 0x45b9e5 in fuzzer::Fuzzer::TryDetectingAMemoryLeak(unsigned char const*, unsigned long, bool) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:675:3\n    #12 0x444b9e in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:328:8\n    #13 0x44a99a in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:856:9\n    #14 0x4766d2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #15 0x7ffff642083f in __libc_start_main (/arvo-lib/libc.so.6+0x2083f)\n    #16 0x41f7e8 in _start (/out/fuzz_eval+0x41f7e8)\n\nDEDUP_TOKEN: build_for_in_iterator--js_for_in_start--JS_CallInternal\n0x607000000005 is located 27 bytes to the left of 72-byte region [0x607000000020,0x607000000068)\nallocated by thread T0 here:\n    #0 0x52471d in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:145:3\n    #1 0x652a55 in js_def_malloc /src/quickjs/quickjs.c:1703:11\n    #2 0x57b430 in js_malloc_rt /src/quickjs/quickjs.c:1287:12\n    #3 0x57b430 in js_malloc /src/quickjs/quickjs.c:1327:11\n    #4 0x57b430 in JS_NewObjectFromShape /src/quickjs/quickjs.c:4728:9\n    #5 0x56396f in JS_NewObjectProtoClass /src/quickjs/quickjs.c:4852:12\n    #6 0x56396f in JS_NewObjectProto /src/quickjs/quickjs.c:4915:12\n    #7 0x56396f in JS_AddIntrinsicBasicObjects /src/quickjs/quickjs.c:50844:41\n    #8 0x56396f in JS_NewContextRaw /src/quickjs/quickjs.c:2146:5\n    #9 0x558118 in LLVMFuzzerTestOneInput /src/fuzz_eval.c:39:15\n    #10 0x45acf3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:599:15\n    #11 0x444b52 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\n    #12 0x44a99a in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:856:9\n    #13 0x4766d2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #14 0x7ffff642083f in __libc_start_main (/arvo-lib/libc.so.6+0x2083f)\n\nDEDUP_TOKEN: malloc--js_def_malloc--js_malloc_rt\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/quickjs/quickjs.c:15131:12 in build_for_in_iterator",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2022-349"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-buffer-overflow",
+        "measured": "Heap-buffer-overflow READ 1",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "JS_CallInternal"
+        ],
+        "measured": [
+          "build_for_in_iterator",
+          "js_for_in_start",
+          "JS_CallInternal"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.349642,
+      "input_tokens": 211,
+      "output_tokens": 70,
+      "total_tokens": 281,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001263,
+      "request_id": "cad71e80f305a06106014570f3a817c3"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42510753,
+      "kind": "vul",
+      "checkpoint_uuid": "f8d490f0-526f-472b-b4a9-92646298dc31",
+      "checkpoint_operation_uuid": "01a157b0-0133-7676-b975-ad138f2d6190",
+      "checkpoint_wall_seconds": 18.22875,
+      "checkpoint_cost_usd": 0.00006367,
+      "operation_uuid": "01a157b0-47bf-70f1-9b1f-c1e9c326faa7",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 2291983369\nINFO: Loaded 1 modules   (33201 inline 8-bit counters): 33201 [0xc4b660, 0xc53811), \nINFO: Loaded 1 PC tables (33201 PCs): 33201 [0x95cb18,0x9de628), \n/out/fuzz_eval: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==10==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x607000000005 at pc 0x0000006877b9 bp 0x7fffffffcbf0 sp 0x7fffffffcbe8\nREAD of size 1 at 0x607000000005 thread T0\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\n    #0 0x6877b8 in build_for_in_iterator /src/quickjs/quickjs.c:15131:12\n    #1 0x5bc9ce in js_for_in_start /src/quickjs/quickjs.c:15193:14\n    #2 0x5bc9ce in JS_CallInternal /src/quickjs/quickjs.c:17396:17\n    #3 0x5eded9 in JS_CallFree /src/quickjs/quickjs.c:18722:19\n    #4 0x5eded9 in JS_EvalFunctionInternal /src/quickjs/quickjs.c:33522:19\n    #5 0x62aeb8 in __JS_EvalInternal /src/quickjs/quickjs.c:33676:19\n    #6 0x5ee6b8 in JS_EvalInternal /src/quickjs/quickjs.c:33694:12\n    #7 0x5ee6b8 in JS_EvalThis /src/quickjs/quickjs.c:33725:11\n    #8 0x5ee6b8 in JS_Eval /src/quickjs/quickjs.c:33733:12\n    #9 0x558260 in LLVMFuzzerTestOneInput /src/fuzz_eval.c:64:23\n    #10 0x45acf3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:599:15\n    #11 0x45b9e5 in fuzzer::Fuzzer::TryDetectingAMemoryLeak(unsigned char const*, unsigned long, bool) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:675:3\n    #12 0x444b9e in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:328:8\n    #13 0x44a99a in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:856:9\n    #14 0x4766d2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #15 0x7ffff642083f in __libc_start_main (/arvo-lib/libc.so.6+0x2083f)\n    #16 0x41f7e8 in _start (/out/fuzz_eval+0x41f7e8)\n\nDEDUP_TOKEN: build_for_in_iterator--js_for_in_start--JS_CallInternal\n0x607000000005 is located 27 bytes to the left of 72-byte region [0x607000000020,0x607000000068)\nallocated by thread T0 here:\n    #0 0x52471d in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:145:3\n    #1 0x652a55 in js_def_malloc /src/quickjs/quickjs.c:1703:11\n    #2 0x57b430 in js_malloc_rt /src/quickjs/quickjs.c:1287:12\n    #3 0x57b430 in js_malloc /src/quickjs/quickjs.c:1327:11\n    #4 0x57b430 in JS_NewObjectFromShape /src/quickjs/quickjs.c:4728:9\n    #5 0x56396f in JS_NewObjectProtoClass /src/quickjs/quickjs.c:4852:12\n    #6 0x56396f in JS_NewObjectProto /src/quickjs/quickjs.c:4915:12\n    #7 0x56396f in JS_AddIntrinsicBasicObjects /src/quickjs/quickjs.c:50844:41\n    #8 0x56396f in JS_NewContextRaw /src/quickjs/quickjs.c:2146:5\n    #9 0x558118 in LLVMFuzzerTestOneInput /src/fuzz_eval.c:39:15\n    #10 0x45acf3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:599:15\n    #11 0x444b52 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\n    #12 0x44a99a in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:856:9\n    #13 0x4766d2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #14 0x7ffff642083f in __libc_start_main (/arvo-lib/libc.so.6+0x2083f)\n\nDEDUP_TOKEN: malloc--js_def_malloc--js_malloc_rt\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/quickjs/quickjs.c:15131:12 in build_for_in_iterator\nShadow bytes around the buggy address:\n  0x0c0e7fff7fb0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c0e7fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c0e7fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c0e7fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c0e7fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n=>0x0c0e7fff8000:[fa]fa fa fa 00 00 00 00 00 00 00 00 00 fa fa fa\n  0x0c0e7fff8010: fa fa 00 00 00 00 00 00 00 00 00 fa fa fa fa fa\n  0x0c0e7fff8020: 00 00 00 00 00 00 00 00 00 fa fa fa fa fa 00 00\n  0x0c0e7fff8030: 00 00 00 00 00 00 00 fa fa fa fa fa 00 00 00 00\n  0x0c0e7fff8040: 00 00 00 00 00 fa fa fa fa fa 00 00 00 00 00 00\n  0x0c0e7fff8050: 00 00 00 fa fa fa fa fa 00 00 00 00 00 00 00 00\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n  Shadow gap:              cc\n==10==ABORTING\n",
+      "wall_seconds": 18.846728,
+      "server_elapsed_seconds": 17.079833,
+      "cost_usd": 0.17161991,
+      "disposable": true
+    },
+    {
+      "task_id": 42510753,
+      "kind": "fix",
+      "checkpoint_uuid": "b0483c7a-f040-496a-a89f-bf48799c3d4e",
+      "checkpoint_operation_uuid": "01a157b0-40f1-76e0-8850-8ccd045b2307",
+      "checkpoint_wall_seconds": 15.841053,
+      "checkpoint_cost_usd": 0.00006518999999999999,
+      "operation_uuid": "01a157b0-48b7-704c-aae4-b5e1f4cc2582",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 2292578482\nINFO: Loaded 1 modules   (30246 inline 8-bit counters): 30246 [0x9fc7e0, 0xa03e06), \nINFO: Loaded 1 PC tables (30246 PCs): 30246 [0x915178,0x98b3d8), \n/out/fuzz_eval: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 16973 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 18.951873,
+      "server_elapsed_seconds": 16.980786,
+      "cost_usd": 0.17061643999999998,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "ada20812dbd6da1f109b53f7ea388ac921ac2f65145901055a8866d914153f9d",
+    "fix": "dfbd8e9b7f0e89638373db9f3b9390c9a88ce1e1d4fb9ac71ac5f6555593ecb4"
+  },
+  "provenance": {
+    "arvo_task_sha256": "b3402182bec2d8318bef1b96eb100e9c77b13667a96d189daacc440adaa2fd3b",
+    "report_sha256": "2f67c973574308b9f27adc39b5a939b4d72b8c5a100c242419eaefefae6cfd36",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2022-349"
+  },
+  "model_cost_usd": 0.0001263,
+  "sandbox_cost_usd": 0.34236521,
+  "total_cost_usd": 0.34249151,
+  "wall_seconds": 55.943674,
+  "public_status": null
+}

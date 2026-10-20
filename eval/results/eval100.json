@@ -1,0 +1,5184 @@
+{
+  "schema_version": "1.6",
+  "selection_rule": "The 10-task historical convenience sample plus 90 prepared tasks from the pinned ARVO population in random.Random(20261019) draw order, with a 1,500,000,000-byte per-image cap and a three-task combined project cap. Prepare failures are recorded and the draw continues. Every prepared task remains in the run denominator.",
+  "historical_arvo_ids": [
+    42530604,
+    42507851,
+    42496387,
+    42508524,
+    42536108,
+    42536112,
+    42508390,
+    42531297,
+    42531223,
+    42476752
+  ],
+  "random_draw_arvo_ids": [
+    42477302,
+    42481221,
+    42523942,
+    42481224,
+    42481945,
+    42525192,
+    42520614,
+    42504114,
+    42497241,
+    42500367,
+    42518269,
+    42471044,
+    42522233,
+    42504387,
+    42501162,
+    42532259,
+    42486565,
+    42470538,
+    42513620,
+    42471105,
+    42501200,
+    42471108,
+    42475782,
+    42481193,
+    42498970,
+    42477222,
+    42496936,
+    42475195,
+    42499827,
+    42510753,
+    42501143,
+    42474141,
+    42533590,
+    42517374,
+    42490025,
+    42517725,
+    42476618,
+    42496031,
+    42522531,
+    42488737,
+    42483517,
+    42477355,
+    42513189,
+    42522285,
+    42517205,
+    42513988,
+    420198855,
+    42479852,
+    42532046,
+    42509841,
+    42534483,
+    42517450,
+    42499939,
+    42517796,
+    42525816,
+    42523860,
+    396777457,
+    42512228,
+    42498959,
+    42522804,
+    42501136,
+    42507220,
+    379418968,
+    42517530,
+    42517784,
+    42481233,
+    42532885,
+    42498712,
+    42536328,
+    42488172,
+    411460530,
+    42501148,
+    42528883,
+    42513361,
+    42526388,
+    42513154,
+    42481492,
+    42532225,
+    42471287,
+    42487660,
+    42523626,
+    42479408,
+    42499964,
+    42497297,
+    42523506,
+    42527431,
+    42533290,
+    42530151,
+    42536751,
+    42506689
+  ],
+  "selected_arvo_ids": [
+    42530604,
+    42507851,
+    42496387,
+    42508524,
+    42536108,
+    42536112,
+    42508390,
+    42531297,
+    42531223,
+    42476752,
+    42477302,
+    42481221,
+    42523942,
+    42481224,
+    42481945,
+    42525192,
+    42520614,
+    42504114,
+    42497241,
+    42500367,
+    42518269,
+    42471044,
+    42522233,
+    42504387,
+    42501162,
+    42532259,
+    42486565,
+    42470538,
+    42513620,
+    42471105,
+    42501200,
+    42471108,
+    42475782,
+    42481193,
+    42498970,
+    42477222,
+    42496936,
+    42475195,
+    42499827,
+    42510753,
+    42501143,
+    42474141,
+    42533590,
+    42517374,
+    42490025,
+    42517725,
+    42476618,
+    42496031,
+    42522531,
+    42488737,
+    42483517,
+    42477355,
+    42513189,
+    42522285,
+    42517205,
+    42513988,
+    420198855,
+    42479852,
+    42532046,
+    42509841,
+    42534483,
+    42517450,
+    42499939,
+    42517796,
+    42525816,
+    42523860,
+    396777457,
+    42512228,
+    42498959,
+    42522804,
+    42501136,
+    42507220,
+    379418968,
+    42517530,
+    42517784,
+    42481233,
+    42532885,
+    42498712,
+    42536328,
+    42488172,
+    411460530,
+    42501148,
+    42528883,
+    42513361,
+    42526388,
+    42513154,
+    42481492,
+    42532225,
+    42471287,
+    42487660,
+    42523626,
+    42479408,
+    42499964,
+    42497297,
+    42523506,
+    42527431,
+    42533290,
+    42530151,
+    42536751,
+    42506689
+  ],
+  "provenance": {
+    "prereg_sha256": "e774c26140ad82d46f039e73d7a8051013801f740c4a636c3d6e3eb6ce6bb675",
+    "population_fixture_sha256": "052f34e5330618496ca81dbf574b0d1b57f8041367d48f95beca2daf20d8c950",
+    "arvo_database_sha256": "331184ca807c2f136f98dac9f1df94c893f4ee2fdf9329dca517ff88e72f97ce",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_method": "live-execution"
+  },
+  "prep_failed": [
+    {
+      "arvo_id": 42487077,
+      "project": "rnp",
+      "kind": "vul",
+      "reason": "slice_exception",
+      "error_type": "SliceError",
+      "error": "could not resolve ELF dependency librnp-0.so.0; tried /lib/x86_64-linux-gnu, /usr/lib/x86_64-linux-gnu, /usr/local/lib, /lib64, /lib, /usr/lib64, /usr/lib; last error: docker cp metadata read failed for /usr/lib/librnp-0.so.0: exit 1: Error response from daemon: Could not find the file /usr/lib/librnp-0.so.0 in container 6885ba2cdcdd9b23793fac861ded8e20031e0e2325b352678532dc0fe9ff7c85"
+    }
+  ],
+  "retry_attempts": [],
+  "run_failed": [
+    {
+      "arvo_id": 42533590,
+      "project": "gpac",
+      "attempts": 1,
+      "error_type": "TriageExecutionError",
+      "error": "Triage failed after model request: SandboxPairError: UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 355: invalid start byte",
+      "request_ids": [
+        "e466d65df8342a6d7669d8ee821181ee"
+      ],
+      "operation_uuids": {
+        "vul": "01a157b2-bd01-746d-a6a4-f2104710fdc9",
+        "fix": "01a157b2-bdf5-7547-b4ff-9aabbae2e372"
+      },
+      "checkpoint_uuids": {
+        "vul": "2314547a-54ef-45cc-9ed2-481375ad4b79",
+        "fix": "3a386a6b-4969-4330-a412-8473c42219da"
+      },
+      "checkpoint_operation_uuids": {
+        "vul": "01a157b2-3281-7609-b404-6756a900b823",
+        "fix": "01a157b2-b486-7537-a2c9-330fda5a5e13"
+      },
+      "attempt_evidence": [
+        {
+          "arvo_id": 42533590,
+          "project": "gpac",
+          "attempt": 1,
+          "error_type": "TriageExecutionError",
+          "error": "Triage failed after model request: SandboxPairError: UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 355: invalid start byte",
+          "request_ids": [
+            "e466d65df8342a6d7669d8ee821181ee"
+          ],
+          "operation_uuids": {
+            "vul": "01a157b2-bd01-746d-a6a4-f2104710fdc9",
+            "fix": "01a157b2-bdf5-7547-b4ff-9aabbae2e372"
+          },
+          "checkpoint_uuids": {
+            "vul": "2314547a-54ef-45cc-9ed2-481375ad4b79",
+            "fix": "3a386a6b-4969-4330-a412-8473c42219da"
+          },
+          "checkpoint_operation_uuids": {
+            "vul": "01a157b2-3281-7609-b404-6756a900b823",
+            "fix": "01a157b2-b486-7537-a2c9-330fda5a5e13"
+          },
+          "input_tokens": 216,
+          "output_tokens": 80,
+          "model_cost_usd": 0.0001368,
+          "sandbox_cost_usd": 0.00079237,
+          "cost_usd": 0.00092917,
+          "wall_seconds": 72.646381
+        }
+      ]
+    },
+    {
+      "arvo_id": 42477355,
+      "project": "file",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APITimeoutError: Request timed out.",
+      "request_ids": [
+        "bd9a6eae8e7ed9099db6e35f9b7beb44"
+      ],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42477355,
+          "project": "file",
+          "attempt": 1,
+          "error_type": "TriageExecutionError",
+          "error": "Triage failed after model request: CheckpointError: ConTree checkpoint creation failed: ApiTimeoutError: ApiTimeoutError(request=RequestInfo(url='https://api.tokenfactory.nebius.com/sandboxes/v1/files', method='POST'), response=None, timeout_type='write')",
+          "request_ids": [
+            "bd9a6eae8e7ed9099db6e35f9b7beb44"
+          ],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 213,
+          "output_tokens": 92,
+          "model_cost_usd": 0.0001467,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0001467,
+          "wall_seconds": 19.275687
+        },
+        {
+          "arvo_id": 42477355,
+          "project": "file",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APITimeoutError: Request timed out.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 16.446927
+        }
+      ]
+    },
+    {
+      "arvo_id": 42513189,
+      "project": "fluent-bit",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APITimeoutError: Request timed out.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42513189,
+          "project": "fluent-bit",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APITimeoutError: Request timed out.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 16.189251
+        },
+        {
+          "arvo_id": 42513189,
+          "project": "fluent-bit",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APITimeoutError: Request timed out.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 16.355132
+        }
+      ]
+    },
+    {
+      "arvo_id": 42522285,
+      "project": "libxml2",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42522285,
+          "project": "libxml2",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 23.417732
+        },
+        {
+          "arvo_id": 42522285,
+          "project": "libxml2",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 13.464843
+        }
+      ]
+    },
+    {
+      "arvo_id": 42517205,
+      "project": "curl",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42517205,
+          "project": "curl",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.324788
+        },
+        {
+          "arvo_id": 42517205,
+          "project": "curl",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.479531
+        }
+      ]
+    },
+    {
+      "arvo_id": 42513988,
+      "project": "libredwg",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42513988,
+          "project": "libredwg",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.183391
+        },
+        {
+          "arvo_id": 42513988,
+          "project": "libredwg",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.221196
+        }
+      ]
+    },
+    {
+      "arvo_id": 420198855,
+      "project": "readstat",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 420198855,
+          "project": "readstat",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 13.177251
+        },
+        {
+          "arvo_id": 420198855,
+          "project": "readstat",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.263783
+        }
+      ]
+    },
+    {
+      "arvo_id": 42479852,
+      "project": "libgit2",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42479852,
+          "project": "libgit2",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.383959
+        },
+        {
+          "arvo_id": 42479852,
+          "project": "libgit2",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.209229
+        }
+      ]
+    },
+    {
+      "arvo_id": 42532046,
+      "project": "quickjs",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42532046,
+          "project": "quickjs",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.435418
+        },
+        {
+          "arvo_id": 42532046,
+          "project": "quickjs",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.418386
+        }
+      ]
+    },
+    {
+      "arvo_id": 42509841,
+      "project": "opensc",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42509841,
+          "project": "opensc",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.368371
+        },
+        {
+          "arvo_id": 42509841,
+          "project": "opensc",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 13.272476
+        }
+      ]
+    },
+    {
+      "arvo_id": 42534483,
+      "project": "matio",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42534483,
+          "project": "matio",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.207573
+        },
+        {
+          "arvo_id": 42534483,
+          "project": "matio",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.18459
+        }
+      ]
+    },
+    {
+      "arvo_id": 42517450,
+      "project": "openexr",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42517450,
+          "project": "openexr",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.403658
+        },
+        {
+          "arvo_id": 42517450,
+          "project": "openexr",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.213491
+        }
+      ]
+    },
+    {
+      "arvo_id": 42499939,
+      "project": "net-snmp",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42499939,
+          "project": "net-snmp",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.225832
+        },
+        {
+          "arvo_id": 42499939,
+          "project": "net-snmp",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.387265
+        }
+      ]
+    },
+    {
+      "arvo_id": 42517796,
+      "project": "oniguruma",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42517796,
+          "project": "oniguruma",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 13.441952
+        },
+        {
+          "arvo_id": 42517796,
+          "project": "oniguruma",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.246229
+        }
+      ]
+    },
+    {
+      "arvo_id": 42525816,
+      "project": "serenity",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42525816,
+          "project": "serenity",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.241086
+        },
+        {
+          "arvo_id": 42525816,
+          "project": "serenity",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.403871
+        }
+      ]
+    },
+    {
+      "arvo_id": 42523860,
+      "project": "hdf5",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42523860,
+          "project": "hdf5",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.334058
+        },
+        {
+          "arvo_id": 42523860,
+          "project": "hdf5",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.290227
+        }
+      ]
+    },
+    {
+      "arvo_id": 396777457,
+      "project": "net-snmp",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 396777457,
+          "project": "net-snmp",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.465324
+        },
+        {
+          "arvo_id": 396777457,
+          "project": "net-snmp",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 13.298272
+        }
+      ]
+    },
+    {
+      "arvo_id": 42512228,
+      "project": "libjxl",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42512228,
+          "project": "libjxl",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.164676
+        },
+        {
+          "arvo_id": 42512228,
+          "project": "libjxl",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.293544
+        }
+      ]
+    },
+    {
+      "arvo_id": 42498959,
+      "project": "libpng",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42498959,
+          "project": "libpng",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.195817
+        },
+        {
+          "arvo_id": 42498959,
+          "project": "libpng",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.403696
+        }
+      ]
+    },
+    {
+      "arvo_id": 42522804,
+      "project": "libxslt",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42522804,
+          "project": "libxslt",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.1766
+        },
+        {
+          "arvo_id": 42522804,
+          "project": "libxslt",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.247339
+        }
+      ]
+    },
+    {
+      "arvo_id": 42501136,
+      "project": "matio",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42501136,
+          "project": "matio",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.368333
+        },
+        {
+          "arvo_id": 42501136,
+          "project": "matio",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 8.473153
+        }
+      ]
+    },
+    {
+      "arvo_id": 42507220,
+      "project": "c-blosc2",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42507220,
+          "project": "c-blosc2",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.18512
+        },
+        {
+          "arvo_id": 42507220,
+          "project": "c-blosc2",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.355064
+        }
+      ]
+    },
+    {
+      "arvo_id": 379418968,
+      "project": "assimp",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 379418968,
+          "project": "assimp",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.213482
+        },
+        {
+          "arvo_id": 379418968,
+          "project": "assimp",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.2693
+        }
+      ]
+    },
+    {
+      "arvo_id": 42517530,
+      "project": "libraw",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42517530,
+          "project": "libraw",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.394721
+        },
+        {
+          "arvo_id": 42517530,
+          "project": "libraw",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.39439
+        }
+      ]
+    },
+    {
+      "arvo_id": 42517784,
+      "project": "oniguruma",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42517784,
+          "project": "oniguruma",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.275312
+        },
+        {
+          "arvo_id": 42517784,
+          "project": "oniguruma",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.233711
+        }
+      ]
+    },
+    {
+      "arvo_id": 42481233,
+      "project": "arrow",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42481233,
+          "project": "arrow",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.317187
+        },
+        {
+          "arvo_id": 42481233,
+          "project": "arrow",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 8.746028
+        }
+      ]
+    },
+    {
+      "arvo_id": 42532885,
+      "project": "matio",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42532885,
+          "project": "matio",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.431444
+        },
+        {
+          "arvo_id": 42532885,
+          "project": "matio",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.342682
+        }
+      ]
+    },
+    {
+      "arvo_id": 42498712,
+      "project": "dnsmasq",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42498712,
+          "project": "dnsmasq",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.184536
+        },
+        {
+          "arvo_id": 42498712,
+          "project": "dnsmasq",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.135345
+        }
+      ]
+    },
+    {
+      "arvo_id": 42536328,
+      "project": "libssh2",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42536328,
+          "project": "libssh2",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.23025
+        },
+        {
+          "arvo_id": 42536328,
+          "project": "libssh2",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.33615
+        }
+      ]
+    },
+    {
+      "arvo_id": 42488172,
+      "project": "libcoap",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42488172,
+          "project": "libcoap",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.203628
+        },
+        {
+          "arvo_id": 42488172,
+          "project": "libcoap",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.329045
+        }
+      ]
+    },
+    {
+      "arvo_id": 411460530,
+      "project": "openthread",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 411460530,
+          "project": "openthread",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.361606
+        },
+        {
+          "arvo_id": 411460530,
+          "project": "openthread",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 13.307739
+        }
+      ]
+    },
+    {
+      "arvo_id": 42501148,
+      "project": "kamailio",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42501148,
+          "project": "kamailio",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.326232
+        },
+        {
+          "arvo_id": 42501148,
+          "project": "kamailio",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.275339
+        }
+      ]
+    },
+    {
+      "arvo_id": 42528883,
+      "project": "libdwarf",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42528883,
+          "project": "libdwarf",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.421342
+        },
+        {
+          "arvo_id": 42528883,
+          "project": "libdwarf",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 13.406939
+        }
+      ]
+    },
+    {
+      "arvo_id": 42513361,
+      "project": "libjxl",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42513361,
+          "project": "libjxl",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.251918
+        },
+        {
+          "arvo_id": 42513361,
+          "project": "libjxl",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.367184
+        }
+      ]
+    },
+    {
+      "arvo_id": 42526388,
+      "project": "c-blosc2",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42526388,
+          "project": "c-blosc2",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.232705
+        },
+        {
+          "arvo_id": 42526388,
+          "project": "c-blosc2",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.341332
+        }
+      ]
+    },
+    {
+      "arvo_id": 42513154,
+      "project": "libpcap",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42513154,
+          "project": "libpcap",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.310149
+        },
+        {
+          "arvo_id": 42513154,
+          "project": "libpcap",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.175701
+        }
+      ]
+    },
+    {
+      "arvo_id": 42481492,
+      "project": "jbig2dec",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42481492,
+          "project": "jbig2dec",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 2.215107
+        },
+        {
+          "arvo_id": 42481492,
+          "project": "jbig2dec",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.400037
+        }
+      ]
+    },
+    {
+      "arvo_id": 42532225,
+      "project": "gpac",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42532225,
+          "project": "gpac",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.265437
+        },
+        {
+          "arvo_id": 42532225,
+          "project": "gpac",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 8.279221
+        }
+      ]
+    },
+    {
+      "arvo_id": 42471287,
+      "project": "libgit2",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42471287,
+          "project": "libgit2",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.242849
+        },
+        {
+          "arvo_id": 42471287,
+          "project": "libgit2",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.455839
+        }
+      ]
+    },
+    {
+      "arvo_id": 42487660,
+      "project": "libavif",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42487660,
+          "project": "libavif",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 8.618796
+        },
+        {
+          "arvo_id": 42487660,
+          "project": "libavif",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.286946
+        }
+      ]
+    },
+    {
+      "arvo_id": 42523626,
+      "project": "libssh2",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42523626,
+          "project": "libssh2",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.279743
+        },
+        {
+          "arvo_id": 42523626,
+          "project": "libssh2",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.37881
+        }
+      ]
+    },
+    {
+      "arvo_id": 42479408,
+      "project": "opensc",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42479408,
+          "project": "opensc",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.231283
+        },
+        {
+          "arvo_id": 42479408,
+          "project": "opensc",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.432716
+        }
+      ]
+    },
+    {
+      "arvo_id": 42499964,
+      "project": "serenity",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42499964,
+          "project": "serenity",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 3.070906
+        },
+        {
+          "arvo_id": 42499964,
+          "project": "serenity",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.238677
+        }
+      ]
+    },
+    {
+      "arvo_id": 42497297,
+      "project": "serenity",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42497297,
+          "project": "serenity",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.374383
+        },
+        {
+          "arvo_id": 42497297,
+          "project": "serenity",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 13.308002
+        }
+      ]
+    },
+    {
+      "arvo_id": 42523506,
+      "project": "libheif",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42523506,
+          "project": "libheif",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.377421
+        },
+        {
+          "arvo_id": 42523506,
+          "project": "libheif",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.242602
+        }
+      ]
+    },
+    {
+      "arvo_id": 42527431,
+      "project": "libheif",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42527431,
+          "project": "libheif",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 13.416421
+        },
+        {
+          "arvo_id": 42527431,
+          "project": "libheif",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.274044
+        }
+      ]
+    },
+    {
+      "arvo_id": 42533290,
+      "project": "igraph",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42533290,
+          "project": "igraph",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.263805
+        },
+        {
+          "arvo_id": 42533290,
+          "project": "igraph",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.310386
+        }
+      ]
+    },
+    {
+      "arvo_id": 42530151,
+      "project": "lcms",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42530151,
+          "project": "lcms",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.189862
+        },
+        {
+          "arvo_id": 42530151,
+          "project": "lcms",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 7.846743
+        }
+      ]
+    },
+    {
+      "arvo_id": 42536751,
+      "project": "gpac",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42536751,
+          "project": "gpac",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.274728
+        },
+        {
+          "arvo_id": 42536751,
+          "project": "gpac",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.286263
+        }
+      ]
+    },
+    {
+      "arvo_id": 42506689,
+      "project": "sleuthkit",
+      "attempts": 2,
+      "error_type": "ClaimExtractionError",
+      "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+      "request_ids": [],
+      "operation_uuids": {},
+      "checkpoint_uuids": {},
+      "checkpoint_operation_uuids": {},
+      "attempt_evidence": [
+        {
+          "arvo_id": 42506689,
+          "project": "sleuthkit",
+          "attempt": 1,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.361571
+        },
+        {
+          "arvo_id": 42506689,
+          "project": "sleuthkit",
+          "attempt": 2,
+          "error_type": "ClaimExtractionError",
+          "error": "Token Factory claim extraction failed: APIConnectionError: Connection error.",
+          "request_ids": [],
+          "operation_uuids": {},
+          "checkpoint_uuids": {},
+          "checkpoint_operation_uuids": {},
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_cost_usd": 0.0,
+          "sandbox_cost_usd": 0.0,
+          "cost_usd": 0.0,
+          "wall_seconds": 1.264587
+        }
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "arvo_id": 42530604,
+      "project": "jq",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow WRITE 1",
+      "crash_state": [
+        "decToString",
+        "decNumberToString",
+        "jvp_literal_number_literal"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "a3988345c52e8f812f4bd46c03d38005"
+      ],
+      "input_tokens": 208,
+      "output_tokens": 99,
+      "model_cost_usd": 0.0001515,
+      "sandbox_cost_usd": 0.00062778,
+      "checkpoint_operation_uuids": [
+        "01a10d33-e7d2-71b1-ad98-fa549252912f",
+        "01a10d33-f168-7686-9c3e-b2c53f4eb654"
+      ],
+      "sandbox_operation_uuids": [
+        "01a15799-aef1-7701-8257-3e7e025911c5",
+        "01a15799-afdd-773e-9925-58ec510e2a45"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "dda7bd24d63ca0f692924d1d189cec3ca9f6ac94fdbdd3af3e91a9c4dbbab153",
+        "fix": "d22773dfbfe82d18ed395f6df9f2ced3de07c6ab7d34af314adb95ae2a40fc50"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "3da5fa3ba49f5ad364d6a10e0aebb94ad2f40133cac0c27b2873a05f0a202e5a",
+        "report_sha256": "36dd25482c5f121e11bf5e74fc3584fb5991debed242adbb4bc9d9b01954b5e8",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2023-1239"
+      },
+      "cost_usd": 0.00077928,
+      "wall_seconds": 11.254085,
+      "card_path": "eval/results/eval100_cards/42530604.json"
+    },
+    {
+      "arvo_id": 42507851,
+      "project": "libplist",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "crash_state": [
+        "strtol",
+        "parse_primitive",
+        "plist_from_json"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "caec2fddefd4972447c6175b36e9f90d"
+      ],
+      "input_tokens": 206,
+      "output_tokens": 73,
+      "model_cost_usd": 0.0001275,
+      "sandbox_cost_usd": 0.00058837,
+      "checkpoint_operation_uuids": [
+        "01a10d3b-71f1-70ab-9e1b-2d67d6ead506",
+        "01a10d3b-7af0-74fc-b2b2-801aad8c345c"
+      ],
+      "sandbox_operation_uuids": [
+        "01a15799-c0fe-75aa-8604-356f679c3498",
+        "01a15799-c1dc-75e6-9e51-8177a2773f06"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "3b1330ec428d88e12002f5fbe5ccf150a66e4f445e2769a7b418b2f9332a297c",
+        "fix": "f4b2d48c8e35e1752c42a41db8d20e198c5f15d012325f14fc835eb4c5d1491d"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "0765a7e685a5ef1226ed8c1cd075762342dc091d65aa0ddc54467866967ac3a9",
+        "report_sha256": "4d8c63fcbc65ef8293d3ebe17394d4e8515a8ac82eaf037dd80461b77eef5dc8",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2022-93"
+      },
+      "cost_usd": 0.00071587,
+      "wall_seconds": 3.505983,
+      "card_path": "eval/results/eval100_cards/42507851.json"
+    },
+    {
+      "arvo_id": 42496387,
+      "project": "wasm3",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-use-after-free READ 8",
+      "crash_state": [
+        "ForEachModule",
+        "Runtime_Release",
+        "m3_FreeRuntime"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "ec16a59953202bd033ef03495c85077a"
+      ],
+      "input_tokens": 211,
+      "output_tokens": 68,
+      "model_cost_usd": 0.0001245,
+      "sandbox_cost_usd": 0.00061901,
+      "checkpoint_operation_uuids": [
+        "01a10d3b-d590-753f-9418-4e98ccbfb757",
+        "01a10d3b-df0b-72c7-a0a1-30c2d28de0c6"
+      ],
+      "sandbox_operation_uuids": [
+        "01a15799-d1b1-77f7-8aa3-6046afc7c71a",
+        "01a15799-d292-725c-b802-bccc189dd74d"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "41231398d65d90a2b2de8d3c9c893edfc94b521050117dc6f6817245829d6080",
+        "fix": "4d8157589c4b34b504e83594393e3645255fdd5afab7cbac19e50ddf8b6b8f7f"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "9d9d04e2946a5016f3e3f5b143edd8ae6de40121de7d2c963922c718ea4a7377",
+        "report_sha256": "ce836e66e337a333018572b279f40978dce0fc8e0bb5e223816439ad30b78537",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2021-701"
+      },
+      "cost_usd": 0.00074351,
+      "wall_seconds": 4.375521,
+      "card_path": "eval/results/eval100_cards/42496387.json"
+    },
+    {
+      "arvo_id": 42508524,
+      "project": "libplist",
+      "verdict": "DUPLICATE",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [
+        "OSV-2022-147"
+      ],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "parse_primitive",
+        "plist_from_json",
+        "jplist_fuzzer.cc"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "451b5326eb0f9532983e18e15743be16"
+      ],
+      "input_tokens": 213,
+      "output_tokens": 72,
+      "model_cost_usd": 0.0001287,
+      "sandbox_cost_usd": 0.0005699,
+      "checkpoint_operation_uuids": [
+        "01a10d3d-8296-7799-9cdf-62b41714c758",
+        "01a10d3d-ac3b-75a3-8f92-7b83e7688563"
+      ],
+      "sandbox_operation_uuids": [
+        "01a15799-e401-7415-8908-43158cf8e253",
+        "01a15799-e541-72b8-9633-e44e991c1f11"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "00136075125bd8721da47cfd6d2294c5a57894488b346906bed57ec931a2afca",
+        "fix": "76e404794a07d294f08363aa5c55d7edc82529b23761d9b78e231c15b7712202"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "8f38572059570167b7a886ec5457729e44f42bd19c503ea3c79f0623fcf1b3f0",
+        "report_sha256": "bb84e88eb53ab1dce4d07d826c731d2a6623c84ad65a5a630d183db160c37bd8",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2022-158"
+      },
+      "cost_usd": 0.0006986,
+      "wall_seconds": 3.659284,
+      "card_path": "eval/results/eval100_cards/42508524.json"
+    },
+    {
+      "arvo_id": 42536108,
+      "project": "miniz",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "crash_state": [
+        "mz_zip_mem_read_func",
+        "mz_zip_reader_read_central_dir",
+        "mz_zip_reader_init_mem"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "965dba799c2afba753b4114c7238350c"
+      ],
+      "input_tokens": 222,
+      "output_tokens": 84,
+      "model_cost_usd": 0.0001422,
+      "sandbox_cost_usd": 0.00063838,
+      "checkpoint_operation_uuids": [
+        "01a10d40-07a4-7178-b45f-c36e3522b3b6",
+        "01a10d40-4fae-7742-b7ec-2b6430f3ff5c"
+      ],
+      "sandbox_operation_uuids": [
+        "01a15799-f470-75b2-a553-6d23fb344a9a",
+        "01a15799-f550-77c2-9725-7ccd57eb8557"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "d3c03efd769ad25cddb492317e79b64d1d8038d6498468a2f9ba3d7e7a1c840e",
+        "fix": "9ac1056551ae4f5c34c480ff6b73ad7a48c3792098270a60208ece5b1a8a5383"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "84b2af64a0edf92257ca61e825fb316201dcd538c283076fd87b43fe71c3686c",
+        "report_sha256": "9f25f25aee81837a686f80e948f1897fde1747a64e4dbc6e434c6fcb41684dea",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2024-550"
+      },
+      "cost_usd": 0.00078058,
+      "wall_seconds": 3.611641,
+      "card_path": "eval/results/eval100_cards/42536108.json"
+    },
+    {
+      "arvo_id": 42536112,
+      "project": "miniz",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "crash_state": [
+        "mz_zip_mem_read_func",
+        "mz_zip_validate_file",
+        "zip_fuzzer.c"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "0917bebfc78c4d185ec0257bba510428"
+      ],
+      "input_tokens": 218,
+      "output_tokens": 74,
+      "model_cost_usd": 0.000132,
+      "sandbox_cost_usd": 0.00063803,
+      "checkpoint_operation_uuids": [
+        "01a10d42-7e41-7706-ad95-28fa6ab5fb68",
+        "01a10d42-88be-7114-b4e9-ab29866ba60c"
+      ],
+      "sandbox_operation_uuids": [
+        "01a1579a-02fb-76b3-b578-ea333262822a",
+        "01a1579a-03eb-7230-b243-cef07886a5f3"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "34fad9e8516811830d0672b91be9d561630303b8c6c58f3cd68eb19fec7f9456",
+        "fix": "ee5942c5c8b85f5ca741a05deab9a7b6562ef1a417a7fa38dcbd1789d864a81c"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "ac2a363343cf4da0ba51969034b38ebba084885fcb287b9ca5ad6c6e663b7e47",
+        "report_sha256": "52caf296ca1e3cc05a0064df64c84e56a64d9592d8187a612b2a875603fb7983",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2024-551"
+      },
+      "cost_usd": 0.00077003,
+      "wall_seconds": 3.274175,
+      "card_path": "eval/results/eval100_cards/42536112.json"
+    },
+    {
+      "arvo_id": 42508390,
+      "project": "libplist",
+      "verdict": "DUPLICATE",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": true,
+      "duplicate_candidates": [
+        "OSV-2022-93"
+      ],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "crash_state": [
+        "strtol",
+        "parse_primitive",
+        "plist_from_json"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "7e2b0e1a4da81e75785e18da01203ecc"
+      ],
+      "input_tokens": 213,
+      "output_tokens": 73,
+      "model_cost_usd": 0.0001296,
+      "sandbox_cost_usd": 0.00057265,
+      "checkpoint_operation_uuids": [
+        "01a10d44-36d4-7303-ad9e-78e5ffe10e49",
+        "01a10d44-55c1-7346-9cb9-c9ef830c226f"
+      ],
+      "sandbox_operation_uuids": [
+        "01a1579a-1310-735b-8b1e-cfdb52e79747",
+        "01a1579a-13fa-7497-ac7b-696a439c41f6"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "3c2c3b739852e275b85c9c7a13b3d15000af47cbe321c0926a9badfed22b2e0f",
+        "fix": "8dbb7f0a0528ebe3bb1db8fe65ec951e5284f7313b0c2526b83166e2dd8941f9"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "b3ad04f47d49340f7ae3250591159b9ed3808145d76157a4e512fb5e139eeb1c",
+        "report_sha256": "788fe7da4f0de2b0b38cdbb8ddd607e5a869122dd64d476fa6a33939b3fbf0e8",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2022-147"
+      },
+      "cost_usd": 0.00070225,
+      "wall_seconds": 3.672297,
+      "card_path": "eval/results/eval100_cards/42508390.json"
+    },
+    {
+      "arvo_id": 42531297,
+      "project": "jq",
+      "verdict": "DUPLICATE",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [
+        "OSV-2025-363"
+      ],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "crash_state": [
+        "jv_string_vfmt",
+        "jv_string_fmt",
+        "jv_get"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "e451e2953bbde43fe0d15c1ba0c06873"
+      ],
+      "input_tokens": 210,
+      "output_tokens": 75,
+      "model_cost_usd": 0.0001305,
+      "sandbox_cost_usd": 0.00082128,
+      "checkpoint_operation_uuids": [
+        "01a10d45-ddc0-7256-84f9-79cd20c29b78",
+        "01a10d46-2151-7497-98c9-2ea4174dc28b"
+      ],
+      "sandbox_operation_uuids": [
+        "01a1579a-22e9-72a5-add3-4a039a171e35",
+        "01a1579a-2400-70c3-93df-58c887298edd"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "3c1ceb1d50ee894dfa0ba227f79c20665a92e8f7ca46e1bc266e9baca394e43e",
+        "fix": "9f82ef358f035b83a4cf05a9c4cd4043b7c9e8445d9897c056c4f2498a87a0c1"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "ba2bfdd20ea2174506760ed373836843164d91b0f8ab86b7021b793d64de461f",
+        "report_sha256": "31a0cd64ec2926fce1ed74e72e615c238b8cae4b49aa3179ec33159589098acf",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2023-1344"
+      },
+      "cost_usd": 0.00095178,
+      "wall_seconds": 3.62044,
+      "card_path": "eval/results/eval100_cards/42531297.json"
+    },
+    {
+      "arvo_id": 42531223,
+      "project": "jq",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Stack-buffer-overflow WRITE 2",
+      "crash_state": [
+        "decNumberCopy",
+        "decNaNs",
+        "decCompareOp"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "5e5aab71662e61eacd484e5ca5e26d48"
+      ],
+      "input_tokens": 203,
+      "output_tokens": 97,
+      "model_cost_usd": 0.0001482,
+      "sandbox_cost_usd": 0.00081181,
+      "checkpoint_operation_uuids": [
+        "01a10d47-b5cf-7662-8dd3-0f4c9d93731f",
+        "01a10d47-e70e-7632-8a10-1ccd1f9ae8bf"
+      ],
+      "sandbox_operation_uuids": [
+        "01a1579a-34f9-7581-b57f-16ddb082862e",
+        "01a1579a-35de-714b-b3d4-22169e693c24"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "a7f332ffb362c23040f22ae849e5f40021602d28942ee52a47e8cc61cf37ee64",
+        "fix": "27da68a809762ad5ff0dbc1dd90f63da17995a1b85dce3805c8dc922d1409708"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "49c478ff02eda2082ec36037dbb24a6358140acfe8cf80d6c45e626365acef7b",
+        "report_sha256": "34d3d5f443180fcea9865c31f750c20a3be622821826bdf34a34cf8ceb3bf13a",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2023-1329"
+      },
+      "cost_usd": 0.00096001,
+      "wall_seconds": 3.776391,
+      "card_path": "eval/results/eval100_cards/42531223.json"
+    },
+    {
+      "arvo_id": 42476752,
+      "project": "libspng",
+      "verdict": "DUPLICATE",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [
+        "OSV-2020-307"
+      ],
+      "claim_agreement": false,
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "crash_state": [
+        "spng_decode_image",
+        "spng_read_fuzzer.cc"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "5cfcdb5e17b5e9dcdb22d253faf6064a"
+      ],
+      "input_tokens": 207,
+      "output_tokens": 106,
+      "model_cost_usd": 0.0001575,
+      "sandbox_cost_usd": 0.00060908,
+      "checkpoint_operation_uuids": [
+        "01a10d4b-4c3c-7786-8d1a-e5b102b6ebf4",
+        "01a10d4b-66c7-72f4-9c4d-8ffdc138a3fb"
+      ],
+      "sandbox_operation_uuids": [
+        "01a1579a-4783-75b5-a072-2dc391a591e9",
+        "01a1579a-4864-7001-92b1-369cb6137d24"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "299182474572210f5f55b37ff485db06436153e4f6dd29ce2e1fa8eba95c700d",
+        "fix": "8003c3aaeb4af5a080abf93e79a7362c520357328b03da4f5c2ee6e5a9acf014"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "fcc7649f57e8f091b57470bc74a04b3c71dc370d9a187b9afa5610e974b3f963",
+        "report_sha256": "98177a48c3eeb9d962e5357f1fceb949a30444611d5e81e9415e6da36cd87faf",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2020-344"
+      },
+      "cost_usd": 0.00076658,
+      "wall_seconds": 4.574365,
+      "card_path": "eval/results/eval100_cards/42476752.json"
+    },
+    {
+      "arvo_id": 42477302,
+      "project": "libavc",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": false,
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "crash_state": [
+        "ih264d_cavlc_parse4x4coeff_n8",
+        "ih264d_cavlc_parse_8x8block_both_available",
+        "ih264d_parse_residual4x4_cavlc"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "2e18aa8244fb57869d563809f840d6f0"
+      ],
+      "input_tokens": 257,
+      "output_tokens": 105,
+      "model_cost_usd": 0.0001716,
+      "sandbox_cost_usd": 0.0009591,
+      "checkpoint_operation_uuids": [
+        "01a1579a-702f-73ab-8516-e5048981c262",
+        "01a1579a-9253-76ea-aa76-a9d65aec6fbb"
+      ],
+      "sandbox_operation_uuids": [
+        "01a1579a-98fa-72a5-8281-f8253a30b43f",
+        "01a1579a-98fe-71ca-9120-4f2213b86fc3"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "91c7666c6084e7476ec558c8f6fb05316c257a25be57e649f40a58c00f8439f6",
+        "fix": "a5563d49b8a6b8a350d4f11084fd302cc7732d463e7de9d936b6a60c9b16a657"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "2704b3ea46923cf13412842c1ecaed97a1e381a2bf85b3368ecb8457a438c305",
+        "report_sha256": "956508bcef9c12678bd86a44cd0f8e6ec39bff2383b7f4acd19caa1f014338c6",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2020-1242"
+      },
+      "cost_usd": 0.0011307,
+      "wall_seconds": 21.209442,
+      "card_path": "eval/results/eval100_cards/42477302.json"
+    },
+    {
+      "arvo_id": 42481221,
+      "project": "arrow",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "crash_state": [
+        "Visit",
+        "arrow::Status arrow::VisitArrayInline<arrow::internal::ValidateArrayDataVisitor>",
+        "arrow::internal::ValidateArrayData"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "9ca036708fd18d98b173b574aae42fea"
+      ],
+      "input_tokens": 240,
+      "output_tokens": 94,
+      "model_cost_usd": 0.0001566,
+      "sandbox_cost_usd": 0.00082545,
+      "checkpoint_operation_uuids": [
+        "01a1579b-b1ad-7079-af6a-9b98519bf396",
+        "01a1579c-b005-7192-9896-935206c454bb"
+      ],
+      "sandbox_operation_uuids": [
+        "01a1579c-b811-7517-98c6-774b4c215ad3",
+        "01a1579c-b909-73ca-80af-ccee8cb60cfd"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "592ea5a0d610e6ecc4e96867eb782f73e9825d5f94353f498928c6d0ed243886",
+        "fix": "a340fc22eaca583ebd5aec67f7067b83e0a6910109c08215dd143fe3cf951871"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "105dfaa971ea22bca9e56a6c773ee0e620eea62a97827730d1507ae987505348",
+        "report_sha256": "58e01dd49284f33127624a22d9023c181c70268293060a672037101f6d77be4e",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2020-974"
+      },
+      "cost_usd": 0.00098205,
+      "wall_seconds": 137.49198,
+      "card_path": "eval/results/eval100_cards/42481221.json"
+    },
+    {
+      "arvo_id": 42523942,
+      "project": "mruby",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-use-after-free READ 4",
+      "crash_state": [
+        "mrb_gc_mark",
+        "gc_mark_children",
+        "incremental_marking_phase"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "827b58f593ab3ebfd54bcbeada3309b4"
+      ],
+      "input_tokens": 209,
+      "output_tokens": 64,
+      "model_cost_usd": 0.0001203,
+      "sandbox_cost_usd": 0.00125463,
+      "checkpoint_operation_uuids": [
+        "01a1579c-f82d-72b8-b980-3f318c716a14",
+        "01a1579d-2313-752b-9fba-fd4ab5c5aec1"
+      ],
+      "sandbox_operation_uuids": [
+        "01a1579d-29a8-7146-90e0-2cffe159f513",
+        "01a1579d-2a8d-7376-85c2-c3e36d0a74e1"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "2bc6c29c4c7c05f3d9178e0ecaf3c5000e86c9a91915952f7fa3ce0002243275",
+        "fix": "c62d5e3696459d8091d901bae6c6445a06a7c1df40fa461a42e27c66a00be741"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "3fc870047d096b61d8cad5f3222a8e2845021047f7538b7c836c8c6ce2a3974e",
+        "report_sha256": "9a8ac0a640463c0d2225516d13981977b9417fb2fa68642d389d9191c4dbf4de",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2023-366"
+      },
+      "cost_usd": 0.00137493,
+      "wall_seconds": 29.602341,
+      "card_path": "eval/results/eval100_cards/42523942.json"
+    },
+    {
+      "arvo_id": 42481224,
+      "project": "arrow",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow WRITE 4",
+      "crash_state": [
+        "arrow::UnionType::UnionType",
+        "__compressed_pair_elem<const",
+        "__compressed_pair<std::__1::allocator<arrow::UnionType>"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "4ddb87307fdafd6d9b84fb0e681b6761"
+      ],
+      "input_tokens": 222,
+      "output_tokens": 118,
+      "model_cost_usd": 0.0001728,
+      "sandbox_cost_usd": 0.00078417,
+      "checkpoint_operation_uuids": [
+        "01a1579d-42a0-7176-86f1-a3334702500b",
+        "01a1579e-3f10-7061-8949-4bd262e866fb"
+      ],
+      "sandbox_operation_uuids": [
+        "01a1579e-472f-725d-972e-cae4eac1b7f9",
+        "01a1579e-4841-7614-a564-50537d1464ae"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "c340464aab6e043c540cde519f26a9191434bbb0320ad77f01c35f111ad4ff67",
+        "fix": "a6ee425ad6ccff00d0ffcedd5848de6e764fdcd666572dd28e2cb726c0156c20"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "fc775cfcac754fcb980b00bee2574a4eac7930436e81fa86c0c796dad167055e",
+        "report_sha256": "e568a8aecfc36827e38390a865e4dacb965d35c1621f3f9878af73bc7a6f4795",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2020-1058"
+      },
+      "cost_usd": 0.00095697,
+      "wall_seconds": 72.083616,
+      "card_path": "eval/results/eval100_cards/42481224.json"
+    },
+    {
+      "arvo_id": 42481945,
+      "project": "ndpi",
+      "verdict": "DUPLICATE",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [
+        "OSV-2020-1566",
+        "OSV-2020-2126",
+        "OSV-2020-242",
+        "OSV-2020-67",
+        "OSV-2020-821",
+        "OSV-2021-1804",
+        "OSV-2022-202",
+        "OSV-2023-229"
+      ],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "crash_state": [
+        "ndpi_workflow_process_packet",
+        "fuzz_ndpi_reader.c"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "24142f696b05b8726273d10137eaf033"
+      ],
+      "input_tokens": 211,
+      "output_tokens": 115,
+      "model_cost_usd": 0.0001668,
+      "sandbox_cost_usd": 0.00131817,
+      "checkpoint_operation_uuids": [
+        "01a1579e-7fe8-7022-b99f-d316fd7191e2",
+        "01a1579e-a1aa-73a0-a177-56e4fd73e822"
+      ],
+      "sandbox_operation_uuids": [
+        "01a1579e-a74e-75e0-bb9d-ce00158b044c",
+        "01a1579e-a83f-75aa-b76b-853a3f3d5841"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "ee8f8852d9c458cd9342fe85f35c87448ee4174e92240b2ed3d58f4826df98ce",
+        "fix": "4d5dc5f15455a882ea8427ce35b8a66dcc7de6fcd722a59efa27a308c416dcbd"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "296e263c1737c409da1c688cedc15d51e577e50e8d850f77ed7b0c8c556a01bf",
+        "report_sha256": "a7483a873903f1066934b67bdfbc8e9c7e02cc49fd8424ea33b226c78eca4e12",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2020-40"
+      },
+      "cost_usd": 0.00148497,
+      "wall_seconds": 23.396706,
+      "card_path": "eval/results/eval100_cards/42481945.json"
+    },
+    {
+      "arvo_id": 42525192,
+      "project": "libxml2",
+      "verdict": "NEEDS_INFO",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": false,
+      "duplicate_candidates": [],
+      "claim_agreement": false,
+      "crash_type": "",
+      "crash_state": [],
+      "sanitizer_kind": null,
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 127,
+      "fixed_exit_code": 127,
+      "model_request_ids": [
+        "16364bc1812256a47cfcafe6610318ea"
+      ],
+      "input_tokens": 207,
+      "output_tokens": 89,
+      "model_cost_usd": 0.0001422,
+      "sandbox_cost_usd": 0.00027449,
+      "checkpoint_operation_uuids": [
+        "01a1579e-e3f0-7609-b977-0def3be56074",
+        "01a1579f-19bb-73a3-a229-18615cbbaaa7"
+      ],
+      "sandbox_operation_uuids": [
+        "01a1579f-206c-7605-906c-10f1cc6f7573",
+        "01a1579f-215c-7165-89da-458fad6d103d"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "d33dc4a740805f99a7b007e07e64a96bb5e50593ee96a9a189c853b7ca913266",
+        "fix": "4e4af0b05c5550aad47caa0d8a28bc1bcd704c81fbb932bbbe89f4515edb4d3b"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "8f13220201dcf86d297cb75d2ae0029965b134e5d7e5cc389d5a8faaa52e6fe3",
+        "report_sha256": "58ead22a66946a12554a5b0f24c9cb8ac20ed78c3455b79cc80b91ece313cbde",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2023-474"
+      },
+      "cost_usd": 0.00041669,
+      "wall_seconds": 30.473663,
+      "card_path": "eval/results/eval100_cards/42525192.json"
+    },
+    {
+      "arvo_id": 42520614,
+      "project": "libredwg",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "bit_read_BB",
+        "dwg_decode_MINSERT_private",
+        "dwg_decode_MINSERT"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "8ba90138485f600b0914d97d88a03d79"
+      ],
+      "input_tokens": 214,
+      "output_tokens": 80,
+      "model_cost_usd": 0.0001362,
+      "sandbox_cost_usd": 0.00086741,
+      "checkpoint_operation_uuids": [
+        "01a1579f-c0ac-700d-8002-5b88e8e5119b",
+        "01a157a0-5a12-756d-9698-88639e871e99"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157a0-64eb-77be-b9d5-3d1c67f4515b",
+        "01a157a0-65ea-70d1-9c02-54881b98b4a3"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "1f3273944ac332871466cc355c4211199ad861aeb402763c7f4788001bac3cbb",
+        "fix": "497c39a7aecb2903e991ad99fe659fa3befb141e68d4a70e9ebae591d353bc5a"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "529e581bc59255d003b6b032a18bd6d616c3360d635750548392932ab02876e2",
+        "report_sha256": "5b49dc67597e050bec659c4d609e11b2ca6997b2fe6865e97cbecb5ec64d67b0",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2023-42"
+      },
+      "cost_usd": 0.00100361,
+      "wall_seconds": 82.587806,
+      "card_path": "eval/results/eval100_cards/42520614.json"
+    },
+    {
+      "arvo_id": 42504114,
+      "project": "qpid-proton",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "pni_consumer_readf8",
+        "consume_list",
+        "pn_amqp_decode_DqEoQBIoIe"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "f0628590cfb566a798e2ebf2a4a277fa"
+      ],
+      "input_tokens": 217,
+      "output_tokens": 66,
+      "model_cost_usd": 0.0001245,
+      "sandbox_cost_usd": 0.00074045,
+      "checkpoint_operation_uuids": [
+        "01a157a0-9809-770d-9a9d-301008516ac7",
+        "01a157a0-bc2d-76cb-8abf-4c67feee7052"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157a0-c1b9-74c0-aed3-f2ab9d1ae202",
+        "01a157a0-c2b6-76dd-8f30-a2e8aaba3034"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "f1aa3aa3550a1621f4494d9dca96e1bea16d847115a474ef89462e8826a8a95d",
+        "fix": "6120932e74116ab6c12e7701eca198a0c87274b2a11c968bd227bbd0d5fe0e74"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "513ba7d9657218f09ef012520636d54409f0896160cb81169ffd9d76f20f0c69",
+        "report_sha256": "1f2c87e0f7668cf365355054475f2c4ce8419ca2b5ea13d45ceffcfba2eab63c",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2021-1540"
+      },
+      "cost_usd": 0.00086495,
+      "wall_seconds": 23.53894,
+      "card_path": "eval/results/eval100_cards/42504114.json"
+    },
+    {
+      "arvo_id": 42497241,
+      "project": "espeak-ng",
+      "verdict": "NEEDS_INFO",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": false,
+      "duplicate_candidates": [],
+      "claim_agreement": false,
+      "crash_type": "",
+      "crash_state": [],
+      "sanitizer_kind": null,
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 77,
+      "fixed_exit_code": 77,
+      "model_request_ids": [
+        "d8b4272c89b66e170897c286c3ad39d8"
+      ],
+      "input_tokens": 220,
+      "output_tokens": 107,
+      "model_cost_usd": 0.0001623,
+      "sandbox_cost_usd": 0.00080689,
+      "checkpoint_operation_uuids": [
+        "01a157a0-f75c-7214-839e-472c8cb64ef2",
+        "01a157a1-1edd-7107-a035-09e13a805e06"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157a1-2456-7181-b915-4f2b1e2230f0",
+        "01a157a1-2455-773c-8565-749507cc5dea"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "7c1d1c3fb1e1b340e001d88ce5f749d02bdc9514d2ef01960eb10e3daaba8672",
+        "fix": "6244a131c37db8443f454446dd726d95984252659c1952a7624cf8ac574c875e"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "9443a10644e3fae6f30ba12c4f587ab85f3379e4cbcb6fe73077314a8361c558",
+        "report_sha256": "cae31e009eacb779736a4d2ea8d847984239823accbe8094502cc23f9e802c29",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2021-787"
+      },
+      "cost_usd": 0.00096919,
+      "wall_seconds": 24.267315,
+      "card_path": "eval/results/eval100_cards/42497241.json"
+    },
+    {
+      "arvo_id": 42500367,
+      "project": "harfbuzz",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "crash_state": [
+        "hb_array_t<OT::IntType<unsigned int, 4u> const> hb_array_t<OT::IntType<unsigned",
+        "OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >::copy",
+        "_hb_head_t<OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >*, decltype"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "509541a870368937b377e86de58faf1c"
+      ],
+      "input_tokens": 303,
+      "output_tokens": 109,
+      "model_cost_usd": 0.000189,
+      "sandbox_cost_usd": 0.00082594,
+      "checkpoint_operation_uuids": [
+        "01a157a1-7f25-77e1-8103-9434f402cc5b",
+        "01a157a1-cf93-77e1-b357-ad1789282319"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157a1-d6ec-7351-938b-b0fb04f76ffc",
+        "01a157a1-d7fa-74e9-aaed-45bf734902de"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "888fc6aebf59cb4abc9af2c333a1d155f09a675ba8b3598dc3ddb4cbf80ea285",
+        "fix": "9b93a880af9ecf6dfb630fcbf51a67eec12f32faa7da0cea9284a1e9dc555fe3"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "9d7a9ba4bcab7457e7d85eb8d98896231691717674370b93d8330e1b48b45ca2",
+        "report_sha256": "9076c81a13c55f23b1dafb6d97ee233bc7988e2d806571c962927b633ba29664",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2021-1153"
+      },
+      "cost_usd": 0.00101494,
+      "wall_seconds": 45.522149,
+      "card_path": "eval/results/eval100_cards/42500367.json"
+    },
+    {
+      "arvo_id": 42518269,
+      "project": "libredwg",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 8",
+      "crash_state": [
+        "json_common_entity_data",
+        "dwg_json_LOAD",
+        "dwg_json_object"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "d55779bf816e2f58239700e1a2f1d21f"
+      ],
+      "input_tokens": 210,
+      "output_tokens": 88,
+      "model_cost_usd": 0.0001422,
+      "sandbox_cost_usd": 0.00151956,
+      "checkpoint_operation_uuids": [
+        "01a157a2-6d32-7714-ad29-8f9989c283bd",
+        "01a157a2-f7c5-757d-9aa4-1f9375e05259"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157a3-0116-77ed-8b2d-4629c08d342b",
+        "01a157a3-025f-7677-8d96-0d5e0a03eef8"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "dc359b86b784dacd095f461c83c6d2e65ef697a9868d9127fd6c6e7e056dd89c",
+        "fix": "96a7ab7ac1356ead60a6799488424bea41b6542c5856b5315517ea297242345b"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "8295a9ead73031eb383c0f71d2c5e5ca3b063d54d9fa2cfe94acfec0592dcd36",
+        "report_sha256": "bf89ad637081408befe52c3d293603b91ef913cc1bb9381f2b3dd94d9d50267e",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2022-1180"
+      },
+      "cost_usd": 0.00166176,
+      "wall_seconds": 75.776286,
+      "card_path": "eval/results/eval100_cards/42518269.json"
+    },
+    {
+      "arvo_id": 42471044,
+      "project": "harfbuzz",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "BEInt<unsigned int, 4>::operator unsigned int",
+        "OT::OffsetTo<OT::UnsizedArrayOf<OT::IntType<short, 2u> >, OT::IntType<unsigned i",
+        "AAT::KerxSubTableFormat1::driver_context_t::driver_context_t"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "c7c45370163687eb4a1620005f0d75c4"
+      ],
+      "input_tokens": 266,
+      "output_tokens": 94,
+      "model_cost_usd": 0.0001644,
+      "sandbox_cost_usd": 0.00081162,
+      "checkpoint_operation_uuids": [
+        "01a157a3-57c8-71c8-bb0f-2eb9dbfc3b91",
+        "01a157a3-970c-77d2-9eaa-1eb06034e020"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157a3-9dbe-7569-9ea1-15c7a6f8a02c",
+        "01a157a3-9ec0-7239-9b98-39ad2890ccc1"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "7280098b1f1046c529f0b97fcd26d89db015a60c1e1b58ea5dc5ad0066b71cbd",
+        "fix": "6ff8279a15ab78ee0ea2a18d08bdd09cc9e87bbaec95bca7708beaa6c33e341b"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "564ecb6c7d0eada2ee82fd4206e95cbfe1cec8c84eceea05fec40e9f57bfd4d4",
+        "report_sha256": "93528885b38ba5ae2f431b56b73ff7575f96ff4fabfa79e8efa513818172ccaf",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2018-162"
+      },
+      "cost_usd": 0.00097602,
+      "wall_seconds": 38.917982,
+      "card_path": "eval/results/eval100_cards/42471044.json"
+    },
+    {
+      "arvo_id": 42522233,
+      "project": "mruby",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": false,
+      "crash_type": "Segv on unknown address",
+      "crash_state": [
+        "mrb_bint_sub",
+        "int_sub",
+        "mrb_vm_exec"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "ece3c1dbb537736420dcc09a535bc76a"
+      ],
+      "input_tokens": 208,
+      "output_tokens": 64,
+      "model_cost_usd": 0.00012,
+      "sandbox_cost_usd": 0.00087256,
+      "checkpoint_operation_uuids": [
+        "01a157a3-d2a0-7609-b7ac-69034f0cf539",
+        "01a157a3-ffec-717f-a765-e2f811db1a9a"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157a4-060b-766a-a955-a09c3c0b6f79",
+        "01a157a4-06ef-721d-951b-795934a9d27b"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "95471fa398873f7eeeb3911d6b6552caad50be5a7ae822be0361d3462af6b062",
+        "fix": "bfedc3f743b7778d89c9bb02d236b436643ccdad2f9158910e7ecbb8212ff44f"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "56c50ddd62479e43f6b45752b72b8d6c67d53d63efe151c28263094ca7a14b9f",
+        "report_sha256": "aee330b884f61ef981135f35feac6458706ea0fccc90bf48230e97cf64c584e2",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2023-178"
+      },
+      "cost_usd": 0.00099256,
+      "wall_seconds": 26.769299,
+      "card_path": "eval/results/eval100_cards/42522233.json"
+    },
+    {
+      "arvo_id": 42504387,
+      "project": "open62541",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-use-after-free READ 8",
+      "crash_state": [
+        "UA_Subscription_answerPublishRequestsNoSubscription",
+        "processDelayedCallbacks",
+        "UA_Server_run_shutdown"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "325ff69230fbbfccf819b7337607bbfa"
+      ],
+      "input_tokens": 221,
+      "output_tokens": 72,
+      "model_cost_usd": 0.0001311,
+      "sandbox_cost_usd": 0.00104494,
+      "checkpoint_operation_uuids": [
+        "01a157a4-5edc-7232-a512-2b992d88574c",
+        "01a157a4-9a52-703e-a5f8-f2ac6171b6bd"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157a4-a1a2-7096-9591-c8cca772a01c",
+        "01a157a4-a284-7508-9e73-3ece300329a8"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "9ece40e87adc92a511bed6b92e0cff29fceb3a891694365239600994fada6cbc",
+        "fix": "158f46a83ec6aaf9096934d7603a2801320568d09e4461707bdb58e33cbd5182"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "a3ab1863e770a793db05688624f8c6a00f9bf3e21133c12a294448eb819ee593",
+        "report_sha256": "f0216bbd0e485f1af98982ef0e1c3e2f50bf958a4bb4e09aa2127eb9eb792a45",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2017-10"
+      },
+      "cost_usd": 0.00117604,
+      "wall_seconds": 38.687943,
+      "card_path": "eval/results/eval100_cards/42504387.json"
+    },
+    {
+      "arvo_id": 42501162,
+      "project": "kamailio",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "q_memchr",
+        "parse_quoted_param",
+        "parse_param_body"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "98923243ac51644d0b11b735a95995ac"
+      ],
+      "input_tokens": 208,
+      "output_tokens": 109,
+      "model_cost_usd": 0.0001605,
+      "sandbox_cost_usd": 0.00092757,
+      "checkpoint_operation_uuids": [
+        "01a157a4-e903-714b-8f16-4812bcc31d2a",
+        "01a157a5-2806-74e9-b556-601d89e9281e"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157a5-2fe2-734d-8a8b-4e5554e877a9",
+        "01a157a5-311e-77cb-b3d3-609051398f61"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "43eac10d33cca2378c497376459a819bf9ce868aed17104be111a62b3994891a",
+        "fix": "3e6ca1f6ac5a852e3d4793ff113e344eebffef29a9803fd63f5f63a9aedca7d2"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "2086c47ffe82d79ec70646108408e713e40c2a8eecc0d6af7e95918d6b1d245d",
+        "report_sha256": "af247da6715bda0099fffb27643ad7e46707003cec80e9a14337fc0461bb511d",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2021-1201"
+      },
+      "cost_usd": 0.00108807,
+      "wall_seconds": 36.237981,
+      "card_path": "eval/results/eval100_cards/42501162.json"
+    },
+    {
+      "arvo_id": 42532259,
+      "project": "simdutf",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": false,
+      "crash_type": "Heap-buffer-overflow WRITE {*}",
+      "crash_state": [
+        "store_ascii_as_utf32",
+        "store_ascii_as_utf32",
+        "convert"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "2495b09ec87dbf62b98f8e6f47728970"
+      ],
+      "input_tokens": 234,
+      "output_tokens": 110,
+      "model_cost_usd": 0.0001692,
+      "sandbox_cost_usd": 0.00079154,
+      "checkpoint_operation_uuids": [
+        "01a157a5-608c-7436-b67c-a27c9fb35bd0",
+        "01a157a5-83bf-77ed-8011-917f2d8e066b"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157a5-8a59-74bb-a060-b2b4914e125b",
+        "01a157a5-8b56-771c-ac74-1479054cac54"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "32a08df5a672a6c646ebe2ecc2b50ffb9bc0a742de6ef851a9588ee734e232cb",
+        "fix": "6be3c5f5fdc6a96a4eaf70bf9dde7648b4fa06296e5fa4dc9f0469add1d5366f"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "96d94829605495b4a7ed24747c29157d9a6cecc20f8f54f7323721693c84bc35",
+        "report_sha256": "67152f12e203865065bfc09d032ae4e950f1676163d29ee4db5fce7fd42beb36",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2024-39"
+      },
+      "cost_usd": 0.00096074,
+      "wall_seconds": 22.298948,
+      "card_path": "eval/results/eval100_cards/42532259.json"
+    },
+    {
+      "arvo_id": 42486565,
+      "project": "libxml2",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-use-after-free READ 4",
+      "crash_state": [
+        "xmlXIncludeIncludeNode",
+        "xmlXIncludeDoProcess",
+        "xmlXIncludeLoadFallback"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "2fd3eebc0751bd139a514e468ed3ffe2"
+      ],
+      "input_tokens": 215,
+      "output_tokens": 90,
+      "model_cost_usd": 0.0001455,
+      "sandbox_cost_usd": 0.00084414,
+      "checkpoint_operation_uuids": [
+        "01a157a5-c37b-75b8-a515-820a0afc473e",
+        "01a157a5-edec-7412-a869-98ec38506b9d"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157a5-f40a-7793-b61b-bd1d6bac4a8c",
+        "01a157a5-f51b-711e-9a08-f72c2ed71c9a"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "a5b55a7bcc53956a53cfc23549d7ffd86418308c41a0cd9bf19d3d2f1b83be84",
+        "fix": "a428b1c9e763e0e4ec06e081e1170d43bd00cd6763b3ebe6fa9568ea1877d86d"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "0aa030b1a1015f7b3e9fd6c5c60c2696946e19215c1867012087af9cebcd3b5c",
+        "report_sha256": "6db1402ec49a041b1193e5a81bb6622171a123fb39a35ca1f8b425a85c0484bf",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2020-1623"
+      },
+      "cost_usd": 0.00098964,
+      "wall_seconds": 26.663048,
+      "card_path": "eval/results/eval100_cards/42486565.json"
+    },
+    {
+      "arvo_id": 42470538,
+      "project": "radare2",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "r_str_utf16_to_utf8",
+        "sections",
+        "r_bin_object_set_items"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "907e701b3d126b4e6ffe38eac41f053c"
+      ],
+      "input_tokens": 220,
+      "output_tokens": 79,
+      "model_cost_usd": 0.0001371,
+      "sandbox_cost_usd": 0.02462961,
+      "checkpoint_operation_uuids": [
+        "01a157a6-fb1f-7089-bc2e-2065122b4a47",
+        "01a157a7-f8ba-73a5-ae84-1fa572f392f3"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157a8-0228-734d-b815-ff5e62e59116",
+        "01a157a8-0313-7204-9f41-60aa9bdd8229"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "9e4aa1580c3c54acf12ab0a8c85f44f6e2fa2c64395f4dced9c2399116c81510",
+        "fix": "76a0f6e18b36459981996d98f1add30808a17b5c98703d99efb25f67b067cb04"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "dc22a3a993354afdde11eed4acc5859903cebebdc00861c1e21f6b941bd6acaf",
+        "report_sha256": "965088eeaf763b9cdd34acf54920ac4e05f0aa7f5eda20da6ef4dd710eeeadf9",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2018-201"
+      },
+      "cost_usd": 0.02476671,
+      "wall_seconds": 135.576463,
+      "card_path": "eval/results/eval100_cards/42470538.json"
+    },
+    {
+      "arvo_id": 42513620,
+      "project": "mruby",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 8",
+      "crash_state": [
+        "mpz_get_int",
+        "bint_norm",
+        "mrb_bint_add"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "96b0b1c1fb405d646350c8750507fc5a"
+      ],
+      "input_tokens": 209,
+      "output_tokens": 90,
+      "model_cost_usd": 0.0001437,
+      "sandbox_cost_usd": 0.00084074,
+      "checkpoint_operation_uuids": [
+        "01a157a8-3c56-72d6-aa27-b37c02fd3bfa",
+        "01a157a8-6419-7287-bbbb-d7c4835b9184"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157a8-6abf-71b2-9a61-81899ed2cbb9",
+        "01a157a8-6bb1-7693-bda8-41613aca97c5"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "359ee34f0777530ff52dd5edf794ead36848a84c0656f35d4381ee5808c8b2ad",
+        "fix": "a656201ee3f1fa34e256fb319b86da8f5d0711f949bde7c31bb0cc6b27c480d9"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "607e18eac4839f9726d5ae15f487824368955574f3d28613f204ff8a5940b6b6",
+        "report_sha256": "ed1e6b1a0a6adebd4b5ef82227f35a515f8f34dccba97c897e8e3e50d384549a",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2022-606"
+      },
+      "cost_usd": 0.00098444,
+      "wall_seconds": 24.509346,
+      "card_path": "eval/results/eval100_cards/42513620.json"
+    },
+    {
+      "arvo_id": 42471105,
+      "project": "harfbuzz",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "BEInt<unsigned short, 2>::operator unsigned short",
+        "OT::IndexSubtable::get_extents",
+        "OT::IndexSubtableRecord::get_extents"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "d03ecd57c1bedd94ddd20981d7812195"
+      ],
+      "input_tokens": 236,
+      "output_tokens": 96,
+      "model_cost_usd": 0.0001572,
+      "sandbox_cost_usd": 0.00080766,
+      "checkpoint_operation_uuids": [
+        "01a157a8-b496-72cf-be0f-4f2a59e02050",
+        "01a157a8-f1f2-703e-9f62-c3cdb697986b"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157a8-f8f5-7089-b639-cd81ec65b872",
+        "01a157a8-f9e1-720f-bd9c-93ea8b89c2f3"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "a389866a02a303fd5d59e57ea968a993f9266c942eccabeb4a425c0e191f7d8f",
+        "fix": "fcb2294f48d842015063de24c6e75cb28da0d979674ebf5c8d0c76412f26c44c"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "16fa2c0ab9b810e9761973aed99aad59310fc7c65c946a2355bed744ae010ad9",
+        "report_sha256": "ccc0a04625865a5ceec1549cf55293afee81da8da3b50cd2b000e536ee43a46e",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2018-185"
+      },
+      "cost_usd": 0.00096486,
+      "wall_seconds": 36.249911,
+      "card_path": "eval/results/eval100_cards/42471105.json"
+    },
+    {
+      "arvo_id": 42501200,
+      "project": "json",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": false,
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "nlohmann::basic_json<std::__1::map, std::__1::vector, std::__1::basic_string<cha",
+        "nlohmann::basic_json<std::__1::map, std::__1::vector, std::__1::basic_string<cha",
+        "from_cbor"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "74b004ad9be59395f9ee6de5f6a90c33"
+      ],
+      "input_tokens": 298,
+      "output_tokens": 87,
+      "model_cost_usd": 0.0001677,
+      "sandbox_cost_usd": 0.00076137,
+      "checkpoint_operation_uuids": [
+        "01a157a9-3dff-7123-81da-cb9ecf0729a8",
+        "01a157a9-6e70-72a7-b7a9-5e3dbe49db0a"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157a9-741c-7339-bfce-ca966a6ecfb6",
+        "01a157a9-7503-71c4-8e30-2ed4ffe2dbae"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "74146473db2db094821a9bf1e47499220c6e390ea942819d1f5f965ef1e967a8",
+        "fix": "23046068917221b8e193c937d4910a311f2f7332c0f064fb4e4d5071e02979ca"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "a3ff3866d65e706e91f795e822f330a1aa2f5de316712d1bf4b2c29e93ee2773",
+        "report_sha256": "d725bb8654312cb8c6de6b6eee44afbdd87c30f54f6d52fafa9442244f7f91e7",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2017-59"
+      },
+      "cost_usd": 0.00092907,
+      "wall_seconds": 30.694819,
+      "card_path": "eval/results/eval100_cards/42501200.json"
+    },
+    {
+      "arvo_id": 42471108,
+      "project": "libgit2",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 13",
+      "crash_state": [
+        "git_buf_vprintf",
+        "giterr_set",
+        "git__strntol32"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "78b4bf3b8585768cc4472f1a89aa979b"
+      ],
+      "input_tokens": 214,
+      "output_tokens": 78,
+      "model_cost_usd": 0.0001344,
+      "sandbox_cost_usd": 0.00083564,
+      "checkpoint_operation_uuids": [
+        "01a157a9-c46c-75d4-a266-f40a22581a11",
+        "01a157aa-0c59-71fb-8cd4-2a3d3b8c4d22"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157aa-130c-7344-b88c-2553c81b9924",
+        "01a157aa-13fd-746d-a451-19fcb9c76bd4"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "f3c4760ed6bff01be6378714459baf20be3475e27ea0f17ce5603ad8f5ca2839",
+        "fix": "f203bd56863fe60e6825784e303017e5b9c30c5ef8b20921ab6d071e1d4761d2"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "b5630c789b1e4142e3183859c0fcf082d1edb16ef9d6a10df160d621a35148e3",
+        "report_sha256": "d428501c510408221cedb03cb1022f6380c139fe2035e8ca05ac0061952389e3",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2018-2"
+      },
+      "cost_usd": 0.00097004,
+      "wall_seconds": 40.505003,
+      "card_path": "eval/results/eval100_cards/42471108.json"
+    },
+    {
+      "arvo_id": 42475782,
+      "project": "radare2",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": false,
+      "crash_type": "Negative-size-param",
+      "crash_state": [
+        "r_buf_read",
+        "parse_function_starts",
+        "init_items"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "27bc82df4abcb48c954af93f41280af7"
+      ],
+      "input_tokens": 205,
+      "output_tokens": 73,
+      "model_cost_usd": 0.0001272,
+      "sandbox_cost_usd": 0.00218649,
+      "checkpoint_operation_uuids": [
+        "01a157aa-f3d3-7361-9c24-ed44b912b367",
+        "01a157ab-c566-71e4-8af4-b920763c8008"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157ab-cea4-718e-aaae-286c110aa435",
+        "01a157ab-cf87-73cd-9ca7-dbe2909627f4"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "0f95c081333deae38a98e92fcc11941bd8c3e070d47c763077dc0cbd396ada46",
+        "fix": "f17b9a0b4f29cc9265a227c8dfee4549820f4604568c0a3340d0d1ed30353cfd"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "6a81388475236a7f1d369e05e222162d75a1031c0e68a478201972928fb2c62d",
+        "report_sha256": "b5aa8a071bc48a94cb5ce72c52270c964eddd43abaa09172704830476a80d1a9",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2020-722"
+      },
+      "cost_usd": 0.00231369,
+      "wall_seconds": 112.543989,
+      "card_path": "eval/results/eval100_cards/42475782.json"
+    },
+    {
+      "arvo_id": 42481193,
+      "project": "ndpi",
+      "verdict": "DUPLICATE",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [
+        "OSV-2020-1566",
+        "OSV-2020-2126",
+        "OSV-2020-40",
+        "OSV-2020-67",
+        "OSV-2020-821",
+        "OSV-2021-1804",
+        "OSV-2022-202",
+        "OSV-2023-229"
+      ],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "crash_state": [
+        "ndpi_workflow_process_packet",
+        "fuzz_ndpi_reader.c"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "2c44965cbd4715ef9349e3a170d5e12f"
+      ],
+      "input_tokens": 211,
+      "output_tokens": 122,
+      "model_cost_usd": 0.0001731,
+      "sandbox_cost_usd": 0.00127125,
+      "checkpoint_operation_uuids": [
+        "01a157ac-0756-7316-a313-041ac8d39b67",
+        "01a157ac-3420-73be-ac55-7436f1d7a3a1"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157ac-3ad2-76ef-b47d-9e029d635933",
+        "01a157ac-3c13-72b3-9729-499c4db141d7"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "1f254f9c140b669e9ee0b8bbfdbd2f86ead49e54655bbaed1d2f1baad2f60ea3",
+        "fix": "d99fde1d9c6db9a6e511baefd25c41c2f8e5ebeb43133d399ed8737c69c4feee"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "7cc3f04660c3ed142320b418ac14c70c341170b1d263e63e986d296cff683813",
+        "report_sha256": "084dc2bb5fdc069c99e2544546b649d1d2c3e59250699ba9fcfe247afae5ebc6",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2020-242"
+      },
+      "cost_usd": 0.00144435,
+      "wall_seconds": 27.362905,
+      "card_path": "eval/results/eval100_cards/42481193.json"
+    },
+    {
+      "arvo_id": 42498970,
+      "project": "open62541",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Negative-size-param",
+      "crash_state": [
+        "appendChunk",
+        "UA_SecureChannel_finalizeChunk",
+        "UA_SecureChannel_processChunk"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "567a25bc46c00d264e5f17e7bb81f948"
+      ],
+      "input_tokens": 213,
+      "output_tokens": 120,
+      "model_cost_usd": 0.0001719,
+      "sandbox_cost_usd": 0.00096306,
+      "checkpoint_operation_uuids": [
+        "01a157ac-8470-774b-a4fb-a1c5b067b269",
+        "01a157ac-c3ca-74a4-85d8-3dd3d6166e2b"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157ac-ca8d-700c-b122-4f0858817c13",
+        "01a157ac-cb89-7638-9bfa-2fca05a5bc92"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "80cd99ffb46ba3a4b19ca43f8096c2c5afec841ac43c0ce69cd7d36bcf69be92",
+        "fix": "1a400ae3fac00fc6c39044dd30b663b4488db3648cf319cf96c677174a9ef85e"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "6ce6f984af31c38188ee063fae2a0fed67adabdfeed50d80c1d1ec8b429c7442",
+        "report_sha256": "071cbd8bb996f358f782423b943d63f749db51faed58485db8ba907340c888cd",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2017-78"
+      },
+      "cost_usd": 0.00113496,
+      "wall_seconds": 36.674315,
+      "card_path": "eval/results/eval100_cards/42498970.json"
+    },
+    {
+      "arvo_id": 42477222,
+      "project": "libavc",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "crash_state": [
+        "ih264d_cavlc_4x4res_block_totalcoeff_11to16",
+        "ih264d_cavlc_parse4x4coeff_n0to7",
+        "ih264d_cavlc_parse_8x8block_both_available"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "2debb4d29f44067b76de05b359eb774c"
+      ],
+      "input_tokens": 275,
+      "output_tokens": 108,
+      "model_cost_usd": 0.0001797,
+      "sandbox_cost_usd": 0.00094689,
+      "checkpoint_operation_uuids": [
+        "01a157ac-f4ac-7392-806c-ad3054b545d8",
+        "01a157ad-1213-73dc-b8ec-a48b21f2f8ba"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157ad-17f1-71fb-a659-0fd8034b554c",
+        "01a157ad-18e7-76e7-9f47-81bb89ebeb75"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "714ed59d0e67be7a8edd3b862bb5d1e90afc530678ecddcb1e272c4802caba76",
+        "fix": "71db6a742fd7bd4e7f56daf137c1a9735a5e7ea08644bd5acb04689df1e8374c"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "262ee6c5ef9dbc039d118c0b560a09980def04af386763112741d960b8deba66",
+        "report_sha256": "adf628a0ee3dbbf1ad62828f380f22f8845e95997094badf1f401abc90b67951",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2020-1153"
+      },
+      "cost_usd": 0.00112659,
+      "wall_seconds": 18.866216,
+      "card_path": "eval/results/eval100_cards/42477222.json"
+    },
+    {
+      "arvo_id": 42496936,
+      "project": "c-blosc2",
+      "verdict": "NEEDS_INFO",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": false,
+      "duplicate_candidates": [],
+      "claim_agreement": false,
+      "crash_type": "",
+      "crash_state": [],
+      "sanitizer_kind": null,
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 127,
+      "fixed_exit_code": 127,
+      "model_request_ids": [
+        "a1caaaf02c05da7954b2e630696477c3"
+      ],
+      "input_tokens": 216,
+      "output_tokens": 83,
+      "model_cost_usd": 0.0001395,
+      "sandbox_cost_usd": 0.00030978,
+      "checkpoint_operation_uuids": [
+        "01a157ad-5790-77e4-9fa4-f2c25ceb3114",
+        "01a157ad-a4cf-73dc-be46-e771373b2c68"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157ad-acbd-75ca-8c7d-8cfe84d9048f",
+        "01a157ad-adba-7122-9f21-4f10844d310b"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "a41978e686fd021ce62c070850f33c2bf2743acee39bd544a0256acbe73a0af4",
+        "fix": "76a31d80965840d45c77c4dbf23b3d289a5ddae3b8e0a04dbd77a7958db0c89e"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "c78e1d97ec96dc60bfb13486eb6dc8de5b3478b21378719ac4beb1f883ea3b0c",
+        "report_sha256": "db093892edb1dd819bbd7b58bdcd8e39055438ba65d1b12e54415c02a0eb39af",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2021-766"
+      },
+      "cost_usd": 0.00044928,
+      "wall_seconds": 37.243509,
+      "card_path": "eval/results/eval100_cards/42496936.json"
+    },
+    {
+      "arvo_id": 42475195,
+      "project": "radare2",
+      "verdict": "DUPLICATE",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [
+        "OSV-2020-317"
+      ],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow WRITE 8",
+      "crash_state": [
+        "r_core_lines_initcache",
+        "cb_linesto",
+        "r_config_set_i"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "7c2651944b1ca1ddd240f450f08c37ce"
+      ],
+      "input_tokens": 212,
+      "output_tokens": 94,
+      "model_cost_usd": 0.0001482,
+      "sandbox_cost_usd": 0.00219816,
+      "checkpoint_operation_uuids": [
+        "01a157ae-808d-7661-a45f-d3a20a7fb62c",
+        "01a157af-5695-750c-b175-f6efb86f90e5"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157af-5fad-7334-ab77-30968193b0a8",
+        "01a157af-6097-75c8-8949-e88e88dfc7aa"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "70fa0110f57e00d37213d20b19bc58cdc85f510bc3cf4d8045ab5ae7745f3169",
+        "fix": "8eaf9e6d80e11af12eb6f40d08cd1d44cdf1cf18f967db5cb0dbddbea12ed6f7"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "7e0c43d0be5dd2757c558ee799663257cd19b827637a423294cf62cc8579c7be",
+        "report_sha256": "f278633596b955df8b3e4621d9bfbc14c53861bbba764a95b70cc5b8489d883c",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2020-455"
+      },
+      "cost_usd": 0.00234636,
+      "wall_seconds": 111.440565,
+      "card_path": "eval/results/eval100_cards/42475195.json"
+    },
+    {
+      "arvo_id": 42499827,
+      "project": "spice-usbredir",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-use-after-free WRITE 4",
+      "crash_state": [
+        "usbredirparser_serialize",
+        "try_serialize",
+        "usbredirparserfuzz.cc"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "354f3b8d16a8a2c2154e1469181a8350"
+      ],
+      "input_tokens": 218,
+      "output_tokens": 69,
+      "model_cost_usd": 0.0001275,
+      "sandbox_cost_usd": 0.00140731,
+      "checkpoint_operation_uuids": [
+        "01a157af-8b01-75f4-9a5d-78841c7783e6",
+        "01a157af-aaf1-70da-a536-efe6ec5a92e9"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157af-b05f-77fb-9c3e-759786916550",
+        "01a157af-b063-75f2-b9b9-459d6754c06e"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "43c58d9f035afbcd3a76928865098d93ae4729937a49fddec6af65764edd52f9",
+        "fix": "fc91d7841a375bd479978821db3fd3c1af8d0e712f000189430f3bfbdc050a1f"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "f5195fff15abac75a3e9a52c7389a88dea50ea4f9be1870022902b6b82f4ac8d",
+        "report_sha256": "3e69afea3aa9941eb3400028e0ea92c05a6783d9a7d1e3bd1082589c91c2d34d",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2021-1102"
+      },
+      "cost_usd": 0.00153481,
+      "wall_seconds": 19.448441,
+      "card_path": "eval/results/eval100_cards/42499827.json"
+    },
+    {
+      "arvo_id": 42510753,
+      "project": "quickjs",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "build_for_in_iterator",
+        "js_for_in_start",
+        "JS_CallInternal"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "cad71e80f305a06106014570f3a817c3"
+      ],
+      "input_tokens": 211,
+      "output_tokens": 70,
+      "model_cost_usd": 0.0001263,
+      "sandbox_cost_usd": 0.34236521,
+      "checkpoint_operation_uuids": [
+        "01a157b0-0133-7676-b975-ad138f2d6190",
+        "01a157b0-40f1-76e0-8850-8ccd045b2307"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157b0-47bf-70f1-9b1f-c1e9c326faa7",
+        "01a157b0-48b7-704c-aae4-b5e1f4cc2582"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "ada20812dbd6da1f109b53f7ea388ac921ac2f65145901055a8866d914153f9d",
+        "fix": "dfbd8e9b7f0e89638373db9f3b9390c9a88ce1e1d4fb9ac71ac5f6555593ecb4"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "b3402182bec2d8318bef1b96eb100e9c77b13667a96d189daacc440adaa2fd3b",
+        "report_sha256": "2f67c973574308b9f27adc39b5a939b4d72b8c5a100c242419eaefefae6cfd36",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2022-349"
+      },
+      "cost_usd": 0.34249151,
+      "wall_seconds": 55.943674,
+      "card_path": "eval/results/eval100_cards/42510753.json"
+    },
+    {
+      "arvo_id": 42501143,
+      "project": "kamailio",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "trim_leading",
+        "parse_contacts",
+        "contact_parser"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "10f98ba67e6ab78e00ae49123a6e15a3"
+      ],
+      "input_tokens": 205,
+      "output_tokens": 87,
+      "model_cost_usd": 0.0001398,
+      "sandbox_cost_usd": 0.00089153,
+      "checkpoint_operation_uuids": [
+        "01a157b0-cdb9-701b-be07-948a9832cfb9",
+        "01a157b1-091e-7684-a798-b614b421c872"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157b1-0fd4-725f-81fb-c025504e943d",
+        "01a157b1-10d6-719d-a810-97475a586944"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "7f97f780a7dd8250dd913d2e2a1ec047c7d4dfc73c512fd51c033ac9529a44ea",
+        "fix": "b96af69e845727b714336fb98ebd34d62b19de85a8e801400bd186a2c8e8e926"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "b65f86076496229227e4bed662e03f9d5572011bc60f77f6c5ffb9fa933d1553",
+        "report_sha256": "75de3cb7fb88bdaa76936343b90e56d83c55d35e7bbd8f729736d471e46cedd5",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2021-1195"
+      },
+      "cost_usd": 0.00103133,
+      "wall_seconds": 33.219516,
+      "card_path": "eval/results/eval100_cards/42501143.json"
+    },
+    {
+      "arvo_id": 42474141,
+      "project": "openthread",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Stack-use-after-return READ 1",
+      "crash_state": [
+        "ot::MeshCoP::ChannelMaskEntryBase::GetChannelPage",
+        "ot::MeshCoP::ChannelMaskTlv::GetChannelMask",
+        "ot::MeshCoP::ChannelMaskTlv::GetChannelMask"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "7aef763295618f73066dcfb38c1e2636"
+      ],
+      "input_tokens": 251,
+      "output_tokens": 76,
+      "model_cost_usd": 0.0001437,
+      "sandbox_cost_usd": 0.00075721,
+      "checkpoint_operation_uuids": [
+        "01a157b1-5bd4-7083-9f1f-57fcabb13c47",
+        "01a157b1-9663-739a-91c0-391bca5cbb19"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157b1-9c7f-70a4-aa41-49e0368ba643",
+        "01a157b1-9d70-756d-bc05-907e730a0a84"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "7861606da2a95a1dd28b0188922c464b86473b3bd1edabb6a14ef8c822f3032f",
+        "fix": "3cb19e3dde02d8c50fcc0127a6cfb6fa7b49a1c1180820b65a54e97cbde692fd"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "f0f87b6f5a8ecbbed099770b0426837d8109803be31d1970f7963255de1bc59c",
+        "report_sha256": "88c83af7005181d36483fabf48cb03a4f78fea6c320c0a3f8e14010a67caedaf",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2020-343"
+      },
+      "cost_usd": 0.00090091,
+      "wall_seconds": 36.118427,
+      "card_path": "eval/results/eval100_cards/42474141.json"
+    },
+    {
+      "arvo_id": 42517374,
+      "project": "opensc",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Stack-buffer-overflow READ 1",
+      "crash_state": [
+        "authentic_parse_size",
+        "authentic_get_tagged_data",
+        "authentic_parse_credential_data"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "7a200213ef7b7824f463fc81a4681c59"
+      ],
+      "input_tokens": 212,
+      "output_tokens": 81,
+      "model_cost_usd": 0.0001365,
+      "sandbox_cost_usd": 0.00092238,
+      "checkpoint_operation_uuids": [
+        "01a157b3-0f68-74d6-8d65-32de418328e0",
+        "01a157b3-5281-72ba-97be-580cc83030be"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157b3-5953-73cc-a945-41b8cbef38fd",
+        "01a157b3-5a3b-7453-b41c-a400220ebe06"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "3f6a8661639cc50f88b29956bd94e82d367e96c2201fb5432d494c99b6b4a426",
+        "fix": "456e9a9ef81db61d0707fed2d7bb1609a74e8e5e55223fa7f6c0f47ea594dfea"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "37a9acb87c30426820d0374f5f6ae640ec7cc0828689b6143cf4324565d98918",
+        "report_sha256": "aece4f19446edeb0ba33d8b04e43e251b589ee51979f5ff31bef09a061515dcd",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2022-1084"
+      },
+      "cost_usd": 0.00105888,
+      "wall_seconds": 39.305045,
+      "card_path": "eval/results/eval100_cards/42517374.json"
+    },
+    {
+      "arvo_id": 42490025,
+      "project": "libavc",
+      "verdict": "DUPLICATE",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [
+        "OSV-2021-1235",
+        "OSV-2021-380"
+      ],
+      "claim_agreement": false,
+      "crash_type": "Heap-buffer-overflow READ 8",
+      "crash_state": [
+        "ih264d_fill_bs1_16x16mb_pslice",
+        "ih264d_compute_bs_non_mbaff_thread",
+        "ih264d_recon_deblk_slice"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "737f14cd843136186c60281554b8fbdd"
+      ],
+      "input_tokens": 256,
+      "output_tokens": 116,
+      "model_cost_usd": 0.0001812,
+      "sandbox_cost_usd": 0.00097121,
+      "checkpoint_operation_uuids": [
+        "01a157b3-89ca-72f2-a9b9-74d4f1b0e5ae",
+        "01a157b3-ac21-75f9-9778-4fb8943bd244"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157b3-b292-712d-95fa-1aa24fbd982e",
+        "01a157b3-b297-75cd-9c34-819128f141c0"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "e1b134aa17130062f71ada874f3610a389f02d2acac57e99d6378d6fb7703edf",
+        "fix": "4e674492cdb1b633d07478081f7c619c88c43d938064442f864ac729ea65c489"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "b56b3aa059cb776e3b7c1e7fb9a05cc5e1e90a526ac0ffd898c17039269c2eef",
+        "report_sha256": "73bfa9f0b1ff3bad0bd04b38c53710f087b4ccea5b79362651b3b5851760ff82",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2020-2212"
+      },
+      "cost_usd": 0.00115241,
+      "wall_seconds": 22.500436,
+      "card_path": "eval/results/eval100_cards/42490025.json"
+    },
+    {
+      "arvo_id": 42517725,
+      "project": "fluent-bit",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": false,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 8",
+      "crash_state": [
+        "add_bytes",
+        "add_compile_string",
+        "compile_string_node"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "3ff2a877fcd93259a9fdec0d156475f3"
+      ],
+      "input_tokens": 206,
+      "output_tokens": 75,
+      "model_cost_usd": 0.0001293,
+      "sandbox_cost_usd": 0.00091526,
+      "checkpoint_operation_uuids": [
+        "01a157b4-2ec5-711f-9dd2-1b0ab3ed3d40",
+        "01a157b4-c57b-76f8-90e7-e2ff9b181b90"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157b4-cd91-73a2-9dd3-4406d507651b",
+        "01a157b4-ce8b-73ce-b2ce-77316b711491"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "26684ec88b693849a325d7579a70bac87b2f14dd1d8e791a2e1807e7382e2c9f",
+        "fix": "23f7f0a08a2ec1e8583e47451d38789023e1e0363fb58841488909c1ab4fb70e"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "0996be2a50f0468d127f5297f68c4d30814f1b02d226c2c0af42bc3dcc262b8f",
+        "report_sha256": "54e17697951caf3d9861452a291471bdd43962b3941e2c1ae4577ea33d46b014",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2022-1132"
+      },
+      "cost_usd": 0.00104456,
+      "wall_seconds": 72.377465,
+      "card_path": "eval/results/eval100_cards/42517725.json"
+    },
+    {
+      "arvo_id": 42476618,
+      "project": "openthread",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Stack-buffer-overflow READ 8",
+      "crash_state": [
+        "ot::NetworkData::Leader::IsStableUpdated",
+        "ot::NetworkData::Leader::RegisterNetworkData",
+        "ot::NetworkData::Leader::HandleServerData"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "d0658b6dcd14ecac24d3fe79e560faa7"
+      ],
+      "input_tokens": 235,
+      "output_tokens": 106,
+      "model_cost_usd": 0.0001659,
+      "sandbox_cost_usd": 0.00076155,
+      "checkpoint_operation_uuids": [
+        "01a157b5-052b-74b4-b21c-5833cb195971",
+        "01a157b5-27f1-731e-9c5a-59c4ff92f593"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157b5-2da2-74c3-9949-70ed1d7103be",
+        "01a157b5-2e98-712b-9bfd-bd7213e23f1f"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "42092bc30cf35c9834620a763f9b411e15eff188017677ef670ac82b1db85c24",
+        "fix": "d43f0c3e7257de2b3f61a9d70e972c08dcacf766d081f485e154abfa25e3b567"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "848452c885a9d4c6bc8190cd65b8e1c8ae7da157186b46fe2a6e3a591266afc2",
+        "report_sha256": "e009e2ace86a0fdc91592df52d2657b5dbda38637aa652dc25daa586590e76c8",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2020-383"
+      },
+      "cost_usd": 0.00092745,
+      "wall_seconds": 23.546953,
+      "card_path": "eval/results/eval100_cards/42476618.json"
+    },
+    {
+      "arvo_id": 42496031,
+      "project": "irssi",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-use-after-free READ 4",
+      "crash_state": [
+        "module_check_cast",
+        "server_connect_unref",
+        "server_unref"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "f52aca8fb0c0137616efcd2c99447552"
+      ],
+      "input_tokens": 207,
+      "output_tokens": 77,
+      "model_cost_usd": 0.0001314,
+      "sandbox_cost_usd": 0.00142236,
+      "checkpoint_operation_uuids": [
+        "01a157b5-6660-75a0-abe7-94bcfb9531c9",
+        "01a157b5-9463-73f7-af13-07b3b294f9c6"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157b5-9b0f-743c-a030-7ae60883db2e",
+        "01a157b5-9c5b-7580-8a48-53ba7c9a34b4"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "43a6dbc039cee5211ab71777ff8709322c9d70557fa0313faf797a7f5ed9d541",
+        "fix": "9eddf42aac0cfa537218a95a3f03b401eba724340d7116a8db45060d24382b13"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "cb4bd62b2af90773ae9c2c01c5b3f146ad4c4f40ffea0ce37b9d2e24085e67a6",
+        "report_sha256": "753613ba4c69346ab93995e4b9c8815392704ab9222cc9b23b6778740d5b3425",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2021-664"
+      },
+      "cost_usd": 0.00155376,
+      "wall_seconds": 27.564814,
+      "card_path": "eval/results/eval100_cards/42496031.json"
+    },
+    {
+      "arvo_id": 42522531,
+      "project": "hdf5",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": false,
+      "crash_type": "Heap-buffer-overflow READ 5",
+      "crash_state": [
+        "H5G__node_cmp3",
+        "H5B_find",
+        "H5G__stab_lookup"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "3f262837e9ec8471dfccf880da05e01f"
+      ],
+      "input_tokens": 220,
+      "output_tokens": 96,
+      "model_cost_usd": 0.0001524,
+      "sandbox_cost_usd": 0.00100833,
+      "checkpoint_operation_uuids": [
+        "01a157b5-dbfd-74a6-a958-600df9f10fac",
+        "01a157b6-16d5-73b0-b312-c380998a7727"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157b6-1dac-740b-a776-1263a3f52274",
+        "01a157b6-1ecc-7584-ac1f-6e457add44f7"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "0625717e32184a647fecf07c7dccb1e6aa340d29faf8189315275af129a36121",
+        "fix": "8854862a3b6af1604d68a0d93e1ca460df50ea070356aada6b9cb3c6435f2074"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "530b20c2f9f44c81f42ce420ecbcac57e858376d54836ccf042168c73cb1b137",
+        "report_sha256": "728b4d2ea1f422dc4c03b531b4887b7341d942c110be50a8e171a81610851d71",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2023-216"
+      },
+      "cost_usd": 0.00116073,
+      "wall_seconds": 33.553613,
+      "card_path": "eval/results/eval100_cards/42522531.json"
+    },
+    {
+      "arvo_id": 42488737,
+      "project": "ndpi",
+      "verdict": "DUPLICATE",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [
+        "OSV-2020-1566",
+        "OSV-2020-242",
+        "OSV-2020-40",
+        "OSV-2020-67",
+        "OSV-2020-821",
+        "OSV-2021-1804",
+        "OSV-2022-202",
+        "OSV-2023-229"
+      ],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "ndpi_workflow_process_packet",
+        "fuzz_ndpi_reader.c"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "8fe4e91aede37c83077d72ddb00369a4"
+      ],
+      "input_tokens": 211,
+      "output_tokens": 107,
+      "model_cost_usd": 0.0001596,
+      "sandbox_cost_usd": 0.00193902,
+      "checkpoint_operation_uuids": [
+        "01a157b6-33da-756e-8b71-3ac25c3139e6",
+        "01a157b6-5ce5-75a0-b0cf-faaac42cfd6c"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157b6-6398-7740-9d5c-80dc54248f15",
+        "01a157b6-64a3-709e-8ac9-c5105c93e856"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "e48a7c5fc3eca5fe634a5045c08c177cc9b4111d369f5af4d94237191c047c8b",
+        "fix": "a797adfeb0bd93d29a7f2c1f9b6e5edd3441611340c8e93030fe8aec0d8a42ce"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "614754975020d99ec8d800d07e21d91d129e34588e18b4cea6712723b2152b2c",
+        "report_sha256": "6a55f4164b1a69dbbc8a5c684afe60bc84e9eb6de414f716d0eb096f6af34ab8",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2020-2126"
+      },
+      "cost_usd": 0.00209862,
+      "wall_seconds": 16.69099,
+      "card_path": "eval/results/eval100_cards/42488737.json"
+    },
+    {
+      "arvo_id": 42483517,
+      "project": "fluent-bit",
+      "verdict": "REPRODUCED",
+      "crash_state_agreement_with_osv": true,
+      "fix_clean": true,
+      "duplicate_candidates": [],
+      "claim_agreement": true,
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "u8_read_escape_sequence",
+        "flb_unescape_string_utf8",
+        "logfmt_parser"
+      ],
+      "sanitizer_kind": "AddressSanitizer",
+      "vulnerable_clean": false,
+      "vulnerable_exit_code": 1,
+      "fixed_exit_code": 0,
+      "model_request_ids": [
+        "59efb5fae626e57a4374932443c8b85b"
+      ],
+      "input_tokens": 216,
+      "output_tokens": 88,
+      "model_cost_usd": 0.000144,
+      "sandbox_cost_usd": 0.0007695,
+      "checkpoint_operation_uuids": [
+        "01a157b6-9442-76ec-9271-ad63fa4b3ba1",
+        "01a157b6-ba99-719f-9900-246a9a7316dd"
+      ],
+      "sandbox_operation_uuids": [
+        "01a157b6-c12b-723a-9d14-a02f308b0068",
+        "01a157b6-c219-7720-a747-62c863588fa8"
+      ],
+      "slice_manifest_sha256": {
+        "vul": "b2d9be6cf0db16c3100d76147486e8798a6ec9186c9c3eb96e5072a05272baaa",
+        "fix": "7b688ae8716f443a3d2d5a66c413eab7cb4f98545dcb349d9e8c88990f902996"
+      },
+      "card_provenance": {
+        "arvo_task_sha256": "b1439cd868a8391c9f31b4d02cabc80386288f79e4f6e0413702af52a1941e66",
+        "report_sha256": "4a69c5aa369e46a711993d8e925dcf686a955abb0ba93984ee5cf93678363980",
+        "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+        "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+        "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+        "derivation_method": "live-execution",
+        "osv_record_id": "OSV-2020-112"
+      },
+      "cost_usd": 0.0009135,
+      "wall_seconds": 23.442936,
+      "card_path": "eval/results/eval100_cards/42483517.json"
+    }
+  ],
+  "totals": {
+    "tasks_requested": 100,
+    "tasks_completed": 50,
+    "crash_state_agreements": 32,
+    "fixes_clean": 47,
+    "claims_agree": 39,
+    "total_duplicate_candidates": 31,
+    "total_input_tokens": 11559,
+    "total_output_tokens": 4645,
+    "total_model_cost_usd": 0.0076482,
+    "total_sandbox_cost_usd": 0.41263881,
+    "total_cost_usd": 0.42028701,
+    "total_wall_seconds": 2247.972062,
+    "prep_failures": 1,
+    "run_failures": 50
+  }
+}

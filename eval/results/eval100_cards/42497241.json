@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42497241,
+  "project": "espeak-ng",
+  "report_source": "public OSS-Fuzz OSV report OSV-2021-787; this is not a private report",
+  "report_text": "Heap-buffer-overflow in string_decoder_getc_utf_8\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=34533\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nstring_decoder_getc_utf_8\ntext_decoder_getc\nGetC\n```",
+  "verdict": "NEEDS_INFO",
+  "missing_details": [
+    "Steps to reproduce (test case)",
+    "Affected version of espeak-ng",
+    "Full stack trace if available",
+    "The vulnerable build did not produce a recognized sanitizer trace and did not complete cleanly (exit code 77); inspect its captured stdout and stderr.",
+    "The fixed build did not exit cleanly; inspect its captured stdout and stderr."
+  ],
+  "evidence": {
+    "crash": null,
+    "fix_clean": false,
+    "fixed_exit_code": 77,
+    "excluded_osv_ids": [
+      "OSV-2021-787"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-buffer-overflow",
+        "measured": "Unexpected-exit",
+        "matches": false,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "string_decoder_getc_utf_8",
+          "text_decoder_getc",
+          "GetC"
+        ],
+        "measured": [
+          "espeak_Initialize",
+          "ssml-fuzzer.c"
+        ],
+        "matches": false,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.381314,
+      "input_tokens": 220,
+      "output_tokens": 107,
+      "total_tokens": 327,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001623,
+      "request_id": "d8b4272c89b66e170897c286c3ad39d8"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42497241,
+      "kind": "vul",
+      "checkpoint_uuid": "08103ed6-87f6-4925-bf9e-9669113830be",
+      "checkpoint_operation_uuid": "01a157a0-f75c-7214-839e-472c8cb64ef2",
+      "checkpoint_wall_seconds": 10.312079,
+      "checkpoint_cost_usd": 0.00007327000000000001,
+      "operation_uuid": "01a157a1-2456-7181-b915-4f2b1e2230f0",
+      "exit_code": 77,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1300704530\nINFO: Loaded 1 modules   (10244 inline 8-bit counters): 10244 [0x8bf2e0, 0x8c1ae4), \nINFO: Loaded 1 PC tables (10244 PCs): 10244 [0x8c1ae8,0x8e9b28), \n/out/ssml-fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nError processing file '/out/phontab': No such file or directory.\n==9== ERROR: libFuzzer: fuzz target exited\n    #0 0x52aa81 in __sanitizer_print_stack_trace /src/llvm-project/compiler-rt/lib/asan/asan_stack.cpp:86:3\n    #1 0x472e98 in fuzzer::PrintStackTrace() /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerUtil.cpp:210:5\n    #2 0x4573bc in fuzzer::Fuzzer::ExitCallback() /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:250:3\n    #3 0x7ffff643a007  (/arvo-lib/libc.so.6+0x3a007)\n    #4 0x7ffff643a054 in exit (/arvo-lib/libc.so.6+0x3a054)\n    #5 0x555b41 in espeak_Initialize /src/espeak-ng/src/libespeak-ng/espeak_api.c:60:4\n    #6 0x5557a8 in LLVMFuzzerTestOneInput /src/espeak-ng/tests/ssml-fuzzer.c:55:3\n    #7 0x458aa3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:599:15\n    #8 0x444012 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\n    #9 0x449ca1 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:856:9\n    #10 0x473672 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #11 0x7ffff642083f in __libc_start_main (/arvo-lib/libc.so.6+0x2083f)\n    #12 0x41ed38 in _start (/out/ssml-fuzzer+0x41ed38)\n\nDEDUP_TOKEN: __sanitizer_print_stack_trace--fuzzer::PrintStackTrace()--fuzzer::Fuzzer::ExitCallback()\nSUMMARY: libFuzzer: fuzz target exited\n",
+      "wall_seconds": 1.576804,
+      "server_elapsed_seconds": 0.013008,
+      "cost_usd": 0.00034582,
+      "disposable": true
+    },
+    {
+      "task_id": 42497241,
+      "kind": "fix",
+      "checkpoint_uuid": "c17653d7-7ae5-432f-8cae-66ec82d696a4",
+      "checkpoint_operation_uuid": "01a157a1-1edd-7107-a035-09e13a805e06",
+      "checkpoint_wall_seconds": 9.309264,
+      "checkpoint_cost_usd": 0.0000635,
+      "operation_uuid": "01a157a1-2455-773c-8565-749507cc5dea",
+      "exit_code": 77,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1299901134\nINFO: Loaded 1 modules   (11702 inline 8-bit counters): 11702 [0x6d3d60, 0x6d6b16), \nINFO: Loaded 1 PC tables (11702 PCs): 11702 [0x6d6b18,0x704678), \n/out/ssml-fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nError processing file '/out/phontab': No such file or directory.\n==9== ERROR: libFuzzer: fuzz target exited\n    #0 0x52da01 in __sanitizer_print_stack_trace /src/llvm-project/compiler-rt/lib/asan/asan_stack.cpp:87:3\n    #1 0x46ec58 in fuzzer::PrintStackTrace() /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerUtil.cpp:210:5\n    #2 0x453e5c in fuzzer::Fuzzer::ExitCallback() /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:250:3\n    #3 0x7ffff7c7c8a6  (/arvo-lib/libc.so.6+0x468a6)\n    #4 0x7ffff7c7ca5f in exit (/arvo-lib/libc.so.6+0x46a5f)\n    #5 0x55d491 in espeak_Initialize /src/espeak-ng/src/libespeak-ng/espeak_api.c:60:4\n    #6 0x55d0f0 in LLVMFuzzerTestOneInput /src/espeak-ng/tests/ssml-fuzzer.c:58:3\n    #7 0x455343 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #8 0x440fd2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #9 0x44681c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #10 0x46f412 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #11 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082)\n    #12 0x41f7fd in _start (/out/ssml-fuzzer+0x41f7fd)\n\nDEDUP_TOKEN: __sanitizer_print_stack_trace--fuzzer::PrintStackTrace()--fuzzer::Fuzzer::ExitCallback()\nSUMMARY: libFuzzer: fuzz target exited\n",
+      "wall_seconds": 0.917613,
+      "server_elapsed_seconds": 0.012786,
+      "cost_usd": 0.0003243,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "7c1d1c3fb1e1b340e001d88ce5f749d02bdc9514d2ef01960eb10e3daaba8672",
+    "fix": "6244a131c37db8443f454446dd726d95984252659c1952a7624cf8ac574c875e"
+  },
+  "provenance": {
+    "arvo_task_sha256": "9443a10644e3fae6f30ba12c4f587ab85f3379e4cbcb6fe73077314a8361c558",
+    "report_sha256": "cae31e009eacb779736a4d2ea8d847984239823accbe8094502cc23f9e802c29",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2021-787"
+  },
+  "model_cost_usd": 0.0001623,
+  "sandbox_cost_usd": 0.00080689,
+  "total_cost_usd": 0.00096919,
+  "wall_seconds": 24.267315,
+  "public_status": null
+}

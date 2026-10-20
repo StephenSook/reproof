@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42531223,
+  "project": "jq",
+  "report_source": "public OSS-Fuzz OSV report OSV-2023-1329; this is not a private report",
+  "report_text": "Stack-buffer-overflow in decNaNs\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=65130\n\n```\nCrash type: Stack-buffer-overflow WRITE 2\nCrash state:\ndecNaNs\ndecCompareOp\ndecNumberCompare\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [
+    "version of jq affected",
+    "steps to reproduce (if available outside OSS-Fuzz)",
+    "build configuration used"
+  ],
+  "evidence": {
+    "crash": {
+      "crash_type": "Stack-buffer-overflow WRITE 2",
+      "crash_state": [
+        "decNumberCopy",
+        "decNaNs",
+        "decCompareOp"
+      ],
+      "sanitizer_excerpt": "==8==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7ffff75518f0 at pc 0x0000005d559d bp 0x7fffffffda80 sp 0x7fffffffda78\nWRITE of size 2 at 0x7ffff75518f0 thread T0\nSCARINESS: 48 (2-byte-write-stack-buffer-overflow)\n    #0 0x5d559c in decNumberCopy /src/jq/src/decNumber/decNumber.c:3375:45\n    #1 0x5d559c in decNaNs /src/jq/src/decNumber/decNumber.c:7706:33\n    #2 0x5c5030 in decCompareOp /src/jq/src/decNumber/decNumber.c:6085:7\n    #3 0x5c4bb2 in decNumberCompare /src/jq/src/decNumber/decNumber.c:858:3\n    #4 0x5836f7 in jvp_number_cmp /src/jq/src/jv.c:748:5\n    #5 0x585ee8 in jvp_number_equal /src/jq/src/jv.c:773:10\n    #6 0x585ee8 in jv_equal /src/jq/src/jv.c:1917:11\n    #7 0x58676e in jvp_array_equal /src/jq/src/jv.c:885:10\n    #8 0x58676e in jv_equal /src/jq/src/jv.c:1920:11\n    #9 0x594394 in jv_group /src/jq/src/jv_aux.c:715:11\n    #10 0x606874 in f_group_by_impl /src/jq/src/builtin.c:818:12\n    #11 0x57a719 in jq_next /src/jq/src/execute.c:917:21\n    #12 0x56dd08 in LLVMFuzzerTestOneInput /src/jq/./tests/jq_fuzz_fixed.cpp:283:23\n    #13 0x43f223 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #14 0x42a982 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #15 0x43022c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #16 0x459762 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #17 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: eebe5d5f4b608b8a53ec446b63981bba373ca0ca)\n    #18 0x420b4d in _start (/out/jq_fuzz_fixed+0x420b4d)\n\nDEDUP_TOKEN: decNumberCopy--decNaNs--decCompareOp\nAddress 0x7ffff75518f0 is located in stack of thread T0 at offset 48 in frame\n    #0 0x58356f in jvp_number_cmp /src/jq/src/jv.c:737\n\nDEDUP_TOKEN: jvp_number_cmp\n  This frame has 1 object(s):\n    [32, 48) 'res' (line 743) <== Memory access at offset 48 overflows this variable\nHINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork\n      (longjmp and C++ exceptions *are* supported)\nSUMMARY: AddressSanitizer: stack-buffer-overflow /src/jq/src/decNumber/decNumber.c:3375:45 in decNumberCopy",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2023-1329"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Stack-buffer-overflow",
+        "measured": "Stack-buffer-overflow WRITE 2",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "decNaNs",
+          "decCompareOp",
+          "decNumberCompare"
+        ],
+        "measured": [
+          "decNumberCopy",
+          "decNaNs",
+          "decCompareOp"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.556642,
+      "input_tokens": 203,
+      "output_tokens": 97,
+      "total_tokens": 300,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001482,
+      "request_id": "5e5aab71662e61eacd484e5ca5e26d48"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42531223,
+      "kind": "vul",
+      "checkpoint_uuid": "088e04ca-f509-4460-bb71-a99ba276e6f9",
+      "checkpoint_operation_uuid": "01a10d47-b5cf-7662-8dd3-0f4c9d93731f",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a1579a-34f9-7581-b57f-16ddb082862e",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 845738236\nINFO: Loaded 1 modules   (17950 inline 8-bit counters): 17950 [0x8b8e80, 0x8bd49e), \nINFO: Loaded 1 PC tables (17950 PCs): 17950 [0x7ea368,0x830548), \n/out/jq_fuzz_fixed: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==8==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7ffff75518f0 at pc 0x0000005d559d bp 0x7fffffffda80 sp 0x7fffffffda78\nWRITE of size 2 at 0x7ffff75518f0 thread T0\nSCARINESS: 48 (2-byte-write-stack-buffer-overflow)\n    #0 0x5d559c in decNumberCopy /src/jq/src/decNumber/decNumber.c:3375:45\n    #1 0x5d559c in decNaNs /src/jq/src/decNumber/decNumber.c:7706:33\n    #2 0x5c5030 in decCompareOp /src/jq/src/decNumber/decNumber.c:6085:7\n    #3 0x5c4bb2 in decNumberCompare /src/jq/src/decNumber/decNumber.c:858:3\n    #4 0x5836f7 in jvp_number_cmp /src/jq/src/jv.c:748:5\n    #5 0x585ee8 in jvp_number_equal /src/jq/src/jv.c:773:10\n    #6 0x585ee8 in jv_equal /src/jq/src/jv.c:1917:11\n    #7 0x58676e in jvp_array_equal /src/jq/src/jv.c:885:10\n    #8 0x58676e in jv_equal /src/jq/src/jv.c:1920:11\n    #9 0x594394 in jv_group /src/jq/src/jv_aux.c:715:11\n    #10 0x606874 in f_group_by_impl /src/jq/src/builtin.c:818:12\n    #11 0x57a719 in jq_next /src/jq/src/execute.c:917:21\n    #12 0x56dd08 in LLVMFuzzerTestOneInput /src/jq/./tests/jq_fuzz_fixed.cpp:283:23\n    #13 0x43f223 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #14 0x42a982 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #15 0x43022c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #16 0x459762 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #17 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: eebe5d5f4b608b8a53ec446b63981bba373ca0ca)\n    #18 0x420b4d in _start (/out/jq_fuzz_fixed+0x420b4d)\n\nDEDUP_TOKEN: decNumberCopy--decNaNs--decCompareOp\nAddress 0x7ffff75518f0 is located in stack of thread T0 at offset 48 in frame\n    #0 0x58356f in jvp_number_cmp /src/jq/src/jv.c:737\n\nDEDUP_TOKEN: jvp_number_cmp\n  This frame has 1 object(s):\n    [32, 48) 'res' (line 743) <== Memory access at offset 48 overflows this variable\nHINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork\n      (longjmp and C++ exceptions *are* supported)\nSUMMARY: AddressSanitizer: stack-buffer-overflow /src/jq/src/decNumber/decNumber.c:3375:45 in decNumberCopy\nShadow bytes around the buggy address:\n  0x10007eea22c0: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5\n  0x10007eea22d0: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5\n  0x10007eea22e0: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5\n  0x10007eea22f0: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5\n  0x10007eea2300: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5\n=>0x10007eea2310: f5 f5 f5 f5 f5 f5 f5 f5 f1 f1 f1 f1 00 00[f3]f3\n  0x10007eea2320: f1 f1 f1 f1 04 f3 f3 f3 f1 f1 f1 f1 f8 f3 f3 f3\n  0x10007eea2330: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5\n  0x10007eea2340: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5\n  0x10007eea2350: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5\n  0x10007eea2360: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==8==ABORTING\n",
+      "wall_seconds": 1.130413,
+      "server_elapsed_seconds": 0.017279,
+      "cost_usd": 0.00039347000000000004,
+      "disposable": true
+    },
+    {
+      "task_id": 42531223,
+      "kind": "fix",
+      "checkpoint_uuid": "56972d1b-2704-4e80-9f68-e4e502b62742",
+      "checkpoint_operation_uuid": "01a10d47-e70e-7632-8a10-1ccd1f9ae8bf",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a1579a-35de-714b-b3d4-22169e693c24",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 845875695\nINFO: Loaded 1 modules   (17991 inline 8-bit counters): 17991 [0x555555a27538, 0x555555a2bb7f), \nINFO: Loaded 1 PC tables (17991 PCs): 17991 [0x555555a2bb80,0x555555a71ff0), \n/out/jq_fuzz_fixed: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 8 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.192356,
+      "server_elapsed_seconds": 0.01858,
+      "cost_usd": 0.00041834,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "a7f332ffb362c23040f22ae849e5f40021602d28942ee52a47e8cc61cf37ee64",
+    "fix": "27da68a809762ad5ff0dbc1dd90f63da17995a1b85dce3805c8dc922d1409708"
+  },
+  "provenance": {
+    "arvo_task_sha256": "49c478ff02eda2082ec36037dbb24a6358140acfe8cf80d6c45e626365acef7b",
+    "report_sha256": "34d3d5f443180fcea9865c31f750c20a3be622821826bdf34a34cf8ceb3bf13a",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2023-1329"
+  },
+  "model_cost_usd": 0.0001482,
+  "sandbox_cost_usd": 0.00081181,
+  "total_cost_usd": 0.00096001,
+  "wall_seconds": 3.776391,
+  "public_status": null
+}

@@ -1,0 +1,3186 @@
+{
+  "schema_version": "1.0",
+  "prereg_sha256": "e774c26140ad82d46f039e73d7a8051013801f740c4a636c3d6e3eb6ce6bb675",
+  "population_fixture_sha256": "052f34e5330618496ca81dbf574b0d1b57f8041367d48f95beca2daf20d8c950",
+  "input_sha256": {
+    "arvo_database": "331184ca807c2f136f98dac9f1df94c893f4ee2fdf9329dca517ff88e72f97ce",
+    "osv_archive": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513"
+  },
+  "draw_seed": 20261019,
+  "target_prepared": 90,
+  "next_draw_index": 164,
+  "attempted": [
+    {
+      "draw_index": 2,
+      "arvo_id": 42477302,
+      "project": "libavc",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42477302-vul",
+          "hub_compressed_bytes": 754475102,
+          "pull_seconds": 40.407803,
+          "slice_seconds": 4.362527,
+          "slice_bytes": 15080843,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42477302-fix",
+          "hub_compressed_bytes": 944669751,
+          "pull_seconds": 59.938502,
+          "slice_seconds": 5.430004,
+          "slice_bytes": 15172491,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 3,
+      "arvo_id": 42481221,
+      "project": "arrow",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42481221-vul",
+          "hub_compressed_bytes": 1274122017,
+          "pull_seconds": 103.615069,
+          "slice_seconds": 6.97788,
+          "slice_bytes": 71286908,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42481221-fix",
+          "hub_compressed_bytes": 1273986312,
+          "pull_seconds": 80.601749,
+          "slice_seconds": 12.258935,
+          "slice_bytes": 71475012,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 4,
+      "arvo_id": 42523942,
+      "project": "mruby",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42523942-vul",
+          "hub_compressed_bytes": 888269827,
+          "pull_seconds": 138.632816,
+          "slice_seconds": 6.72738,
+          "slice_bytes": 21353623,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42523942-fix",
+          "hub_compressed_bytes": 936983457,
+          "pull_seconds": 73.308903,
+          "slice_seconds": 6.325006,
+          "slice_bytes": 21376055,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 5,
+      "arvo_id": 42481224,
+      "project": "arrow",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42481224-vul",
+          "hub_compressed_bytes": 1273446215,
+          "pull_seconds": 153.719008,
+          "slice_seconds": 7.257923,
+          "slice_bytes": 71286176,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42481224-fix",
+          "hub_compressed_bytes": 1281834760,
+          "pull_seconds": 72.042493,
+          "slice_seconds": 5.530006,
+          "slice_bytes": 71538920,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 7,
+      "arvo_id": 42481945,
+      "project": "ndpi",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42481945-vul",
+          "hub_compressed_bytes": 1264251127,
+          "pull_seconds": 74.467291,
+          "slice_seconds": 4.435264,
+          "slice_bytes": 22415957,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42481945-fix",
+          "hub_compressed_bytes": 1276508916,
+          "pull_seconds": 60.501891,
+          "slice_seconds": 4.704555,
+          "slice_bytes": 18697893,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 9,
+      "arvo_id": 42525192,
+      "project": "libxml2",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42525192-vul",
+          "hub_compressed_bytes": 725201065,
+          "pull_seconds": 51.533652,
+          "slice_seconds": 7.102628,
+          "slice_bytes": 23348552,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42525192-fix",
+          "hub_compressed_bytes": 725214694,
+          "pull_seconds": 120.861717,
+          "slice_seconds": 9.27554,
+          "slice_bytes": 23348592,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 10,
+      "arvo_id": 42520614,
+      "project": "libredwg",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42520614-vul",
+          "hub_compressed_bytes": 739681216,
+          "pull_seconds": 77.382673,
+          "slice_seconds": 11.816601,
+          "slice_bytes": 102354278,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42520614-fix",
+          "hub_compressed_bytes": 765899728,
+          "pull_seconds": 59.993795,
+          "slice_seconds": 13.435298,
+          "slice_bytes": 113875006,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 12,
+      "arvo_id": 42504114,
+      "project": "qpid-proton",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42504114-vul",
+          "hub_compressed_bytes": 647995254,
+          "pull_seconds": 61.249033,
+          "slice_seconds": 7.313468,
+          "slice_bytes": 19847025,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42504114-fix",
+          "hub_compressed_bytes": 648015042,
+          "pull_seconds": 55.513429,
+          "slice_seconds": 6.850571,
+          "slice_bytes": 19851913,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 14,
+      "arvo_id": 42497241,
+      "project": "espeak-ng",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42497241-vul",
+          "hub_compressed_bytes": 1048190609,
+          "pull_seconds": 70.534838,
+          "slice_seconds": 6.185047,
+          "slice_bytes": 16314486,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42497241-fix",
+          "hub_compressed_bytes": 764669985,
+          "pull_seconds": 64.07185,
+          "slice_seconds": 4.4723,
+          "slice_bytes": 17605110,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 15,
+      "arvo_id": 42500367,
+      "project": "harfbuzz",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42500367-vul",
+          "hub_compressed_bytes": 1190426965,
+          "pull_seconds": 131.842317,
+          "slice_seconds": 5.27259,
+          "slice_bytes": 28932175,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42500367-fix",
+          "hub_compressed_bytes": 1194311320,
+          "pull_seconds": 101.091032,
+          "slice_seconds": 11.457071,
+          "slice_bytes": 29088239,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 16,
+      "arvo_id": 42518269,
+      "project": "libredwg",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42518269-vul",
+          "hub_compressed_bytes": 802532632,
+          "pull_seconds": 95.270142,
+          "slice_seconds": 7.573567,
+          "slice_bytes": 100893832,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42518269-fix",
+          "hub_compressed_bytes": 724545531,
+          "pull_seconds": 65.983001,
+          "slice_seconds": 11.948031,
+          "slice_bytes": 100991296,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 18,
+      "arvo_id": 42471044,
+      "project": "harfbuzz",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42471044-vul",
+          "hub_compressed_bytes": 928291087,
+          "pull_seconds": 61.715043,
+          "slice_seconds": 5.729339,
+          "slice_bytes": 25566760,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42471044-fix",
+          "hub_compressed_bytes": 928293797,
+          "pull_seconds": 53.339457,
+          "slice_seconds": 4.976729,
+          "slice_bytes": 25568224,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 20,
+      "arvo_id": 42522233,
+      "project": "mruby",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42522233-vul",
+          "hub_compressed_bytes": 921679496,
+          "pull_seconds": 116.219874,
+          "slice_seconds": 7.829477,
+          "slice_bytes": 21346634,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42522233-fix",
+          "hub_compressed_bytes": 916822363,
+          "pull_seconds": 87.139738,
+          "slice_seconds": 13.256586,
+          "slice_bytes": 21347210,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 21,
+      "arvo_id": 42504387,
+      "project": "open62541",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42504387-vul",
+          "hub_compressed_bytes": 752024826,
+          "pull_seconds": 131.288242,
+          "slice_seconds": 27.2615,
+          "slice_bytes": 23711955,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42504387-fix",
+          "hub_compressed_bytes": 752006027,
+          "pull_seconds": 97.464688,
+          "slice_seconds": 4.277876,
+          "slice_bytes": 23732611,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 22,
+      "arvo_id": 42501162,
+      "project": "kamailio",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42501162-vul",
+          "hub_compressed_bytes": 728953965,
+          "pull_seconds": 39.830445,
+          "slice_seconds": 6.142339,
+          "slice_bytes": 32199791,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42501162-fix",
+          "hub_compressed_bytes": 729068269,
+          "pull_seconds": 45.67087,
+          "slice_seconds": 4.939652,
+          "slice_bytes": 32214199,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 23,
+      "arvo_id": 42532259,
+      "project": "simdutf",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42532259-vul",
+          "hub_compressed_bytes": 628689800,
+          "pull_seconds": 53.592247,
+          "slice_seconds": 5.47359,
+          "slice_bytes": 19019437,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42532259-fix",
+          "hub_compressed_bytes": 644958345,
+          "pull_seconds": 63.31202,
+          "slice_seconds": 7.23456,
+          "slice_bytes": 19024805,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 24,
+      "arvo_id": 42486565,
+      "project": "libxml2",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42486565-vul",
+          "hub_compressed_bytes": 1428413194,
+          "pull_seconds": 198.575214,
+          "slice_seconds": 8.746585,
+          "slice_bytes": 20377372,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42486565-fix",
+          "hub_compressed_bytes": 1433398518,
+          "pull_seconds": 133.955757,
+          "slice_seconds": 16.923104,
+          "slice_bytes": 20366700,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 25,
+      "arvo_id": 42470538,
+      "project": "radare2",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42470538-vul",
+          "hub_compressed_bytes": 1206578840,
+          "pull_seconds": 201.586967,
+          "slice_seconds": 10.750729,
+          "slice_bytes": 84348427,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42470538-fix",
+          "hub_compressed_bytes": 1194452579,
+          "pull_seconds": 80.779172,
+          "slice_seconds": 23.658336,
+          "slice_bytes": 81699187,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 26,
+      "arvo_id": 42513620,
+      "project": "mruby",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42513620-vul",
+          "hub_compressed_bytes": 973682695,
+          "pull_seconds": 260.337286,
+          "slice_seconds": 15.626504,
+          "slice_bytes": 21061685,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42513620-fix",
+          "hub_compressed_bytes": 984340579,
+          "pull_seconds": 122.219592,
+          "slice_seconds": 13.094942,
+          "slice_bytes": 21079541,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 27,
+      "arvo_id": 42471105,
+      "project": "harfbuzz",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42471105-vul",
+          "hub_compressed_bytes": 927662909,
+          "pull_seconds": 173.315246,
+          "slice_seconds": 19.915219,
+          "slice_bytes": 25579831,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42471105-fix",
+          "hub_compressed_bytes": 927662733,
+          "pull_seconds": 87.997872,
+          "slice_seconds": 10.81693,
+          "slice_bytes": 25579639,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 30,
+      "arvo_id": 42501200,
+      "project": "json",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42501200-vul",
+          "hub_compressed_bytes": 994477713,
+          "pull_seconds": 101.542323,
+          "slice_seconds": 7.241626,
+          "slice_bytes": 18682479,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42501200-fix",
+          "hub_compressed_bytes": 994477501,
+          "pull_seconds": 78.741932,
+          "slice_seconds": 5.327249,
+          "slice_bytes": 18682519,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 32,
+      "arvo_id": 42471108,
+      "project": "libgit2",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42471108-vul",
+          "hub_compressed_bytes": 866893407,
+          "pull_seconds": 67.539016,
+          "slice_seconds": 18.434231,
+          "slice_bytes": 30188423,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42471108-fix",
+          "hub_compressed_bytes": 864786170,
+          "pull_seconds": 100.965671,
+          "slice_seconds": 7.148558,
+          "slice_bytes": 30188703,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 33,
+      "arvo_id": 42475782,
+      "project": "radare2",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42475782-vul",
+          "hub_compressed_bytes": 1286777718,
+          "pull_seconds": 84.830917,
+          "slice_seconds": 7.562437,
+          "slice_bytes": 74380563,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42475782-fix",
+          "hub_compressed_bytes": 1314633037,
+          "pull_seconds": 79.539586,
+          "slice_seconds": 6.594493,
+          "slice_bytes": 72751843,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 34,
+      "arvo_id": 42481193,
+      "project": "ndpi",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42481193-vul",
+          "hub_compressed_bytes": 1262597319,
+          "pull_seconds": 97.619545,
+          "slice_seconds": 5.211132,
+          "slice_bytes": 22415920,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42481193-fix",
+          "hub_compressed_bytes": 1270355571,
+          "pull_seconds": 83.981018,
+          "slice_seconds": 7.331435,
+          "slice_bytes": 22415840,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 35,
+      "arvo_id": 42498970,
+      "project": "open62541",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42498970-vul",
+          "hub_compressed_bytes": 642555292,
+          "pull_seconds": 40.664606,
+          "slice_seconds": 4.752123,
+          "slice_bytes": 22881592,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42498970-fix",
+          "hub_compressed_bytes": 753177832,
+          "pull_seconds": 104.128231,
+          "slice_seconds": 9.328743,
+          "slice_bytes": 23764776,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 37,
+      "arvo_id": 42477222,
+      "project": "libavc",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42477222-vul",
+          "hub_compressed_bytes": 754521453,
+          "pull_seconds": 129.983795,
+          "slice_seconds": 10.166011,
+          "slice_bytes": 15074305,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42477222-fix",
+          "hub_compressed_bytes": 944724557,
+          "pull_seconds": 157.16123,
+          "slice_seconds": 5.39938,
+          "slice_bytes": 15165953,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 38,
+      "arvo_id": 42496936,
+      "project": "c-blosc2",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42496936-vul",
+          "hub_compressed_bytes": 1005070877,
+          "pull_seconds": 108.836813,
+          "slice_seconds": 14.257009,
+          "slice_bytes": 22693613,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42496936-fix",
+          "hub_compressed_bytes": 1007756941,
+          "pull_seconds": 139.508296,
+          "slice_seconds": 5.647905,
+          "slice_bytes": 25356573,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 39,
+      "arvo_id": 42475195,
+      "project": "radare2",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42475195-vul",
+          "hub_compressed_bytes": 1231876781,
+          "pull_seconds": 89.996595,
+          "slice_seconds": 9.243957,
+          "slice_bytes": 74039692,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42475195-fix",
+          "hub_compressed_bytes": 1308303831,
+          "pull_seconds": 237.379115,
+          "slice_seconds": 10.403463,
+          "slice_bytes": 72715828,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 40,
+      "arvo_id": 42499827,
+      "project": "spice-usbredir",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42499827-vul",
+          "hub_compressed_bytes": 976388440,
+          "pull_seconds": 94.464778,
+          "slice_seconds": 9.729636,
+          "slice_bytes": 15218194,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42499827-fix",
+          "hub_compressed_bytes": 977664559,
+          "pull_seconds": 83.988376,
+          "slice_seconds": 6.033061,
+          "slice_bytes": 15225258,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 41,
+      "arvo_id": 42510753,
+      "project": "quickjs",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42510753-vul",
+          "hub_compressed_bytes": 962046739,
+          "pull_seconds": 87.999917,
+          "slice_seconds": 5.406788,
+          "slice_bytes": 30327324,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42510753-fix",
+          "hub_compressed_bytes": 616256390,
+          "pull_seconds": 32.877529,
+          "slice_seconds": 4.884402,
+          "slice_bytes": 26497084,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 42,
+      "arvo_id": 42501143,
+      "project": "kamailio",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42501143-vul",
+          "hub_compressed_bytes": 755793299,
+          "pull_seconds": 59.844866,
+          "slice_seconds": 12.56769,
+          "slice_bytes": 32199661,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42501143-fix",
+          "hub_compressed_bytes": 727298438,
+          "pull_seconds": 60.626878,
+          "slice_seconds": 9.179494,
+          "slice_bytes": 32214069,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 44,
+      "arvo_id": 42474141,
+      "project": "openthread",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42474141-vul",
+          "hub_compressed_bytes": 904695145,
+          "pull_seconds": 70.945036,
+          "slice_seconds": 4.250953,
+          "slice_bytes": 25878768,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42474141-fix",
+          "hub_compressed_bytes": 889426676,
+          "pull_seconds": 74.980783,
+          "slice_seconds": 5.97391,
+          "slice_bytes": 23669176,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 45,
+      "arvo_id": 42533590,
+      "project": "gpac",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42533590-vul",
+          "hub_compressed_bytes": 855086630,
+          "pull_seconds": 51.429095,
+          "slice_seconds": 7.260129,
+          "slice_bytes": 61677139,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42533590-fix",
+          "hub_compressed_bytes": 855175844,
+          "pull_seconds": 62.176776,
+          "slice_seconds": 7.437375,
+          "slice_bytes": 61678043,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 46,
+      "arvo_id": 42517374,
+      "project": "opensc",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42517374-vul",
+          "hub_compressed_bytes": 729112577,
+          "pull_seconds": 47.764707,
+          "slice_seconds": 8.106071,
+          "slice_bytes": 33389888,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42517374-fix",
+          "hub_compressed_bytes": 692692006,
+          "pull_seconds": 64.201153,
+          "slice_seconds": 4.830333,
+          "slice_bytes": 33976448,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 47,
+      "arvo_id": 42490025,
+      "project": "libavc",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42490025-vul",
+          "hub_compressed_bytes": 1485120810,
+          "pull_seconds": 81.178403,
+          "slice_seconds": 6.834872,
+          "slice_bytes": 16356879,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42490025-fix",
+          "hub_compressed_bytes": 1390193883,
+          "pull_seconds": 89.365369,
+          "slice_seconds": 4.983884,
+          "slice_bytes": 16459015,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 49,
+      "arvo_id": 42517725,
+      "project": "fluent-bit",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42517725-vul",
+          "hub_compressed_bytes": 1010791895,
+          "pull_seconds": 46.109488,
+          "slice_seconds": 5.238916,
+          "slice_bytes": 49743530,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42517725-fix",
+          "hub_compressed_bytes": 1002569214,
+          "pull_seconds": 43.981342,
+          "slice_seconds": 5.082006,
+          "slice_bytes": 55188602,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 53,
+      "arvo_id": 42476618,
+      "project": "openthread",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42476618-vul",
+          "hub_compressed_bytes": 807104670,
+          "pull_seconds": 41.165434,
+          "slice_seconds": 3.731247,
+          "slice_bytes": 16121107,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42476618-fix",
+          "hub_compressed_bytes": 881505606,
+          "pull_seconds": 36.604935,
+          "slice_seconds": 3.815718,
+          "slice_bytes": 16475835,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 55,
+      "arvo_id": 42496031,
+      "project": "irssi",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42496031-vul",
+          "hub_compressed_bytes": 1037073127,
+          "pull_seconds": 51.780102,
+          "slice_seconds": 4.609393,
+          "slice_bytes": 24003881,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42496031-fix",
+          "hub_compressed_bytes": 1037049214,
+          "pull_seconds": 68.53043,
+          "slice_seconds": 5.30262,
+          "slice_bytes": 24003801,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 58,
+      "arvo_id": 42522531,
+      "project": "hdf5",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42522531-vul",
+          "hub_compressed_bytes": 1333821534,
+          "pull_seconds": 64.1757,
+          "slice_seconds": 4.355618,
+          "slice_bytes": 32852156,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42522531-fix",
+          "hub_compressed_bytes": 1359824517,
+          "pull_seconds": 69.616801,
+          "slice_seconds": 4.555692,
+          "slice_bytes": 34327060,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 63,
+      "arvo_id": 42488737,
+      "project": "ndpi",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42488737-vul",
+          "hub_compressed_bytes": 1263703300,
+          "pull_seconds": 57.066955,
+          "slice_seconds": 4.690781,
+          "slice_bytes": 22415970,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42488737-fix",
+          "hub_compressed_bytes": 1068305893,
+          "pull_seconds": 50.409556,
+          "slice_seconds": 5.231167,
+          "slice_bytes": 25898850,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 64,
+      "arvo_id": 42483517,
+      "project": "fluent-bit",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42483517-vul",
+          "hub_compressed_bytes": 1118139798,
+          "pull_seconds": 78.559431,
+          "slice_seconds": 4.304821,
+          "slice_bytes": 18399425,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42483517-fix",
+          "hub_compressed_bytes": 1107819131,
+          "pull_seconds": 74.271479,
+          "slice_seconds": 5.215725,
+          "slice_bytes": 18408537,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 66,
+      "arvo_id": 42477355,
+      "project": "file",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42477355-vul",
+          "hub_compressed_bytes": 911485702,
+          "pull_seconds": 74.281409,
+          "slice_seconds": 5.121601,
+          "slice_bytes": 14035216,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42477355-fix",
+          "hub_compressed_bytes": 919498003,
+          "pull_seconds": 47.692387,
+          "slice_seconds": 6.284001,
+          "slice_bytes": 14035268,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 67,
+      "arvo_id": 42513189,
+      "project": "fluent-bit",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42513189-vul",
+          "hub_compressed_bytes": 1010791530,
+          "pull_seconds": 70.097695,
+          "slice_seconds": 5.374325,
+          "slice_bytes": 49743178,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42513189-fix",
+          "hub_compressed_bytes": 1202928615,
+          "pull_seconds": 56.961927,
+          "slice_seconds": 5.550004,
+          "slice_bytes": 52610698,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 68,
+      "arvo_id": 42522285,
+      "project": "libxml2",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42522285-vul",
+          "hub_compressed_bytes": 691440227,
+          "pull_seconds": 40.481309,
+          "slice_seconds": 4.665242,
+          "slice_bytes": 23441544,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42522285-fix",
+          "hub_compressed_bytes": 719835838,
+          "pull_seconds": 47.811481,
+          "slice_seconds": 8.452985,
+          "slice_bytes": 23441096,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 69,
+      "arvo_id": 42517205,
+      "project": "curl",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42517205-vul",
+          "hub_compressed_bytes": 751782539,
+          "pull_seconds": 34.900806,
+          "slice_seconds": 3.753546,
+          "slice_bytes": 24485613,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42517205-fix",
+          "hub_compressed_bytes": 946222482,
+          "pull_seconds": 50.842372,
+          "slice_seconds": 4.893271,
+          "slice_bytes": 34884997,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 74,
+      "arvo_id": 42513988,
+      "project": "libredwg",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42513988-vul",
+          "hub_compressed_bytes": 820826307,
+          "pull_seconds": 63.579537,
+          "slice_seconds": 5.93192,
+          "slice_bytes": 101671860,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42513988-fix",
+          "hub_compressed_bytes": 725015046,
+          "pull_seconds": 29.313017,
+          "slice_seconds": 6.019203,
+          "slice_bytes": 101163972,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 76,
+      "arvo_id": 420198855,
+      "project": "readstat",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:420198855-vul",
+          "hub_compressed_bytes": 731759828,
+          "pull_seconds": 34.715941,
+          "slice_seconds": 4.610308,
+          "slice_bytes": 18424993,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:420198855-fix",
+          "hub_compressed_bytes": 731908912,
+          "pull_seconds": 40.083312,
+          "slice_seconds": 4.323922,
+          "slice_bytes": 18426393,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 77,
+      "arvo_id": 42479852,
+      "project": "libgit2",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42479852-vul",
+          "hub_compressed_bytes": 1041148554,
+          "pull_seconds": 45.354579,
+          "slice_seconds": 4.65031,
+          "slice_bytes": 22832603,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42479852-fix",
+          "hub_compressed_bytes": 1046491331,
+          "pull_seconds": 48.090756,
+          "slice_seconds": 4.708662,
+          "slice_bytes": 23037083,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 80,
+      "arvo_id": 42532046,
+      "project": "quickjs",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42532046-vul",
+          "hub_compressed_bytes": 617052812,
+          "pull_seconds": 34.513545,
+          "slice_seconds": 4.110171,
+          "slice_bytes": 26769084,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42532046-fix",
+          "hub_compressed_bytes": 619512750,
+          "pull_seconds": 29.9093,
+          "slice_seconds": 4.298079,
+          "slice_bytes": 26849868,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 83,
+      "arvo_id": 42509841,
+      "project": "opensc",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42509841-vul",
+          "hub_compressed_bytes": 721925809,
+          "pull_seconds": 30.367495,
+          "slice_seconds": 4.501486,
+          "slice_bytes": 33385822,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42509841-fix",
+          "hub_compressed_bytes": 757132655,
+          "pull_seconds": 32.117849,
+          "slice_seconds": 4.633729,
+          "slice_bytes": 33411454,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 84,
+      "arvo_id": 42534483,
+      "project": "matio",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42534483-vul",
+          "hub_compressed_bytes": 1469758598,
+          "pull_seconds": 71.686044,
+          "slice_seconds": 4.883079,
+          "slice_bytes": 35120262,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42534483-fix",
+          "hub_compressed_bytes": 1469186630,
+          "pull_seconds": 60.781179,
+          "slice_seconds": 4.855259,
+          "slice_bytes": 35121854,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 85,
+      "arvo_id": 42517450,
+      "project": "openexr",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42517450-vul",
+          "hub_compressed_bytes": 756876861,
+          "pull_seconds": 36.881466,
+          "slice_seconds": 4.546681,
+          "slice_bytes": 29763955,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42517450-fix",
+          "hub_compressed_bytes": 662747033,
+          "pull_seconds": 30.069344,
+          "slice_seconds": 4.451159,
+          "slice_bytes": 28839219,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 88,
+      "arvo_id": 42499939,
+      "project": "net-snmp",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42499939-vul",
+          "hub_compressed_bytes": 1199399428,
+          "pull_seconds": 58.181601,
+          "slice_seconds": 5.154076,
+          "slice_bytes": 18665606,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42499939-fix",
+          "hub_compressed_bytes": 1200391967,
+          "pull_seconds": 70.276476,
+          "slice_seconds": 5.214199,
+          "slice_bytes": 18666390,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 90,
+      "arvo_id": 42517796,
+      "project": "oniguruma",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42517796-vul",
+          "hub_compressed_bytes": 589159928,
+          "pull_seconds": 35.902583,
+          "slice_seconds": 7.238165,
+          "slice_bytes": 18118922,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42517796-fix",
+          "hub_compressed_bytes": 595948341,
+          "pull_seconds": 35.921034,
+          "slice_seconds": 6.062887,
+          "slice_bytes": 18118866,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 91,
+      "arvo_id": 42525816,
+      "project": "serenity",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42525816-vul",
+          "hub_compressed_bytes": 1326709949,
+          "pull_seconds": 79.264535,
+          "slice_seconds": 7.796388,
+          "slice_bytes": 34237933,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42525816-fix",
+          "hub_compressed_bytes": 1389678804,
+          "pull_seconds": 101.006028,
+          "slice_seconds": 5.131877,
+          "slice_bytes": 37805029,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 93,
+      "arvo_id": 42523860,
+      "project": "hdf5",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42523860-vul",
+          "hub_compressed_bytes": 1333821081,
+          "pull_seconds": 60.703118,
+          "slice_seconds": 4.659596,
+          "slice_bytes": 32852732,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42523860-fix",
+          "hub_compressed_bytes": 1334171542,
+          "pull_seconds": 60.700214,
+          "slice_seconds": 4.624989,
+          "slice_bytes": 33017844,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 95,
+      "arvo_id": 396777457,
+      "project": "net-snmp",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:396777457-vul",
+          "hub_compressed_bytes": 858361141,
+          "pull_seconds": 35.925006,
+          "slice_seconds": 5.60194,
+          "slice_bytes": 26968336,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:396777457-fix",
+          "hub_compressed_bytes": 858405852,
+          "pull_seconds": 36.933257,
+          "slice_seconds": 5.822646,
+          "slice_bytes": 26969352,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 98,
+      "arvo_id": 42512228,
+      "project": "libjxl",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42512228-vul",
+          "hub_compressed_bytes": 1488092530,
+          "pull_seconds": 63.635699,
+          "slice_seconds": 6.710669,
+          "slice_bytes": 28573729,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42512228-fix",
+          "hub_compressed_bytes": 1495928300,
+          "pull_seconds": 58.167887,
+          "slice_seconds": 4.972806,
+          "slice_bytes": 28997633,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 101,
+      "arvo_id": 42498959,
+      "project": "libpng",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42498959-vul",
+          "hub_compressed_bytes": 601838033,
+          "pull_seconds": 33.929788,
+          "slice_seconds": 9.69897,
+          "slice_bytes": 21393031,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42498959-fix",
+          "hub_compressed_bytes": 613828353,
+          "pull_seconds": 58.986617,
+          "slice_seconds": 4.863319,
+          "slice_bytes": 21554599,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 102,
+      "arvo_id": 42522804,
+      "project": "libxslt",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42522804-vul",
+          "hub_compressed_bytes": 623802197,
+          "pull_seconds": 44.417343,
+          "slice_seconds": 6.981368,
+          "slice_bytes": 22946670,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42522804-fix",
+          "hub_compressed_bytes": 624248027,
+          "pull_seconds": 61.686456,
+          "slice_seconds": 6.675981,
+          "slice_bytes": 22921918,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 103,
+      "arvo_id": 42501136,
+      "project": "matio",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42501136-vul",
+          "hub_compressed_bytes": 999212395,
+          "pull_seconds": 106.584966,
+          "slice_seconds": 5.627811,
+          "slice_bytes": 32725753,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42501136-fix",
+          "hub_compressed_bytes": 1364235139,
+          "pull_seconds": 92.769422,
+          "slice_seconds": 7.233771,
+          "slice_bytes": 34790673,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 104,
+      "arvo_id": 42507220,
+      "project": "c-blosc2",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42507220-vul",
+          "hub_compressed_bytes": 1015710638,
+          "pull_seconds": 113.724877,
+          "slice_seconds": 6.255057,
+          "slice_bytes": 28377277,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42507220-fix",
+          "hub_compressed_bytes": 730796779,
+          "pull_seconds": 63.38078,
+          "slice_seconds": 8.404943,
+          "slice_bytes": 27528949,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 105,
+      "arvo_id": 379418968,
+      "project": "assimp",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:379418968-vul",
+          "hub_compressed_bytes": 1081610610,
+          "pull_seconds": 47.438021,
+          "slice_seconds": 7.556439,
+          "slice_bytes": 83368756,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:379418968-fix",
+          "hub_compressed_bytes": 1167479892,
+          "pull_seconds": 69.675081,
+          "slice_seconds": 6.715498,
+          "slice_bytes": 89818244,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 107,
+      "arvo_id": 42517530,
+      "project": "libraw",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42517530-vul",
+          "hub_compressed_bytes": 942220727,
+          "pull_seconds": 61.698071,
+          "slice_seconds": 8.522533,
+          "slice_bytes": 20969563,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42517530-fix",
+          "hub_compressed_bytes": 725882731,
+          "pull_seconds": 67.457098,
+          "slice_seconds": 7.908772,
+          "slice_bytes": 20975795,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 108,
+      "arvo_id": 42517784,
+      "project": "oniguruma",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42517784-vul",
+          "hub_compressed_bytes": 572874530,
+          "pull_seconds": 59.090721,
+          "slice_seconds": 16.97082,
+          "slice_bytes": 18118921,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42517784-fix",
+          "hub_compressed_bytes": 572923963,
+          "pull_seconds": 48.768033,
+          "slice_seconds": 7.203281,
+          "slice_bytes": 18118865,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 109,
+      "arvo_id": 42481233,
+      "project": "arrow",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42481233-vul",
+          "hub_compressed_bytes": 1271993493,
+          "pull_seconds": 140.124405,
+          "slice_seconds": 12.698412,
+          "slice_bytes": 71288186,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42481233-fix",
+          "hub_compressed_bytes": 1272023919,
+          "pull_seconds": 90.490722,
+          "slice_seconds": 7.940411,
+          "slice_bytes": 71476290,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 110,
+      "arvo_id": 42532885,
+      "project": "matio",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42532885-vul",
+          "hub_compressed_bytes": 1354810755,
+          "pull_seconds": 69.645324,
+          "slice_seconds": 6.402345,
+          "slice_bytes": 34956088,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42532885-fix",
+          "hub_compressed_bytes": 1359093897,
+          "pull_seconds": 72.569929,
+          "slice_seconds": 4.684344,
+          "slice_bytes": 34970648,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 111,
+      "arvo_id": 42498712,
+      "project": "dnsmasq",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42498712-vul",
+          "hub_compressed_bytes": 966537150,
+          "pull_seconds": 53.617924,
+          "slice_seconds": 6.65337,
+          "slice_bytes": 18752556,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42498712-fix",
+          "hub_compressed_bytes": 636433114,
+          "pull_seconds": 64.189146,
+          "slice_seconds": 3.893234,
+          "slice_bytes": 19691596,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 113,
+      "arvo_id": 42536328,
+      "project": "libssh2",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42536328-vul",
+          "hub_compressed_bytes": 601443323,
+          "pull_seconds": 36.960016,
+          "slice_seconds": 5.302268,
+          "slice_bytes": 21234647,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42536328-fix",
+          "hub_compressed_bytes": 646601871,
+          "pull_seconds": 32.475764,
+          "slice_seconds": 4.526037,
+          "slice_bytes": 23324151,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 114,
+      "arvo_id": 42488172,
+      "project": "libcoap",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42488172-vul",
+          "hub_compressed_bytes": 1442677686,
+          "pull_seconds": 73.108465,
+          "slice_seconds": 4.398202,
+          "slice_bytes": 16784827,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42488172-fix",
+          "hub_compressed_bytes": 1480152855,
+          "pull_seconds": 118.565425,
+          "slice_seconds": 7.491373,
+          "slice_bytes": 16778083,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 119,
+      "arvo_id": 411460530,
+      "project": "openthread",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:411460530-vul",
+          "hub_compressed_bytes": 847746882,
+          "pull_seconds": 72.138179,
+          "slice_seconds": 9.296888,
+          "slice_bytes": 35442354,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:411460530-fix",
+          "hub_compressed_bytes": 891401685,
+          "pull_seconds": 62.270261,
+          "slice_seconds": 8.540657,
+          "slice_bytes": 35502522,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 121,
+      "arvo_id": 42501148,
+      "project": "kamailio",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42501148-vul",
+          "hub_compressed_bytes": 729958106,
+          "pull_seconds": 37.088151,
+          "slice_seconds": 4.924849,
+          "slice_bytes": 32199810,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42501148-fix",
+          "hub_compressed_bytes": 729687484,
+          "pull_seconds": 37.08107,
+          "slice_seconds": 5.236109,
+          "slice_bytes": 32214218,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 122,
+      "arvo_id": 42528883,
+      "project": "libdwarf",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42528883-vul",
+          "hub_compressed_bytes": 1487089553,
+          "pull_seconds": 97.03774,
+          "slice_seconds": 5.02633,
+          "slice_bytes": 18352993,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42528883-fix",
+          "hub_compressed_bytes": 1495965805,
+          "pull_seconds": 81.138638,
+          "slice_seconds": 11.157708,
+          "slice_bytes": 18353729,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 123,
+      "arvo_id": 42513361,
+      "project": "libjxl",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42513361-vul",
+          "hub_compressed_bytes": 1307137220,
+          "pull_seconds": 67.12982,
+          "slice_seconds": 5.019509,
+          "slice_bytes": 28276212,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42513361-fix",
+          "hub_compressed_bytes": 1495654903,
+          "pull_seconds": 89.162982,
+          "slice_seconds": 21.929768,
+          "slice_bytes": 29750172,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 124,
+      "arvo_id": 42526388,
+      "project": "c-blosc2",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42526388-vul",
+          "hub_compressed_bytes": 1012423684,
+          "pull_seconds": 78.828414,
+          "slice_seconds": 10.804644,
+          "slice_bytes": 22719684,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42526388-fix",
+          "hub_compressed_bytes": 708718792,
+          "pull_seconds": 71.414032,
+          "slice_seconds": 19.780169,
+          "slice_bytes": 28811544,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 125,
+      "arvo_id": 42513154,
+      "project": "libpcap",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42513154-vul",
+          "hub_compressed_bytes": 742085607,
+          "pull_seconds": 55.806119,
+          "slice_seconds": 6.822209,
+          "slice_bytes": 17604428,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42513154-fix",
+          "hub_compressed_bytes": 747144575,
+          "pull_seconds": 58.988101,
+          "slice_seconds": 20.558996,
+          "slice_bytes": 17604420,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 128,
+      "arvo_id": 42481492,
+      "project": "jbig2dec",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42481492-vul",
+          "hub_compressed_bytes": 951685529,
+          "pull_seconds": 63.620993,
+          "slice_seconds": 4.689964,
+          "slice_bytes": 13808977,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42481492-fix",
+          "hub_compressed_bytes": 959597512,
+          "pull_seconds": 49.357005,
+          "slice_seconds": 3.989641,
+          "slice_bytes": 13808993,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 129,
+      "arvo_id": 42532225,
+      "project": "gpac",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42532225-vul",
+          "hub_compressed_bytes": 1088635647,
+          "pull_seconds": 68.308393,
+          "slice_seconds": 6.725069,
+          "slice_bytes": 61593220,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42532225-fix",
+          "hub_compressed_bytes": 1088604588,
+          "pull_seconds": 50.977422,
+          "slice_seconds": 5.869319,
+          "slice_bytes": 61598396,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 130,
+      "arvo_id": 42471287,
+      "project": "libgit2",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42471287-vul",
+          "hub_compressed_bytes": 871671226,
+          "pull_seconds": 48.462068,
+          "slice_seconds": 5.224926,
+          "slice_bytes": 30188361,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42471287-fix",
+          "hub_compressed_bytes": 871762646,
+          "pull_seconds": 63.545996,
+          "slice_seconds": 6.029084,
+          "slice_bytes": 30193809,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 133,
+      "arvo_id": 42487660,
+      "project": "libavif",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42487660-vul",
+          "hub_compressed_bytes": 1489820800,
+          "pull_seconds": 130.922638,
+          "slice_seconds": 6.679127,
+          "slice_bytes": 17413744,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42487660-fix",
+          "hub_compressed_bytes": 1497914293,
+          "pull_seconds": 108.333898,
+          "slice_seconds": 5.878846,
+          "slice_bytes": 17414008,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 135,
+      "arvo_id": 42523626,
+      "project": "libssh2",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42523626-vul",
+          "hub_compressed_bytes": 574417523,
+          "pull_seconds": 31.098165,
+          "slice_seconds": 4.25947,
+          "slice_bytes": 21203517,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42523626-fix",
+          "hub_compressed_bytes": 591196223,
+          "pull_seconds": 58.861211,
+          "slice_seconds": 4.334905,
+          "slice_bytes": 21210965,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 137,
+      "arvo_id": 42479408,
+      "project": "opensc",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42479408-vul",
+          "hub_compressed_bytes": 1037187158,
+          "pull_seconds": 70.489238,
+          "slice_seconds": 4.891471,
+          "slice_bytes": 21182793,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42479408-fix",
+          "hub_compressed_bytes": 1040621035,
+          "pull_seconds": 55.261653,
+          "slice_seconds": 4.379815,
+          "slice_bytes": 21182721,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 140,
+      "arvo_id": 42487077,
+      "project": "rnp",
+      "status": "failed",
+      "images": [],
+      "failure": {
+        "arvo_id": 42487077,
+        "project": "rnp",
+        "kind": "vul",
+        "reason": "slice_exception",
+        "error_type": "SliceError",
+        "error": "could not resolve ELF dependency librnp-0.so.0; tried /lib/x86_64-linux-gnu, /usr/lib/x86_64-linux-gnu, /usr/local/lib, /lib64, /lib, /usr/lib64, /usr/lib; last error: docker cp metadata read failed for /usr/lib/librnp-0.so.0: exit 1: Error response from daemon: Could not find the file /usr/lib/librnp-0.so.0 in container 6885ba2cdcdd9b23793fac861ded8e20031e0e2325b352678532dc0fe9ff7c85"
+      }
+    },
+    {
+      "draw_index": 142,
+      "arvo_id": 42499964,
+      "project": "serenity",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42499964-vul",
+          "hub_compressed_bytes": 1451515021,
+          "pull_seconds": 69.534839,
+          "slice_seconds": 10.113959,
+          "slice_bytes": 106511021,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42499964-fix",
+          "hub_compressed_bytes": 1454608589,
+          "pull_seconds": 64.097926,
+          "slice_seconds": 8.370314,
+          "slice_bytes": 110500669,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 144,
+      "arvo_id": 42497297,
+      "project": "serenity",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42497297-vul",
+          "hub_compressed_bytes": 1385263923,
+          "pull_seconds": 75.291024,
+          "slice_seconds": 9.055422,
+          "slice_bytes": 42339784,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42497297-fix",
+          "hub_compressed_bytes": 1385958569,
+          "pull_seconds": 88.325173,
+          "slice_seconds": 5.807301,
+          "slice_bytes": 42480368,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 146,
+      "arvo_id": 42523506,
+      "project": "libheif",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42523506-vul",
+          "hub_compressed_bytes": 1356242823,
+          "pull_seconds": 59.483156,
+          "slice_seconds": 5.742495,
+          "slice_bytes": 66867887,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42523506-fix",
+          "hub_compressed_bytes": 1361818852,
+          "pull_seconds": 48.134183,
+          "slice_seconds": 34.279645,
+          "slice_bytes": 66910155,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 147,
+      "arvo_id": 42527431,
+      "project": "libheif",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42527431-vul",
+          "hub_compressed_bytes": 1342404524,
+          "pull_seconds": 52.039611,
+          "slice_seconds": 4.344393,
+          "slice_bytes": 28576730,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42527431-fix",
+          "hub_compressed_bytes": 1347092563,
+          "pull_seconds": 61.998154,
+          "slice_seconds": 4.711917,
+          "slice_bytes": 30168530,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 152,
+      "arvo_id": 42533290,
+      "project": "igraph",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42533290-vul",
+          "hub_compressed_bytes": 829085349,
+          "pull_seconds": 55.698127,
+          "slice_seconds": 13.221215,
+          "slice_bytes": 17800762,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42533290-fix",
+          "hub_compressed_bytes": 834223986,
+          "pull_seconds": 37.544035,
+          "slice_seconds": 4.637194,
+          "slice_bytes": 17827202,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 153,
+      "arvo_id": 42530151,
+      "project": "lcms",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42530151-vul",
+          "hub_compressed_bytes": 775235825,
+          "pull_seconds": 43.644285,
+          "slice_seconds": 4.836556,
+          "slice_bytes": 17986412,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42530151-fix",
+          "hub_compressed_bytes": 780154985,
+          "pull_seconds": 42.472211,
+          "slice_seconds": 4.855512,
+          "slice_bytes": 17997040,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 158,
+      "arvo_id": 42536751,
+      "project": "gpac",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42536751-vul",
+          "hub_compressed_bytes": 897786048,
+          "pull_seconds": 62.490116,
+          "slice_seconds": 6.019992,
+          "slice_bytes": 72341080,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42536751-fix",
+          "hub_compressed_bytes": 897857988,
+          "pull_seconds": 42.643893,
+          "slice_seconds": 6.139605,
+          "slice_bytes": 72365904,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    },
+    {
+      "draw_index": 163,
+      "arvo_id": 42506689,
+      "project": "sleuthkit",
+      "status": "prepared",
+      "images": [
+        {
+          "kind": "vul",
+          "image": "n132/arvo:42506689-vul",
+          "hub_compressed_bytes": 1047914321,
+          "pull_seconds": 67.908746,
+          "slice_seconds": 4.82891,
+          "slice_bytes": 19618383,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        },
+        {
+          "kind": "fix",
+          "image": "n132/arvo:42506689-fix",
+          "hub_compressed_bytes": 740333157,
+          "pull_seconds": 59.150884,
+          "slice_seconds": 4.111962,
+          "slice_bytes": 20916327,
+          "reused_cached_slice": false,
+          "docker_image_deleted": true
+        }
+      ],
+      "failure": null
+    }
+  ],
+  "prepared": [
+    42477302,
+    42481221,
+    42523942,
+    42481224,
+    42481945,
+    42525192,
+    42520614,
+    42504114,
+    42497241,
+    42500367,
+    42518269,
+    42471044,
+    42522233,
+    42504387,
+    42501162,
+    42532259,
+    42486565,
+    42470538,
+    42513620,
+    42471105,
+    42501200,
+    42471108,
+    42475782,
+    42481193,
+    42498970,
+    42477222,
+    42496936,
+    42475195,
+    42499827,
+    42510753,
+    42501143,
+    42474141,
+    42533590,
+    42517374,
+    42490025,
+    42517725,
+    42476618,
+    42496031,
+    42522531,
+    42488737,
+    42483517,
+    42477355,
+    42513189,
+    42522285,
+    42517205,
+    42513988,
+    420198855,
+    42479852,
+    42532046,
+    42509841,
+    42534483,
+    42517450,
+    42499939,
+    42517796,
+    42525816,
+    42523860,
+    396777457,
+    42512228,
+    42498959,
+    42522804,
+    42501136,
+    42507220,
+    379418968,
+    42517530,
+    42517784,
+    42481233,
+    42532885,
+    42498712,
+    42536328,
+    42488172,
+    411460530,
+    42501148,
+    42528883,
+    42513361,
+    42526388,
+    42513154,
+    42481492,
+    42532225,
+    42471287,
+    42487660,
+    42523626,
+    42479408,
+    42499964,
+    42497297,
+    42523506,
+    42527431,
+    42533290,
+    42530151,
+    42536751,
+    42506689
+  ],
+  "failed_by_reason": {
+    "pull_error": [],
+    "slice_exception": [
+      {
+        "arvo_id": 42487077,
+        "project": "rnp",
+        "kind": "vul",
+        "reason": "slice_exception",
+        "error_type": "SliceError",
+        "error": "could not resolve ELF dependency librnp-0.so.0; tried /lib/x86_64-linux-gnu, /usr/lib/x86_64-linux-gnu, /usr/local/lib, /lib64, /lib, /usr/lib64, /usr/lib; last error: docker cp metadata read failed for /usr/lib/librnp-0.so.0: exit 1: Error response from daemon: Could not find the file /usr/lib/librnp-0.so.0 in container 6885ba2cdcdd9b23793fac861ded8e20031e0e2325b352678532dc0fe9ff7c85"
+      }
+    ],
+    "tag_not_removed": []
+  },
+  "skipped": [
+    {
+      "draw_index": 0,
+      "arvo_id": 42491876,
+      "project": "c-blosc2",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 1,
+      "arvo_id": 42524598,
+      "project": "wireshark",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 6,
+      "arvo_id": 42488098,
+      "project": "fluent-bit",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 8,
+      "arvo_id": 42534222,
+      "project": "hdf5",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 11,
+      "arvo_id": 42504503,
+      "project": "opensips",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 13,
+      "arvo_id": 42488095,
+      "project": "openh264",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 17,
+      "arvo_id": 42483586,
+      "project": "rdkit",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 19,
+      "arvo_id": 42487672,
+      "project": "openh264",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 28,
+      "arvo_id": 42504745,
+      "project": "wolfmqtt",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 29,
+      "arvo_id": 42493482,
+      "project": "openjpeg",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 31,
+      "arvo_id": 42502315,
+      "project": "wolfmqtt",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 36,
+      "arvo_id": 42497373,
+      "project": "mruby",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 43,
+      "arvo_id": 42491667,
+      "project": "matio",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 48,
+      "arvo_id": 42470991,
+      "project": "harfbuzz",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 50,
+      "arvo_id": 42520165,
+      "project": "wolfssl",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 51,
+      "arvo_id": 42476221,
+      "project": "icu",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 52,
+      "arvo_id": 42520686,
+      "project": "libavc",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 54,
+      "arvo_id": 42487587,
+      "project": "ndpi",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 56,
+      "arvo_id": 42517523,
+      "project": "wireshark",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 57,
+      "arvo_id": 42524105,
+      "project": "mruby",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 59,
+      "arvo_id": 42513783,
+      "project": "mruby",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 60,
+      "arvo_id": 42490276,
+      "project": "fluent-bit",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 61,
+      "arvo_id": 42488035,
+      "project": "fluent-bit",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 62,
+      "arvo_id": 42524653,
+      "project": "ntopng",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 65,
+      "arvo_id": 42532659,
+      "project": "mruby",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 70,
+      "arvo_id": 42482255,
+      "project": "gdal",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 71,
+      "arvo_id": 42488418,
+      "project": "fluent-bit",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 72,
+      "arvo_id": 42493188,
+      "project": "mruby",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 73,
+      "arvo_id": 42531126,
+      "project": "libxml2",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 75,
+      "arvo_id": 42511419,
+      "project": "libredwg",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 78,
+      "arvo_id": 42486491,
+      "project": "util-linux",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 79,
+      "arvo_id": 42501252,
+      "project": "wolfmqtt",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 81,
+      "arvo_id": 42507578,
+      "project": "leptonica",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 82,
+      "arvo_id": 42513357,
+      "project": "mruby",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 86,
+      "arvo_id": 42495043,
+      "project": "harfbuzz",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 87,
+      "arvo_id": 42478556,
+      "project": "openssl",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 89,
+      "arvo_id": 42507972,
+      "project": "harfbuzz",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 92,
+      "arvo_id": 42510914,
+      "project": "libredwg",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 94,
+      "arvo_id": 42479443,
+      "project": "harfbuzz",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 96,
+      "arvo_id": 42481886,
+      "project": "ndpi",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 97,
+      "arvo_id": 42471829,
+      "project": "harfbuzz",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 99,
+      "arvo_id": 42497951,
+      "project": "libjxl",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 100,
+      "arvo_id": 42480985,
+      "project": "mruby",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 106,
+      "arvo_id": 42507889,
+      "project": "zstd",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 112,
+      "arvo_id": 42493213,
+      "project": "harfbuzz",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 115,
+      "arvo_id": 42493030,
+      "project": "matio",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 116,
+      "arvo_id": 42523514,
+      "project": "libavc",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 117,
+      "arvo_id": 42528850,
+      "project": "libxml2",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 118,
+      "arvo_id": 42474568,
+      "project": "radare2",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 120,
+      "arvo_id": 42493706,
+      "project": "serenity",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 126,
+      "arvo_id": 391689728,
+      "project": "kamailio",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 127,
+      "arvo_id": 42487716,
+      "project": "openh264",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 131,
+      "arvo_id": 42496772,
+      "project": "cpython3",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 132,
+      "arvo_id": 42533950,
+      "project": "libxml2",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 134,
+      "arvo_id": 42515676,
+      "project": "fluent-bit",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 136,
+      "arvo_id": 42488833,
+      "project": "leptonica",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 138,
+      "arvo_id": 42510349,
+      "project": "libvips",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 139,
+      "arvo_id": 42527635,
+      "project": "libredwg",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 141,
+      "arvo_id": 42514313,
+      "project": "ndpi",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 143,
+      "arvo_id": 42471100,
+      "project": "libgit2",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 145,
+      "arvo_id": 42528152,
+      "project": "libredwg",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 148,
+      "arvo_id": 42532313,
+      "project": "libredwg",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 149,
+      "arvo_id": 42507381,
+      "project": "ndpi",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 150,
+      "arvo_id": 42471424,
+      "project": "harfbuzz",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 151,
+      "arvo_id": 42530963,
+      "project": "opensc",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 154,
+      "arvo_id": 42481321,
+      "project": "arrow",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 155,
+      "arvo_id": 42513582,
+      "project": "opensc",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 156,
+      "arvo_id": 42531532,
+      "project": "libxml2",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 157,
+      "arvo_id": 42479691,
+      "project": "ndpi",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 159,
+      "arvo_id": 42527035,
+      "project": "ntopng",
+      "reason": "over_size_cap"
+    },
+    {
+      "draw_index": 160,
+      "arvo_id": 42524888,
+      "project": "libredwg",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 161,
+      "arvo_id": 42518583,
+      "project": "libredwg",
+      "reason": "project_cap"
+    },
+    {
+      "draw_index": 162,
+      "arvo_id": 42515736,
+      "project": "hunspell",
+      "reason": "over_size_cap"
+    }
+  ]
+}

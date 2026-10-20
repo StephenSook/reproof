@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42496387,
+  "project": "wasm3",
+  "report_source": "public OSS-Fuzz OSV report OSV-2021-701; this is not a private report",
+  "report_text": "Heap-use-after-free in m3_FreeRuntime\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=33765\n\n```\nCrash type: Heap-use-after-free READ 8\nCrash state:\nm3_FreeRuntime\nfuzzer.c\nRuntime_Release\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-use-after-free READ 8",
+      "crash_state": [
+        "ForEachModule",
+        "Runtime_Release",
+        "m3_FreeRuntime"
+      ],
+      "sanitizer_excerpt": "==9==ERROR: AddressSanitizer: heap-use-after-free on address 0x60e0000001b8 at pc 0x0000005589a1 bp 0x7fffffffe200 sp 0x7fffffffe1f8\nREAD of size 8 at 0x60e0000001b8 thread T0\nSCARINESS: 51 (8-byte-read-heap-use-after-free)\n    #0 0x5589a0 in ForEachModule /src/wasm3/source/m3_env.c:205:34\n    #1 0x5589a0 in Runtime_Release /src/wasm3/source/m3_env.c:226:5\n    #2 0x5589a0 in m3_FreeRuntime /src/wasm3/source/m3_env.c:242:9\n    #3 0x556e47 in LLVMFuzzerTestOneInput /src/wasm3/platforms/app_fuzz/fuzzer.c:43:13\n    #4 0x459c43 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:599:15\n    #5 0x443a52 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\n    #6 0x44989a in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:856:9\n    #7 0x475582 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #8 0x7ffff642083f in __libc_start_main (/arvo-lib/libc.so.6+0x2083f)\n    #9 0x41e738 in _start (/out/fuzzer+0x41e738)\n\nDEDUP_TOKEN: ForEachModule--Runtime_Release--m3_FreeRuntime\n0x60e0000001b8 is located 152 bytes inside of 160-byte region [0x60e000000120,0x60e0000001c0)\nfreed by thread T0 here:\n    #0 0x523312 in free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:127:3\n    #1 0x558416 in _FreeModule /src/wasm3/source/m3_env.c:219:5\n    #2 0x558416 in ForEachModule /src/wasm3/source/m3_env.c:206:13\n    #3 0x558416 in Runtime_Release /src/wasm3/source/m3_env.c:226:5\n    #4 0x572a7a in Compile_ExtendedOpcode /src/wasm3/source/m3_compile.c:1120:1\n    #5 0x5a5579 in CompileBlockStatements /src/wasm3/source/m3_compile.c:2477:1\n    #6 0x57e2e6 in CompileBlock /src/wasm3/source/m3_compile.c:2609:1\n    #7 0x57d37c in Compile_LoopOrBlock /src/wasm3/source/m3_compile.c:1804:1\n    #8 0x5a5579 in CompileBlockStatements /src/wasm3/source/m3_compile.c:2477:1\n    #9 0x5a7aa6 in CompileFunction /src/wasm3/source/m3_compile.c:2767:1\n    #10 0x55d17c in m3_FindFunction /src/wasm3/source/m3_env.c:686:1\n    #11 0x556e36 in LLVMFuzzerTestOneInput /src/wasm3/platforms/app_fuzz/fuzzer.c:33:30\n    #12 0x459c43 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:599:15\n    #13 0x443a52 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\n    #14 0x44989a in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:856:9\n    #15 0x475582 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #16 0x7ffff642083f in __libc_start_main (/arvo-lib/libc.so.6+0x2083f)\n\nDEDUP_TOKEN: free--_FreeModule--ForEachModule\npreviously allocated by thread T0 here:\n    #0 0x523712 in calloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:154:3\n    #1 0x567ecb in m3_ParseModule /src/wasm3/source/m3_parse.c:581:14\n    #2 0x556d88 in LLVMFuzzerTestOneInput /src/wasm3/platforms/app_fuzz/fuzzer.c:28:22\n    #3 0x459c43 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:599:15\n    #4 0x443a52 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\n    #5 0x44989a in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:856:9\n    #6 0x475582 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #7 0x7ffff642083f in __libc_start_main (/arvo-lib/libc.so.6+0x2083f)\n\nDEDUP_TOKEN: calloc--m3_ParseModule--LLVMFuzzerTestOneInput\nSUMMARY: AddressSanitizer: heap-use-after-free /src/wasm3/source/m3_env.c:205:34 in ForEachModule",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2021-701"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-use-after-free",
+        "measured": "Heap-use-after-free READ 8",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "m3_FreeRuntime"
+        ],
+        "measured": [
+          "ForEachModule",
+          "Runtime_Release",
+          "m3_FreeRuntime"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.344627,
+      "input_tokens": 211,
+      "output_tokens": 68,
+      "total_tokens": 279,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001245,
+      "request_id": "ec16a59953202bd033ef03495c85077a"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42496387,
+      "kind": "vul",
+      "checkpoint_uuid": "f2a9129a-eaee-4671-9283-b1a2cb14872e",
+      "checkpoint_operation_uuid": "01a10d3b-d590-753f-9418-4e98ccbfb757",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a15799-d1b1-77f7-8aa3-6046afc7c71a",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 820192235\nINFO: Loaded 1 modules   (3369 inline 8-bit counters): 3369 [0x82d420, 0x82e149), \nINFO: Loaded 1 PC tables (3369 PCs): 3369 [0x5d0d58,0x5ddfe8), \n/out/fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==9==ERROR: AddressSanitizer: heap-use-after-free on address 0x60e0000001b8 at pc 0x0000005589a1 bp 0x7fffffffe200 sp 0x7fffffffe1f8\nREAD of size 8 at 0x60e0000001b8 thread T0\nSCARINESS: 51 (8-byte-read-heap-use-after-free)\n    #0 0x5589a0 in ForEachModule /src/wasm3/source/m3_env.c:205:34\n    #1 0x5589a0 in Runtime_Release /src/wasm3/source/m3_env.c:226:5\n    #2 0x5589a0 in m3_FreeRuntime /src/wasm3/source/m3_env.c:242:9\n    #3 0x556e47 in LLVMFuzzerTestOneInput /src/wasm3/platforms/app_fuzz/fuzzer.c:43:13\n    #4 0x459c43 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:599:15\n    #5 0x443a52 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\n    #6 0x44989a in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:856:9\n    #7 0x475582 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #8 0x7ffff642083f in __libc_start_main (/arvo-lib/libc.so.6+0x2083f)\n    #9 0x41e738 in _start (/out/fuzzer+0x41e738)\n\nDEDUP_TOKEN: ForEachModule--Runtime_Release--m3_FreeRuntime\n0x60e0000001b8 is located 152 bytes inside of 160-byte region [0x60e000000120,0x60e0000001c0)\nfreed by thread T0 here:\n    #0 0x523312 in free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:127:3\n    #1 0x558416 in _FreeModule /src/wasm3/source/m3_env.c:219:5\n    #2 0x558416 in ForEachModule /src/wasm3/source/m3_env.c:206:13\n    #3 0x558416 in Runtime_Release /src/wasm3/source/m3_env.c:226:5\n    #4 0x572a7a in Compile_ExtendedOpcode /src/wasm3/source/m3_compile.c:1120:1\n    #5 0x5a5579 in CompileBlockStatements /src/wasm3/source/m3_compile.c:2477:1\n    #6 0x57e2e6 in CompileBlock /src/wasm3/source/m3_compile.c:2609:1\n    #7 0x57d37c in Compile_LoopOrBlock /src/wasm3/source/m3_compile.c:1804:1\n    #8 0x5a5579 in CompileBlockStatements /src/wasm3/source/m3_compile.c:2477:1\n    #9 0x5a7aa6 in CompileFunction /src/wasm3/source/m3_compile.c:2767:1\n    #10 0x55d17c in m3_FindFunction /src/wasm3/source/m3_env.c:686:1\n    #11 0x556e36 in LLVMFuzzerTestOneInput /src/wasm3/platforms/app_fuzz/fuzzer.c:33:30\n    #12 0x459c43 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:599:15\n    #13 0x443a52 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\n    #14 0x44989a in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:856:9\n    #15 0x475582 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #16 0x7ffff642083f in __libc_start_main (/arvo-lib/libc.so.6+0x2083f)\n\nDEDUP_TOKEN: free--_FreeModule--ForEachModule\npreviously allocated by thread T0 here:\n    #0 0x523712 in calloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:154:3\n    #1 0x567ecb in m3_ParseModule /src/wasm3/source/m3_parse.c:581:14\n    #2 0x556d88 in LLVMFuzzerTestOneInput /src/wasm3/platforms/app_fuzz/fuzzer.c:28:22\n    #3 0x459c43 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:599:15\n    #4 0x443a52 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\n    #5 0x44989a in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:856:9\n    #6 0x475582 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #7 0x7ffff642083f in __libc_start_main (/arvo-lib/libc.so.6+0x2083f)\n\nDEDUP_TOKEN: calloc--m3_ParseModule--LLVMFuzzerTestOneInput\nSUMMARY: AddressSanitizer: heap-use-after-free /src/wasm3/source/m3_env.c:205:34 in ForEachModule\nShadow bytes around the buggy address:\n  0x0c1c7fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c1c7fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c1c7fff8000: fa fa fa fa fa fa fa fa 00 00 00 00 00 00 00 00\n  0x0c1c7fff8010: 00 00 00 00 00 00 00 00 00 00 00 00 fa fa fa fa\n  0x0c1c7fff8020: fa fa fa fa fd fd fd fd fd fd fd fd fd fd fd fd\n=>0x0c1c7fff8030: fd fd fd fd fd fd fd[fd]fa fa fa fa fa fa fa fa\n  0x0c1c7fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c1c7fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c1c7fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c1c7fff8070: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c1c7fff8080: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n  Shadow gap:              cc\n==9==ABORTING\n",
+      "wall_seconds": 0.956493,
+      "server_elapsed_seconds": 0.011968,
+      "cost_usd": 0.000322,
+      "disposable": true
+    },
+    {
+      "task_id": 42496387,
+      "kind": "fix",
+      "checkpoint_uuid": "daa87c57-defe-41ee-ae33-91860a63e4ce",
+      "checkpoint_operation_uuid": "01a10d3b-df0b-72c7-a0a1-30c2d28de0c6",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a15799-d292-725c-b802-bccc189dd74d",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 821348725\nINFO: Loaded 1 modules   (3353 inline 8-bit counters): 3353 [0x82d420, 0x82e139), \nINFO: Loaded 1 PC tables (3353 PCs): 3353 [0x5d0738,0x5dd8c8), \n/out/fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 0 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 2.119897,
+      "server_elapsed_seconds": 0.010639,
+      "cost_usd": 0.00029701,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "41231398d65d90a2b2de8d3c9c893edfc94b521050117dc6f6817245829d6080",
+    "fix": "4d8157589c4b34b504e83594393e3645255fdd5afab7cbac19e50ddf8b6b8f7f"
+  },
+  "provenance": {
+    "arvo_task_sha256": "9d9d04e2946a5016f3e3f5b143edd8ae6de40121de7d2c963922c718ea4a7377",
+    "report_sha256": "ce836e66e337a333018572b279f40978dce0fc8e0bb5e223816439ad30b78537",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2021-701"
+  },
+  "model_cost_usd": 0.0001245,
+  "sandbox_cost_usd": 0.00061901,
+  "total_cost_usd": 0.00074351,
+  "wall_seconds": 4.375521,
+  "public_status": null
+}

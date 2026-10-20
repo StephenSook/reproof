@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42518269,
+  "project": "libredwg",
+  "report_source": "public OSS-Fuzz OSV report OSV-2022-1180; this is not a private report",
+  "report_text": "Heap-buffer-overflow in json_common_entity_data\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=53468\n\n```\nCrash type: Heap-buffer-overflow READ 8\nCrash state:\njson_common_entity_data\njson_objects_write\ndwg_write_json\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [
+    "Affected version of libredwg where the bug occurs"
+  ],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow READ 8",
+      "crash_state": [
+        "json_common_entity_data",
+        "dwg_json_LOAD",
+        "dwg_json_object"
+      ],
+      "sanitizer_excerpt": "==8==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x608000003df8 at pc 0x000002106509 bp 0x7ffffffe3bd0 sp 0x7ffffffe3bc8\nREAD of size 8 at 0x608000003df8 thread T0\nSCARINESS: 23 (8-byte-read-heap-buffer-overflow)\n    #0 0x2106508 in json_common_entity_data /src/libredwg/src/./common_entity_handle_data.spec:50:7\n    #1 0x1fda9c3 in dwg_json_LOAD /src/libredwg/src/./dwg.spec:10955:1\n    #2 0x1fda9c3 in dwg_json_object /src/libredwg/src/out_json.c:1690:14\n    #3 0x1fda9c3 in json_objects_write /src/libredwg/src/out_json.c:2055:15\n    #4 0x1f83973 in dwg_write_json /src/libredwg/src/out_json.c:2356:7\n    #5 0x55b09e in LLVMFuzzerTestOneInput /src/libredwg/examples/llvmfuzz.c:191:11\n    #6 0x4552b3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #7 0x440f42 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #8 0x44678c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #9 0x46f382 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #10 0x7ffff7a760b2 in __libc_start_main (/arvo-lib/libc.so.6+0x240b2)\n    #11 0x41f76d in _start (/out/llvmfuzz+0x41f76d)\n\nDEDUP_TOKEN: json_common_entity_data--dwg_json_LOAD--dwg_json_object\n0x608000003df8 is located 0 bytes to the right of 88-byte region [0x608000003da0,0x608000003df8)\nallocated by thread T0 here:\n    #0 0x523d22 in __interceptor_calloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:138:3\n    #1 0x63b7ab in dwg_setup_LAYOUT /src/libredwg/src/./dwg.spec:4992:1\n    #2 0x6932e6 in dwg_decode_LAYOUT /src/libredwg/src/./dwg.spec:4992:1\n    #3 0x682908 in dwg_decode_add_object /src/libredwg/src/decode.c\n    #4 0x5817e9 in decode_R13_R2000 /src/libredwg/src/decode.c:728:19\n    #5 0x57579f in dwg_decode /src/libredwg/src/decode.c:210:36\n    #6 0x55ab53 in LLVMFuzzerTestOneInput /src/libredwg/examples/llvmfuzz.c:91:13\n    #7 0x4552b3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #8 0x440f42 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #9 0x44678c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #10 0x46f382 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #11 0x7ffff7a760b2 in __libc_start_main (/arvo-lib/libc.so.6+0x240b2)\n\nDEDUP_TOKEN: __interceptor_calloc--dwg_setup_LAYOUT--dwg_decode_LAYOUT\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/libredwg/src/./common_entity_handle_data.spec:50:7 in json_common_entity_data",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2022-1180"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-buffer-overflow",
+        "measured": "Heap-buffer-overflow READ 8",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "json_common_entity_data",
+          "json_objects_write",
+          "dwg_write_json"
+        ],
+        "measured": [
+          "json_common_entity_data",
+          "dwg_json_LOAD",
+          "dwg_json_object"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.467967,
+      "input_tokens": 210,
+      "output_tokens": 88,
+      "total_tokens": 298,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001422,
+      "request_id": "d55779bf816e2f58239700e1a2f1d21f"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42518269,
+      "kind": "vul",
+      "checkpoint_uuid": "3f53eceb-9a98-40ef-8910-cccdc7f2f98f",
+      "checkpoint_operation_uuid": "01a157a2-6d32-7714-ad29-8f9989c283bd",
+      "checkpoint_wall_seconds": 35.298413,
+      "checkpoint_cost_usd": 0.00006335999999999999,
+      "operation_uuid": "01a157a3-0116-77ed-8b2d-4629c08d342b",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1421970584\nINFO: Loaded 1 modules   (552612 inline 8-bit counters): 552612 [0x48ac580, 0x4933424), \nINFO: Loaded 1 PC tables (552612 PCs): 552612 [0x3db5de8,0x4624828), \n/out/llvmfuzz: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==8==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x608000003df8 at pc 0x000002106509 bp 0x7ffffffe3bd0 sp 0x7ffffffe3bc8\nREAD of size 8 at 0x608000003df8 thread T0\nSCARINESS: 23 (8-byte-read-heap-buffer-overflow)\n    #0 0x2106508 in json_common_entity_data /src/libredwg/src/./common_entity_handle_data.spec:50:7\n    #1 0x1fda9c3 in dwg_json_LOAD /src/libredwg/src/./dwg.spec:10955:1\n    #2 0x1fda9c3 in dwg_json_object /src/libredwg/src/out_json.c:1690:14\n    #3 0x1fda9c3 in json_objects_write /src/libredwg/src/out_json.c:2055:15\n    #4 0x1f83973 in dwg_write_json /src/libredwg/src/out_json.c:2356:7\n    #5 0x55b09e in LLVMFuzzerTestOneInput /src/libredwg/examples/llvmfuzz.c:191:11\n    #6 0x4552b3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #7 0x440f42 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #8 0x44678c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #9 0x46f382 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #10 0x7ffff7a760b2 in __libc_start_main (/arvo-lib/libc.so.6+0x240b2)\n    #11 0x41f76d in _start (/out/llvmfuzz+0x41f76d)\n\nDEDUP_TOKEN: json_common_entity_data--dwg_json_LOAD--dwg_json_object\n0x608000003df8 is located 0 bytes to the right of 88-byte region [0x608000003da0,0x608000003df8)\nallocated by thread T0 here:\n    #0 0x523d22 in __interceptor_calloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:138:3\n    #1 0x63b7ab in dwg_setup_LAYOUT /src/libredwg/src/./dwg.spec:4992:1\n    #2 0x6932e6 in dwg_decode_LAYOUT /src/libredwg/src/./dwg.spec:4992:1\n    #3 0x682908 in dwg_decode_add_object /src/libredwg/src/decode.c\n    #4 0x5817e9 in decode_R13_R2000 /src/libredwg/src/decode.c:728:19\n    #5 0x57579f in dwg_decode /src/libredwg/src/decode.c:210:36\n    #6 0x55ab53 in LLVMFuzzerTestOneInput /src/libredwg/examples/llvmfuzz.c:91:13\n    #7 0x4552b3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #8 0x440f42 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #9 0x44678c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #10 0x46f382 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #11 0x7ffff7a760b2 in __libc_start_main (/arvo-lib/libc.so.6+0x240b2)\n\nDEDUP_TOKEN: __interceptor_calloc--dwg_setup_LAYOUT--dwg_decode_LAYOUT\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/libredwg/src/./common_entity_handle_data.spec:50:7 in json_common_entity_data\nShadow bytes around the buggy address:\n  0x0c107fff8760: fa fa fa fa 00 00 00 00 00 00 00 00 00 00 00 fa\n  0x0c107fff8770: fa fa fa fa 00 00 00 00 00 00 00 00 00 00 00 fa\n  0x0c107fff8780: fa fa fa fa 00 00 00 00 00 00 00 00 00 00 00 fa\n  0x0c107fff8790: fa fa fa fa 00 00 00 00 00 00 00 00 00 00 00 fa\n  0x0c107fff87a0: fa fa fa fa 00 00 00 00 00 00 00 00 00 00 00 fa\n=>0x0c107fff87b0: fa fa fa fa 00 00 00 00 00 00 00 00 00 00 00[fa]\n  0x0c107fff87c0: fa fa fa fa 00 00 00 00 00 00 00 00 00 00 00 fa\n  0x0c107fff87d0: fa fa fa fa 00 00 00 00 00 00 00 00 00 00 00 fa\n  0x0c107fff87e0: fa fa fa fa 00 00 00 00 00 00 00 00 00 00 00 fa\n  0x0c107fff87f0: fa fa fa fa 00 00 00 00 00 00 00 00 00 00 00 fa\n  0x0c107fff8800: fa fa fa fa 00 00 00 00 00 00 00 00 00 00 00 fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==8==ABORTING\n",
+      "wall_seconds": 1.250379,
+      "server_elapsed_seconds": 0.032702,
+      "cost_usd": 0.00062568,
+      "disposable": true
+    },
+    {
+      "task_id": 42518269,
+      "kind": "fix",
+      "checkpoint_uuid": "00b87737-ff6f-4122-ae90-52279d9164b4",
+      "checkpoint_operation_uuid": "01a157a2-f7c5-757d-9aa4-1f9375e05259",
+      "checkpoint_wall_seconds": 34.941403,
+      "checkpoint_cost_usd": 0.00006267000000000001,
+      "operation_uuid": "01a157a3-025f-7677-8d96-0d5e0a03eef8",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1422805873\nINFO: Loaded 1 modules   (555708 inline 8-bit counters): 555708 [0x48e8a60, 0x497051c), \nINFO: Loaded 1 PC tables (555708 PCs): 555708 [0x3de00a8,0x465ac68), \n/out/llvmfuzz: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 51 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 2.213211,
+      "server_elapsed_seconds": 0.045927,
+      "cost_usd": 0.00076785,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "dc359b86b784dacd095f461c83c6d2e65ef697a9868d9127fd6c6e7e056dd89c",
+    "fix": "96a7ab7ac1356ead60a6799488424bea41b6542c5856b5315517ea297242345b"
+  },
+  "provenance": {
+    "arvo_task_sha256": "8295a9ead73031eb383c0f71d2c5e5ca3b063d54d9fa2cfe94acfec0592dcd36",
+    "report_sha256": "bf89ad637081408befe52c3d293603b91ef913cc1bb9381f2b3dd94d9d50267e",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2022-1180"
+  },
+  "model_cost_usd": 0.0001422,
+  "sandbox_cost_usd": 0.00151956,
+  "total_cost_usd": 0.00166176,
+  "wall_seconds": 75.776286,
+  "public_status": null
+}

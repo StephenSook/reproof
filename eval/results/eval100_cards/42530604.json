@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42530604,
+  "project": "jq",
+  "report_source": "public OSS-Fuzz OSV report OSV-2023-1239; this is not a private report",
+  "report_text": "Heap-buffer-overflow in decToString\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=64574\n\n```\nCrash type: Heap-buffer-overflow WRITE 1\nCrash state:\ndecToString\ndecNumberToString\njv_number_get_literal\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [
+    "version of jq affected",
+    "steps to reproduce (if available outside OSS-Fuzz)",
+    "build configuration used"
+  ],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow WRITE 1",
+      "crash_state": [
+        "decToString",
+        "decNumberToString",
+        "jvp_literal_number_literal"
+      ],
+      "sanitizer_excerpt": "==8==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000000c0 at pc 0x0000005a0a7c bp 0x7fffffffdff0 sp 0x7fffffffdfe8\nWRITE of size 1 at 0x6020000000c0 thread T0\nSCARINESS: 31 (1-byte-write-heap-buffer-overflow)\n    #0 0x5a0a7b in decToString /src/jq/src/decNumber/decNumber.c:3764:5\n    #1 0x59f3c9 in decNumberToString /src/jq/src/decNumber/decNumber.c:449:3\n    #2 0x56e5d7 in jvp_literal_number_literal /src/jq/src/jv.c:653:5\n    #3 0x56e5d7 in jv_number_get_literal /src/jq/src/jv.c:668:12\n    #4 0x595428 in jv_dump_term /src/jq/src/jv_print.c:231:35\n    #5 0x596eed in jv_dumpf /src/jq/src/jv_print.c:368:3\n    #6 0x596eed in jv_dump /src/jq/src/jv_print.c:372:3\n    #7 0x56d8a0 in LLVMFuzzerTestOneInput /src/jq/tests/jq_fuzz_parse_extended.c:27:5\n    #8 0x43f1d3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #9 0x42a932 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #10 0x4301dc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #11 0x459712 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #12 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: e678fe54a5d2c2092f8e47eb0b33105e380f7340)\n    #13 0x420afd in _start (/out/jq_fuzz_parse_extended+0x420afd)\n\nDEDUP_TOKEN: decToString--decNumberToString--jvp_literal_number_literal\n0x6020000000c0 is located 0 bytes to the right of 16-byte region [0x6020000000b0,0x6020000000c0)\nallocated by thread T0 here:\n    #0 0x530366 in __interceptor_malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:69:3\n    #1 0x57aedf in jv_mem_alloc /src/jq/src/jv_alloc.c:141:13\n    #2 0x56e5bc in jvp_literal_number_literal /src/jq/src/jv.c:648:26\n    #3 0x56e5bc in jv_number_get_literal /src/jq/src/jv.c:668:12\n    #4 0x595428 in jv_dump_term /src/jq/src/jv_print.c:231:35\n    #5 0x596eed in jv_dumpf /src/jq/src/jv_print.c:368:3\n    #6 0x596eed in jv_dump /src/jq/src/jv_print.c:372:3\n    #7 0x56d8a0 in LLVMFuzzerTestOneInput /src/jq/tests/jq_fuzz_parse_extended.c:27:5\n    #8 0x43f1d3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #9 0x42a932 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #10 0x4301dc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #11 0x459712 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #12 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: e678fe54a5d2c2092f8e47eb0b33105e380f7340)\n\nDEDUP_TOKEN: __interceptor_malloc--jv_mem_alloc--jvp_literal_number_literal\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/jq/src/decNumber/decNumber.c:3764:5 in decToString",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2023-1239"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "heap-buffer-overflow",
+        "measured": "Heap-buffer-overflow WRITE 1",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "decToString",
+          "decNumberToString",
+          "jv_number_get_literal"
+        ],
+        "measured": [
+          "decToString",
+          "decNumberToString",
+          "jvp_literal_number_literal"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 7.223997,
+      "input_tokens": 208,
+      "output_tokens": 99,
+      "total_tokens": 307,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001515,
+      "request_id": "a3988345c52e8f812f4bd46c03d38005"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42530604,
+      "kind": "vul",
+      "checkpoint_uuid": "64b06a6e-a771-456b-8f9f-f28d541dd752",
+      "checkpoint_operation_uuid": "01a10d33-e7d2-71b1-ad98-fa549252912f",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a15799-aef1-7701-8257-3e7e025911c5",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 811101242\nINFO: Loaded 1 modules   (17878 inline 8-bit counters): 17878 [0x858a20, 0x85cff6), \nINFO: Loaded 1 PC tables (17878 PCs): 17878 [0x79aae8,0x7e0848), \n/out/jq_fuzz_parse_extended: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==8==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000000c0 at pc 0x0000005a0a7c bp 0x7fffffffdff0 sp 0x7fffffffdfe8\nWRITE of size 1 at 0x6020000000c0 thread T0\nSCARINESS: 31 (1-byte-write-heap-buffer-overflow)\n    #0 0x5a0a7b in decToString /src/jq/src/decNumber/decNumber.c:3764:5\n    #1 0x59f3c9 in decNumberToString /src/jq/src/decNumber/decNumber.c:449:3\n    #2 0x56e5d7 in jvp_literal_number_literal /src/jq/src/jv.c:653:5\n    #3 0x56e5d7 in jv_number_get_literal /src/jq/src/jv.c:668:12\n    #4 0x595428 in jv_dump_term /src/jq/src/jv_print.c:231:35\n    #5 0x596eed in jv_dumpf /src/jq/src/jv_print.c:368:3\n    #6 0x596eed in jv_dump /src/jq/src/jv_print.c:372:3\n    #7 0x56d8a0 in LLVMFuzzerTestOneInput /src/jq/tests/jq_fuzz_parse_extended.c:27:5\n    #8 0x43f1d3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #9 0x42a932 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #10 0x4301dc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #11 0x459712 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #12 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: e678fe54a5d2c2092f8e47eb0b33105e380f7340)\n    #13 0x420afd in _start (/out/jq_fuzz_parse_extended+0x420afd)\n\nDEDUP_TOKEN: decToString--decNumberToString--jvp_literal_number_literal\n0x6020000000c0 is located 0 bytes to the right of 16-byte region [0x6020000000b0,0x6020000000c0)\nallocated by thread T0 here:\n    #0 0x530366 in __interceptor_malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:69:3\n    #1 0x57aedf in jv_mem_alloc /src/jq/src/jv_alloc.c:141:13\n    #2 0x56e5bc in jvp_literal_number_literal /src/jq/src/jv.c:648:26\n    #3 0x56e5bc in jv_number_get_literal /src/jq/src/jv.c:668:12\n    #4 0x595428 in jv_dump_term /src/jq/src/jv_print.c:231:35\n    #5 0x596eed in jv_dumpf /src/jq/src/jv_print.c:368:3\n    #6 0x596eed in jv_dump /src/jq/src/jv_print.c:372:3\n    #7 0x56d8a0 in LLVMFuzzerTestOneInput /src/jq/tests/jq_fuzz_parse_extended.c:27:5\n    #8 0x43f1d3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #9 0x42a932 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #10 0x4301dc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #11 0x459712 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #12 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: e678fe54a5d2c2092f8e47eb0b33105e380f7340)\n\nDEDUP_TOKEN: __interceptor_malloc--jv_mem_alloc--jvp_literal_number_literal\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/jq/src/decNumber/decNumber.c:3764:5 in decToString\nShadow bytes around the buggy address:\n  0x0c047fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff8000: fa fa 00 00 fa fa 00 fa fa fa 00 fa fa fa 00 fa\n=>0x0c047fff8010: fa fa 00 00 fa fa 00 00[fa]fa fa fa fa fa fa fa\n  0x0c047fff8020: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==8==ABORTING\n",
+      "wall_seconds": 0.948942,
+      "server_elapsed_seconds": 0.012297,
+      "cost_usd": 0.00033005,
+      "disposable": true
+    },
+    {
+      "task_id": 42530604,
+      "kind": "fix",
+      "checkpoint_uuid": "ba60153a-d32c-4949-9086-95bdd6c7dc1e",
+      "checkpoint_operation_uuid": "01a10d33-f168-7686-9c3e-b2c53f4eb654",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a15799-afdd-773e-9925-58ec510e2a45",
+      "exit_code": 0,
+      "stdout": "-1.6E-1061947064-1.6E-1061947064",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 812310327\nINFO: Loaded 1 modules   (17871 inline 8-bit counters): 17871 [0x858960, 0x85cf2f), \nINFO: Loaded 1 PC tables (17871 PCs): 17871 [0x79a968,0x7e0658), \n/out/jq_fuzz_parse_extended: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 0 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 2.212269,
+      "server_elapsed_seconds": 0.009729,
+      "cost_usd": 0.00029773,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "dda7bd24d63ca0f692924d1d189cec3ca9f6ac94fdbdd3af3e91a9c4dbbab153",
+    "fix": "d22773dfbfe82d18ed395f6df9f2ced3de07c6ab7d34af314adb95ae2a40fc50"
+  },
+  "provenance": {
+    "arvo_task_sha256": "3da5fa3ba49f5ad364d6a10e0aebb94ad2f40133cac0c27b2873a05f0a202e5a",
+    "report_sha256": "36dd25482c5f121e11bf5e74fc3584fb5991debed242adbb4bc9d9b01954b5e8",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2023-1239"
+  },
+  "model_cost_usd": 0.0001515,
+  "sandbox_cost_usd": 0.00062778,
+  "total_cost_usd": 0.00077928,
+  "wall_seconds": 11.254085,
+  "public_status": null
+}

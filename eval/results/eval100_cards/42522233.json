@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42522233,
+  "project": "mruby",
+  "report_source": "public OSS-Fuzz OSV report OSV-2023-178; this is not a private report",
+  "report_text": "Segv on unknown address in mrb_bint_sub\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=57037\n\n```\nCrash type: Segv on unknown address\nCrash state:\nmrb_bint_sub\nint_sub\nmrb_vm_exec\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [],
+  "evidence": {
+    "crash": {
+      "crash_type": "Segv on unknown address",
+      "crash_state": [
+        "mrb_bint_sub",
+        "int_sub",
+        "mrb_vm_exec"
+      ],
+      "sanitizer_excerpt": "==8==ERROR: AddressSanitizer: SEGV on unknown address (pc 0x0000005989b1 bp 0x7fffffffd080 sp 0x7fffffffd040 T0)\n==8==The signal is caused by a READ memory access.\n==8==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.\nSCARINESS: 20 (wild-addr-read)\n    #0 0x5989b1 in mrb_bint_sub /src/mruby/mrbgems/mruby-bigint/core/bigint.c:1230:7\n    #1 0x58c039 in int_sub /src/mruby/src/numeric.c:1933:12\n    #2 0x661158 in mrb_vm_exec /src/mruby/src/vm.c\n    #3 0x64e3dc in mrb_vm_run /src/mruby/src/vm.c:1299:12\n    #4 0x64b2b8 in mrb_top_run /src/mruby/src/vm.c\n    #5 0x5c7441 in mrb_load_exec /src/mruby/mrbgems/mruby-compiler/core/parse.y:6916:7\n    #6 0x5c86c6 in mrb_load_nstring_cxt /src/mruby/mrbgems/mruby-compiler/core/parse.y:6988:10\n    #7 0x5c887b in mrb_load_string_cxt /src/mruby/mrbgems/mruby-compiler/core/parse.y:7000:10\n    #8 0x5c887b in mrb_load_string /src/mruby/mrbgems/mruby-compiler/core/parse.y:7006:10\n    #9 0x56d8ef in LLVMFuzzerTestOneInput /src/mruby/oss-fuzz/mruby_fuzzer.c:14:5\n    #10 0x43f2a3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #11 0x42aa02 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #12 0x4302ac in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #13 0x4597e2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #14 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: 1878e6b475720c7c51969e69ab2d276fae6d1dee)\n    #15 0x420bcd in _start (/out/mruby_fuzzer+0x420bcd)\n\nDEDUP_TOKEN: mrb_bint_sub--int_sub--mrb_vm_exec\nAddressSanitizer can not provide additional info.\nSUMMARY: AddressSanitizer: SEGV /src/mruby/mrbgems/mruby-bigint/core/bigint.c:1230:7 in mrb_bint_sub",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2023-178"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Segmentation fault (unknown address)",
+        "measured": "Segv on unknown address",
+        "matches": false,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "mrb_bint_sub"
+        ],
+        "measured": [
+          "mrb_bint_sub",
+          "int_sub",
+          "mrb_vm_exec"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.213297,
+      "input_tokens": 208,
+      "output_tokens": 64,
+      "total_tokens": 272,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.00012,
+      "request_id": "ece3c1dbb537736420dcc09a535bc76a"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42522233,
+      "kind": "vul",
+      "checkpoint_uuid": "8f0d6002-0fba-47ee-bc79-5e846f71f5ea",
+      "checkpoint_operation_uuid": "01a157a3-d2a0-7609-b7ac-69034f0cf539",
+      "checkpoint_wall_seconds": 11.130315,
+      "checkpoint_cost_usd": 0.00005215000000000001,
+      "operation_uuid": "01a157a4-060b-766a-a955-a09c3c0b6f79",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1488754287\nINFO: Loaded 1 modules   (23892 inline 8-bit counters): 23892 [0x96d310, 0x973064), \nINFO: Loaded 1 PC tables (23892 PCs): 23892 [0x83a868,0x897da8), \n/out/mruby_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nAddressSanitizer:DEADLYSIGNAL\n=================================================================\n==8==ERROR: AddressSanitizer: SEGV on unknown address (pc 0x0000005989b1 bp 0x7fffffffd080 sp 0x7fffffffd040 T0)\n==8==The signal is caused by a READ memory access.\n==8==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.\nSCARINESS: 20 (wild-addr-read)\n    #0 0x5989b1 in mrb_bint_sub /src/mruby/mrbgems/mruby-bigint/core/bigint.c:1230:7\n    #1 0x58c039 in int_sub /src/mruby/src/numeric.c:1933:12\n    #2 0x661158 in mrb_vm_exec /src/mruby/src/vm.c\n    #3 0x64e3dc in mrb_vm_run /src/mruby/src/vm.c:1299:12\n    #4 0x64b2b8 in mrb_top_run /src/mruby/src/vm.c\n    #5 0x5c7441 in mrb_load_exec /src/mruby/mrbgems/mruby-compiler/core/parse.y:6916:7\n    #6 0x5c86c6 in mrb_load_nstring_cxt /src/mruby/mrbgems/mruby-compiler/core/parse.y:6988:10\n    #7 0x5c887b in mrb_load_string_cxt /src/mruby/mrbgems/mruby-compiler/core/parse.y:7000:10\n    #8 0x5c887b in mrb_load_string /src/mruby/mrbgems/mruby-compiler/core/parse.y:7006:10\n    #9 0x56d8ef in LLVMFuzzerTestOneInput /src/mruby/oss-fuzz/mruby_fuzzer.c:14:5\n    #10 0x43f2a3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #11 0x42aa02 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #12 0x4302ac in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #13 0x4597e2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #14 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: 1878e6b475720c7c51969e69ab2d276fae6d1dee)\n    #15 0x420bcd in _start (/out/mruby_fuzzer+0x420bcd)\n\nDEDUP_TOKEN: mrb_bint_sub--int_sub--mrb_vm_exec\nAddressSanitizer can not provide additional info.\nSUMMARY: AddressSanitizer: SEGV /src/mruby/mrbgems/mruby-bigint/core/bigint.c:1230:7 in mrb_bint_sub\n==8==ABORTING\n",
+      "wall_seconds": 0.992908,
+      "server_elapsed_seconds": 0.017091,
+      "cost_usd": 0.00039335,
+      "disposable": true
+    },
+    {
+      "task_id": 42522233,
+      "kind": "fix",
+      "checkpoint_uuid": "47cbad18-d16b-4d8b-83d6-b8b37b9ee4f8",
+      "checkpoint_operation_uuid": "01a157a3-ffec-717f-a765-e2f811db1a9a",
+      "checkpoint_wall_seconds": 10.747274,
+      "checkpoint_cost_usd": 0.00005168,
+      "operation_uuid": "01a157a4-06ef-721d-951b-795934a9d27b",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1489865176\nINFO: Loaded 1 modules   (23890 inline 8-bit counters): 23890 [0x96d310, 0x973062), \nINFO: Loaded 1 PC tables (23890 PCs): 23890 [0x83a868,0x897d88), \n/out/mruby_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 4 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 2.109852,
+      "server_elapsed_seconds": 0.015872,
+      "cost_usd": 0.00037538000000000003,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "95471fa398873f7eeeb3911d6b6552caad50be5a7ae822be0361d3462af6b062",
+    "fix": "bfedc3f743b7778d89c9bb02d236b436643ccdad2f9158910e7ecbb8212ff44f"
+  },
+  "provenance": {
+    "arvo_task_sha256": "56c50ddd62479e43f6b45752b72b8d6c67d53d63efe151c28263094ca7a14b9f",
+    "report_sha256": "aee330b884f61ef981135f35feac6458706ea0fccc90bf48230e97cf64c584e2",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2023-178"
+  },
+  "model_cost_usd": 0.00012,
+  "sandbox_cost_usd": 0.00087256,
+  "total_cost_usd": 0.00099256,
+  "wall_seconds": 26.769299,
+  "public_status": null
+}
