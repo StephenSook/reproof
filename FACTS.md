@@ -150,6 +150,28 @@ These values are only for the two recorded runs named in the source column.
 | Browser triage elapsed time in seconds | `15.7` | Main-session browser triage, recorded `2026-10-06 near 18:00 UTC` | LIVE |
 | Browser triage state | `REPRODUCED; PUBLICLY_KNOWN_FIXED` | Main-session browser triage, recorded `2026-10-06 near 18:00 UTC` | LIVE |
 
+## Recorded door triage, 2026-10-20
+
+One POST to the deployed door's `/api/triage` for ARVO 42530604, written by `scripts/record_door_triage.py`. The raw response body is `eval/results/door-42530604.ndjson`; `eval/results/door-42530604.json` holds its SHA-256 and the parsed events, and `tests/test_door_receipt.py` checks that the two agree. The page's recorded jq result and its hero answer read this file. In the keys below, `events[7]` is the result event.
+
+| Claim | Exact value | Source | Tag |
+|---|---:|---|---|
+| Recorded at | `2026-10-20T23:45:01+00:00` | `eval/results/door-42530604.json#recorded_at_utc` | MEASURED |
+| HTTP status | `200` | `eval/results/door-42530604.json#http_status` | MEASURED |
+| Client elapsed seconds, request to last byte | `14.763` | `eval/results/door-42530604.json#client_elapsed_seconds` | MEASURED |
+| Verdict | `REPRODUCED` | `eval/results/door-42530604.json#events[7].result.verdict` | MEASURED |
+| Public status | `PUBLICLY_KNOWN_FIXED` | `eval/results/door-42530604.json#events[7].result.card.public_status.state` | MEASURED |
+| Fixed-in version | `1.7.1` | `eval/results/door-42530604.json#events[7].result.card.public_status.evidence[0].upstream_version` | MEASURED |
+| Checked tag | `jq-1.7.1` | `eval/results/door-42530604.json#events[7].result.card.public_status.evidence[0].checked_tag` | MEASURED |
+| Ancestry | `CONTAINS_FIX` | `eval/results/door-42530604.json#events[7].result.card.public_status.evidence[0].ancestry` | MEASURED |
+| Server wall seconds | `14.56533` | `eval/results/door-42530604.json#events[7].result.wall_seconds` | MEASURED |
+| Model id | `nvidia/nemotron-3-super-120b-a12b` | `eval/results/door-42530604.json#events[7].result.card.model_calls[0].model` | MEASURED |
+| Nemotron calls | `3` | command: count `events[7].result.card.model_calls` in `eval/results/door-42530604.json`, 2026-10-20 | MEASURED |
+| Nemotron cost in US dollars | `0.0007947` | `eval/results/door-42530604.json#events[7].result.card.model_cost_usd` | MEASURED |
+| ConTree checkpoint and sandbox cost in US dollars | `0.00077736` | `eval/results/door-42530604.json#events[7].result.card.sandbox_cost_usd` | MEASURED |
+| Total cost in US dollars | `0.0015720600000000001` | `eval/results/door-42530604.json#events[7].result.card.total_cost_usd` | MEASURED |
+| Tavily credits | `5` | `eval/results/door-42530604.json#events[7].result.card.public_status.tavily_credits` | MEASURED |
+
 ## Tests and CI
 
 | Claim | Exact value | Source | Tag |
