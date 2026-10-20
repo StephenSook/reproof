@@ -1,8 +1,10 @@
 import Link from "next/link";
 import evaluation from "@/content/arvo10.json";
 import catalog from "@/content/catalog.json";
+import jqReceipt from "@/content/door-42530604.json";
 import limits from "@/content/limits.json";
 import { limitsSentence } from "@/lib/measured";
+import type { DoorReceipt } from "@/lib/receipt";
 import { Door } from "@/ui/Door";
 import { Mark } from "@/ui/Mark";
 import { Measured } from "@/ui/Measured";
@@ -10,6 +12,8 @@ import { SquashButton } from "@/ui/SquashButton";
 import { VerdictStamp } from "@/ui/Stamp";
 
 const REPO_URL = "https://github.com/StephenSook/reproof";
+// The recorded live response for ARVO 42530604 (eval/results/door-42530604.json).
+const RECEIPTS: DoorReceipt[] = [jqReceipt as DoorReceipt];
 
 const LEGEND = [
   {
@@ -108,7 +112,7 @@ export default function Page() {
               {limitsSentence(limits)}
             </p>
           </div>
-          <Door recordedTasks={evaluation.tasks} tasks={catalog.tasks} />
+          <Door receipts={RECEIPTS} recordedTasks={evaluation.tasks} tasks={catalog.tasks} />
         </section>
         <Measured evaluation={evaluation} />
       </main>

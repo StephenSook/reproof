@@ -52,6 +52,8 @@ export type SummaryTotals = {
 
 export type DoorSummary = {
   source: SummarySource;
+  /** When a recorded response was captured from the live door; null for a live run or a saved eval row. */
+  recordedAt: string | null;
   verdict: string | null;
   sentence: string;
   details: string[];
@@ -151,6 +153,7 @@ export function recordedSummary(task: RecordedTask): DoorSummary {
   const duplicateIds = [...task.duplicate_candidates];
   return {
     source: "RECORDED",
+    recordedAt: null,
     verdict: task.verdict,
     sentence: verdictSentence(task.verdict, duplicateIds),
     details: [],
@@ -352,6 +355,7 @@ export function liveSummary(
 
   return {
     source: "LIVE",
+    recordedAt: null,
     verdict,
     sentence: verdict === null && ended ? ENDED_SENTENCE : verdictSentence(verdict, duplicateIds),
     details,

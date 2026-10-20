@@ -25,35 +25,66 @@ test("the picker shows each public report and its OSV id", async ({ page }) => {
   }
 });
 
-test("the recorded result is labelled RECORDED and does not call triage", async ({ page }) => {
+type ReceiptStep = { step: string; kind: string | null; payload: Record<string, unknown> };
+const receipt = JSON.parse(
+  readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), "../../src/content/door-42530604.json"), "utf8"),
+) as {
+  recorded_at_utc: string;
+  events: { type: string; step?: ReceiptStep; result?: { verdict: string } }[];
+};
+const receiptStep = (step: string, kind: string | null = null) =>
+  receipt.events.find((event) => event.step?.step === step && (event.step?.kind ?? null) === kind)?.step;
+
+test("the recorded jq result replays the full recorded response and does not call triage", async ({ page }) => {
   const triageCalls: string[] = [];
   page.on("request", (request) => {
     if (new URL(request.url()).pathname === "/api/triage") triageCalls.push(request.url());
   });
   await page.goto("/");
+  await page.locator('[data-task="42530604"] input[type="radio"]').check();
+  await page.getByRole("button", { name: "Show recorded result" }).click();
+
+  const work = page.locator("section[aria-labelledby='work-heading']");
+  const result = page.locator('[data-result][data-source="RECORDED"]');
+  await expect(result).toBeVisible();
+  await expect(result).toHaveAttribute("data-verdict", receipt.events.at(-1)?.result?.verdict ?? "");
+  await expect(result).toContainText("RECORDED");
+  await expect(result.locator("[data-recorded-at]")).toHaveAttribute("data-recorded-at", receipt.recorded_at_utc);
+  await expect(result).not.toContainText("not in the recorded summary");
+  await expect(work.locator('[data-step="claim"]')).toContainText(String(receiptStep("claim")?.payload.request_id));
+  await expect(work.locator('[data-step="sandbox"][data-kind="vul"]')).toHaveAttribute(
+    "data-operation-id",
+    String(receiptStep("sandbox", "vul")?.payload.operation_uuid),
+  );
+  await expect(work.locator('[data-step="sandbox"][data-kind="fix"]')).toHaveAttribute(
+    "data-operation-id",
+    String(receiptStep("sandbox", "fix")?.payload.operation_uuid),
+  );
+  await expect(work.locator('[data-step="public_status"]')).toBeVisible();
+  await expect(work.locator("[data-card]")).toContainText("Triage card");
+  expect(triageCalls).toEqual([]);
+});
+
+test("a report without a recorded response shows its saved evaluation row", async ({ page }) => {
+  const triageCalls: string[] = [];
+  page.on("request", (request) => {
+    if (new URL(request.url()).pathname === "/api/triage") triageCalls.push(request.url());
+  });
+  await page.goto("/");
+  await page.locator('[data-task="42507851"] input[type="radio"]').check();
   await page.getByRole("button", { name: "Show recorded result" }).click();
 
   const work = page.locator("section[aria-labelledby='work-heading']");
   const result = page.locator('[data-result][data-source="RECORDED"]');
   await expect(result).toBeVisible();
   await expect(result).toHaveAttribute("data-verdict", "REPRODUCED");
-  await expect(result).toContainText("RECORDED");
   await expect(result).toContainText("This is the saved evaluation row. It is not a new triage card.");
   await expect(result).toContainText("No triage card was returned with this result.");
   await expect(work.locator('[data-step="claim"]')).toContainText("not in the recorded summary");
-  await expect(work.locator('[data-step="sandbox"][data-kind="vul"]')).toHaveAttribute(
-    "data-operation-id",
-    "01a10d76-4c5f-7726-8825-c7b18b1ff5d8",
-  );
-  await expect(work.locator('[data-step="sandbox"][data-kind="fix"]')).toHaveAttribute(
-    "data-operation-id",
-    "01a10d76-4d3b-76a4-b69f-3f853d63a4ca",
-  );
-  await expect(work.locator('[data-step="crash"]')).toContainText("Heap-buffer-overflow WRITE 1");
   await expect(work.locator('[data-step="duplicates"]')).toContainText(
     "Excluded OSV ids are not in the recorded summary.",
   );
-  await expect(work.locator('[data-step="verdict"]')).toContainText("REPRODUCED");
+  await expect(work.locator('[data-step="public_status"]')).toHaveCount(0);
   expect(triageCalls).toEqual([]);
 });
 
@@ -271,8 +302,9 @@ test("a fixed advisory shows the version source and the ancestry sentence", asyn
     await expect(page.locator('[data-result][data-source="LIVE"]')).toBeVisible();
     // The ancestry sentence is the summary's public line, and it appears on the page exactly once.
     await expect(page.locator('[data-summary-public="PUBLICLY_KNOWN_FIXED"]')).toContainText(sentence);
+    // Page text only: the framework's serialized props in body <script> tags are not page text.
     const occurrences = await page.evaluate(
-      (text) => (document.body.textContent ?? "").split(text).length - 1,
+      (text) => (document.querySelector("main")?.textContent ?? "").split(text).length - 1,
       sentence,
     );
     expect(occurrences, `${width}px`).toBe(1);

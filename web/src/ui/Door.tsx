@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { stepKey, takeLines, type DoorStepEvent } from "@/lib/events";
+import { receiptArvoId, receiptSummary, replayEvents, type DoorReceipt } from "@/lib/receipt";
 import { recordedView, type RecordedTask } from "@/lib/recorded";
 import { liveResultFrom, liveSummary, recordedSummary, type DoorSummary } from "@/lib/summary";
 import { CardBody, Disclosure, STEP_LABEL, StepItem, stepLabel, type ShownCard, type ShownResult } from "@/ui/Evidence";
@@ -24,6 +25,19 @@ function asNumber(value: unknown): number | null {
   return typeof value === "number" ? value : null;
 }
 
+/** The result event as the page shows it, live or recorded. */
+function shownResult(raw: Record<string, unknown>): ShownResult {
+  const live = liveResultFrom(raw);
+  const card = live.card as ShownCard | null;
+  return {
+    ...live,
+    card,
+    model_cost_usd: asNumber(card?.model_cost_usd),
+    sandbox_cost_usd: asNumber(card?.sandbox_cost_usd),
+    total_cost_usd: asNumber(card?.total_cost_usd),
+  };
+}
+
 async function readFailure(response: Response): Promise<string> {
   const raw = await response.text();
   try {
@@ -37,9 +51,11 @@ async function readFailure(response: Response): Promise<string> {
 export function Door({
   tasks,
   recordedTasks,
+  receipts,
 }: {
   tasks: ReportTask[];
   recordedTasks: RecordedTask[];
+  receipts: DoorReceipt[];
 }) {
   const [selected, setSelected] = useState(tasks[0]?.arvo_id ?? 0);
   const [busy, setBusy] = useState(false);
@@ -47,6 +63,7 @@ export function Door({
   const [steps, setSteps] = useState<DoorStepEvent[]>([]);
   const [result, setResult] = useState<ShownResult | null>(null);
   const [recordedTask, setRecordedTask] = useState<RecordedTask | null>(null);
+  const [recordedReceipt, setRecordedReceipt] = useState<DoorReceipt | null>(null);
   const [runArvo, setRunArvo] = useState<number | null>(null);
   const [run, setRun] = useState(0);
   const [opened, setOpened] = useState<Record<string, boolean>>({});
@@ -63,14 +80,26 @@ export function Door({
 
   function showRecorded() {
     const task = recordedTasks.find((row) => row.arvo_id === selected);
+    const receipt = receipts.find((row) => receiptArvoId(row) === selected);
     let shown = false;
     flushSync(() => {
       setNotice(null);
       setResult(null);
       setRecordedTask(null);
+      setRecordedReceipt(null);
       setRunArvo(selected);
       setRun((value) => value + 1);
       setOpened({});
+      if (receipt) {
+        // A full recorded response of the live door: the same steps and card a live run sends.
+        const replay = replayEvents(receipt.events);
+        setSource("RECORDED");
+        setSteps(replay.steps);
+        setRecordedReceipt(receipt);
+        setResult(replay.rawResult ? shownResult(replay.rawResult) : null);
+        shown = true;
+        return;
+      }
       if (!task) {
         setSource(null);
         setSteps([]);
@@ -108,6 +137,7 @@ export function Door({
       setNotice(null);
       setResult(null);
       setRecordedTask(null);
+      setRecordedReceipt(null);
       setSteps([]);
       setSource("LIVE");
       setRunArvo(selected);
@@ -136,17 +166,7 @@ export function Door({
           const step = event.step;
           setSteps((previous) => [...previous, step]);
         }
-        if (event.type === "result" && event.result) {
-          const live = liveResultFrom(event.result);
-          const card = live.card as ShownCard | null;
-          setResult({
-            ...live,
-            card,
-            model_cost_usd: asNumber(card?.model_cost_usd),
-            sandbox_cost_usd: asNumber(card?.sandbox_cost_usd),
-            total_cost_usd: asNumber(card?.total_cost_usd),
-          });
-        }
+        if (event.type === "result" && event.result) setResult(shownResult(event.result));
       };
       while (true) {
         const chunk = await reader.read();
@@ -166,7 +186,8 @@ export function Door({
   }
 
   let summary: DoorSummary | null = null;
-  if (source === "RECORDED" && recordedTask) summary = recordedSummary(recordedTask);
+  if (source === "RECORDED" && recordedReceipt) summary = receiptSummary(recordedReceipt);
+  else if (source === "RECORDED" && recordedTask) summary = recordedSummary(recordedTask);
   if (source === "LIVE") {
     const live = result ? { ...result, card: result.card as Record<string, unknown> | null } : null;
     summary = liveSummary(steps, live, { ended: !busy });
@@ -292,7 +313,7 @@ export function Door({
                       gist={result.card ? "model calls, sandbox operations, costs" : "saved summary row"}
                       onToggle={toggle("card")}
                       open={isOpen("card")}
-                      title={source === "RECORDED" ? "Saved row" : "Triage card"}
+                      title={result.card ? "Triage card" : "Saved row"}
                     >
                       <CardBody hasPublicStep={seen.has("public_status")} result={result} summarySentence={summarySentence} />
                     </Disclosure>

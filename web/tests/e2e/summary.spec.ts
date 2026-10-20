@@ -13,6 +13,22 @@ const lines = stream
   .filter(Boolean);
 const fixedSentence = "Fixed in jq 1.7.1. Git ancestry: tag jq-1.7.1 contains OSV fix 71c2ab5.";
 const advisory = "https://github.com/jqlang/jq/security/advisories/GHSA-686w-5m7m-54vc";
+// One recorded response of the deployed door (eval/results/door-42530604.json).
+const receipt = JSON.parse(readFileSync(resolve(here, "../../src/content/door-42530604.json"), "utf8")) as {
+  events: {
+    type: string;
+    result?: {
+      wall_seconds: number;
+      card: {
+        total_cost_usd: number;
+        model_calls: unknown[];
+        public_status: { state: string; tavily_credits: number; evidence: { url: string }[] };
+      };
+    };
+  }[];
+};
+const recorded = receipt.events.at(-1)?.result;
+if (!recorded) throw new Error("the receipt has no result event");
 
 async function noOverflow(page: Page, label: string) {
   const size = await page.evaluate(() => ({
@@ -32,8 +48,9 @@ async function openEveryDisclosure(page: Page) {
   while ((await closed.count()) > 0) await closed.first().click();
 }
 
+// Page text only: the framework's serialized props in body <script> tags are not page text.
 async function sentenceCount(page: Page, sentence: string): Promise<number> {
-  return page.evaluate((text) => (document.body.textContent ?? "").split(text).length - 1, sentence);
+  return page.evaluate((text) => (document.querySelector("main")?.textContent ?? "").split(text).length - 1, sentence);
 }
 
 test("the recorded result answers first and keeps the evidence one click away", async ({ page }) => {
@@ -58,15 +75,16 @@ test("the recorded result answers first and keeps the evidence one click away", 
     const fixed = summary.locator('[data-summary-fixed="CLEAN"]');
     await expect(fixed).toContainText("CLEAN");
     await expect(fixed).toContainText("Exit code0");
-    await expect(summary.locator('[data-summary-public="NOT_RECORDED"]')).toContainText(
-      "The public-status lookup is not in the recorded summary.",
-    );
-    await expect(page.locator("[data-ribbon]")).toHaveCount(0);
+    const publicLine = summary.locator(`[data-summary-public="${recorded.card.public_status.state}"]`);
+    await expect(publicLine).toContainText(fixedSentence);
+    await expect(publicLine.locator("a")).toHaveAttribute("href", recorded.card.public_status.evidence[0]?.url ?? "");
+    await expect(publicLine.locator('[data-ribbon="CONTAINS_FIX"]')).toBeVisible();
+    await expect(summary).not.toContainText("not recorded");
     const totals = summary.locator("[data-summary-totals]");
-    await expect(totals).toContainText("4.73 s");
-    await expect(totals).toContainText("0.00089983 USD");
-    await expect(totals).toContainText("Tavily creditsnot recorded");
-    await expect(totals).toContainText("Model calls1");
+    await expect(totals).toContainText(`${recorded.wall_seconds.toFixed(2)} s`);
+    await expect(totals).toContainText(`${recorded.card.total_cost_usd.toFixed(8)} USD`);
+    await expect(totals).toContainText(`Tavily credits${recorded.card.public_status.tavily_credits}`);
+    await expect(totals).toContainText(`Model calls${recorded.card.model_calls.length}`);
 
     const evidenceTop = await page.locator("#evidence-heading").evaluate((node) => node.getBoundingClientRect().top);
     const summaryTop = await summary.evaluate((node) => node.getBoundingClientRect().top);
@@ -78,7 +96,7 @@ test("the recorded result answers first and keeps the evidence one click away", 
     await expect(vulBody).toBeHidden();
     await vulStep.locator("summary").click();
     await expect(vulBody).toBeVisible();
-    await expect(vulBody).toContainText("Operation id: 01a10d76-4c5f-7726-8825-c7b18b1ff5d8");
+    await expect(vulBody).toContainText("Operation id: 01a15bb4-4bd3-70be-b2b6-6cb1c4938203");
 
     await noOverflow(page, `${width}px`);
     await axeClean(page, `${width}px`);

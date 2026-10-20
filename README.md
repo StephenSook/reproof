@@ -482,9 +482,14 @@ closes when the verdict arrives. It holds every id and cost: the model request i
 operation ids, the matched frames, the Tavily request ids, the credits and caps, the checked tag and
 commit, and the triage card's model calls. The ancestry sentence appears once, in the summary.
 
-Show recorded result fills the summary and the same steps from `eval/results/arvo10.json` and labels
-them `RECORDED`. It does not call the model or a sandbox. That file holds no public-status lookup,
-and the summary says so. The Measured section is rendered from that file. It shows 6 `REPRODUCED`,
+Show recorded result makes no model, sandbox, or search call and labels the result `RECORDED`. For
+ARVO 42530604 it replays `eval/results/door-42530604.json`: the complete response of one live
+triage through the deployed door, recorded on 2026-10-20 by `scripts/record_door_triage.py`, with
+the public-status lookup, the Tavily credits, and the triage card. The raw response body is
+`eval/results/door-42530604.ndjson`, and `tests/test_door_receipt.py` checks that the two files
+agree byte for byte. For the other nine reports it fills the summary and the same steps from
+`eval/results/arvo10.json`, which holds no public-status lookup, and the summary says so. The
+Measured section is rendered from `eval/results/arvo10.json`. It shows 6 `REPRODUCED`,
 4 `DUPLICATE`, the saved costs, and the 2026-10-05 note that the phase 1 table counted four
 self-matches.
 

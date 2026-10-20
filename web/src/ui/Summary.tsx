@@ -2,6 +2,7 @@
 
 import { useRef, type ReactNode } from "react";
 import { money } from "@/lib/measured";
+import { utcMinute } from "@/lib/receipt";
 import type { DoorSummary, FixedTile, PublicSummary, VulnerableTile } from "@/lib/summary";
 import { AncestryRibbon } from "@/ui/AncestryRibbon";
 import { plop, settle, useArrival } from "@/ui/motion/motion";
@@ -194,7 +195,11 @@ export function Summary({
           {arvoId !== null ? `Answer for ARVO ${arvoId}` : "Answer"}
         </h3>
       </div>
-      {summary.source === "RECORDED" ? (
+      {summary.source === "RECORDED" && summary.recordedAt ? (
+        <p className="summary-note" data-recorded-at={summary.recordedAt}>
+          Recorded from the live door at {utcMinute(summary.recordedAt)}. Triage runs it again now.
+        </p>
+      ) : summary.source === "RECORDED" ? (
         <p className="summary-note">This is the saved evaluation row. It is not a new triage card.</p>
       ) : null}
       <div className="summary-verdict" data-summary-verdict={summary.verdict ?? ""}>
