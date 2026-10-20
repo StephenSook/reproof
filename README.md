@@ -459,8 +459,11 @@ A judge opens one site, with no login and no key, picks one of the 10 public ARV
 presses Triage. The page shows that report's public text and its source OSV id. The browser does
 not receive `NEBIUS_API_KEY` or the Nebius project id. Those values stay in the Python process.
 
-The result starts with the answer. A summary at the top shows the verdict and one sentence, the
-vulnerable and fixed builds side by side (crashed or clean, the crash type, the top frame, and each
+The result starts with the answer. Its first line is the maintainer's next step, built from the
+verdict, the public status, the fix row, and the duplicate ids of that result, for example
+`Already fixed in jq 1.7.1 (tag jq-1.7.1 contains 71c2ab5). Close it and point the reporter to the
+release.` (`web/src/lib/nextStep.ts`). The verdict and the public status follow as stamps. The
+summary then shows one sentence, the vulnerable and fixed builds side by side (crashed or clean, the crash type, the top frame, and each
 exit code), the public-status line, and the wall time, cost, Tavily credits, and model calls. It is
 labelled `LIVE` or `RECORDED`. When git ancestry decided the fix, the public-status line gives the
 sentence, for example `Fixed in jq 1.7.1. Git ancestry: tag jq-1.7.1 contains OSV fix 71c2ab5.`, a

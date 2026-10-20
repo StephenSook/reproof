@@ -64,6 +64,15 @@ test("the recorded result answers first and keeps the evidence one click away", 
     await expect(summary).toBeInViewport();
     await expect(summary).toHaveAttribute("data-summary-source", "RECORDED");
     await expect(summary).toContainText("RECORDED");
+    const step = summary.locator("[data-next-step]");
+    await expect(step).toHaveText(
+      "Already fixed in jq 1.7.1 (tag jq-1.7.1 contains 71c2ab5). Close it and point the reporter to the release.",
+    );
+    await expect(step).toBeInViewport();
+    const stepTop = await step.evaluate((node) => node.getBoundingClientRect().top);
+    const stampTop = await summary.locator(".summary-stamps").evaluate((node) => node.getBoundingClientRect().top);
+    expect(stepTop).toBeLessThan(stampTop);
+    await expect(summary.locator(`[data-public-stamp="${recorded.card.public_status.state}"]`)).toBeVisible();
     await expect(summary.locator('[data-summary-verdict="REPRODUCED"]')).toContainText(
       "The vulnerable build crashed and the fixed build was clean.",
     );
@@ -122,6 +131,9 @@ test("a live result from the producer's stream puts the answer and the git proof
     await expect(summary).toBeInViewport();
     await expect(summary).toContainText("LIVE");
     await expect(summary.locator('[data-summary-verdict="REPRODUCED"]')).toBeVisible();
+    await expect(summary.locator("[data-next-step]")).toContainText(
+      "Already fixed in jq 1.7.1 (tag jq-1.7.1 contains 71c2ab5).",
+    );
     await expect(summary.locator('[data-summary-vulnerable="CRASHED"]')).toContainText("decToString");
     await expect(summary.locator('[data-summary-fixed="CLEAN"]')).toContainText("Exit code0");
     const publicLine = summary.locator('[data-summary-public="PUBLICLY_KNOWN_FIXED"]');

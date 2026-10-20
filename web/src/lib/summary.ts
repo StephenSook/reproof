@@ -28,6 +28,9 @@ export type AncestryRibbon = {
 
 export type PublicLink = { href: string; label: string };
 
+/** The fields of the evidence row whose git ancestry contains the fix. */
+export type FixedIn = { project: string; version: string; tag: string; shortCommit: string };
+
 export type PublicSummary =
   | { kind: "NOT_RECORDED"; line: string }
   | { kind: "PENDING"; line: string }
@@ -37,6 +40,8 @@ export type PublicSummary =
       state: string;
       line: string;
       ancestrySentence: string | null;
+      fixedIn: FixedIn | null;
+      pages: number;
       link: PublicLink | null;
       ribbon: AncestryRibbon | null;
       reusedFrom: string | null;
@@ -119,15 +124,21 @@ export function safeHttpUrl(value: string): string | null {
   }
 }
 
-/** The card line for a CONTAINS_FIX row, in the same words the Python sentence uses. */
-export function ancestrySentence(row: Row, projectName: string): string | null {
+/** The version, tag and commit of a CONTAINS_FIX row, or null when the row did not decide it. */
+export function fixedInFor(row: Row, projectName: string): FixedIn | null {
   const ancestry = text(row.ancestry) ?? "";
   const version = text(row.upstream_version) ?? "";
   const tag = text(row.checked_tag) ?? "";
   const commit = text(row.checked_commit) ?? "";
   if (ancestry !== "CONTAINS_FIX" || !version || !tag || commit.length < 7) return null;
-  const name = projectName.trim() || "this project";
-  return `Fixed in ${name} ${version}. Git ancestry: tag ${tag} contains OSV fix ${commit.slice(0, 7)}.`;
+  return { project: projectName.trim() || "this project", version, tag, shortCommit: commit.slice(0, 7) };
+}
+
+/** The card line for a CONTAINS_FIX row, in the same words the Python sentence uses. */
+export function ancestrySentence(row: Row, projectName: string): string | null {
+  const fixed = fixedInFor(row, projectName);
+  if (!fixed) return null;
+  return `Fixed in ${fixed.project} ${fixed.version}. Git ancestry: tag ${fixed.tag} contains OSV fix ${fixed.shortCommit}.`;
 }
 
 export function verdictSentence(verdict: string | null, duplicateIds: string[]): string {
@@ -233,14 +244,27 @@ function pagesLine(count: number): string {
 }
 
 function publicSummary(fields: PublicFields): PublicSummary {
-  const base = { kind: "STATUS" as const, state: fields.state, reusedFrom: fields.reusedFrom };
+  const base = {
+    kind: "STATUS" as const,
+    state: fields.state,
+    reusedFrom: fields.reusedFrom,
+    pages: fields.evidence.length,
+    fixedIn: null,
+  };
   if (fields.state === "LOOKUP_UNAVAILABLE") {
-    return { ...base, line: PUBLIC_UNAVAILABLE_LINE, ancestrySentence: null, link: null, ribbon: null };
+    return { ...base, pages: 0, line: PUBLIC_UNAVAILABLE_LINE, ancestrySentence: null, link: null, ribbon: null };
   }
   for (const row of fields.evidence) {
     const sentence = ancestrySentence(row, fields.project);
     if (sentence) {
-      return { ...base, line: sentence, ancestrySentence: sentence, link: linkFor(row), ribbon: ribbonFor(row) };
+      return {
+        ...base,
+        line: sentence,
+        ancestrySentence: sentence,
+        fixedIn: fixedInFor(row, fields.project),
+        link: linkFor(row),
+        ribbon: ribbonFor(row),
+      };
     }
   }
   if (fields.evidence.length === 0) {

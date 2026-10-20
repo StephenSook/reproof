@@ -894,6 +894,33 @@ mark[data-matched-frame] {
   justify-items: start;
 }
 
+.next-step {
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+  font-weight: 800;
+  line-height: 1.25;
+  max-width: 34ch;
+}
+
+.next-action {
+  color: var(--ink-soft);
+}
+
+.summary-stamps {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+}
+
+.summary-stamps .stamp {
+  white-space: normal;
+}
+
+.stamp-public {
+  font-size: 0.95rem;
+  overflow-wrap: anywhere;
+}
+
 .stamp-verdict {
   box-shadow: 3px 3px 0 var(--ink);
   font-size: clamp(1.55rem, 4.2vw, 2.6rem);

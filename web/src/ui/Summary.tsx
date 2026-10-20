@@ -2,6 +2,7 @@
 
 import { useRef, type ReactNode } from "react";
 import { money } from "@/lib/measured";
+import { nextStep } from "@/lib/nextStep";
 import { utcMinute } from "@/lib/receipt";
 import type { DoorSummary, FixedTile, PublicSummary, VulnerableTile } from "@/lib/summary";
 import { AncestryRibbon } from "@/ui/AncestryRibbon";
@@ -93,11 +94,6 @@ function PublicLine({ status }: { status: PublicSummary }) {
     <section aria-label="Public status" className="public-line" data-summary-public={state}>
       <div className="public-head">
         <h4>Public status</h4>
-        {status.kind === "STATUS" && status.state ? (
-          <Stamp className="stamp-small" tone={PUBLIC_TONE[status.state] ?? "slate"}>
-            {status.state}
-          </Stamp>
-        ) : null}
       </div>
       <p className="public-sentence" data-summary-public-line>
         {status.line}
@@ -187,6 +183,8 @@ export function Summary({
   const tone = summary.verdict ? verdictTone(summary.verdict) : "slate";
   const verdictRef = useRef<HTMLSpanElement>(null);
   useArrival(verdictRef, summary.verdict, plop);
+  const step = nextStep(summary);
+  const publicState = summary.publicStatus.kind === "STATUS" ? summary.publicStatus.state : null;
   return (
     <div className={`summary tone-${tone}`} data-summary data-summary-source={summary.source}>
       <div className="summary-top">
@@ -203,15 +201,27 @@ export function Summary({
         <p className="summary-note">This is the saved evaluation row. It is not a new triage card.</p>
       ) : null}
       <div className="summary-verdict" data-summary-verdict={summary.verdict ?? ""}>
-        {summary.verdict ? (
-          <span className="motion-wrap" ref={verdictRef}>
-            <VerdictStamp className="stamp-verdict" verdict={summary.verdict} />
-          </span>
-        ) : (
-          <Stamp className="stamp-verdict stamp-waiting" tone="slate">
-            {running ? "Running" : "No verdict"}
-          </Stamp>
-        )}
+        {step ? (
+          <p className="next-step" data-next-step>
+            <span className="next-finding">{step.finding}</span> <span className="next-action">{step.action}</span>
+          </p>
+        ) : null}
+        <div className="summary-stamps">
+          {summary.verdict ? (
+            <span className="motion-wrap" ref={verdictRef}>
+              <VerdictStamp className="stamp-verdict" verdict={summary.verdict} />
+            </span>
+          ) : (
+            <Stamp className="stamp-verdict stamp-waiting" tone="slate">
+              {running ? "Running" : "No verdict"}
+            </Stamp>
+          )}
+          {publicState ? (
+            <Stamp className="stamp-public" data-public-stamp={publicState} tone={PUBLIC_TONE[publicState] ?? "slate"}>
+              {publicState}
+            </Stamp>
+          ) : null}
+        </div>
         <p className="summary-sentence">{summary.sentence}</p>
         {summary.details.map((detail) => (
           <p className="summary-detail" key={detail}>
