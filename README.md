@@ -135,6 +135,36 @@ The three OSV state disagreements remain visible in the result. They are not con
 successes. An earlier claim disagreement exposed a deterministic normalization defect for the
 phrase `READ of size 2`; it was corrected before this final run.
 
+## ARVO eval-100
+
+The 10 tasks above plus 90 drawn from the pinned ARVO population with seed 20261019, under the
+rule registered in `eval/eval100_prereg.json` before any of them ran. Every selected task stays in
+the denominator, including tasks that fail to run. Every task, misses first, is on the live
+[proof page](https://reproof-web.vercel.app/proof).
+
+**Run 1** (`eval/results/eval100.json`, 2026-10-20 00:37 to 01:15 ET) completed 50 of 100. The
+last 49 tasks in run order lost the connection to Token Factory between 01:09 and 01:15 ET, and
+the one transport retry fired seconds later into the same failure. One task failed because ConTree
+SDK 0.3.6 decodes command output as strict UTF-8 and the crash printed a 0xff byte.
+
+**Run 2** (`eval/results/eval100-run2.json`, 01:58 to 02:26 ET) ran after two fixes: sandbox output
+is read as bytes and decoded with replacement, and the one retry waits until Token Factory answers
+a model listing. Its plan, including that it would be published whatever it showed and that there
+would be no run 3, was committed in `0383504` (`eval/EVAL100-RUN2.md`) before it started.
+
+- 62 of 100 completed: 46 `REPRODUCED`, 9 `DUPLICATE`, 7 `NEEDS_INFO`.
+- 38 did not run. Every one got HTTP 500 Internal Server Error from the ConTree API
+  (`/sandboxes/v1/files`, `operations`, `inspect`, `instances`) between 05:58 and 06:26 UTC. A 500
+  is not a transport error, so none was retried.
+- Of the 100: 55 crashed on the vulnerable build, 55 fixed builds ran clean, 42 measured crash
+  states agreed with the mapped OSV state, and 43 report claims agreed with the measured crash.
+- 6 of the 7 `NEEDS_INFO` tasks are 32-bit fuzz targets whose runtime slice carried a 64-bit
+  `libm.so.6` or `librt.so.1`, so both builds exited 127 before reaching the bug. The slicer
+  resolves libraries from the 64-bit directories; that is a known limitation, not fixed in these
+  runs. The seventh target exits 77 on both builds.
+- 42 tasks completed in both runs, and all 42 got the same verdict both times.
+- Run 2 cost $0.31978747 (Nemotron $0.0150294, ConTree $0.30475807).
+
 ## Public status evaluation
 
 Registered on 2026-10-05, before any Tavily or Nemotron call for this stage. The frozen inputs are

@@ -24,6 +24,33 @@ Reproof reads a public security report, extracts its claims, runs the reported i
 | Combined evaluation cost in US dollars | `0.00916804` | `eval/results/arvo10.json#totals.total_cost_usd` | MEASURED |
 | Summed per-task wall time in seconds | `40.709021` | `eval/results/arvo10.json#totals.total_wall_seconds` | MEASURED |
 
+## ARVO eval-100, registered
+
+The selection is registered in `eval/eval100_prereg.json` (seed 20261019, 10 historical plus 90 drawn). Run 1 is `eval/results/eval100.json`. Run 2's plan was committed before it started (`eval/EVAL100-RUN2.md`, commit `0383504`, 2026-10-20T05:57:19Z); run 2 is the result the submission quotes, and there is no run 3. Failed tasks stay in the denominator of 100.
+
+| Claim | Exact value | Source | Tag |
+|---|---:|---|---|
+| Run 1 tasks requested | `100` | `eval/results/eval100.json#totals.tasks_requested` | MEASURED |
+| Run 1 tasks completed | `50` | `eval/results/eval100.json#totals.tasks_completed` | MEASURED |
+| Run 1 run failures | `50` | `eval/results/eval100.json#totals.run_failures` | MEASURED |
+| Run 1 failure causes | `49 Token Factory APIConnectionError or APITimeoutError at claim extraction, positions 52 to 100, 01:09 to 01:15 ET; 1 strict UTF-8 decode of sandbox output (ARVO 42533590)` | command: group `run_failed[].error` in `eval/results/eval100.json`, 2026-10-20 | MEASURED |
+| Run 1 combined cost in US dollars | `0.42028701` | `eval/results/eval100.json#totals.total_cost_usd` | MEASURED |
+| Run 2 tasks requested | `100` | `eval/results/eval100-run2.json#totals.tasks_requested` | MEASURED |
+| Run 2 tasks completed | `62` | `eval/results/eval100-run2.json#totals.tasks_completed` | MEASURED |
+| Run 2 run failures | `38` | `eval/results/eval100-run2.json#totals.run_failures` | MEASURED |
+| Run 2 failure cause | `38 HTTP 500 Internal Server Error from api.tokenfactory.nebius.com/sandboxes/v1 (files 24, operations 7, inspect 4, instances 3), first 05:58:08Z, last 06:26:45Z; none retried because a 500 is not a transport error` | command: group status and endpoint in `run_failed[].error` of `eval/results/eval100-run2.json`, 2026-10-20 | MEASURED |
+| Run 2 verdict counts | `46 REPRODUCED; 9 DUPLICATE; 7 NEEDS_INFO` | command: count `tasks[].verdict` in `eval/results/eval100-run2.json` | MEASURED |
+| Run 2 crash states that agreed with the mapped OSV state | `42` | `eval/results/eval100-run2.json#totals.crash_state_agreements` | MEASURED |
+| Run 2 fixed builds that completed cleanly | `55` | `eval/results/eval100-run2.json#totals.fixes_clean` | MEASURED |
+| Run 2 claims that agreed with the measured crash | `43` | `eval/results/eval100-run2.json#totals.claims_agree` | MEASURED |
+| Run 2 duplicate candidates returned | `31` | `eval/results/eval100-run2.json#totals.total_duplicate_candidates` | MEASURED |
+| Run 2 Nemotron cost in US dollars | `0.0150294` | `eval/results/eval100-run2.json#totals.total_model_cost_usd` | MEASURED |
+| Run 2 ConTree checkpoint and sandbox cost in US dollars | `0.30475807` | `eval/results/eval100-run2.json#totals.total_sandbox_cost_usd` | MEASURED |
+| Run 2 combined cost in US dollars | `0.31978747` | `eval/results/eval100-run2.json#totals.total_cost_usd` | MEASURED |
+| Run 2 summed per-task wall time in seconds | `1675.856163` | `eval/results/eval100-run2.json#totals.total_wall_seconds` | MEASURED |
+| Run 2 NEEDS_INFO causes | `6 of 7: 32-bit fuzz targets whose runtime slice carried a 64-bit libm.so.6 or librt.so.1 (exit 127, wrong ELF class: ELFCLASS64); 1 of 7: espeak-ng target exits 77 on both builds` | command: ELF class of every file in `reproof/app/slices/<id>-vul` and the stderr in `eval/results/eval100-run2-cards/<id>.json`, 2026-10-20 | MEASURED |
+| Tasks completed in both runs, and with the same verdict both times | `42; 42` | command: intersect `tasks[].arvo_id` of both reports and compare `verdict`, 2026-10-20 | MEASURED |
+
 ## Public status evaluation
 
 | Claim | Exact value | Source | Tag |
