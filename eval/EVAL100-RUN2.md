@@ -1,7 +1,15 @@
 # Eval-100 run 2: plan, committed before the run starts
 
-Written 2026-10-20 at about 02:05 ET, before run 2 starts. This file is pushed before the run
-begins, so its commit time is earlier than the run's first card.
+Written 2026-10-20 before run 2 starts. This file was committed in `0383504` at
+2026-10-20T05:57:19Z (01:57:19 ET) and pushed before the run began, so its commit time is
+earlier than the run's first card.
+
+Correction added after the run started: an earlier draft of this line said "about 02:05 ET",
+which was wrong. The first launch at 01:57:34 ET exited at startup, before any task ran,
+because `REPROOF_CACHE_DIR` was not set and the OSV archive was not found. Run 2 was relaunched
+at 01:58:01 ET with `REPROOF_CACHE_DIR` set to the same shared cache run 1 used
+(`reproof/app/.cache/reproof`), which holds the pinned OSV archive and the ConTree checkpoint
+registry.
 
 ## What happened in run 1
 
@@ -39,7 +47,10 @@ Run 2 execution source SHA-256 (`reproof.provenance.source_sha256`):
 - Same registration file, same 100 selected ARVO IDs, same prepare ledger
   (`eval/results/eval100_prep.json`, SHA-256
   `6d15d27cc99c7b30317eadb2a52ddc563ae0d554753ac23125d1eacb15653709`).
-- Every task runs again from the start. No run 1 card is reused.
+- Every task runs again from the start. No run 1 card is reused. Cached ConTree checkpoints
+  from run 1 may be reused. A cache hit is charged zero construction cost and its original
+  cost is kept as historical metadata, the same rule run 1 ran under, so run 2's total cost
+  is lower than a cold run would be.
 - Output: `eval/results/eval100-run2.json` and `eval/results/eval100-run2-cards/`.
 - Command: `uv run reproof eval --prereg eval/eval100_prereg.json --output
   eval/results/eval100-run2.json --cards-dir eval/results/eval100-run2-cards`
