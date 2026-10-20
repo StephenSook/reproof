@@ -64,6 +64,17 @@ class SandboxPairError(RuntimeError):
         self.request_id = request_ids[0] if request_ids else None
 
 
+def _output_text(value: object) -> str:
+    """Decode sandbox output that may hold raw bytes from a crashing target.
+
+    ConTree SDK 0.3.6 decodes stdout and stderr as strict UTF-8 unless the run asks for bytes,
+    so one 0xff byte in a crash dump failed the whole pair (ARVO 42533590, eval-100 run 1).
+    """
+    if isinstance(value, bytes):
+        return value.decode("utf-8", errors="replace")
+    return str(value or "")
+
+
 def _request_id_from_error(error: BaseException) -> str | None:
     request_id = getattr(error, "request_id", None)
     if request_id:
@@ -319,6 +330,8 @@ class SandboxRunner:
                     env=env,
                     hostname=hostname,
                     files=files,
+                    stdout=bytes,
+                    stderr=bytes,
                     timeout=600,
                     disposable=True,
                     truncate_output_at=10 * 1024 * 1024,
@@ -345,8 +358,8 @@ class SandboxRunner:
                     except Exception as error:
                         wait_errors.append(error)
                         continue
-                    stdout = str(result.stdout or "")
-                    stderr = str(result.stderr or "")
+                    stdout = _output_text(result.stdout)
+                    stderr = _output_text(result.stderr)
                     checkpoint_metadata = self.checkpoint_metadata.get(
                         str(checkpoints[kind].uuid), {}
                     )

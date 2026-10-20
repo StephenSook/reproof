@@ -331,3 +331,47 @@ def test_parallel_failure_preserves_completed_branch_accounting() -> None:
     assert operation.operation_uuid == "operation-vul"
     assert operation.checkpoint_cost_usd == 0.05
     assert operation.cost_usd == 0.125
+
+
+def test_binary_crash_output_does_not_fail_the_pair() -> None:
+    # ARVO 42533590 (gpac) printed a 0xff byte and eval-100 run 1 lost the task to a strict decode.
+    requested: dict[str, dict[str, object]] = {}
+
+    class Prepared:
+        def __init__(self, kind: str) -> None:
+            self.kind = kind
+
+        def wait(self) -> object:
+            return SimpleNamespace(
+                stdout=b"==1==ERROR: AddressSanitizer: heap-buffer-overflow \xff\xfe",
+                stderr=b"",
+                exit_code=1 if self.kind == "vul" else 0,
+                elapsed=timedelta(seconds=0.25),
+                result=SimpleNamespace(cost=0.125),
+            )
+
+    class Internal:
+        async def _start_operation(self, _request: object) -> str:
+            return "unused"
+
+    class Checkpoint:
+        def __init__(self, kind: str, internal: Internal) -> None:
+            self.kind = kind
+            self.uuid = f"checkpoint-{kind}"
+            self.client = internal
+
+        def run(self, *_args: object, **kwargs: object) -> Prepared:
+            requested[self.kind] = kwargs
+            return Prepared(self.kind)
+
+    internal = Internal()
+    runner = SandboxRunner(client=SimpleNamespace())  # type: ignore[arg-type]
+    runner.checkpoint_metadata = {}
+
+    vulnerable, fixed = runner.run_pair(1, Checkpoint("vul", internal), Checkpoint("fix", internal))
+
+    assert requested["vul"]["stdout"] is bytes
+    assert requested["fix"]["stderr"] is bytes
+    assert "heap-buffer-overflow" in vulnerable.stdout
+    assert vulnerable.stdout.endswith("��")
+    assert fixed.exit_code == 0
