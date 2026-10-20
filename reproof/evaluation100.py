@@ -2,12 +2,17 @@
 
 from __future__ import annotations
 
+import os
+import time
 from collections.abc import Callable, Iterator
 from dataclasses import asdict
 from pathlib import Path
+from typing import Any
+
+from openai import OpenAI
 
 from reproof.arvo import ArvoRepository, ArvoTask
-from reproof.claims import comparison_rows_agree
+from reproof.claims import BASE_URL, comparison_rows_agree
 from reproof.crash import is_conclusive_crash, looks_clean, parse_crash
 from reproof.dup import OsvIndex
 from reproof.eval100 import Eval100InputPaths, default_eval100_inputs, select_eval100
@@ -48,6 +53,9 @@ DEFAULT_CARDS_DIR = Path("eval/results/cards100")
 DEFAULT_EVAL100_OUTPUT = Path("eval/results/arvo100.json")
 
 TaskRunner = Callable[..., EvalTaskResult]
+TransportWait = Callable[[], float]
+TRANSPORT_WAIT_LIMIT_SECONDS = 1200.0
+TRANSPORT_PROBE_INTERVAL_SECONDS = 30.0
 
 
 def _exception_chain(error: BaseException) -> Iterator[BaseException]:
@@ -87,6 +95,42 @@ def _is_transport_error(error: BaseException) -> bool:
         isinstance(item, (ConnectionError, TimeoutError)) or type(item).__name__ in retryable_names
         for item in _exception_chain(error)
     )
+
+
+def wait_for_token_factory(
+    *,
+    client: Any | None = None,
+    limit_seconds: float = TRANSPORT_WAIT_LIMIT_SECONDS,
+    interval_seconds: float = TRANSPORT_PROBE_INTERVAL_SECONDS,
+    sleep: Callable[[float], None] = time.sleep,
+    clock: Callable[[], float] = time.monotonic,
+) -> float:
+    """Hold the one transport retry until Token Factory answers a model listing.
+
+    Eval-100 run 1 lost its last 49 tasks in six minutes because each retry fired at once into
+    the same connection failure. This adds no retry. It only decides when the one retry runs,
+    and it gives up after the limit so a long outage still ends as a counted failure.
+    """
+    active = client
+    if active is None:
+        api_key = os.getenv("NEBIUS_API_KEY")
+        if not api_key:
+            return 0.0
+        active = OpenAI(base_url=BASE_URL, api_key=api_key, timeout=20, max_retries=0)
+    started = clock()
+    while True:
+        try:
+            active.models.list()
+            return clock() - started
+        except Exception as error:
+            waited = clock() - started
+            if not _is_transport_error(error) or waited >= limit_seconds:
+                return waited
+            print(
+                f"Token Factory unreachable ({type(error).__name__}) after {waited:.0f} s; "
+                f"probing again in {interval_seconds:.0f} s"
+            )
+            sleep(interval_seconds)
 
 
 def _string_list(value: object) -> list[str]:
@@ -387,8 +431,14 @@ def run_eval100(
     repository: ArvoRepository | None = None,
     index: OsvIndex | None = None,
     task_runner: TaskRunner | None = None,
+    transport_wait: TransportWait | None = None,
 ) -> Eval100Report:
-    """Run every prepared task, retry transport once, and retain every failure row."""
+    """Run every prepared task, retry transport once, and retain every failure row.
+
+    Before the one retry, ``transport_wait`` (default: wait_for_token_factory) holds until the
+    model endpoint answers, so a short outage does not turn every remaining task into a failure.
+    """
+    hold_retry = transport_wait or wait_for_token_factory
     actual_inputs = inputs or default_eval100_inputs()
     selection = select_eval100(prereg, inputs=actual_inputs)
     ledger = load_eval100_prep_ledger(ledger_path, selection)
@@ -429,6 +479,9 @@ def run_eval100(
             except Exception as error:
                 attempt_evidence.append(_attempt_evidence(task, error, attempts))
                 if attempts == 1 and _is_transport_error(error):
+                    waited = hold_retry()
+                    if waited >= 1:
+                        print(f"Retrying ARVO {task.local_id} after waiting {waited:.0f} s")
                     continue
                 run_failed.append(_run_failure(task, error, attempt_evidence))
                 break

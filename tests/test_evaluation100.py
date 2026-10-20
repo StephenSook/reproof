@@ -106,6 +106,7 @@ def _run(
     *,
     ledger: Eval100PrepLedger | None = None,
     output: Path | None = None,
+    transport_wait: Any = None,
 ) -> Eval100Report:
     selection = _selection(tmp_path)
     active_ledger = ledger or _ledger()
@@ -125,7 +126,87 @@ def _run(
         repository=FakeRepository(),  # type: ignore[arg-type]
         index=SimpleNamespace(),  # type: ignore[arg-type]
         task_runner=runner,
+        transport_wait=transport_wait or (lambda: 0.0),
     )
+
+
+def test_transport_retry_waits_for_the_endpoint_once_per_failed_task(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    calls: Counter[int] = Counter()
+    order: list[str] = []
+
+    def runner(task: Any, **_kwargs: Any) -> EvalTaskResult:
+        calls[task.local_id] += 1
+        order.append(f"run-{task.local_id}")
+        if task.local_id in (1, 2) and calls[task.local_id] == 1:
+            raise ConnectionError("connection refused")
+        if task.local_id == 3:
+            raise ValueError("invalid task evidence")
+        return _result(task.local_id, task.project)
+
+    def wait() -> float:
+        order.append("wait")
+        return 45.0
+
+    report = _run(monkeypatch, tmp_path, runner, transport_wait=wait)
+    assert order[:7] == ["run-1", "wait", "run-1", "run-2", "wait", "run-2", "run-3"]
+    assert order.count("wait") == 2
+    assert [failure.arvo_id for failure in report.run_failed] == [3]
+
+
+def test_wait_for_token_factory_probes_until_the_endpoint_answers() -> None:
+    now = [0.0]
+    sleeps: list[float] = []
+    probes = iter([ConnectionError("down"), ConnectionError("down"), None])
+
+    class Models:
+        def list(self) -> None:
+            outcome = next(probes)
+            if outcome is not None:
+                raise outcome
+
+    waited = evaluation100.wait_for_token_factory(
+        client=SimpleNamespace(models=Models()),
+        interval_seconds=30,
+        sleep=lambda seconds: (sleeps.append(seconds), now.__setitem__(0, now[0] + seconds)),
+        clock=lambda: now[0],
+    )
+    assert sleeps == [30, 30]
+    assert waited == 60
+
+
+def test_wait_for_token_factory_gives_up_at_the_limit() -> None:
+    now = [0.0]
+
+    class Models:
+        def list(self) -> None:
+            raise TimeoutError("still down")
+
+    waited = evaluation100.wait_for_token_factory(
+        client=SimpleNamespace(models=Models()),
+        limit_seconds=90,
+        interval_seconds=30,
+        sleep=lambda seconds: now.__setitem__(0, now[0] + seconds),
+        clock=lambda: now[0],
+    )
+    assert waited == 90
+
+
+def test_wait_for_token_factory_does_not_wait_on_a_non_transport_error() -> None:
+    sleeps: list[float] = []
+
+    class Models:
+        def list(self) -> None:
+            raise PermissionError("401")
+
+    waited = evaluation100.wait_for_token_factory(
+        client=SimpleNamespace(models=Models()),
+        sleep=sleeps.append,
+        clock=lambda: 0.0,
+    )
+    assert sleeps == []
+    assert waited == 0.0
 
 
 def test_transport_error_gets_one_retry_then_succeeds(
