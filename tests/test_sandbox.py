@@ -375,3 +375,68 @@ def test_binary_crash_output_does_not_fail_the_pair() -> None:
     assert "heap-buffer-overflow" in vulnerable.stdout
     assert vulnerable.stdout.endswith("��")
     assert fixed.exit_code == 0
+
+
+def _cached_slice(tmp_path: Path) -> tuple[Path, CheckpointRegistry]:
+    slice_dir = tmp_path / "slice"
+    slice_dir.mkdir()
+    (slice_dir / "manifest.json").write_text('{"files":{}}', encoding="utf-8")
+    registry = CheckpointRegistry(tmp_path / "checkpoints.json")
+    registry.write({f"1:vul:{manifest_digest(slice_dir)}": {"checkpoint_uuid": "checkpoint-test"}})
+    return slice_dir, registry
+
+
+class _ServerError(RuntimeError):
+    status = 500
+
+
+def test_cached_lookup_repeats_a_server_error_then_succeeds(tmp_path: Path) -> None:
+    # The live door lost a triage on 2026-10-20 to one HTTP 500 from GET /sandboxes/v1/inspect.
+    slice_dir, registry = _cached_slice(tmp_path)
+    checkpoint = SimpleNamespace(uuid="checkpoint-test")
+    outcomes: list[object] = [_ServerError("500"), _ServerError("500"), checkpoint]
+
+    class FlakyImages:
+        def use(self, _reference: str, *, strict: bool) -> object:
+            outcome = outcomes.pop(0)
+            if isinstance(outcome, Exception):
+                raise outcome
+            return outcome
+
+    runner = SandboxRunner(client=SimpleNamespace(images=FlakyImages()), registry=registry)  # type: ignore[arg-type]
+    waits: list[float] = []
+    runner.sleep = waits.append
+    assert runner.ensure_checkpoint(1, "vul", slice_dir) is checkpoint
+    assert waits == [1.0, 3.0]
+
+
+def test_cached_lookup_gives_up_after_three_server_errors(tmp_path: Path) -> None:
+    slice_dir, registry = _cached_slice(tmp_path)
+    calls: list[str] = []
+
+    class DownImages:
+        def use(self, reference: str, *, strict: bool) -> None:
+            calls.append(reference)
+            raise _ServerError("500 Internal Server Error")
+
+    runner = SandboxRunner(client=SimpleNamespace(images=DownImages()), registry=registry)  # type: ignore[arg-type]
+    runner.sleep = lambda _seconds: None
+    with pytest.raises(CheckpointError, match="cached checkpoint lookup failed"):
+        runner.ensure_checkpoint(1, "vul", slice_dir)
+    assert calls == ["checkpoint-test"] * 3
+
+
+def test_cached_lookup_does_not_repeat_other_errors(tmp_path: Path) -> None:
+    slice_dir, registry = _cached_slice(tmp_path)
+    calls: list[str] = []
+
+    class RefusingImages:
+        def use(self, reference: str, *, strict: bool) -> None:
+            calls.append(reference)
+            raise RuntimeError("transport failed")
+
+    runner = SandboxRunner(client=SimpleNamespace(images=RefusingImages()), registry=registry)  # type: ignore[arg-type]
+    runner.sleep = lambda _seconds: pytest.fail("a non-5xx error must not wait")
+    with pytest.raises(CheckpointError):
+        runner.ensure_checkpoint(1, "vul", slice_dir)
+    assert calls == ["checkpoint-test"]

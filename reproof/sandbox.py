@@ -75,6 +75,17 @@ def _output_text(value: object) -> str:
     return str(value or "")
 
 
+# The ConTree API answered HTTP 500 on 38 of 100 eval-100 run 2 tasks (2026-10-20 05:58 to 06:26
+# UTC) and on a live judge-door triage at 06:50 UTC, the last on GET /sandboxes/v1/inspect for a
+# cached checkpoint. An image lookup is a read, so it is safe to repeat.
+SERVER_ERROR_RETRY_DELAYS = (1.0, 3.0)
+
+
+def _is_server_error(error: BaseException) -> bool:
+    status = getattr(error, "status", None)
+    return isinstance(status, int) and 500 <= status < 600
+
+
 def _request_id_from_error(error: BaseException) -> str | None:
     request_id = getattr(error, "request_id", None)
     if request_id:
@@ -126,6 +137,18 @@ class SandboxRunner:
         self.client = client or ContreeSync()
         self.registry = registry or CheckpointRegistry()
         self.checkpoint_metadata: dict[str, dict[str, Any]] = {}
+        self.sleep: Callable[[float], None] = time.sleep
+
+    def _use_image(self, reference: str) -> Any:
+        """Look up an image, repeating the read after an HTTP 5xx, never after any other error."""
+        for delay in (*SERVER_ERROR_RETRY_DELAYS, None):
+            try:
+                return self.client.images.use(reference, strict=True)
+            except Exception as error:
+                if delay is None or not _is_server_error(error):
+                    raise
+                self.sleep(delay)
+        raise AssertionError("unreachable")
 
     def ensure_checkpoint(self, task_id: int, kind: str, slice_dir: Path) -> Any:
         digest = manifest_digest(slice_dir)
@@ -134,7 +157,7 @@ class SandboxRunner:
         cached = registry.get(key)
         if cached:
             try:
-                checkpoint = self.client.images.use(cached["checkpoint_uuid"], strict=True)
+                checkpoint = self._use_image(cached["checkpoint_uuid"])
                 self.checkpoint_metadata[str(checkpoint.uuid)] = {
                     "operation_uuid": cached.get("create_operation_uuid"),
                     "wall_seconds": 0.0,
@@ -176,7 +199,7 @@ class SandboxRunner:
             for remote_path, record in manifest["files"].items()
         }
         try:
-            base = self.client.images.use(BASE_IMAGE, strict=True)
+            base = self._use_image(BASE_IMAGE)
         except Exception as error:
             raise CheckpointError(
                 f"ConTree base image lookup failed: {type(error).__name__}: {error}",
