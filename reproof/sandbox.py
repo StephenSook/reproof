@@ -279,7 +279,7 @@ class SandboxRunner:
                 request_id=None,
             )
         try:
-            checkpoint = self.client.images.use(checkpoint_uuid, strict=True)
+            checkpoint = self._use_image(checkpoint_uuid)
         except NotFoundError as error:
             raise CheckpointError(
                 f"Named ConTree checkpoint {checkpoint_uuid} was not found. {refusal}",

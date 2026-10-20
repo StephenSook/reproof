@@ -463,6 +463,33 @@ def test_open_checkpoint_not_found_does_not_rebuild(tmp_path: Path) -> None:
     assert registry.read() == {"keep": {"checkpoint_uuid": "stay"}}
 
 
+def test_open_checkpoint_repeats_a_server_error_on_the_door_path() -> None:
+    # 2026-10-20 06:50 UTC: the live probe's triage got NEEDS_INFO from one HTTP 500 on
+    # GET /sandboxes/v1/inspect for the cached fix checkpoint ba60153a. The door opens named
+    # checkpoints through open_checkpoint, never ensure_checkpoint.
+    class ServerError(RuntimeError):
+        status = 500
+
+    checkpoint = SimpleNamespace(uuid="ba60153a")
+    outcomes: list[object] = [ServerError("500 Internal Server Error"), checkpoint]
+    calls: list[str] = []
+
+    def use(reference: str, strict: bool = True) -> object:
+        assert strict is True
+        calls.append(reference)
+        outcome = outcomes.pop(0)
+        if isinstance(outcome, Exception):
+            raise outcome
+        return outcome
+
+    runner = SandboxRunner(client=SimpleNamespace(images=SimpleNamespace(use=use)))  # type: ignore[arg-type]
+    waits: list[float] = []
+    runner.sleep = waits.append
+    assert runner.open_checkpoint("fix", {"checkpoint_uuid": "ba60153a"}) is checkpoint
+    assert calls == ["ba60153a", "ba60153a"]
+    assert waits == [1.0]
+
+
 def test_committed_door_assets_match_the_eval() -> None:
     report = EvalReport.model_validate_json(EVAL_PATH.read_text(encoding="utf-8"))
     manifest = load_manifest()

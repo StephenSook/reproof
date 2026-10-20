@@ -391,7 +391,7 @@ class _ServerError(RuntimeError):
 
 
 def test_cached_lookup_repeats_a_server_error_then_succeeds(tmp_path: Path) -> None:
-    # The live door lost a triage on 2026-10-20 to one HTTP 500 from GET /sandboxes/v1/inspect.
+    # The eval and CLI path. The door's own path (open_checkpoint) is tested in test_door.py.
     slice_dir, registry = _cached_slice(tmp_path)
     checkpoint = SimpleNamespace(uuid="checkpoint-test")
     outcomes: list[object] = [_ServerError("500"), _ServerError("500"), checkpoint]
