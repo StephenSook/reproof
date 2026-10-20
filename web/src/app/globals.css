@@ -1491,3 +1491,205 @@ mark[data-matched-frame] {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* Proof page: the registered 100-bug evaluation, misses first */
+.proof-title {
+  font-size: clamp(3rem, 9vw, 7.5rem);
+}
+
+.proof-tiles {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  list-style: none;
+  margin: 2rem 0 0;
+  padding: 0;
+}
+
+.proof-tile {
+  background: var(--card);
+  border: 2px solid var(--paper);
+  border-radius: 1rem;
+  color: var(--ink);
+  display: grid;
+  font-weight: 700;
+  gap: 0.35rem;
+  min-width: 0;
+  padding: 1rem 1.1rem;
+}
+
+.proof-tile-value {
+  color: var(--proof);
+  font-size: clamp(2.6rem, 5vw, 3.6rem);
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+}
+
+.proof-cost {
+  font-weight: 650;
+  margin-top: 1.25rem;
+  max-width: 52rem;
+}
+
+.proof-runs {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  margin-top: 1.75rem;
+}
+
+.proof-run {
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  gap: 0.55rem;
+  min-width: 0;
+  padding: 1.1rem 1.25rem;
+}
+
+.proof-run h3 {
+  font-size: 1.6rem;
+}
+
+.proof-run-when {
+  color: var(--ink-soft);
+  font-weight: 650;
+}
+
+.proof-run-count {
+  font-weight: 750;
+}
+
+.proof-run-count .display {
+  font-size: 2.6rem;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-right: 0.15em;
+}
+
+.proof-run-causes {
+  display: grid;
+  font-weight: 650;
+  gap: 0.25rem;
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+p.proof-run-causes {
+  padding-left: 0;
+}
+
+.proof-run-plan {
+  border-left: 0.4rem solid var(--dup);
+  font-weight: 650;
+  padding-left: 0.7rem;
+}
+
+.proof-link {
+  font-weight: 800;
+  width: fit-content;
+}
+
+.proof-rule {
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 1rem;
+  margin-top: 1rem;
+  max-width: 60rem;
+  padding: 0.85rem 1rem;
+}
+
+.proof-rule summary {
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.proof-rule p {
+  font-weight: 600;
+  margin-top: 0.6rem;
+}
+
+.proof-rows {
+  display: grid;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+}
+
+.proof-row {
+  align-items: center;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 0.9rem;
+  display: grid;
+  gap: 0.45rem 1rem;
+  grid-template-columns: minmax(9rem, 0.9fr) auto minmax(14rem, 1.6fr) minmax(8rem, 1fr) auto auto;
+  min-width: 0;
+  padding: 0.7rem 0.9rem;
+}
+
+.proof-row > * {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.proof-row-miss {
+  border-left: 0.55rem solid var(--crash);
+}
+
+.proof-row-failed {
+  border-left: 0.55rem solid var(--slate);
+  grid-template-columns: minmax(9rem, 0.9fr) auto minmax(14rem, 3fr) auto;
+}
+
+.proof-row-id {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.proof-row-id .display {
+  font-size: 1.05rem;
+}
+
+.proof-row-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.proof-row-crash,
+.proof-row-why {
+  font-weight: 650;
+}
+
+.proof-row .num {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.proof-row-misses {
+  display: grid;
+  font-weight: 650;
+  gap: 0.2rem;
+  grid-column: 1 / -1;
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+@media (max-width: 52rem) {
+  .proof-row,
+  .proof-row-failed {
+    grid-template-columns: 1fr auto;
+  }
+
+  .proof-row-checks,
+  .proof-row-crash,
+  .proof-row-why {
+    grid-column: 1 / -1;
+  }
+}

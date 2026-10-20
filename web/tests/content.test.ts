@@ -34,6 +34,12 @@ describe("copied judge content", () => {
     expect(read(join(webRoot, "src/content/arvo10.json"))).toEqual(
       read(join(repoRoot, "eval/results/arvo10.json")),
     );
+    expect(read(join(webRoot, "src/content/eval100-run1.json"))).toEqual(
+      read(join(repoRoot, "eval/results/eval100.json")),
+    );
+    expect(read(join(webRoot, "src/content/eval100-run2.json"))).toEqual(
+      read(join(repoRoot, "eval/results/eval100-run2.json")),
+    );
   });
 
   it("counts verdicts from the evaluation and keeps the dated note", () => {

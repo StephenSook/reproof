@@ -1,3 +1,4 @@
+import Link from "next/link";
 import evaluation from "@/content/arvo10.json";
 import catalog from "@/content/catalog.json";
 import limits from "@/content/limits.json";
@@ -43,6 +44,11 @@ export default function Page() {
               <a className="nav-pill" href="#measured">
                 Measured
               </a>
+            </li>
+            <li>
+              <Link className="nav-pill" href="/proof">
+                100 bugs
+              </Link>
             </li>
             <li>
               <a className="nav-pill" href={REPO_URL}>

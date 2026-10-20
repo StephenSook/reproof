@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { money, measuredSummary, PHASE1_NOTE, seconds, type MeasuredEvaluation } from "@/lib/measured";
 import { verdictTone, Stamp } from "@/ui/Stamp";
 
@@ -24,6 +25,9 @@ export function Measured({ evaluation }: { evaluation: MeasuredFile }) {
         <p className="hand">the saved run, not a new one</p>
         <h2 id="measured-heading">Measured</h2>
         <p className="section-lede">These numbers are the saved ARVO 10 evaluation. They are not a new run.</p>
+        <p className="section-lede">
+          <Link href="/proof">See the registered run on 100 bugs, every task listed, misses first.</Link>
+        </p>
       </div>
       <ul className="measured-tiles">
         {tiles.map((line) => (
