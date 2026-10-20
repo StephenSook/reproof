@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42471105,
+  "project": "harfbuzz",
+  "report_source": "public OSS-Fuzz OSV report OSV-2018-185; this is not a private report",
+  "report_text": "Heap-buffer-overflow in BEInt<unsigned short, 2>::operator unsigned short\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=11001\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nBEInt<unsigned short, 2>::operator unsigned short\nOT::IndexSubtable::get_extents\nOT::IndexSubtableRecord::get_extents\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [
+    "version of harfbuzz where bug occurs",
+    "steps to reproduce (e.g., test case or input file)",
+    "compiler and build configuration used"
+  ],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "BEInt<unsigned short, 2>::operator unsigned short",
+        "OT::IndexSubtable::get_extents",
+        "OT::IndexSubtableRecord::get_extents"
+      ],
+      "sanitizer_excerpt": "==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x611000000273 at pc 0x0000005d4c2c bp 0x7fffffffe2d0 sp 0x7fffffffe2c8\nREAD of size 1 at 0x611000000273 thread T0\nSCARINESS: 22 (1-byte-read-heap-buffer-overflow-far-from-bounds)\n    #0 0x5d4c2b in BEInt<unsigned short, 2>::operator unsigned short() const /src/harfbuzz/src/./hb-machinery.hh:675:13\n    #1 0x60abc0 in OT::IndexSubtable::get_extents(hb_glyph_extents_t*) const /src/harfbuzz/src/./hb-ot-color-cbdt-table.hh:171:13\n    #2 0x60a45c in OT::IndexSubtableRecord::get_extents(hb_glyph_extents_t*) const /src/harfbuzz/src/./hb-ot-color-cbdt-table.hh:214:36\n    #3 0x606529 in OT::CBDT::accelerator_t::get_extents(unsigned int, hb_glyph_extents_t*) const /src/harfbuzz/src/./hb-ot-color-cbdt-table.hh:423:28\n    #4 0x5fbc62 in hb_ot_get_glyph_extents(hb_font_t*, void*, unsigned int, hb_glyph_extents_t*, void*) /src/harfbuzz/src/hb-ot-font.cc:168:26\n    #5 0x5305fc in LLVMFuzzerTestOneInput /src/harfbuzz/./test/fuzzing/hb-shape-fuzzer.cc:41:7\n    #6 0x55b275 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:570:15\n    #7 0x53117d in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:280:6\n    #8 0x53c9c6 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:713:9\n    #9 0x5307fc in main /src/libfuzzer/FuzzerMain.cpp:20:10\n    #10 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n    #11 0x41cff8 in _start (/out/hb-shape-fuzzer+0x41cff8)\n\nDEDUP_TOKEN: BEInt<unsigned short, 2>::operator unsigned short() const--OT::IndexSubtable::get_extents(hb_glyph_extents_t*) const--OT::IndexSubtableRecord::get_extents(hb_glyph_extents_t*) const\n0x611000000273 is located 24 bytes to the right of 219-byte region [0x611000000180,0x61100000025b)\nallocated by thread T0 here:\n    #0 0x52c038 in operator new[](unsigned long) /src/llvm/projects/compiler-rt/lib/asan/asan_new_delete.cc:109\n    #1 0x55b027 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:557:23\n    #2 0x53117d in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:280:6\n    #3 0x53c9c6 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:713:9\n    #4 0x5307fc in main /src/libfuzzer/FuzzerMain.cpp:20:10\n    #5 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n\nDEDUP_TOKEN: operator new[](unsigned long)--fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long)--fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/harfbuzz/src/./hb-machinery.hh:675:13 in BEInt<unsigned short, 2>::operator unsigned short() const",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2018-185"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-buffer-overflow",
+        "measured": "Heap-buffer-overflow READ 1",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "BEInt<unsigned short, 2>::operator unsigned short",
+          "OT::IndexSubtable::get_extents",
+          "OT::IndexSubtableRecord::get_extents"
+        ],
+        "measured": [
+          "BEInt<unsigned short, 2>::operator unsigned short",
+          "OT::IndexSubtable::get_extents",
+          "OT::IndexSubtableRecord::get_extents"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.56049,
+      "input_tokens": 236,
+      "output_tokens": 130,
+      "total_tokens": 366,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001878,
+      "request_id": "1db735e1a99908e76ba2c0ac5628dd58"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42471105,
+      "kind": "vul",
+      "checkpoint_uuid": "7ca86266-682e-480c-a9f4-5ff963fab88a",
+      "checkpoint_operation_uuid": "01a157a8-b496-72cf-be0f-4f2a59e02050",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e5-67d9-7521-a1fa-6609a20cbd28",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Seed: 1478659170\nINFO: Loaded 1 modules   (15787 inline 8-bit counters): 15787 [0xa78550, 0xa7c2fb), \nINFO: Loaded 1 PC tables (15787 PCs): 15787 [0xa7c300,0xab9db0), \n/out/hb-shape-fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x611000000273 at pc 0x0000005d4c2c bp 0x7fffffffe2d0 sp 0x7fffffffe2c8\nREAD of size 1 at 0x611000000273 thread T0\nSCARINESS: 22 (1-byte-read-heap-buffer-overflow-far-from-bounds)\n    #0 0x5d4c2b in BEInt<unsigned short, 2>::operator unsigned short() const /src/harfbuzz/src/./hb-machinery.hh:675:13\n    #1 0x60abc0 in OT::IndexSubtable::get_extents(hb_glyph_extents_t*) const /src/harfbuzz/src/./hb-ot-color-cbdt-table.hh:171:13\n    #2 0x60a45c in OT::IndexSubtableRecord::get_extents(hb_glyph_extents_t*) const /src/harfbuzz/src/./hb-ot-color-cbdt-table.hh:214:36\n    #3 0x606529 in OT::CBDT::accelerator_t::get_extents(unsigned int, hb_glyph_extents_t*) const /src/harfbuzz/src/./hb-ot-color-cbdt-table.hh:423:28\n    #4 0x5fbc62 in hb_ot_get_glyph_extents(hb_font_t*, void*, unsigned int, hb_glyph_extents_t*, void*) /src/harfbuzz/src/hb-ot-font.cc:168:26\n    #5 0x5305fc in LLVMFuzzerTestOneInput /src/harfbuzz/./test/fuzzing/hb-shape-fuzzer.cc:41:7\n    #6 0x55b275 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:570:15\n    #7 0x53117d in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:280:6\n    #8 0x53c9c6 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:713:9\n    #9 0x5307fc in main /src/libfuzzer/FuzzerMain.cpp:20:10\n    #10 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n    #11 0x41cff8 in _start (/out/hb-shape-fuzzer+0x41cff8)\n\nDEDUP_TOKEN: BEInt<unsigned short, 2>::operator unsigned short() const--OT::IndexSubtable::get_extents(hb_glyph_extents_t*) const--OT::IndexSubtableRecord::get_extents(hb_glyph_extents_t*) const\n0x611000000273 is located 24 bytes to the right of 219-byte region [0x611000000180,0x61100000025b)\nallocated by thread T0 here:\n    #0 0x52c038 in operator new[](unsigned long) /src/llvm/projects/compiler-rt/lib/asan/asan_new_delete.cc:109\n    #1 0x55b027 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:557:23\n    #2 0x53117d in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:280:6\n    #3 0x53c9c6 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:713:9\n    #4 0x5307fc in main /src/libfuzzer/FuzzerMain.cpp:20:10\n    #5 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n\nDEDUP_TOKEN: operator new[](unsigned long)--fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long)--fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/harfbuzz/src/./hb-machinery.hh:675:13 in BEInt<unsigned short, 2>::operator unsigned short() const\nShadow bytes around the buggy address:\n  0x0c227fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c227fff8000: fa fa fa fa fa fa fa fa 00 00 00 00 00 00 00 00\n  0x0c227fff8010: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c227fff8020: 00 00 00 03 fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c227fff8030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n=>0x0c227fff8040: 00 00 00 00 00 00 00 00 00 00 00 03 fa fa[fa]fa\n  0x0c227fff8050: fa fa fa fa fa fa fa fa fd fd fd fd fd fd fd fd\n  0x0c227fff8060: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd\n  0x0c227fff8070: fd fd fd fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c227fff8080: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c227fff8090: 00 00 00 00 00 00 00 00 00 00 00 00 fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n  Shadow gap:              cc\n==9==ABORTING\n",
+      "wall_seconds": 1.014305,
+      "server_elapsed_seconds": 0.014422,
+      "cost_usd": 0.00036418,
+      "disposable": true
+    },
+    {
+      "task_id": 42471105,
+      "kind": "fix",
+      "checkpoint_uuid": "71c3da2f-9b54-4266-a605-da4fc204998c",
+      "checkpoint_operation_uuid": "01a157a8-f1f2-703e-9f62-c3cdb697986b",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e5-68c9-707c-8a62-cdcf5dbb5dda",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Seed: 1479477600\nINFO: Loaded 1 modules   (15786 inline 8-bit counters): 15786 [0xa78550, 0xa7c2fa), \nINFO: Loaded 1 PC tables (15786 PCs): 15786 [0xa7c300,0xab9da0), \n/out/hb-shape-fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 1 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.798546,
+      "server_elapsed_seconds": 0.011032,
+      "cost_usd": 0.00031938,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "a389866a02a303fd5d59e57ea968a993f9266c942eccabeb4a425c0e191f7d8f",
+    "fix": "fcb2294f48d842015063de24c6e75cb28da0d979674ebf5c8d0c76412f26c44c"
+  },
+  "provenance": {
+    "arvo_task_sha256": "16fa2c0ab9b810e9761973aed99aad59310fc7c65c946a2355bed744ae010ad9",
+    "report_sha256": "ccc0a04625865a5ceec1549cf55293afee81da8da3b50cd2b000e536ee43a46e",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2018-185"
+  },
+  "model_cost_usd": 0.0001878,
+  "sandbox_cost_usd": 0.00068356,
+  "total_cost_usd": 0.00087136,
+  "wall_seconds": 4.28065,
+  "public_status": null
+}

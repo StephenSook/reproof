@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42500367,
+  "project": "harfbuzz",
+  "report_source": "public OSS-Fuzz OSV report OSV-2021-1153; this is not a private report",
+  "report_text": "Heap-buffer-overflow in hb_array_t<OT::IntType<unsigned int, 4u> const> hb_array_t<OT::IntType<unsigned \n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=37348\n\n```\nCrash type: Heap-buffer-overflow READ 4\nCrash state:\nhb_array_t<OT::IntType<unsigned int, 4u> const> hb_array_t<OT::IntType<unsigned \nOT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >::copy\n_hb_head_t<OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >*, decltype\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "crash_state": [
+        "hb_array_t<OT::IntType<unsigned int, 4u> const> hb_array_t<OT::IntType<unsigned",
+        "OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >::copy",
+        "_hb_head_t<OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >*, decltype"
+      ],
+      "sanitizer_excerpt": "==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x616000000bb7 at pc 0x000000852927 bp 0x7fffffffda90 sp 0x7fffffffda88\nREAD of size 4 at 0x616000000bb7 thread T0\nSCARINESS: 17 (4-byte-read-heap-buffer-overflow)\n    #0 0x852926 in hb_array_t<OT::IntType<unsigned int, 4u> const> hb_array_t<OT::IntType<unsigned int, 4u> const>::copy<hb_serialize_context_t>(hb_serialize_context_t*) const /work/build/../../src/harfbuzz/src/hb-array.hh:271:14\n    #1 0x8523c0 in OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >::copy(hb_serialize_context_t*, unsigned int) const /work/build/../../src/harfbuzz/src/hb-open-type.hh:503:9\n    #2 0x85222c in _hb_head_t<OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >*, decltype(fp.copy(this, hb_forward<unsigned int&>(fp1)))>::type hb_serialize_context_t::_copy<OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >, unsigned int&>(OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> > const&, hb_priority<1u>, unsigned int&) /work/build/../../src/harfbuzz/src/hb-serialize.hh:485:55\n    #3 0x851fa0 in OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >* hb_serialize_context_t::copy<OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >, unsigned int&>(OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> > const&, unsigned int&) /work/build/../../src/harfbuzz/src/hb-serialize.hh:501:12\n    #4 0x8519a1 in bool OT::OffsetTo<OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >, OT::IntType<unsigned int, 4u>, false>::serialize_copy<unsigned int&>(hb_serialize_context_t*, OT::OffsetTo<OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >, OT::IntType<unsigned int, 4u>, false> const&, void const*, unsigned int, hb_serialize_context_t::whence_t, unsigned int&) /work/build/../../src/harfbuzz/src/hb-open-type.hh:378:19\n    #5 0x84e9df in OT::CPALV1Tail::serialize(hb_serialize_context_t*, unsigned int, unsigned int, void const*, hb_map_t const*) const /work/build/../../src/harfbuzz/src/hb-ot-color-cpal-table.hh:86:24\n    #6 0x84d4ee in OT::CPAL::subset(hb_subset_context_t*) const /work/build/../../src/harfbuzz/src/hb-ot-color-cpal-table.hh:265:7\n    #7 0x84b74e in bool _try_subset<OT::CPAL>(OT::CPAL const*, hb_vector_t<char>*, unsigned int, hb_subset_context_t*) /work/build/../../src/harfbuzz/src/hb-subset.cc:123:24\n    #8 0x84b7d3 in bool _try_subset<OT::CPAL>(OT::CPAL const*, hb_vector_t<char>*, unsigned int, hb_subset_context_t*) /work/build/../../src/harfbuzz/src/hb-subset.cc:142:10\n    #9 0x7d335d in bool _subset<OT::CPAL const>(hb_subset_plan_t*) /work/build/../../src/harfbuzz/src/hb-subset.cc:178:14\n    #10 0x7cf59e in _subset_table(hb_subset_plan_t*, unsigned int) /work/build/../../src/harfbuzz/src/hb-subset.cc:295:31\n    #11 0x7ceede in hb_subset_or_fail /work/build/../../src/harfbuzz/src/hb-subset.cc:355:17\n    #12 0x5552d6 in trySubset(hb_face_t*, unsigned int const*, int, bool, bool, bool) /work/build/../../src/harfbuzz/test/fuzzing/hb-subset-fuzzer.cc:34:23\n    #13 0x5550cd in trySubset(hb_face_t*, unsigned int const*, int, unsigned char const*) /work/build/../../src/harfbuzz/test/fuzzing/hb-subset-fuzzer.cc:63:3\n    #14 0x554ead in LLVMFuzzerTestOneInput /work/build/../../src/harfbuzz/test/fuzzing/hb-subset-fuzzer.cc:87:3\n    #15 0x458063 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:599:15\n    #16 0x4437a2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\n    #17 0x44947e in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:856:9\n    #18 0x472f62 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #19 0x7ffff642083f in __libc_start_main (/arvo-lib/libc.so.6+0x2083f)\n    #20 0x41e878 in _start (/out/hb-subset-fuzzer+0x41e878)\n\nDEDUP_TOKEN: hb_array_t<OT::IntType<unsigned int, 4u> const> hb_array_t<OT::IntType<unsigned int, 4u> const>::copy<hb_serialize_context_t>(hb_serialize_context_t*) const--OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >::copy(hb_serialize_context_t*, unsigned int) const--_hb_head_t<OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >*, decltype(fp.copy(this, hb_forward<unsigned int&>(fp1)))>::type hb_serialize_context_t::_copy<OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >, unsigned int&>(OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> > const&, hb_priority<1u>, unsigned int&)\n0x616000000bb7 is located 0 bytes to the right of 567-byte region [0x616000000980,0x616000000bb7)\nallocated by thread T0 here:\n    #0 0x520f9d in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:145:3\n    #1 0x4373f7 in operator new(unsigned long) (/out/hb-subset-fuzzer+0x4373f7)\n    #2 0x4437a2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\n    #3 0x44947e in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:856:9\n    #4 0x472f62 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #5 0x7ffff642083f in __libc_start_main (/arvo-lib/libc.so.6+0x2083f)\n\nDEDUP_TOKEN: malloc--operator new(unsigned long)--fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /work/build/../../src/harfbuzz/src/hb-array.hh:271:14 in hb_array_t<OT::IntType<unsigned int, 4u> const> hb_array_t<OT::IntType<unsigned int, 4u> const>::copy<hb_serialize_context_t>(hb_serialize_context_t*) const",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2021-1153"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-buffer-overflow",
+        "measured": "Heap-buffer-overflow READ 4",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "hb_array_t<OT::IntType<unsigned int, 4u> const>",
+          "OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >::copy",
+          "_hb_head_t"
+        ],
+        "measured": [
+          "hb_array_t<OT::IntType<unsigned int, 4u> const> hb_array_t<OT::IntType<unsigned",
+          "OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >::copy",
+          "_hb_head_t<OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >*, decltype"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.511625,
+      "input_tokens": 303,
+      "output_tokens": 109,
+      "total_tokens": 412,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.000189,
+      "request_id": "a84ebeb9a2dfdf7c7645e46fa876073b"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42500367,
+      "kind": "vul",
+      "checkpoint_uuid": "5214fcd4-88b2-406d-af12-44ad04caafb3",
+      "checkpoint_operation_uuid": "01a157a1-7f25-77e1-8103-9434f402cc5b",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e4-b36d-7027-8a7d-0634cdba7dae",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1432454937\nINFO: Loaded 1 modules   (51934 inline 8-bit counters): 51934 [0xe9dca0, 0xeaa77e), \nINFO: Loaded 1 PC tables (51934 PCs): 51934 [0xeaa780,0xf75560), \n/out/hb-subset-fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x616000000bb7 at pc 0x000000852927 bp 0x7fffffffda90 sp 0x7fffffffda88\nREAD of size 4 at 0x616000000bb7 thread T0\nSCARINESS: 17 (4-byte-read-heap-buffer-overflow)\n    #0 0x852926 in hb_array_t<OT::IntType<unsigned int, 4u> const> hb_array_t<OT::IntType<unsigned int, 4u> const>::copy<hb_serialize_context_t>(hb_serialize_context_t*) const /work/build/../../src/harfbuzz/src/hb-array.hh:271:14\n    #1 0x8523c0 in OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >::copy(hb_serialize_context_t*, unsigned int) const /work/build/../../src/harfbuzz/src/hb-open-type.hh:503:9\n    #2 0x85222c in _hb_head_t<OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >*, decltype(fp.copy(this, hb_forward<unsigned int&>(fp1)))>::type hb_serialize_context_t::_copy<OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >, unsigned int&>(OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> > const&, hb_priority<1u>, unsigned int&) /work/build/../../src/harfbuzz/src/hb-serialize.hh:485:55\n    #3 0x851fa0 in OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >* hb_serialize_context_t::copy<OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >, unsigned int&>(OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> > const&, unsigned int&) /work/build/../../src/harfbuzz/src/hb-serialize.hh:501:12\n    #4 0x8519a1 in bool OT::OffsetTo<OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >, OT::IntType<unsigned int, 4u>, false>::serialize_copy<unsigned int&>(hb_serialize_context_t*, OT::OffsetTo<OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >, OT::IntType<unsigned int, 4u>, false> const&, void const*, unsigned int, hb_serialize_context_t::whence_t, unsigned int&) /work/build/../../src/harfbuzz/src/hb-open-type.hh:378:19\n    #5 0x84e9df in OT::CPALV1Tail::serialize(hb_serialize_context_t*, unsigned int, unsigned int, void const*, hb_map_t const*) const /work/build/../../src/harfbuzz/src/hb-ot-color-cpal-table.hh:86:24\n    #6 0x84d4ee in OT::CPAL::subset(hb_subset_context_t*) const /work/build/../../src/harfbuzz/src/hb-ot-color-cpal-table.hh:265:7\n    #7 0x84b74e in bool _try_subset<OT::CPAL>(OT::CPAL const*, hb_vector_t<char>*, unsigned int, hb_subset_context_t*) /work/build/../../src/harfbuzz/src/hb-subset.cc:123:24\n    #8 0x84b7d3 in bool _try_subset<OT::CPAL>(OT::CPAL const*, hb_vector_t<char>*, unsigned int, hb_subset_context_t*) /work/build/../../src/harfbuzz/src/hb-subset.cc:142:10\n    #9 0x7d335d in bool _subset<OT::CPAL const>(hb_subset_plan_t*) /work/build/../../src/harfbuzz/src/hb-subset.cc:178:14\n    #10 0x7cf59e in _subset_table(hb_subset_plan_t*, unsigned int) /work/build/../../src/harfbuzz/src/hb-subset.cc:295:31\n    #11 0x7ceede in hb_subset_or_fail /work/build/../../src/harfbuzz/src/hb-subset.cc:355:17\n    #12 0x5552d6 in trySubset(hb_face_t*, unsigned int const*, int, bool, bool, bool) /work/build/../../src/harfbuzz/test/fuzzing/hb-subset-fuzzer.cc:34:23\n    #13 0x5550cd in trySubset(hb_face_t*, unsigned int const*, int, unsigned char const*) /work/build/../../src/harfbuzz/test/fuzzing/hb-subset-fuzzer.cc:63:3\n    #14 0x554ead in LLVMFuzzerTestOneInput /work/build/../../src/harfbuzz/test/fuzzing/hb-subset-fuzzer.cc:87:3\n    #15 0x458063 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:599:15\n    #16 0x4437a2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\n    #17 0x44947e in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:856:9\n    #18 0x472f62 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #19 0x7ffff642083f in __libc_start_main (/arvo-lib/libc.so.6+0x2083f)\n    #20 0x41e878 in _start (/out/hb-subset-fuzzer+0x41e878)\n\nDEDUP_TOKEN: hb_array_t<OT::IntType<unsigned int, 4u> const> hb_array_t<OT::IntType<unsigned int, 4u> const>::copy<hb_serialize_context_t>(hb_serialize_context_t*) const--OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >::copy(hb_serialize_context_t*, unsigned int) const--_hb_head_t<OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >*, decltype(fp.copy(this, hb_forward<unsigned int&>(fp1)))>::type hb_serialize_context_t::_copy<OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >, unsigned int&>(OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> > const&, hb_priority<1u>, unsigned int&)\n0x616000000bb7 is located 0 bytes to the right of 567-byte region [0x616000000980,0x616000000bb7)\nallocated by thread T0 here:\n    #0 0x520f9d in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:145:3\n    #1 0x4373f7 in operator new(unsigned long) (/out/hb-subset-fuzzer+0x4373f7)\n    #2 0x4437a2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\n    #3 0x44947e in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:856:9\n    #4 0x472f62 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #5 0x7ffff642083f in __libc_start_main (/arvo-lib/libc.so.6+0x2083f)\n\nDEDUP_TOKEN: malloc--operator new(unsigned long)--fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /work/build/../../src/harfbuzz/src/hb-array.hh:271:14 in hb_array_t<OT::IntType<unsigned int, 4u> const> hb_array_t<OT::IntType<unsigned int, 4u> const>::copy<hb_serialize_context_t>(hb_serialize_context_t*) const\nShadow bytes around the buggy address:\n  0x0c2c7fff8120: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c2c7fff8130: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c2c7fff8140: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c2c7fff8150: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c2c7fff8160: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n=>0x0c2c7fff8170: 00 00 00 00 00 00[07]fa fa fa fa fa fa fa fa fa\n  0x0c2c7fff8180: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c2c7fff8190: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c2c7fff81a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c2c7fff81b0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c2c7fff81c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n  Shadow gap:              cc\n==9==ABORTING\n",
+      "wall_seconds": 0.920916,
+      "server_elapsed_seconds": 0.014734,
+      "cost_usd": 0.00037972000000000006,
+      "disposable": true
+    },
+    {
+      "task_id": 42500367,
+      "kind": "fix",
+      "checkpoint_uuid": "4154be67-b974-4215-ba84-46f85aee46b3",
+      "checkpoint_operation_uuid": "01a157a1-cf93-77e1-b357-ad1789282319",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e4-b861-7126-b251-407614d0882a",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1433720286\nINFO: Loaded 1 modules   (53156 inline 8-bit counters): 53156 [0xeae820, 0xebb7c4), \nINFO: Loaded 1 PC tables (53156 PCs): 53156 [0xebb7c8,0xf8b208), \n/out/hb-subset-fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 0 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 2.212923,
+      "server_elapsed_seconds": 0.011165,
+      "cost_usd": 0.00031913,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "888fc6aebf59cb4abc9af2c333a1d155f09a675ba8b3598dc3ddb4cbf80ea285",
+    "fix": "9b93a880af9ecf6dfb630fcbf51a67eec12f32faa7da0cea9284a1e9dc555fe3"
+  },
+  "provenance": {
+    "arvo_task_sha256": "9d7a9ba4bcab7457e7d85eb8d98896231691717674370b93d8330e1b48b45ca2",
+    "report_sha256": "9076c81a13c55f23b1dafb6d97ee233bc7988e2d806571c962927b633ba29664",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2021-1153"
+  },
+  "model_cost_usd": 0.000189,
+  "sandbox_cost_usd": 0.00069885,
+  "total_cost_usd": 0.00088785,
+  "wall_seconds": 4.675124,
+  "public_status": null
+}

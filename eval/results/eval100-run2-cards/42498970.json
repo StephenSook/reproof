@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42498970,
+  "project": "open62541",
+  "report_source": "public OSS-Fuzz OSV report OSV-2017-78; this is not a private report",
+  "report_text": "Negative-size-param in UA_SecureChannel_processChunk\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3609\n\n```\nCrash type: Negative-size-param\nCrash state:\nUA_SecureChannel_processChunk\nprocessCompleteChunk\nUA_Connection_processChunks\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [
+    "exact version of open62541 where crash occurred",
+    "steps to reproduce (e.g., fuzzer input or test case)",
+    "compiler and build configuration used"
+  ],
+  "evidence": {
+    "crash": {
+      "crash_type": "Negative-size-param",
+      "crash_state": [
+        "appendChunk",
+        "UA_SecureChannel_finalizeChunk",
+        "UA_SecureChannel_processChunk"
+      ],
+      "sanitizer_excerpt": "==9==ERROR: AddressSanitizer: negative-size-param: (size=-3)\nSCARINESS: 10 (negative-size-param)\n    #0 0x510f93 in __asan_memcpy /src/llvm/projects/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cc:23\n    #1 0x56c9e2 in appendChunk /src/open62541/src/ua_securechannel.c:650:5\n    #2 0x56c9e2 in UA_SecureChannel_finalizeChunk /src/open62541/src/ua_securechannel.c:691\n    #3 0x56c9e2 in UA_SecureChannel_processChunk /src/open62541/src/ua_securechannel.c:942\n    #4 0x5989cc in processCompleteChunk /src/open62541/src/server/ua_server_binary.c:631:12\n    #5 0x565fba in processChunk /src/open62541/src/ua_connection.c:139:12\n    #6 0x565fba in UA_Connection_processChunks /src/open62541/src/ua_connection.c:164\n    #7 0x5986e7 in processBinaryMessage /src/open62541/src/server/ua_server_binary.c:645:28\n    #8 0x5986e7 in UA_Server_processBinaryMessage /src/open62541/src/server/ua_server_binary.c:665\n    #9 0x54d9db in LLVMFuzzerTestOneInput /src/open62541/tests/fuzz/fuzz_binary_message.cc:28:5\n    #10 0x601d30 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:464:13\n    #11 0x5e08b5 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:273:6\n    #12 0x5ebbbd in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:688:9\n    #13 0x5dff58 in main /src/libfuzzer/FuzzerMain.cpp:20:10\n    #14 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n    #15 0x44fcf8 in _start (/out/fuzz_binary_message+0x44fcf8)\n\nDEDUP_TOKEN: __asan_memcpy--appendChunk--UA_SecureChannel_finalizeChunk\n0x616000002f7e is located 510 bytes inside of 564-byte region [0x616000002d80,0x616000002fb4)\nallocated by thread T0 here:\n    #0 0x5120c8 in malloc /src/llvm/projects/compiler-rt/lib/asan/asan_malloc_linux.cc:88\n    #1 0x54f204 in UA_ByteString_allocBuffer /src/open62541/src/ua_types.c:189:26\n    #2 0x54d963 in LLVMFuzzerTestOneInput /src/open62541/tests/fuzz/fuzz_binary_message.cc:23:28\n    #3 0x601d30 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:464:13\n    #4 0x5e08b5 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:273:6\n    #5 0x5ebbbd in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:688:9\n    #6 0x5dff58 in main /src/libfuzzer/FuzzerMain.cpp:20:10\n    #7 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n\nDEDUP_TOKEN: malloc--UA_ByteString_allocBuffer--LLVMFuzzerTestOneInput\nSUMMARY: AddressSanitizer: negative-size-param /src/llvm/projects/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cc:23 in __asan_memcpy",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2017-78"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Negative-size-param",
+        "measured": "Negative-size-param",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "UA_SecureChannel_processChunk",
+          "processCompleteChunk",
+          "UA_Connection_processChunks"
+        ],
+        "measured": [
+          "appendChunk",
+          "UA_SecureChannel_finalizeChunk",
+          "UA_SecureChannel_processChunk"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.472307,
+      "input_tokens": 213,
+      "output_tokens": 120,
+      "total_tokens": 333,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001719,
+      "request_id": "780e6cea6d25d2fe12a14825aa3ef041"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42498970,
+      "kind": "vul",
+      "checkpoint_uuid": "180ecf45-e9fb-4f4d-95ec-238400694bf6",
+      "checkpoint_operation_uuid": "01a157ac-8470-774b-a4fb-a1c5b067b269",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e5-bc59-710e-a3f9-4639627b1544",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Seed: 1500282456\nINFO: Loaded 1 modules   (3710 guards): 3710 [0x98bbc0, 0x98f5b8), \n/out/fuzz_binary_message: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==9==ERROR: AddressSanitizer: negative-size-param: (size=-3)\nSCARINESS: 10 (negative-size-param)\n    #0 0x510f93 in __asan_memcpy /src/llvm/projects/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cc:23\n    #1 0x56c9e2 in appendChunk /src/open62541/src/ua_securechannel.c:650:5\n    #2 0x56c9e2 in UA_SecureChannel_finalizeChunk /src/open62541/src/ua_securechannel.c:691\n    #3 0x56c9e2 in UA_SecureChannel_processChunk /src/open62541/src/ua_securechannel.c:942\n    #4 0x5989cc in processCompleteChunk /src/open62541/src/server/ua_server_binary.c:631:12\n    #5 0x565fba in processChunk /src/open62541/src/ua_connection.c:139:12\n    #6 0x565fba in UA_Connection_processChunks /src/open62541/src/ua_connection.c:164\n    #7 0x5986e7 in processBinaryMessage /src/open62541/src/server/ua_server_binary.c:645:28\n    #8 0x5986e7 in UA_Server_processBinaryMessage /src/open62541/src/server/ua_server_binary.c:665\n    #9 0x54d9db in LLVMFuzzerTestOneInput /src/open62541/tests/fuzz/fuzz_binary_message.cc:28:5\n    #10 0x601d30 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:464:13\n    #11 0x5e08b5 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:273:6\n    #12 0x5ebbbd in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:688:9\n    #13 0x5dff58 in main /src/libfuzzer/FuzzerMain.cpp:20:10\n    #14 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n    #15 0x44fcf8 in _start (/out/fuzz_binary_message+0x44fcf8)\n\nDEDUP_TOKEN: __asan_memcpy--appendChunk--UA_SecureChannel_finalizeChunk\n0x616000002f7e is located 510 bytes inside of 564-byte region [0x616000002d80,0x616000002fb4)\nallocated by thread T0 here:\n    #0 0x5120c8 in malloc /src/llvm/projects/compiler-rt/lib/asan/asan_malloc_linux.cc:88\n    #1 0x54f204 in UA_ByteString_allocBuffer /src/open62541/src/ua_types.c:189:26\n    #2 0x54d963 in LLVMFuzzerTestOneInput /src/open62541/tests/fuzz/fuzz_binary_message.cc:23:28\n    #3 0x601d30 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:464:13\n    #4 0x5e08b5 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:273:6\n    #5 0x5ebbbd in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:688:9\n    #6 0x5dff58 in main /src/libfuzzer/FuzzerMain.cpp:20:10\n    #7 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n\nDEDUP_TOKEN: malloc--UA_ByteString_allocBuffer--LLVMFuzzerTestOneInput\nSUMMARY: AddressSanitizer: negative-size-param /src/llvm/projects/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cc:23 in __asan_memcpy\n==9==ABORTING\n",
+      "wall_seconds": 0.976797,
+      "server_elapsed_seconds": 0.016425,
+      "cost_usd": 0.00041487,
+      "disposable": true
+    },
+    {
+      "task_id": 42498970,
+      "kind": "fix",
+      "checkpoint_uuid": "75be043a-4d24-4d1c-bdf0-b6b3626f163c",
+      "checkpoint_operation_uuid": "01a157ac-c3ca-74a4-85d8-3dd3d6166e2b",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e5-bd45-7337-a745-b2372e2015b3",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Seed: 1500799082\nINFO: Loaded 1 modules   (3776 guards): 3776 [0x9f7f40, 0x9fba40), \n/out/fuzz_binary_message: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 2 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.490952,
+      "server_elapsed_seconds": 0.014619,
+      "cost_usd": 0.00043237000000000006,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "80cd99ffb46ba3a4b19ca43f8096c2c5afec841ac43c0ce69cd7d36bcf69be92",
+    "fix": "1a400ae3fac00fc6c39044dd30b663b4488db3648cf319cf96c677174a9ef85e"
+  },
+  "provenance": {
+    "arvo_task_sha256": "6ce6f984af31c38188ee063fae2a0fed67adabdfeed50d80c1d1ec8b429c7442",
+    "report_sha256": "071cbd8bb996f358f782423b943d63f749db51faed58485db8ba907340c888cd",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2017-78"
+  },
+  "model_cost_usd": 0.0001719,
+  "sandbox_cost_usd": 0.00084724,
+  "total_cost_usd": 0.00101914,
+  "wall_seconds": 3.823543,
+  "public_status": null
+}

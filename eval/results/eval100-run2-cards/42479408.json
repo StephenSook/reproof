@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42479408,
+  "project": "opensc",
+  "report_source": "public OSS-Fuzz OSV report OSV-2020-680; this is not a private report",
+  "report_text": "Bad-free in sc_pkcs15_decode_prkdf_entry\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=18482\n\n```\nCrash type: Bad-free\nCrash state:\nsc_pkcs15_decode_prkdf_entry\nfuzz_pkcs15_decode.c\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [
+    "version of opensc where bug occurs",
+    "steps to reproduce outside fuzzing environment",
+    "description of input causing crash"
+  ],
+  "evidence": {
+    "crash": {
+      "crash_type": "Invalid-free",
+      "crash_state": [
+        "sc_pkcs15_decode_prkdf_entry",
+        "fuzz_pkcs15_decode.c"
+      ],
+      "sanitizer_excerpt": "==8==ERROR: AddressSanitizer: attempting free on address which was not malloc()-ed: 0x7ffff7f78968 in thread T0\nSCARINESS: 40 (bad-free)\n    #0 0x52378d in free /src/llvm/projects/compiler-rt/lib/asan/asan_malloc_linux.cpp:123:3\n    #1 0x5860d4 in sc_pkcs15_decode_prkdf_entry /src/opensc/src/libopensc/pkcs15-prkey.c:265:4\n    #2 0x553626 in LLVMFuzzerTestOneInput /src/opensc/src/tests/fuzzing/fuzz_pkcs15_decode.c:57:30\n    #3 0x45c1e1 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:556:15\n    #4 0x446e01 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:292:6\n    #5 0x44cabe in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:774:9\n    #6 0x476c32 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\n    #7 0x7ffff562082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n    #8 0x4201b8 in _start (/out/fuzz_pkcs15_decode+0x4201b8)\n\nDEDUP_TOKEN: free--sc_pkcs15_decode_prkdf_entry--LLVMFuzzerTestOneInput\nAddress 0x7ffff7f78968 is located in stack of thread T0 at offset 360 in frame\n    #0 0x58531f in sc_pkcs15_decode_prkdf_entry /src/opensc/src/libopensc/pkcs15-prkey.c:173\n\nDEDUP_TOKEN: sc_pkcs15_decode_prkdf_entry\n  This frame has 22 object(s):\n    [32, 472) 'info' (line 175) <== Memory access at offset 360 is inside this variable\n    [544, 556) 'gostr3410_params' (line 176)\n    [576, 584) 'usage_len' (line 178)\n    [608, 616) 'af_len' (line 179)\n    [640, 920) 'asn1_com_key_attr' (line 180)\n    [992, 1072) 'asn1_com_prkey_attr' (line 181)\n    [1104, 1264) 'asn1_rsakey_attr' (line 182)\n    [1328, 1408) 'asn1_prk_rsa_attr' (line 183)\n    [1440, 1520) 'asn1_dsakey_attr' (line 184)\n    [1552, 1632) 'asn1_prk_dsa_attr' (line 185)\n    [1664, 1744) 'asn1_dsakey_i_p_attr' (line 186)\n    [1776, 1896) 'asn1_dsakey_value_attr' (line 187)\n    [1936, 2136) 'asn1_gostr3410key_attr' (line 188)\n    [2208, 2288) 'asn1_prk_gostr3410_attr' (line 189)\n    [2320, 2480) 'asn1_ecckey_attr' (line 190)\n    [2544, 2624) 'asn1_prk_ecc_attr' (line 191)\n    [2656, 2856) 'asn1_prkey' (line 192)\n    [2928, 3288) 'asn1_supported_algorithms' (line 193)\n    [3360, 3392) 'rsa_prkey_obj' (line 194)\n    [3424, 3456) 'dsa_prkey_obj' (line 195)\n    [3488, 3520) 'gostr3410_prkey_obj' (line 196)\n    [3552, 3584) 'ecc_prkey_obj' (line 197)\nHINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork\n      (longjmp and C++ exceptions *are* supported)\nSUMMARY: AddressSanitizer: bad-free /src/llvm/projects/compiler-rt/lib/asan/asan_malloc_linux.cpp:123:3 in free",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2020-680"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Bad-free",
+        "measured": "Invalid-free",
+        "matches": false,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "sc_pkcs15_decode_prkdf_entry"
+        ],
+        "measured": [
+          "sc_pkcs15_decode_prkdf_entry",
+          "fuzz_pkcs15_decode.c"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.604741,
+      "input_tokens": 215,
+      "output_tokens": 104,
+      "total_tokens": 319,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001581,
+      "request_id": "e1a18c4ae1f8eb5bbe931f2ea7bde2fb"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42479408,
+      "kind": "vul",
+      "checkpoint_uuid": "b8a715dc-ac25-41b0-8e11-b0015333c7aa",
+      "checkpoint_operation_uuid": "01a157f4-5667-7371-853e-a8fdf1abc5e5",
+      "checkpoint_wall_seconds": 11.32674,
+      "checkpoint_cost_usd": 0.00006204000000000001,
+      "operation_uuid": "01a157f4-8c65-7511-9edb-dac7a589264d",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Seed: 2471066848\nINFO: Loaded 1 modules   (21242 inline 8-bit counters): 21242 [0xbe4da0, 0xbea09a), \nINFO: Loaded 1 PC tables (21242 PCs): 21242 [0x8b46e8,0x907688), \n/out/fuzz_pkcs15_decode: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==8==ERROR: AddressSanitizer: attempting free on address which was not malloc()-ed: 0x7ffff7f78968 in thread T0\nSCARINESS: 40 (bad-free)\n    #0 0x52378d in free /src/llvm/projects/compiler-rt/lib/asan/asan_malloc_linux.cpp:123:3\n    #1 0x5860d4 in sc_pkcs15_decode_prkdf_entry /src/opensc/src/libopensc/pkcs15-prkey.c:265:4\n    #2 0x553626 in LLVMFuzzerTestOneInput /src/opensc/src/tests/fuzzing/fuzz_pkcs15_decode.c:57:30\n    #3 0x45c1e1 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:556:15\n    #4 0x446e01 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:292:6\n    #5 0x44cabe in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:774:9\n    #6 0x476c32 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\n    #7 0x7ffff562082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n    #8 0x4201b8 in _start (/out/fuzz_pkcs15_decode+0x4201b8)\n\nDEDUP_TOKEN: free--sc_pkcs15_decode_prkdf_entry--LLVMFuzzerTestOneInput\nAddress 0x7ffff7f78968 is located in stack of thread T0 at offset 360 in frame\n    #0 0x58531f in sc_pkcs15_decode_prkdf_entry /src/opensc/src/libopensc/pkcs15-prkey.c:173\n\nDEDUP_TOKEN: sc_pkcs15_decode_prkdf_entry\n  This frame has 22 object(s):\n    [32, 472) 'info' (line 175) <== Memory access at offset 360 is inside this variable\n    [544, 556) 'gostr3410_params' (line 176)\n    [576, 584) 'usage_len' (line 178)\n    [608, 616) 'af_len' (line 179)\n    [640, 920) 'asn1_com_key_attr' (line 180)\n    [992, 1072) 'asn1_com_prkey_attr' (line 181)\n    [1104, 1264) 'asn1_rsakey_attr' (line 182)\n    [1328, 1408) 'asn1_prk_rsa_attr' (line 183)\n    [1440, 1520) 'asn1_dsakey_attr' (line 184)\n    [1552, 1632) 'asn1_prk_dsa_attr' (line 185)\n    [1664, 1744) 'asn1_dsakey_i_p_attr' (line 186)\n    [1776, 1896) 'asn1_dsakey_value_attr' (line 187)\n    [1936, 2136) 'asn1_gostr3410key_attr' (line 188)\n    [2208, 2288) 'asn1_prk_gostr3410_attr' (line 189)\n    [2320, 2480) 'asn1_ecckey_attr' (line 190)\n    [2544, 2624) 'asn1_prk_ecc_attr' (line 191)\n    [2656, 2856) 'asn1_prkey' (line 192)\n    [2928, 3288) 'asn1_supported_algorithms' (line 193)\n    [3360, 3392) 'rsa_prkey_obj' (line 194)\n    [3424, 3456) 'dsa_prkey_obj' (line 195)\n    [3488, 3520) 'gostr3410_prkey_obj' (line 196)\n    [3552, 3584) 'ecc_prkey_obj' (line 197)\nHINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork\n      (longjmp and C++ exceptions *are* supported)\nSUMMARY: AddressSanitizer: bad-free /src/llvm/projects/compiler-rt/lib/asan/asan_malloc_linux.cpp:123:3 in free\n==8==ABORTING\n",
+      "wall_seconds": 1.057779,
+      "server_elapsed_seconds": 0.014329,
+      "cost_usd": 0.00036155,
+      "disposable": true
+    },
+    {
+      "task_id": 42479408,
+      "kind": "fix",
+      "checkpoint_uuid": "8861a0e6-3d35-4ebc-858e-5e0b70cdf77e",
+      "checkpoint_operation_uuid": "01a157f4-8565-7322-9f09-20ccc5d2c87c",
+      "checkpoint_wall_seconds": 11.842234,
+      "checkpoint_cost_usd": 0.00006170000000000001,
+      "operation_uuid": "01a157f4-8e8f-75cf-9de3-03b7c125ad1e",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Seed: 2471928056\nINFO: Loaded 1 modules   (21242 inline 8-bit counters): 21242 [0xbe4da0, 0xbea09a), \nINFO: Loaded 1 PC tables (21242 PCs): 21242 [0x8b4668,0x907608), \n/out/fuzz_pkcs15_decode: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 1 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.701323,
+      "server_elapsed_seconds": 0.013509,
+      "cost_usd": 0.00034553000000000003,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "7a77b785ff4c10ecd73caed6000c38220c376d2cdb084eb9db306d695e702d4b",
+    "fix": "d3eaa5696d39245d60ccd3dd3daf81ddb9e505f55ffd4031ca10476fe4220060"
+  },
+  "provenance": {
+    "arvo_task_sha256": "3743397ca2f5fe2302876ec64c94b70ca89ad963ba315f332b1ad86d150dc571",
+    "report_sha256": "886c8b950ed202221b775635c38785c4b8a806fcc621151a78a98a612d1a3802",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2020-680"
+  },
+  "model_cost_usd": 0.0001581,
+  "sandbox_cost_usd": 0.00083082,
+  "total_cost_usd": 0.00098892,
+  "wall_seconds": 28.093051,
+  "public_status": null
+}

@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42517725,
+  "project": "fluent-bit",
+  "report_source": "public OSS-Fuzz OSV report OSV-2022-1132; this is not a private report",
+  "report_text": "Heap-buffer-overflow in add_compile_string\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=52979\n\n```\nCrash type: Heap-buffer-overflow READ 8\nCrash state:\nadd_compile_string\ncompile_tree\ncompile_tree\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [
+    "Affected version of fluent-bit where the issue occurs"
+  ],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow READ 8",
+      "crash_state": [
+        "add_bytes",
+        "add_compile_string",
+        "compile_string_node"
+      ],
+      "sanitizer_excerpt": "==8==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x606000007f78 at pc 0x0000004edb2e bp 0x7fffffffda90 sp 0x7fffffffd250\nREAD of size 8 at 0x606000007f78 thread T0\nSCARINESS: 23 (8-byte-read-heap-buffer-overflow)\n    #0 0x4edb2d in __interceptor_memcpy /src/llvm-project/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:827:5\n    #1 0x808cb3 in add_bytes /src/fluent-bit/lib/onigmo/regcomp.c:289:3\n    #2 0x808cb3 in add_compile_string /src/fluent-bit/lib/onigmo/regcomp.c:458:3\n    #3 0x804588 in compile_string_node /src/fluent-bit/lib/onigmo/regcomp.c:547:10\n    #4 0x804588 in compile_tree /src/fluent-bit/lib/onigmo/regcomp.c:1729:11\n    #5 0x802fb8 in compile_tree /src/fluent-bit/lib/onigmo/regcomp.c:1692:11\n    #6 0x8018d9 in onig_compile /src/fluent-bit/lib/onigmo/regcomp.c:5851:7\n    #7 0x804b01 in onig_new /src/fluent-bit/lib/onigmo/regcomp.c:5982:7\n    #8 0x5c682b in str_to_regex /src/fluent-bit/src/flb_regex.c:78:11\n    #9 0x5c682b in flb_regex_create /src/fluent-bit/src/flb_regex.c:108:11\n    #10 0x5ac330 in flb_parser_create /src/fluent-bit/src/flb_parser.c:214:17\n    #11 0x5aefdb in parser_conf_file /src/fluent-bit/src/flb_parser.c:559:14\n    #12 0x5aefdb in flb_parser_conf_file /src/fluent-bit/src/flb_parser.c:870:11\n    #13 0x58afea in LLVMFuzzerTestOneInput /src/fluent-bit/tests/internal/fuzzers/config_random_fuzzer.c:45:5\n    #14 0x485733 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #15 0x4713c2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #16 0x476c0c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #17 0x49f802 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #18 0x7ffff7a780b2 in __libc_start_main (/arvo-lib/libc.so.6+0x270b2)\n    #19 0x44fbed in _start (/out/flb-it-fuzz-config_random_fuzzer_OSSFUZZ+0x44fbed)\n\nDEDUP_TOKEN: __interceptor_memcpy--add_bytes--add_compile_string\n0x606000007f78 is located 0 bytes to the right of 56-byte region [0x606000007f40,0x606000007f78)\nallocated by thread T0 here:\n    #0 0x55401d in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:129:3\n    #1 0x7f7d17 in node_new /src/fluent-bit/lib/onigmo/regparse.c:1125:18\n    #2 0x7f7d17 in node_new_str /src/fluent-bit/lib/onigmo/regparse.c:1465:16\n    #3 0x7f7d17 in parse_exp /src/fluent-bit/lib/onigmo/regparse.c:6584:13\n\nDEDUP_TOKEN: malloc--node_new--node_new_str\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/llvm-project/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:827:5 in __interceptor_memcpy",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2022-1132"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-buffer-overflow",
+        "measured": "Heap-buffer-overflow READ 8",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "add_compile_string",
+          "compile_tree"
+        ],
+        "measured": [
+          "add_bytes",
+          "add_compile_string",
+          "compile_string_node"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.469598,
+      "input_tokens": 206,
+      "output_tokens": 80,
+      "total_tokens": 286,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001338,
+      "request_id": "75e579901ea0586b4e6566f10fb08e95"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42517725,
+      "kind": "vul",
+      "checkpoint_uuid": "7408a96c-6611-46cc-9583-2c29f8f31ae3",
+      "checkpoint_operation_uuid": "01a157b4-2ec5-711f-9dd2-1b0ab3ed3d40",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e6-ced8-7733-9f2e-3a4b24be2ee3",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1570550190\nINFO: Loaded 1 modules   (88883 inline 8-bit counters): 88883 [0x1100030, 0x1115b63), \nINFO: Loaded 1 PC tables (88883 PCs): 88883 [0x1115b68,0x1270e98), \n/out/flb-it-fuzz-config_random_fuzzer_OSSFUZZ: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==8==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x606000007f78 at pc 0x0000004edb2e bp 0x7fffffffda90 sp 0x7fffffffd250\nREAD of size 8 at 0x606000007f78 thread T0\nSCARINESS: 23 (8-byte-read-heap-buffer-overflow)\n    #0 0x4edb2d in __interceptor_memcpy /src/llvm-project/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:827:5\n    #1 0x808cb3 in add_bytes /src/fluent-bit/lib/onigmo/regcomp.c:289:3\n    #2 0x808cb3 in add_compile_string /src/fluent-bit/lib/onigmo/regcomp.c:458:3\n    #3 0x804588 in compile_string_node /src/fluent-bit/lib/onigmo/regcomp.c:547:10\n    #4 0x804588 in compile_tree /src/fluent-bit/lib/onigmo/regcomp.c:1729:11\n    #5 0x802fb8 in compile_tree /src/fluent-bit/lib/onigmo/regcomp.c:1692:11\n    #6 0x8018d9 in onig_compile /src/fluent-bit/lib/onigmo/regcomp.c:5851:7\n    #7 0x804b01 in onig_new /src/fluent-bit/lib/onigmo/regcomp.c:5982:7\n    #8 0x5c682b in str_to_regex /src/fluent-bit/src/flb_regex.c:78:11\n    #9 0x5c682b in flb_regex_create /src/fluent-bit/src/flb_regex.c:108:11\n    #10 0x5ac330 in flb_parser_create /src/fluent-bit/src/flb_parser.c:214:17\n    #11 0x5aefdb in parser_conf_file /src/fluent-bit/src/flb_parser.c:559:14\n    #12 0x5aefdb in flb_parser_conf_file /src/fluent-bit/src/flb_parser.c:870:11\n    #13 0x58afea in LLVMFuzzerTestOneInput /src/fluent-bit/tests/internal/fuzzers/config_random_fuzzer.c:45:5\n    #14 0x485733 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #15 0x4713c2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #16 0x476c0c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #17 0x49f802 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #18 0x7ffff7a780b2 in __libc_start_main (/arvo-lib/libc.so.6+0x270b2)\n    #19 0x44fbed in _start (/out/flb-it-fuzz-config_random_fuzzer_OSSFUZZ+0x44fbed)\n\nDEDUP_TOKEN: __interceptor_memcpy--add_bytes--add_compile_string\n0x606000007f78 is located 0 bytes to the right of 56-byte region [0x606000007f40,0x606000007f78)\nallocated by thread T0 here:\n    #0 0x55401d in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:129:3\n    #1 0x7f7d17 in node_new /src/fluent-bit/lib/onigmo/regparse.c:1125:18\n    #2 0x7f7d17 in node_new_str /src/fluent-bit/lib/onigmo/regparse.c:1465:16\n    #3 0x7f7d17 in parse_exp /src/fluent-bit/lib/onigmo/regparse.c:6584:13\n\nDEDUP_TOKEN: malloc--node_new--node_new_str\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/llvm-project/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:827:5 in __interceptor_memcpy\nShadow bytes around the buggy address:\n  0x0c0c7fff8f90: fa fa fa fa 00 00 00 00 00 00 00 fa fa fa fa fa\n  0x0c0c7fff8fa0: 00 00 00 00 00 00 00 fa fa fa fa fa 00 00 00 00\n  0x0c0c7fff8fb0: 00 00 00 fa fa fa fa fa 00 00 00 00 00 00 00 fa\n  0x0c0c7fff8fc0: fa fa fa fa 00 00 00 00 00 00 00 fa fa fa fa fa\n  0x0c0c7fff8fd0: 00 00 00 00 00 00 00 fa fa fa fa fa 00 00 00 00\n=>0x0c0c7fff8fe0: 00 00 00 fa fa fa fa fa 00 00 00 00 00 00 00[fa]\n  0x0c0c7fff8ff0: fa fa fa fa 00 00 00 00 00 00 00 fa fa fa fa fa\n  0x0c0c7fff9000: 00 00 00 00 00 00 00 fa fa fa fa fa 00 00 00 00\n  0x0c0c7fff9010: 00 00 00 fa fa fa fa fa 00 00 00 00 00 00 00 fa\n  0x0c0c7fff9020: fa fa fa fa 00 00 00 00 00 00 00 fa fa fa fa fa\n  0x0c0c7fff9030: 00 00 00 00 00 00 00 fa fa fa fa fa 00 00 00 00\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==8==ABORTING\n",
+      "wall_seconds": 0.926709,
+      "server_elapsed_seconds": 0.015655,
+      "cost_usd": 0.00037772999999999995,
+      "disposable": true
+    },
+    {
+      "task_id": 42517725,
+      "kind": "fix",
+      "checkpoint_uuid": "1eda9072-3037-47f6-ae7b-a26013c11791",
+      "checkpoint_operation_uuid": "01a157b4-c57b-76f8-90e7-e2ff9b181b90",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e6-cfea-763a-891b-c258669f680f",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1571093378\nINFO: Loaded 1 modules   (123824 inline 8-bit counters): 123824 [0x12bc990, 0x12dad40), \nINFO: Loaded 1 PC tables (123824 PCs): 123824 [0x12dad40,0x14be840), \n/out/flb-it-fuzz-config_random_fuzzer_OSSFUZZ: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 3 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.256294,
+      "server_elapsed_seconds": 0.016592,
+      "cost_usd": 0.0004219,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "26684ec88b693849a325d7579a70bac87b2f14dd1d8e791a2e1807e7382e2c9f",
+    "fix": "23f7f0a08a2ec1e8583e47451d38789023e1e0363fb58841488909c1ab4fb70e"
+  },
+  "provenance": {
+    "arvo_task_sha256": "0996be2a50f0468d127f5297f68c4d30814f1b02d226c2c0af42bc3dcc262b8f",
+    "report_sha256": "54e17697951caf3d9861452a291471bdd43962b3941e2c1ae4577ea33d46b014",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2022-1132"
+  },
+  "model_cost_usd": 0.0001338,
+  "sandbox_cost_usd": 0.00079963,
+  "total_cost_usd": 0.00093343,
+  "wall_seconds": 3.720769,
+  "public_status": null
+}

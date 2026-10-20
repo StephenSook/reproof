@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42481221,
+  "project": "arrow",
+  "report_source": "public OSS-Fuzz OSV report OSV-2020-974; this is not a private report",
+  "report_text": "Heap-buffer-overflow in arrow::Status arrow::VisitArrayInline<arrow::internal::ValidateArrayDataVisitor>\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=20113\n\n```\nCrash type: Heap-buffer-overflow READ 4\nCrash state:\narrow::Status arrow::VisitArrayInline<arrow::internal::ValidateArrayDataVisitor>\narrow::internal::ValidateArrayData\narrow::RecordBatch::ValidateFull\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "crash_state": [
+        "Visit",
+        "arrow::Status arrow::VisitArrayInline<arrow::internal::ValidateArrayDataVisitor>",
+        "arrow::internal::ValidateArrayData"
+      ],
+      "sanitizer_excerpt": "==10==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x61a000000f60 at pc 0x000001012bb3 bp 0x7fffffffdf50 sp 0x7fffffffdf48\nREAD of size 4 at 0x61a000000f60 thread T0\nSCARINESS: 27 (4-byte-read-heap-buffer-overflow-far-from-bounds)\n    #0 0x1012bb2 in Visit /src/arrow/cpp/src/arrow/array/validate.cc:380:32\n    #1 0x1012bb2 in arrow::Status arrow::VisitArrayInline<arrow::internal::(anonymous namespace)::ValidateArrayDataVisitor>(arrow::Array const&, arrow::internal::(anonymous namespace)::ValidateArrayDataVisitor*) /src/arrow/cpp/src/arrow/visitor_inline.h:110:5\n    #2 0x10061f8 in arrow::internal::ValidateArrayData(arrow::Array const&) /src/arrow/cpp/src/arrow/array/validate.cc:467:10\n    #3 0x709933 in arrow::RecordBatch::ValidateFull() const /src/arrow/cpp/src/arrow/record_batch.cc:272:5\n    #4 0x67edcf in arrow::ipc::internal::FuzzIpcStream(unsigned char const*, long) /src/arrow/cpp/src/arrow/ipc/reader.cc:1167:5\n    #5 0x636bed in LLVMFuzzerTestOneInput /src/arrow/cpp/src/arrow/ipc/stream_fuzz.cc:25:17\n    #6 0x53c871 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:556:15\n    #7 0x527391 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:292:6\n    #8 0x52d04e in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:774:9\n    #9 0x556f72 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\n    #10 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n    #11 0x500808 in _start (/out/arrow-ipc-stream-fuzz+0x500808)\n\nDEDUP_TOKEN: Visit--arrow::Status arrow::VisitArrayInline<arrow::internal::(anonymous namespace)::ValidateArrayDataVisitor>(arrow::Array const&, arrow::internal::(anonymous namespace)::ValidateArrayDataVisitor*)--arrow::internal::ValidateArrayData(arrow::Array const&)\nAddress 0x61a000000f60 is a wild pointer.\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/arrow/cpp/src/arrow/array/validate.cc:380:32 in Visit",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2020-974"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-buffer-overflow",
+        "measured": "Heap-buffer-overflow READ 4",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "arrow::Status arrow::VisitArrayInline<arrow::internal::ValidateArrayDataVisitor>",
+          "arrow::internal::ValidateArrayData",
+          "arrow::RecordBatch::ValidateFull"
+        ],
+        "measured": [
+          "Visit",
+          "arrow::Status arrow::VisitArrayInline<arrow::internal::ValidateArrayDataVisitor>",
+          "arrow::internal::ValidateArrayData"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.284938,
+      "input_tokens": 240,
+      "output_tokens": 94,
+      "total_tokens": 334,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001566,
+      "request_id": "85bb4eae4a8c3e5248455b7f2d31f47b"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42481221,
+      "kind": "vul",
+      "checkpoint_uuid": "869c3219-d0a0-4fa7-8ef1-37a97a0e0f46",
+      "checkpoint_operation_uuid": "01a1579b-b1ad-7079-af6a-9b98519bf396",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e4-229b-77e2-88cd-4cd4f3dc989d",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Seed: 1395407417\nINFO: Loaded 1 modules   (292539 inline 8-bit counters): 292539 [0x1931cd0, 0x197938b), \nINFO: Loaded 1 PC tables (292539 PCs): 292539 [0x1979390,0x1deff40), \n/out/arrow-ipc-stream-fuzz: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==10==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x61a000000f60 at pc 0x000001012bb3 bp 0x7fffffffdf50 sp 0x7fffffffdf48\nREAD of size 4 at 0x61a000000f60 thread T0\nSCARINESS: 27 (4-byte-read-heap-buffer-overflow-far-from-bounds)\n    #0 0x1012bb2 in Visit /src/arrow/cpp/src/arrow/array/validate.cc:380:32\n    #1 0x1012bb2 in arrow::Status arrow::VisitArrayInline<arrow::internal::(anonymous namespace)::ValidateArrayDataVisitor>(arrow::Array const&, arrow::internal::(anonymous namespace)::ValidateArrayDataVisitor*) /src/arrow/cpp/src/arrow/visitor_inline.h:110:5\n    #2 0x10061f8 in arrow::internal::ValidateArrayData(arrow::Array const&) /src/arrow/cpp/src/arrow/array/validate.cc:467:10\n    #3 0x709933 in arrow::RecordBatch::ValidateFull() const /src/arrow/cpp/src/arrow/record_batch.cc:272:5\n    #4 0x67edcf in arrow::ipc::internal::FuzzIpcStream(unsigned char const*, long) /src/arrow/cpp/src/arrow/ipc/reader.cc:1167:5\n    #5 0x636bed in LLVMFuzzerTestOneInput /src/arrow/cpp/src/arrow/ipc/stream_fuzz.cc:25:17\n    #6 0x53c871 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:556:15\n    #7 0x527391 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:292:6\n    #8 0x52d04e in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:774:9\n    #9 0x556f72 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\n    #10 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n    #11 0x500808 in _start (/out/arrow-ipc-stream-fuzz+0x500808)\n\nDEDUP_TOKEN: Visit--arrow::Status arrow::VisitArrayInline<arrow::internal::(anonymous namespace)::ValidateArrayDataVisitor>(arrow::Array const&, arrow::internal::(anonymous namespace)::ValidateArrayDataVisitor*)--arrow::internal::ValidateArrayData(arrow::Array const&)\nAddress 0x61a000000f60 is a wild pointer.\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/arrow/cpp/src/arrow/array/validate.cc:380:32 in Visit\nShadow bytes around the buggy address:\n  0x0c347fff8190: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c347fff81a0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c347fff81b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c347fff81c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c347fff81d0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n=>0x0c347fff81e0: fa fa fa fa fa fa fa fa fa fa fa fa[fa]fa fa fa\n  0x0c347fff81f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c347fff8200: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c347fff8210: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c347fff8220: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c347fff8230: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n  Shadow gap:              cc\n==10==ABORTING\n",
+      "wall_seconds": 0.947032,
+      "server_elapsed_seconds": 0.014068,
+      "cost_usd": 0.00036250000000000003,
+      "disposable": true
+    },
+    {
+      "task_id": 42481221,
+      "kind": "fix",
+      "checkpoint_uuid": "d5f3083d-2a44-4a50-af34-9963b55ec599",
+      "checkpoint_operation_uuid": "01a1579c-b005-7192-9896-935206c454bb",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e4-23ab-7128-95ab-3d28ce7955cc",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Seed: 1395931619\nINFO: Loaded 1 modules   (293490 inline 8-bit counters): 293490 [0x1940010, 0x1987a82), \nINFO: Loaded 1 PC tables (293490 PCs): 293490 [0x1987a88,0x1e021a8), \n/out/arrow-ipc-stream-fuzz: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 8 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.484282,
+      "server_elapsed_seconds": 0.012049,
+      "cost_usd": 0.00032243,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "592ea5a0d610e6ecc4e96867eb782f73e9825d5f94353f498928c6d0ed243886",
+    "fix": "a340fc22eaca583ebd5aec67f7067b83e0a6910109c08215dd143fe3cf951871"
+  },
+  "provenance": {
+    "arvo_task_sha256": "105dfaa971ea22bca9e56a6c773ee0e620eea62a97827730d1507ae987505348",
+    "report_sha256": "58e01dd49284f33127624a22d9023c181c70268293060a672037101f6d77be4e",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2020-974"
+  },
+  "model_cost_usd": 0.0001566,
+  "sandbox_cost_usd": 0.00068493,
+  "total_cost_usd": 0.00084153,
+  "wall_seconds": 3.880091,
+  "public_status": null
+}

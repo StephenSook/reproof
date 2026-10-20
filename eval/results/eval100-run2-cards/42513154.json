@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42513154,
+  "project": "libpcap",
+  "report_source": "public OSS-Fuzz OSV report OSV-2022-551; this is not a private report",
+  "report_text": "Heap-buffer-overflow in fixup_pcap_pkthdr\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=48863\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nfixup_pcap_pkthdr\npcap_next_packet\npcap_offline_read\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [
+    "version of libpcap where issue occurs",
+    "steps to reproduce (e.g., test case or pcap file)",
+    "compiler flags used during fuzzing"
+  ],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "fixup_pcap_pkthdr",
+        "pcap_next_packet",
+        "pcap_offline_read"
+      ],
+      "sanitizer_excerpt": "==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60200000009f at pc 0x0000006006a5 bp 0x7fffffffdfa0 sp 0x7fffffffdf98\nREAD of size 1 at 0x60200000009f thread T0\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\n    #0 0x6006a4 in fixup_pcap_pkthdr /src/libpcap/pcap-common.c:1853:17\n    #1 0x56d46a in pcap_next_packet /src/libpcap/sf-pcap.c:711:2\n    #2 0x566ae1 in pcap_offline_read /src/libpcap/savefile.c:660:12\n    #3 0x55ddd9 in pcap_next_ex /src/libpcap/pcap.c:618:12\n    #4 0x55d29f in LLVMFuzzerTestOneInput /src/libpcap/build/../testprogs/fuzz/fuzz_pcap.c:67:9\n    #5 0x4552e3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #6 0x440f72 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #7 0x4467bc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #8 0x46f3b2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #9 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082)\n    #10 0x41f79d in _start (/out/fuzz_pcap+0x41f79d)\n\nDEDUP_TOKEN: fixup_pcap_pkthdr--pcap_next_packet--pcap_offline_read\n0x60200000009f is located 11 bytes to the right of 4-byte region [0x602000000090,0x602000000094)\nallocated by thread T0 here:\n    #0 0x523bcd in __interceptor_malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:129:3\n    #1 0x56c13c in pcap_check_header /src/libpcap/sf-pcap.c:403:14\n    #2 0x5663a3 in pcap_fopen_offline_with_tstamp_precision /src/libpcap/savefile.c:518:7\n    #3 0x566116 in pcap_open_offline_with_tstamp_precision /src/libpcap/savefile.c:384:6\n    #4 0x566865 in pcap_open_offline /src/libpcap/savefile.c:395:10\n    #5 0x55d273 in LLVMFuzzerTestOneInput /src/libpcap/build/../testprogs/fuzz/fuzz_pcap.c:60:12\n    #6 0x4552e3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #7 0x440f72 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #8 0x4467bc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #9 0x46f3b2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #10 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082)\n\nDEDUP_TOKEN: __interceptor_malloc--pcap_check_header--pcap_fopen_offline_with_tstamp_precision\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/libpcap/pcap-common.c:1853:17 in fixup_pcap_pkthdr",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2022-551"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "heap-buffer overflow read",
+        "measured": "Heap-buffer-overflow READ 1",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "fixup_pcap_pkthdr"
+        ],
+        "measured": [
+          "fixup_pcap_pkthdr",
+          "pcap_next_packet",
+          "pcap_offline_read"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.725401,
+      "input_tokens": 219,
+      "output_tokens": 99,
+      "total_tokens": 318,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001548,
+      "request_id": "167e33c5e69d06885915f0cf65d2eb31"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42513154,
+      "kind": "vul",
+      "checkpoint_uuid": "767b93e5-7233-4bc3-bced-d8e217257906",
+      "checkpoint_operation_uuid": "01a157f1-b4bc-7158-a4c2-78c08f24eaeb",
+      "checkpoint_wall_seconds": 8.363929,
+      "checkpoint_cost_usd": 0.00006319,
+      "operation_uuid": "01a157f1-db72-70a3-9b1f-f0e90b3625fd",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 2294679132\nINFO: Loaded 1 modules   (7914 inline 8-bit counters): 7914 [0x6d38c0, 0x6d57aa), \nINFO: Loaded 1 PC tables (7914 PCs): 7914 [0x65a178,0x679018), \n/out/fuzz_pcap: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60200000009f at pc 0x0000006006a5 bp 0x7fffffffdfa0 sp 0x7fffffffdf98\nREAD of size 1 at 0x60200000009f thread T0\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\n    #0 0x6006a4 in fixup_pcap_pkthdr /src/libpcap/pcap-common.c:1853:17\n    #1 0x56d46a in pcap_next_packet /src/libpcap/sf-pcap.c:711:2\n    #2 0x566ae1 in pcap_offline_read /src/libpcap/savefile.c:660:12\n    #3 0x55ddd9 in pcap_next_ex /src/libpcap/pcap.c:618:12\n    #4 0x55d29f in LLVMFuzzerTestOneInput /src/libpcap/build/../testprogs/fuzz/fuzz_pcap.c:67:9\n    #5 0x4552e3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #6 0x440f72 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #7 0x4467bc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #8 0x46f3b2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #9 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082)\n    #10 0x41f79d in _start (/out/fuzz_pcap+0x41f79d)\n\nDEDUP_TOKEN: fixup_pcap_pkthdr--pcap_next_packet--pcap_offline_read\n0x60200000009f is located 11 bytes to the right of 4-byte region [0x602000000090,0x602000000094)\nallocated by thread T0 here:\n    #0 0x523bcd in __interceptor_malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:129:3\n    #1 0x56c13c in pcap_check_header /src/libpcap/sf-pcap.c:403:14\n    #2 0x5663a3 in pcap_fopen_offline_with_tstamp_precision /src/libpcap/savefile.c:518:7\n    #3 0x566116 in pcap_open_offline_with_tstamp_precision /src/libpcap/savefile.c:384:6\n    #4 0x566865 in pcap_open_offline /src/libpcap/savefile.c:395:10\n    #5 0x55d273 in LLVMFuzzerTestOneInput /src/libpcap/build/../testprogs/fuzz/fuzz_pcap.c:60:12\n    #6 0x4552e3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #7 0x440f72 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #8 0x4467bc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #9 0x46f3b2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #10 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082)\n\nDEDUP_TOKEN: __interceptor_malloc--pcap_check_header--pcap_fopen_offline_with_tstamp_precision\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/libpcap/pcap-common.c:1853:17 in fixup_pcap_pkthdr\nShadow bytes around the buggy address:\n  0x0c047fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff8000: fa fa 00 00 fa fa 00 fa fa fa 00 fa fa fa 00 fa\n=>0x0c047fff8010: fa fa 04[fa]fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8020: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==9==ABORTING\n",
+      "wall_seconds": 0.947326,
+      "server_elapsed_seconds": 0.01302,
+      "cost_usd": 0.00032396,
+      "disposable": true
+    },
+    {
+      "task_id": 42513154,
+      "kind": "fix",
+      "checkpoint_uuid": "65fefbcb-c179-41cc-8c3d-5a679b269e8e",
+      "checkpoint_operation_uuid": "01a157f1-d5ee-730c-8328-1610a3f4f4c9",
+      "checkpoint_wall_seconds": 7.940511,
+      "checkpoint_cost_usd": 0.00006282,
+      "operation_uuid": "01a157f1-dc63-71cf-b14e-f1fb2327634b",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 2295174994\nINFO: Loaded 1 modules   (7914 inline 8-bit counters): 7914 [0x6d38c0, 0x6d57aa), \nINFO: Loaded 1 PC tables (7914 PCs): 7914 [0x65a178,0x679018), \n/out/fuzz_pcap: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 1 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.501478,
+      "server_elapsed_seconds": 0.0119,
+      "cost_usd": 0.00030082000000000004,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "4b75a73b26a706bd8f63e62571ab8e92f85e3c501f984618b41d1ab4627e4ca6",
+    "fix": "f9caca452ab3eba7dafe9d245f4a98214ca4870cc3eb36d50353910b6d80c868"
+  },
+  "provenance": {
+    "arvo_task_sha256": "107ecbe2bca29e4e92388d363ceeb53b61aaae8fa4ba9750366ce36e3165c2bf",
+    "report_sha256": "8e90a186b2bbdeefd0cc2607f2785869c0510f1ebe293fbf632dde3b2cfbfb8b",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2022-551"
+  },
+  "model_cost_usd": 0.0001548,
+  "sandbox_cost_usd": 0.00075079,
+  "total_cost_usd": 0.00090559,
+  "wall_seconds": 21.074241,
+  "public_status": null
+}

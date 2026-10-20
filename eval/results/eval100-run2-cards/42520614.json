@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42520614,
+  "project": "libredwg",
+  "report_source": "public OSS-Fuzz OSV report OSV-2023-42; this is not a private report",
+  "report_text": "Heap-buffer-overflow in bit_read_BB\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=55579\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nbit_read_BB\ndwg_decode_MINSERT_private\ndwg_decode_MINSERT\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [
+    "version of libredwg where issue occurs",
+    "steps to reproduce (e.g., test case or input file)",
+    "compiler and build flags used"
+  ],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "bit_read_BB",
+        "dwg_decode_MINSERT_private",
+        "dwg_decode_MINSERT"
+      ],
+      "sanitizer_excerpt": "==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60600000011a at pc 0x00000056bb32 bp 0x7fffffffdbe0 sp 0x7fffffffdbd8\nREAD of size 1 at 0x60600000011a thread T0\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\n    #0 0x56bb31 in bit_read_BB /src/libredwg/src/bits.c:189:10\n    #1 0x7916e3 in dwg_decode_MINSERT_private /src/libredwg/src/./dwg.spec:881:11\n    #2 0x698f29 in dwg_decode_MINSERT /src/libredwg/src/./dwg.spec:855:1\n    #3 0x69479c in dwg_decode_add_object /src/libredwg/src/decode.c:5190:15\n    #4 0x58fa55 in decode_R13_R2000 /src/libredwg/src/decode.c:790:19\n    #5 0x586048 in dwg_decode /src/libredwg/src/decode.c:225:38\n    #6 0x56a072 in LLVMFuzzerTestOneInput /src/libredwg/examples/llvmfuzz.c:95:11\n    #7 0x43dec3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #8 0x429622 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #9 0x42eecc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #10 0x458402 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #11 0x7ffff7a76082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: 1878e6b475720c7c51969e69ab2d276fae6d1dee)\n    #12 0x41f7ed in _start (/out/llvmfuzz+0x41f7ed)\n\nDEDUP_TOKEN: bit_read_BB--dwg_decode_MINSERT_private--dwg_decode_MINSERT\n0x60600000011a is located 0 bytes to the right of 58-byte region [0x6060000000e0,0x60600000011a)\nallocated by thread T0 here:\n    #0 0x52f056 in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:69:3\n    #1 0x4ada57 in operator new(unsigned long) cxa_noexception.cpp\n    #2 0x429622 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #3 0x42eecc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #4 0x458402 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #5 0x7ffff7a76082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: 1878e6b475720c7c51969e69ab2d276fae6d1dee)\n\nDEDUP_TOKEN: malloc--operator new(unsigned long)--fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/libredwg/src/bits.c:189:10 in bit_read_BB",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2023-42"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-buffer-overflow",
+        "measured": "Heap-buffer-overflow READ 1",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "bit_read_BB",
+          "dwg_decode_MINSERT_private",
+          "dwg_decode_MINSERT"
+        ],
+        "measured": [
+          "bit_read_BB",
+          "dwg_decode_MINSERT_private",
+          "dwg_decode_MINSERT"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.156919,
+      "input_tokens": 214,
+      "output_tokens": 113,
+      "total_tokens": 327,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001659,
+      "request_id": "4e380d55a2b38ad111d353cb25a910d4"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42520614,
+      "kind": "vul",
+      "checkpoint_uuid": "03233a95-7a07-4709-9b5a-813f7f3c8831",
+      "checkpoint_operation_uuid": "01a1579f-c0ac-700d-8002-5b88e8e5119b",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e4-7cde-70d5-8eb5-9cf3a25ba578",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1418506526\nINFO: Loaded 1 modules   (567766 inline 8-bit counters): 567766 [0x49fbd20, 0x4a866f6), \nINFO: Loaded 1 PC tables (567766 PCs): 567766 [0x3ebba90,0x47657f0), \n/out/llvmfuzz: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60600000011a at pc 0x00000056bb32 bp 0x7fffffffdbe0 sp 0x7fffffffdbd8\nREAD of size 1 at 0x60600000011a thread T0\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\n    #0 0x56bb31 in bit_read_BB /src/libredwg/src/bits.c:189:10\n    #1 0x7916e3 in dwg_decode_MINSERT_private /src/libredwg/src/./dwg.spec:881:11\n    #2 0x698f29 in dwg_decode_MINSERT /src/libredwg/src/./dwg.spec:855:1\n    #3 0x69479c in dwg_decode_add_object /src/libredwg/src/decode.c:5190:15\n    #4 0x58fa55 in decode_R13_R2000 /src/libredwg/src/decode.c:790:19\n    #5 0x586048 in dwg_decode /src/libredwg/src/decode.c:225:38\n    #6 0x56a072 in LLVMFuzzerTestOneInput /src/libredwg/examples/llvmfuzz.c:95:11\n    #7 0x43dec3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #8 0x429622 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #9 0x42eecc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #10 0x458402 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #11 0x7ffff7a76082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: 1878e6b475720c7c51969e69ab2d276fae6d1dee)\n    #12 0x41f7ed in _start (/out/llvmfuzz+0x41f7ed)\n\nDEDUP_TOKEN: bit_read_BB--dwg_decode_MINSERT_private--dwg_decode_MINSERT\n0x60600000011a is located 0 bytes to the right of 58-byte region [0x6060000000e0,0x60600000011a)\nallocated by thread T0 here:\n    #0 0x52f056 in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:69:3\n    #1 0x4ada57 in operator new(unsigned long) cxa_noexception.cpp\n    #2 0x429622 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #3 0x42eecc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #4 0x458402 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #5 0x7ffff7a76082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: 1878e6b475720c7c51969e69ab2d276fae6d1dee)\n\nDEDUP_TOKEN: malloc--operator new(unsigned long)--fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/libredwg/src/bits.c:189:10 in bit_read_BB\nShadow bytes around the buggy address:\n  0x0c0c7fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c0c7fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c0c7fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c0c7fff8000: fa fa fa fa fd fd fd fd fd fd fd fd fa fa fa fa\n  0x0c0c7fff8010: 00 00 00 00 00 00 00 02 fa fa fa fa 00 00 00 00\n=>0x0c0c7fff8020: 00 00 00[02]fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c0c7fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c0c7fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c0c7fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c0c7fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c0c7fff8070: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==9==ABORTING\n",
+      "wall_seconds": 0.960102,
+      "server_elapsed_seconds": 0.015983,
+      "cost_usd": 0.00039338999999999997,
+      "disposable": true
+    },
+    {
+      "task_id": 42520614,
+      "kind": "fix",
+      "checkpoint_uuid": "f136f4e0-f0fa-4c80-b050-c19def920781",
+      "checkpoint_operation_uuid": "01a157a0-5a12-756d-9698-88639e871e99",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e4-7dd5-7018-8049-496725906a61",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1419440043\nINFO: Loaded 1 modules   (645858 inline 8-bit counters): 645858 [0x52dd320, 0x537ae02), \nINFO: Loaded 1 PC tables (645858 PCs): 645858 [0x4657398,0x50321b8), \n/out/llvmfuzz: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 2 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.812189,
+      "server_elapsed_seconds": 0.013579,
+      "cost_usd": 0.00035427,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "1f3273944ac332871466cc355c4211199ad861aeb402763c7f4788001bac3cbb",
+    "fix": "497c39a7aecb2903e991ad99fe659fa3befb141e68d4a70e9ebae591d353bc5a"
+  },
+  "provenance": {
+    "arvo_task_sha256": "529e581bc59255d003b6b032a18bd6d616c3360d635750548392932ab02876e2",
+    "report_sha256": "5b49dc67597e050bec659c4d609e11b2ca6997b2fe6865e97cbecb5ec64d67b0",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2023-42"
+  },
+  "model_cost_usd": 0.0001659,
+  "sandbox_cost_usd": 0.00074766,
+  "total_cost_usd": 0.00091356,
+  "wall_seconds": 4.199199,
+  "public_status": null
+}

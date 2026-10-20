@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42525192,
+  "project": "libxml2",
+  "report_source": "public OSS-Fuzz OSV report OSV-2023-474; this is not a private report",
+  "report_text": "Global-buffer-overflow in xmlDictLookup\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=59701\n\n```\nCrash type: Global-buffer-overflow READ 1\nCrash state:\nxmlDictLookup\nxmlParseNCName\nxmlParseQName\n```",
+  "verdict": "NEEDS_INFO",
+  "missing_details": [
+    "Bug class (e.g., buffer overflow, use-after-free)",
+    "Affected version of libxml2",
+    "Trigger condition or input causing the crash",
+    "The vulnerable build did not produce a recognized sanitizer trace and did not complete cleanly (exit code 127); inspect its captured stdout and stderr.",
+    "The fixed build did not exit cleanly; inspect its captured stdout and stderr."
+  ],
+  "evidence": {
+    "crash": null,
+    "fix_clean": false,
+    "fixed_exit_code": 127,
+    "excluded_osv_ids": [
+      "OSV-2023-474"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "",
+        "measured": "",
+        "matches": false,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "xmlDictLookup"
+        ],
+        "measured": [],
+        "matches": false,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.395611,
+      "input_tokens": 207,
+      "output_tokens": 94,
+      "total_tokens": 301,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001467,
+      "request_id": "81bfc35f466d46c63067ad9698da4512"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42525192,
+      "kind": "vul",
+      "checkpoint_uuid": "16c1b510-8b8f-4066-aa03-8ab05eb1abda",
+      "checkpoint_operation_uuid": "01a1579e-e3f0-7609-b977-0def3be56074",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e4-6803-7156-95b6-26c623f0a91c",
+      "exit_code": 127,
+      "stdout": "",
+      "stderr": "/out/xml: error while loading shared libraries: libm.so.6: wrong ELF class: ELFCLASS64\n",
+      "wall_seconds": 0.96703,
+      "server_elapsed_seconds": 0.003741,
+      "cost_usd": 0.00008671000000000002,
+      "disposable": true
+    },
+    {
+      "task_id": 42525192,
+      "kind": "fix",
+      "checkpoint_uuid": "a7614abc-6b8f-408a-9037-fa01f11cec4f",
+      "checkpoint_operation_uuid": "01a1579f-19bb-73a3-a229-18615cbbaaa7",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e4-6921-70b3-8ed2-cb67c61d24e7",
+      "exit_code": 127,
+      "stdout": "",
+      "stderr": "/out/xml: error while loading shared libraries: libm.so.6: wrong ELF class: ELFCLASS64\n",
+      "wall_seconds": 2.164489,
+      "server_elapsed_seconds": 0.003861,
+      "cost_usd": 0.00007741,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "d33dc4a740805f99a7b007e07e64a96bb5e50593ee96a9a189c853b7ca913266",
+    "fix": "4e4af0b05c5550aad47caa0d8a28bc1bcd704c81fbb932bbbe89f4515edb4d3b"
+  },
+  "provenance": {
+    "arvo_task_sha256": "8f13220201dcf86d297cb75d2ae0029965b134e5d7e5cc389d5a8faaa52e6fe3",
+    "report_sha256": "58ead22a66946a12554a5b0f24c9cb8ac20ed78c3455b79cc80b91ece313cbde",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2023-474"
+  },
+  "model_cost_usd": 0.0001467,
+  "sandbox_cost_usd": 0.00016412,
+  "total_cost_usd": 0.00031082,
+  "wall_seconds": 4.432857,
+  "public_status": null
+}

@@ -1,0 +1,124 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42477222,
+  "project": "libavc",
+  "report_source": "public OSS-Fuzz OSV report OSV-2020-1153; this is not a private report",
+  "report_text": "Heap-buffer-overflow in ih264d_cavlc_4x4res_block_totalcoeff_11to16\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=16514\n\n```\nCrash type: Heap-buffer-overflow READ 4\nCrash state:\nih264d_cavlc_4x4res_block_totalcoeff_11to16\nih264d_cavlc_parse4x4coeff_n0to7\nih264d_cavlc_parse_8x8block_both_available\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [
+    "triggering input (e.g., test case)",
+    "specific file where overflow occurs"
+  ],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "crash_state": [
+        "ih264d_cavlc_4x4res_block_totalcoeff_11to16",
+        "ih264d_cavlc_parse4x4coeff_n0to7",
+        "ih264d_cavlc_parse_8x8block_both_available"
+      ],
+      "sanitizer_excerpt": "==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x7ffff7cbb200 at pc 0x00000061abf1 bp 0x7fffffffd530 sp 0x7fffffffd528\nREAD of size 4 at 0x7ffff7cbb200 thread T0\nSCARINESS: 17 (4-byte-read-heap-buffer-overflow)\n    #0 0x61abf0 in ih264d_cavlc_4x4res_block_totalcoeff_11to16 /src/libavc/decoder/ih264d_parse_cavlc.c:857:13\n    #1 0x61bf14 in ih264d_cavlc_parse4x4coeff_n0to7 /src/libavc/decoder/ih264d_parse_cavlc.c:1260:15\n    #2 0x61dc8b in ih264d_cavlc_parse_8x8block_both_available /src/libavc/decoder/ih264d_parse_cavlc.c:1820:11\n    #3 0x620cd9 in ih264d_parse_residual4x4_cavlc /src/libavc/decoder/ih264d_parse_cavlc.c:2693:19\n    #4 0x5cae6c in ih264d_parse_imb_cavlc /src/libavc/decoder/ih264d_parse_islice.c:445:15\n    #5 0x5cd0df in ih264d_parse_islice_data_cavlc /src/libavc/decoder/ih264d_parse_islice.c:861:19\n    #6 0x5cfdcd in ih264d_parse_islice /src/libavc/decoder/ih264d_parse_islice.c:1489:15\n    #7 0x614e06 in ih264d_parse_decode_slice /src/libavc/decoder/ih264d_parse_slice.c:1895:15\n    #8 0x5e4f46 in ih264d_parse_nal_unit /src/libavc/decoder/ih264d_parse_headers.c:1164:40\n    #9 0x573fd7 in ih264d_video_decode /src/libavc/decoder/ih264d_api.c:2222:15\n    #10 0x56d633 in Codec::decodeFrame(unsigned char const*, unsigned long, unsigned long*) /src/libavc/fuzzer/avc_dec_fuzzer.cpp:334:11\n    #11 0x56ddb4 in LLVMFuzzerTestOneInput /src/libavc/fuzzer/avc_dec_fuzzer.cpp:372:18\n    #12 0x473701 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:553:15\n    #13 0x45e041 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:292:6\n    #14 0x463bce in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:775:9\n    #15 0x48d172 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\n    #16 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n    #17 0x41dd78 in _start (/out/avc_dec_fuzzer+0x41dd78)\n\nDEDUP_TOKEN: ih264d_cavlc_4x4res_block_totalcoeff_11to16--ih264d_cavlc_parse4x4coeff_n0to7--ih264d_cavlc_parse_8x8block_both_available\n0x7ffff7cbb200 is located 0 bytes to the right of 256512-byte region [0x7ffff7c7c800,0x7ffff7cbb200)\nallocated by thread T0 here:\n    #0 0x539b32 in memalign /src/llvm/projects/compiler-rt/lib/asan/asan_malloc_linux.cc:178:3\n    #1 0x573bae in ih264d_video_decode /src/libavc/decoder/ih264d_api.c:2092:22\n    #2 0x56d633 in Codec::decodeFrame(unsigned char const*, unsigned long, unsigned long*) /src/libavc/fuzzer/avc_dec_fuzzer.cpp:334:11\n    #3 0x56ddb4 in LLVMFuzzerTestOneInput /src/libavc/fuzzer/avc_dec_fuzzer.cpp:372:18\n    #4 0x473701 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:553:15\n    #5 0x45e041 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:292:6\n    #6 0x463bce in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:775:9\n    #7 0x48d172 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\n    #8 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n\nDEDUP_TOKEN: memalign--ih264d_video_decode--Codec::decodeFrame(unsigned char const*, unsigned long, unsigned long*)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/libavc/decoder/ih264d_parse_cavlc.c:857:13 in ih264d_cavlc_4x4res_block_totalcoeff_11to16",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2020-1153"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-buffer-overflow",
+        "measured": "Heap-buffer-overflow READ 4",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "ih264d_cavlc_4x4res_block_totalcoeff_11to16",
+          "ih264d_cavlc_parse4x4coeff_n0to7",
+          "ih264d_cavlc_parse_8x8block_both_available"
+        ],
+        "measured": [
+          "ih264d_cavlc_4x4res_block_totalcoeff_11to16",
+          "ih264d_cavlc_parse4x4coeff_n0to7",
+          "ih264d_cavlc_parse_8x8block_both_available"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.659973,
+      "input_tokens": 275,
+      "output_tokens": 140,
+      "total_tokens": 415,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0002085,
+      "request_id": "e0d72c9e73c947799fafd2286ff66fbe"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42477222,
+      "kind": "vul",
+      "checkpoint_uuid": "14be1d84-ea41-459b-b9d2-57aded05d6a5",
+      "checkpoint_operation_uuid": "01a157ac-f4ac-7392-806c-ad3054b545d8",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e5-cf17-774e-bf09-e9adc9dcc151",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Seed: 1505075657\nINFO: Loaded 1 modules   (7249 inline 8-bit counters): 7249 [0x929980, 0x92b5d1), \nINFO: Loaded 1 PC tables (7249 PCs): 7249 [0x6bdfc8,0x6da4d8), \n/out/avc_dec_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x7ffff7cbb200 at pc 0x00000061abf1 bp 0x7fffffffd530 sp 0x7fffffffd528\nREAD of size 4 at 0x7ffff7cbb200 thread T0\nSCARINESS: 17 (4-byte-read-heap-buffer-overflow)\n    #0 0x61abf0 in ih264d_cavlc_4x4res_block_totalcoeff_11to16 /src/libavc/decoder/ih264d_parse_cavlc.c:857:13\n    #1 0x61bf14 in ih264d_cavlc_parse4x4coeff_n0to7 /src/libavc/decoder/ih264d_parse_cavlc.c:1260:15\n    #2 0x61dc8b in ih264d_cavlc_parse_8x8block_both_available /src/libavc/decoder/ih264d_parse_cavlc.c:1820:11\n    #3 0x620cd9 in ih264d_parse_residual4x4_cavlc /src/libavc/decoder/ih264d_parse_cavlc.c:2693:19\n    #4 0x5cae6c in ih264d_parse_imb_cavlc /src/libavc/decoder/ih264d_parse_islice.c:445:15\n    #5 0x5cd0df in ih264d_parse_islice_data_cavlc /src/libavc/decoder/ih264d_parse_islice.c:861:19\n    #6 0x5cfdcd in ih264d_parse_islice /src/libavc/decoder/ih264d_parse_islice.c:1489:15\n    #7 0x614e06 in ih264d_parse_decode_slice /src/libavc/decoder/ih264d_parse_slice.c:1895:15\n    #8 0x5e4f46 in ih264d_parse_nal_unit /src/libavc/decoder/ih264d_parse_headers.c:1164:40\n    #9 0x573fd7 in ih264d_video_decode /src/libavc/decoder/ih264d_api.c:2222:15\n    #10 0x56d633 in Codec::decodeFrame(unsigned char const*, unsigned long, unsigned long*) /src/libavc/fuzzer/avc_dec_fuzzer.cpp:334:11\n    #11 0x56ddb4 in LLVMFuzzerTestOneInput /src/libavc/fuzzer/avc_dec_fuzzer.cpp:372:18\n    #12 0x473701 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:553:15\n    #13 0x45e041 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:292:6\n    #14 0x463bce in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:775:9\n    #15 0x48d172 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\n    #16 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n    #17 0x41dd78 in _start (/out/avc_dec_fuzzer+0x41dd78)\n\nDEDUP_TOKEN: ih264d_cavlc_4x4res_block_totalcoeff_11to16--ih264d_cavlc_parse4x4coeff_n0to7--ih264d_cavlc_parse_8x8block_both_available\n0x7ffff7cbb200 is located 0 bytes to the right of 256512-byte region [0x7ffff7c7c800,0x7ffff7cbb200)\nallocated by thread T0 here:\n    #0 0x539b32 in memalign /src/llvm/projects/compiler-rt/lib/asan/asan_malloc_linux.cc:178:3\n    #1 0x573bae in ih264d_video_decode /src/libavc/decoder/ih264d_api.c:2092:22\n    #2 0x56d633 in Codec::decodeFrame(unsigned char const*, unsigned long, unsigned long*) /src/libavc/fuzzer/avc_dec_fuzzer.cpp:334:11\n    #3 0x56ddb4 in LLVMFuzzerTestOneInput /src/libavc/fuzzer/avc_dec_fuzzer.cpp:372:18\n    #4 0x473701 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:553:15\n    #5 0x45e041 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:292:6\n    #6 0x463bce in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:775:9\n    #7 0x48d172 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\n    #8 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n\nDEDUP_TOKEN: memalign--ih264d_video_decode--Codec::decodeFrame(unsigned char const*, unsigned long, unsigned long*)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/libavc/decoder/ih264d_parse_cavlc.c:857:13 in ih264d_cavlc_4x4res_block_totalcoeff_11to16\nShadow bytes around the buggy address:\n  0x10007ef8f5f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x10007ef8f600: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x10007ef8f610: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x10007ef8f620: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x10007ef8f630: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n=>0x10007ef8f640:[fa]fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x10007ef8f650: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x10007ef8f660: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x10007ef8f670: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x10007ef8f680: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x10007ef8f690: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n  Shadow gap:              cc\n==9==ABORTING\n",
+      "wall_seconds": 0.948021,
+      "server_elapsed_seconds": 0.018382,
+      "cost_usd": 0.00040156,
+      "disposable": true
+    },
+    {
+      "task_id": 42477222,
+      "kind": "fix",
+      "checkpoint_uuid": "2705070d-fce7-4eec-9c9c-dc4f3cad80f1",
+      "checkpoint_operation_uuid": "01a157ad-1213-73dc-b8ec-a48b21f2f8ba",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e5-d020-76b0-a24d-acdf8094e962",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Seed: 1505669728\nINFO: Loaded 1 modules   (7372 inline 8-bit counters): 7372 [0x909980, 0x90b64c), \nINFO: Loaded 1 PC tables (7372 PCs): 7372 [0x69f698,0x6bc358), \n/out/avc_dec_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 13 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.507453,
+      "server_elapsed_seconds": 0.022304,
+      "cost_usd": 0.00042356,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "714ed59d0e67be7a8edd3b862bb5d1e90afc530678ecddcb1e272c4802caba76",
+    "fix": "71db6a742fd7bd4e7f56daf137c1a9735a5e7ea08644bd5acb04689df1e8374c"
+  },
+  "provenance": {
+    "arvo_task_sha256": "262ee6c5ef9dbc039d118c0b560a09980def04af386763112741d960b8deba66",
+    "report_sha256": "adf628a0ee3dbbf1ad62828f380f22f8845e95997094badf1f401abc90b67951",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2020-1153"
+  },
+  "model_cost_usd": 0.0002085,
+  "sandbox_cost_usd": 0.00082512,
+  "total_cost_usd": 0.00103362,
+  "wall_seconds": 3.992396,
+  "public_status": null
+}

@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42488172,
+  "project": "libcoap",
+  "report_source": "public OSS-Fuzz OSV report OSV-2020-2080; this is not a private report",
+  "report_text": "Heap-buffer-overflow in coap_opt_length\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=26371\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\ncoap_opt_length\ncoap_pdu_parse_opt\ncoap_pdu_parse\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [
+    "version of libcoap affected"
+  ],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "coap_opt_length",
+        "coap_pdu_parse_opt",
+        "coap_pdu_parse"
+      ],
+      "sanitizer_excerpt": "==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6120000008c6 at pc 0x0000004d3604 bp 0x7fffffffe2c0 sp 0x7fffffffe2b8\nREAD of size 1 at 0x6120000008c6 thread T0\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\n    #0 0x4d3603 in coap_opt_length /src/libcoap/src/option.c:266:15\n    #1 0x4d84ac in coap_pdu_parse_opt /src/libcoap/src/pdu.c:702:13\n    #2 0x4d98fe in coap_pdu_parse /src/libcoap/src/pdu.c:787:47\n    #3 0x4cd76f in LLVMFuzzerTestOneInput (/out/pdu_parse_fuzzer+0x4cd76f)\n    #4 0x55e0d6 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:595:15\n    #5 0x512c43 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:323:6\n    #6 0x520bf3 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:852:9\n    #7 0x5122b7 in main /src/libfuzzer/FuzzerMain.cpp:20:10\n    #8 0x7ffff642083f in __libc_start_main (/arvo-lib/libc.so.6+0x2083f)\n    #9 0x41ec28 in _start (/out/pdu_parse_fuzzer+0x41ec28)\n\nDEDUP_TOKEN: coap_opt_length--coap_pdu_parse_opt--coap_pdu_parse\n0x6120000008c6 is located 0 bytes to the right of 262-byte region [0x6120000007c0,0x6120000008c6)\nallocated by thread T0 here:\n    #0 0x49b1bd in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:145:3\n    #1 0x4d2253 in coap_malloc_type /src/libcoap/src/mem.c:345:10\n    #2 0x4d5282 in coap_pdu_init /src/libcoap/src/pdu.c:104:9\n    #3 0x4cd740 in LLVMFuzzerTestOneInput (/out/pdu_parse_fuzzer+0x4cd740)\n    #4 0x55e0d6 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:595:15\n    #5 0x512c43 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:323:6\n    #6 0x520bf3 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:852:9\n    #7 0x5122b7 in main /src/libfuzzer/FuzzerMain.cpp:20:10\n    #8 0x7ffff642083f in __libc_start_main (/arvo-lib/libc.so.6+0x2083f)\n\nDEDUP_TOKEN: malloc--coap_malloc_type--coap_pdu_init\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/libcoap/src/option.c:266:15 in coap_opt_length",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2020-2080"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-buffer-overflow",
+        "measured": "Heap-buffer-overflow READ 1",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "coap_opt_length",
+          "coap_pdu_parse_opt",
+          "coap_pdu_parse"
+        ],
+        "measured": [
+          "coap_opt_length",
+          "coap_pdu_parse_opt",
+          "coap_pdu_parse"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.834915,
+      "input_tokens": 213,
+      "output_tokens": 89,
+      "total_tokens": 302,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.000144,
+      "request_id": "0743c95dbc7565dfd3ac551c012e51b2"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42488172,
+      "kind": "vul",
+      "checkpoint_uuid": "c4a9a90c-41c1-4531-8a22-7ad5659cb992",
+      "checkpoint_operation_uuid": "01a157ee-f987-7778-8940-83ad1934542b",
+      "checkpoint_wall_seconds": 20.512592,
+      "checkpoint_cost_usd": 0.00006331,
+      "operation_uuid": "01a157ef-3354-7466-92d0-fc24e933ffbe",
+      "exit_code": 1,
+      "stdout": "Oct 20 06:10:56.769 DEBG coap_pdu_parse: 1.00: option 4 has bad length 0\nOct 20 06:10:56.769 DEBG coap_pdu_parse: 1.00: option 16 has bad length 0\n",
+      "stderr": "INFO: Seed: 2120548710\nINFO: Loaded 1 modules   (3648 inline 8-bit counters): 3648 [0x8d8f28, 0x8d9d68), \nINFO: Loaded 1 PC tables (3648 PCs): 3648 [0x8d9d68,0x8e8168), \n/out/pdu_parse_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6120000008c6 at pc 0x0000004d3604 bp 0x7fffffffe2c0 sp 0x7fffffffe2b8\nREAD of size 1 at 0x6120000008c6 thread T0\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\n    #0 0x4d3603 in coap_opt_length /src/libcoap/src/option.c:266:15\n    #1 0x4d84ac in coap_pdu_parse_opt /src/libcoap/src/pdu.c:702:13\n    #2 0x4d98fe in coap_pdu_parse /src/libcoap/src/pdu.c:787:47\n    #3 0x4cd76f in LLVMFuzzerTestOneInput (/out/pdu_parse_fuzzer+0x4cd76f)\n    #4 0x55e0d6 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:595:15\n    #5 0x512c43 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:323:6\n    #6 0x520bf3 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:852:9\n    #7 0x5122b7 in main /src/libfuzzer/FuzzerMain.cpp:20:10\n    #8 0x7ffff642083f in __libc_start_main (/arvo-lib/libc.so.6+0x2083f)\n    #9 0x41ec28 in _start (/out/pdu_parse_fuzzer+0x41ec28)\n\nDEDUP_TOKEN: coap_opt_length--coap_pdu_parse_opt--coap_pdu_parse\n0x6120000008c6 is located 0 bytes to the right of 262-byte region [0x6120000007c0,0x6120000008c6)\nallocated by thread T0 here:\n    #0 0x49b1bd in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:145:3\n    #1 0x4d2253 in coap_malloc_type /src/libcoap/src/mem.c:345:10\n    #2 0x4d5282 in coap_pdu_init /src/libcoap/src/pdu.c:104:9\n    #3 0x4cd740 in LLVMFuzzerTestOneInput (/out/pdu_parse_fuzzer+0x4cd740)\n    #4 0x55e0d6 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:595:15\n    #5 0x512c43 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:323:6\n    #6 0x520bf3 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:852:9\n    #7 0x5122b7 in main /src/libfuzzer/FuzzerMain.cpp:20:10\n    #8 0x7ffff642083f in __libc_start_main (/arvo-lib/libc.so.6+0x2083f)\n\nDEDUP_TOKEN: malloc--coap_malloc_type--coap_pdu_init\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/libcoap/src/option.c:266:15 in coap_opt_length\nShadow bytes around the buggy address:\n  0x0c247fff80c0: fa fa fa fa fa fa fa fa 00 00 00 00 00 00 00 00\n  0x0c247fff80d0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c247fff80e0: 00 00 00 00 00 00 00 00 03 fa fa fa fa fa fa fa\n  0x0c247fff80f0: fa fa fa fa fa fa fa fa 00 00 00 00 00 00 00 00\n  0x0c247fff8100: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n=>0x0c247fff8110: 00 00 00 00 00 00 00 00[06]fa fa fa fa fa fa fa\n  0x0c247fff8120: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c247fff8130: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c247fff8140: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c247fff8150: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c247fff8160: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n  Shadow gap:              cc\n==9==ABORTING\n",
+      "wall_seconds": 0.947022,
+      "server_elapsed_seconds": 0.012863,
+      "cost_usd": 0.00035163,
+      "disposable": true
+    },
+    {
+      "task_id": 42488172,
+      "kind": "fix",
+      "checkpoint_uuid": "4e108953-932a-4147-bef4-9e3961b36496",
+      "checkpoint_operation_uuid": "01a157ef-2cae-767b-98d6-a580ab02ab01",
+      "checkpoint_wall_seconds": 11.278099,
+      "checkpoint_cost_usd": 0.00006345999999999999,
+      "operation_uuid": "01a157ef-3453-7553-9df7-40ab986b5671",
+      "exit_code": 0,
+      "stdout": "Oct 20 06:10:58.221 DEBG coap_pdu_parse: 1.00: option 4 has bad length 0\nOct 20 06:10:58.221 DEBG coap_pdu_parse: 1.00: option 16 has bad length 0\nOct 20 06:10:58.221 DEBG coap_pdu_parse: malformed option\nv:1 t:NON c:1.00 i:2020 {} [ 2:, ETag:, Observe:0, Location-Path:, 10:, Content-Format:text/plain, Max-Age:0, Hop-Limit:0, 18:, Location-Query:, 22:, 24:, 26:, Size2:0, 30:, 32:, 34:, 36:, 38:, 40:, 42:, 44:, 46:, 48:, 50:, 52:, 54:, 56:, 58:, Size1:0, 62:, 64:, 66:, 68:, 70:, 72:, 74:, 76:, 78:, 80:, 82:, 84:, 86:, 88:, 90:, 92:, 94:, 96:, 98:, 100:, 102:, 104:, 106:, 108:, 110:, 112:, 114:, 116:, 118:, 120:, 122:, 124:, 126:, 128:, 130:, 132:, 134:, 136:, 138:, 140:, 142:, 144:, 146:, 148:, 150:, 152:, 154:, 156:, 158:, 160:, 162:, 164:, 166:, 168:, 170:, 172:, 174:, 176:, 178:, 180:, 182:, 184:, 186:, 188:, 190:, 192:, 194:, 196:, 198:, 200:, 202:, 204:, 206:, 208:, 210:, 212:, 214:, 216:, 218:, 220:, 222:, 224:, 226:, 228:, 230:, 232:, 234:, 236:, 238:, 240:, 242:, 244:, 246:, 248:, 250:, 252:, 254:, 256:, No-Response:, 260:, 262:, 264:, 266:, 268:, 270:, 272:, 274:, 276:, 278:, 280:, 282:, 284:, 286:, 288:, 290:, 292:, 294:, 296:, 298:, 300:, 302:, 304:, 306:, 308:, 310:, 312:, 314:, 316:, 318:, 320:, 322:, 324:, 326:, 328:, 330:, 332:, 334:, 336:, 338:, 340:, 342:, 344:, 346:, 348:, 350:, 352:, 354:, 356:, 358:, 360:, 362:, 364:, 366:, 368:, 370:, 372:, 374:, 376:, 378:, 380:, 382:, 384:, 386:, 388:, 390:, 392:, 394:, 396:, 398:, 400:, 402:, 404:, 406:, 408:, 410:, 412:, 414:, 416:, 418:, 420:, 422:, 424:, 426:, 428:, 430:, 432:, 434:, 436:, 438:, 440:, 442:, 444:, 446:, 448:, 450:, 452:, 454:, 456:, 458:, 460:, 462:, 464:, 466:, 468:, 470:, 472:, 474:, 476:, 478:, 480:, 482:, 484:, 486:, 488:, 490:, 492:, 494:, 496:, 498:, 500:, 502:, 504:, 506:, 508: ]\nOct 20 06:10:58.222 DEBG coap_pdu_parse: 1.00: option 4 has bad length 0\nOct 20 06:10:58.222 DEBG coap_pdu_parse: 1.00: option 16 has bad length 0\nOct 20 06:10:58.222 DEBG coap_pdu_parse: malformed option\nv:1 t:NON c:1.00 i:2020 {} [ 2:, ETag:, Observe:0, Location-Path:, 10:, Content-Format:text/plain, Max-Age:0, Hop-Limit:0, 18:, Location-Query:, 22:, 24:, 26:, Size2:0, 30:, 32:, 34:, 36:, 38:, 40:, 42:, 44:, 46:, 48:, 50:, 52:, 54:, 56:, 58:, Size1:0, 62:, 64:, 66:, 68:, 70:, 72:, 74:, 76:, 78:, 80:, 82:, 84:, 86:, 88:, 90:, 92:, 94:, 96:, 98:, 100:, 102:, 104:, 106:, 108:, 110:, 112:, 114:, 116:, 118:, 120:, 122:, 124:, 126:, 128:, 130:, 132:, 134:, 136:, 138:, 140:, 142:, 144:, 146:, 148:, 150:, 152:, 154:, 156:, 158:, 160:, 162:, 164:, 166:, 168:, 170:, 172:, 174:, 176:, 178:, 180:, 182:, 184:, 186:, 188:, 190:, 192:, 194:, 196:, 198:, 200:, 202:, 204:, 206:, 208:, 210:, 212:, 214:, 216:, 218:, 220:, 222:, 224:, 226:, 228:, 230:, 232:, 234:, 236:, 238:, 240:, 242:, 244:, 246:, 248:, 250:, 252:, 254:, 256:, No-Response:, 260:, 262:, 264:, 266:, 268:, 270:, 272:, 274:, 276:, 278:, 280:, 282:, 284:, 286:, 288:, 290:, 292:, 294:, 296:, 298:, 300:, 302:, 304:, 306:, 308:, 310:, 312:, 314:, 316:, 318:, 320:, 322:, 324:, 326:, 328:, 330:, 332:, 334:, 336:, 338:, 340:, 342:, 344:, 346:, 348:, 350:, 352:, 354:, 356:, 358:, 360:, 362:, 364:, 366:, 368:, 370:, 372:, 374:, 376:, 378:, 380:, 382:, 384:, 386:, 388:, 390:, 392:, 394:, 396:, 398:, 400:, 402:, 404:, 406:, 408:, 410:, 412:, 414:, 416:, 418:, 420:, 422:, 424:, 426:, 428:, 430:, 432:, 434:, 436:, 438:, 440:, 442:, 444:, 446:, 448:, 450:, 452:, 454:, 456:, 458:, 460:, 462:, 464:, 466:, 468:, 470:, 472:, 474:, 476:, 478:, 480:, 482:, 484:, 486:, 488:, 490:, 492:, 494:, 496:, 498:, 500:, 502:, 504:, 506:, 508: ]\n",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 2122001271\nINFO: Loaded 1 modules   (3733 inline 8-bit counters): 3733 [0x8dc2c8, 0x8dd15d), \nINFO: Loaded 1 PC tables (3733 PCs): 3733 [0x8dd160,0x8ebab0), \n/out/pdu_parse_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 1 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 2.499303,
+      "server_elapsed_seconds": 0.01107,
+      "cost_usd": 0.00031392,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "2732a6a076f6fd2dd7458f7124aabdeefc71282df5e2fdca19e3e6ca523ee941",
+    "fix": "8e595fd633217be8ed6b399819f6a7cb7b40b2670fe161e1ef24da071ec09472"
+  },
+  "provenance": {
+    "arvo_task_sha256": "5a7868c43108cf7f743206cfdc96be994b109b7689d0a6ed50607bd8907a22eb",
+    "report_sha256": "a5f1f6657e3be22075acbc02d124ba5cf20e72bb56cc0b3bf7009f9d237d539c",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2020-2080"
+  },
+  "model_cost_usd": 0.000144,
+  "sandbox_cost_usd": 0.00079232,
+  "total_cost_usd": 0.00093632,
+  "wall_seconds": 38.990373,
+  "public_status": null
+}

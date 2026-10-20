@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42479852,
+  "project": "libgit2",
+  "report_source": "public OSS-Fuzz OSV report OSV-2020-313; this is not a private report",
+  "report_text": "Heap-buffer-overflow in git_buf_decode_base85\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=18882\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\ngit_buf_decode_base85\nparse_patch_binary_side\nparse_patch_binary\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "git_buf_decode_base85",
+        "parse_patch_binary_side",
+        "parse_patch_binary"
+      ],
+      "sanitizer_excerpt": "==8==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60600000035b at pc 0x000000568aba bp 0x7fffffffdbf0 sp 0x7fffffffdbe8\nREAD of size 1 at 0x60600000035b thread T0\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\n    #0 0x568ab9 in git_buf_decode_base85 /src/libgit2/src/buffer.c:431:9\n    #1 0x55eac3 in parse_patch_binary_side /src/libgit2/src/patch_parse.c:792:16\n    #2 0x55d277 in parse_patch_binary /src/libgit2/src/patch_parse.c:831:15\n    #3 0x557033 in parse_patch_body /src/libgit2/src/patch_parse.c:901:10\n    #4 0x55581b in git_patch_parse /src/libgit2/src/patch_parse.c:1151:12\n    #5 0x5579ef in git_patch_from_buffer /src/libgit2/src/patch_parse.c:1184:10\n    #6 0x5543b1 in LLVMFuzzerTestOneInput /src/libgit2/build/../fuzzers/patch_parse_fuzzer.c:33:3\n    #7 0x45a6b1 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:556:15\n    #8 0x4452d1 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:292:6\n    #9 0x44af8e in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:774:9\n    #10 0x475102 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\n    #11 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n    #12 0x41e688 in _start (/out/patch_parse_fuzzer+0x41e688)\n\nDEDUP_TOKEN: git_buf_decode_base85--parse_patch_binary_side--parse_patch_binary\n0x60600000035b is located 0 bytes to the right of 59-byte region [0x606000000320,0x60600000035b)\nallocated by thread T0 here:\n    #0 0x521edd in malloc /src/llvm/projects/compiler-rt/lib/asan/asan_malloc_linux.cpp:145:3\n    #1 0x4335b7 in operator new(unsigned long) (/out/patch_parse_fuzzer+0x4335b7)\n    #2 0x4452d1 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:292:6\n    #3 0x44af8e in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:774:9\n    #4 0x475102 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\n    #5 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n\nDEDUP_TOKEN: malloc--operator new(unsigned long)--fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/libgit2/src/buffer.c:431:9 in git_buf_decode_base85",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2020-313"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-buffer-overflow",
+        "measured": "Heap-buffer-overflow READ 1",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "git_buf_decode_base85",
+          "parse_patch_binary_side",
+          "parse_patch_binary"
+        ],
+        "measured": [
+          "git_buf_decode_base85",
+          "parse_patch_binary_side",
+          "parse_patch_binary"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.230027,
+      "input_tokens": 215,
+      "output_tokens": 77,
+      "total_tokens": 292,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001338,
+      "request_id": "e48db8824351801dfc2bc604caa7d8cb"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42479852,
+      "kind": "vul",
+      "checkpoint_uuid": "d6c1849c-f148-4db6-9151-8c4512cef039",
+      "checkpoint_operation_uuid": "01a157e9-18a0-7502-ba62-4227383aa30a",
+      "checkpoint_wall_seconds": 14.275931,
+      "checkpoint_cost_usd": 0.00006356,
+      "operation_uuid": "01a157e9-5285-7125-99ce-0d234a2fd0ce",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Seed: 1735327889\nINFO: Loaded 1 modules   (33672 inline 8-bit counters): 33672 [0xe05b70, 0xe0def8), \nINFO: Loaded 1 PC tables (33672 PCs): 33672 [0xacd7b0,0xb51030), \n/out/patch_parse_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==8==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60600000035b at pc 0x000000568aba bp 0x7fffffffdbf0 sp 0x7fffffffdbe8\nREAD of size 1 at 0x60600000035b thread T0\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\n    #0 0x568ab9 in git_buf_decode_base85 /src/libgit2/src/buffer.c:431:9\n    #1 0x55eac3 in parse_patch_binary_side /src/libgit2/src/patch_parse.c:792:16\n    #2 0x55d277 in parse_patch_binary /src/libgit2/src/patch_parse.c:831:15\n    #3 0x557033 in parse_patch_body /src/libgit2/src/patch_parse.c:901:10\n    #4 0x55581b in git_patch_parse /src/libgit2/src/patch_parse.c:1151:12\n    #5 0x5579ef in git_patch_from_buffer /src/libgit2/src/patch_parse.c:1184:10\n    #6 0x5543b1 in LLVMFuzzerTestOneInput /src/libgit2/build/../fuzzers/patch_parse_fuzzer.c:33:3\n    #7 0x45a6b1 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:556:15\n    #8 0x4452d1 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:292:6\n    #9 0x44af8e in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:774:9\n    #10 0x475102 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\n    #11 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n    #12 0x41e688 in _start (/out/patch_parse_fuzzer+0x41e688)\n\nDEDUP_TOKEN: git_buf_decode_base85--parse_patch_binary_side--parse_patch_binary\n0x60600000035b is located 0 bytes to the right of 59-byte region [0x606000000320,0x60600000035b)\nallocated by thread T0 here:\n    #0 0x521edd in malloc /src/llvm/projects/compiler-rt/lib/asan/asan_malloc_linux.cpp:145:3\n    #1 0x4335b7 in operator new(unsigned long) (/out/patch_parse_fuzzer+0x4335b7)\n    #2 0x4452d1 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:292:6\n    #3 0x44af8e in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:774:9\n    #4 0x475102 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\n    #5 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n\nDEDUP_TOKEN: malloc--operator new(unsigned long)--fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/libgit2/src/buffer.c:431:9 in git_buf_decode_base85\nShadow bytes around the buggy address:\n  0x0c0c7fff8010: 00 00 00 00 00 00 00 02 fa fa fa fa 00 00 00 00\n  0x0c0c7fff8020: 00 00 00 00 fa fa fa fa 00 00 00 00 00 00 00 00\n  0x0c0c7fff8030: fa fa fa fa 00 00 00 00 00 00 00 00 fa fa fa fa\n  0x0c0c7fff8040: 00 00 00 00 00 00 00 00 fa fa fa fa 00 00 00 00\n  0x0c0c7fff8050: 00 00 00 00 fa fa fa fa 00 00 00 00 00 00 00 03\n=>0x0c0c7fff8060: fa fa fa fa 00 00 00 00 00 00 00[03]fa fa fa fa\n  0x0c0c7fff8070: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c0c7fff8080: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c0c7fff8090: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c0c7fff80a0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c0c7fff80b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n  Shadow gap:              cc\n==8==ABORTING\n",
+      "wall_seconds": 0.932223,
+      "server_elapsed_seconds": 0.013311,
+      "cost_usd": 0.00034087,
+      "disposable": true
+    },
+    {
+      "task_id": 42479852,
+      "kind": "fix",
+      "checkpoint_uuid": "bb2c6869-7ef0-4266-aebd-6ef03aef2eea",
+      "checkpoint_operation_uuid": "01a157e9-4bd5-703f-99ee-95f6d781b909",
+      "checkpoint_wall_seconds": 12.496085,
+      "checkpoint_cost_usd": 0.00006314,
+      "operation_uuid": "01a157e9-53cd-74ce-9eb4-f3be7bcd123c",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Seed: 1735829328\nINFO: Loaded 1 modules   (33703 inline 8-bit counters): 33703 [0xe07bb0, 0xe0ff57), \nINFO: Loaded 1 PC tables (33703 PCs): 33703 [0xacf3d0,0xb52e40), \n/out/patch_parse_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 0 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.276309,
+      "server_elapsed_seconds": 0.010788,
+      "cost_usd": 0.00030412,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "2851ac5207e35e6639aa7364af3a7c92f0e7f6d22e8a3f16f4b2631be1e15951",
+    "fix": "8eae45ade43207a30bf4ef0bdda4ed112a6c39c8df39e7a3fc41a7167c2e899d"
+  },
+  "provenance": {
+    "arvo_task_sha256": "770d9f5d05eef5da10d520ccd64542da413e7f0f6bc16dd13242270afca85baf",
+    "report_sha256": "642a1f5dd05365a76b19be2792b4db8120f5e8f823d0c580123f16e27b751355",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2020-313"
+  },
+  "model_cost_usd": 0.0001338,
+  "sandbox_cost_usd": 0.00077169,
+  "total_cost_usd": 0.00090549,
+  "wall_seconds": 30.851583,
+  "public_status": null
+}

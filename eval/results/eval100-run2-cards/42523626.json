@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42523626,
+  "project": "libssh2",
+  "report_source": "public OSS-Fuzz OSV report OSV-2023-343; this is not a private report",
+  "report_text": "Heap-buffer-overflow in _libssh2_ntohu32\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=58291\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\n_libssh2_ntohu32\npacket_authagent_open\n_libssh2_packet_add\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [
+    "Version of libssh2 affected",
+    "Steps to reproduce (e.g., test case or input)",
+    "Build configuration (compiler, flags, sanitizers)"
+  ],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "_libssh2_ntohu32",
+        "packet_authagent_open",
+        "_libssh2_packet_add"
+      ],
+      "sanitizer_excerpt": "==8==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60300001f10f at pc 0x0000005f12d5 bp 0x7fffffffb6f0 sp 0x7fffffffb6e8\nREAD of size 1 at 0x60300001f10f thread T0\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\n    #0 0x5f12d4 in _libssh2_ntohu32 /src/libssh2/src/misc.c:221:23\n    #1 0x601646 in packet_authagent_open /src/libssh2/src/packet.c:486:48\n    #2 0x5fbb28 in _libssh2_packet_add /src/libssh2/src/packet.c:1215:22\n    #3 0x5849b9 in fullpacket /src/libssh2/src/transport.c:321:14\n    #4 0x580f1d in _libssh2_transport_read /src/libssh2/src/transport.c:731:18\n    #5 0x603833 in _libssh2_packet_require /src/libssh2/src/packet.c:1414:19\n    #6 0x5bd2b3 in _libssh2_kex_exchange /src/libssh2/src/kex.c:3871:17\n    #7 0x571ff3 in session_startup /src/libssh2/src/session.c:739:14\n    #8 0x5715fd in libssh2_session_handshake /src/libssh2/src/session.c:830:5\n    #9 0x56edea in LLVMFuzzerTestOneInput /src/libssh2/tests/ossfuzz/ssh2_client_fuzzer.cc:67:6\n    #10 0x440643 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #11 0x42bda2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #12 0x43164c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #13 0x45ab82 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #14 0x7ffff78c8082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: 1878e6b475720c7c51969e69ab2d276fae6d1dee)\n    #15 0x421f6d in _start (/out/ssh2_client_fuzzer+0x421f6d)\n\nDEDUP_TOKEN: _libssh2_ntohu32--packet_authagent_open--_libssh2_packet_add\n0x60300001f10f is located 0 bytes to the right of 31-byte region [0x60300001f0f0,0x60300001f10f)\nallocated by thread T0 here:\n    #0 0x5317d6 in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:69:3\n    #1 0x5701e0 in libssh2_default_alloc /src/libssh2/src/session.c:79:12\n    #2 0x57f81d in _libssh2_transport_read /src/libssh2/src/transport.c:587:26\n    #3 0x603833 in _libssh2_packet_require /src/libssh2/src/packet.c:1414:19\n    #4 0x5bd2b3 in _libssh2_kex_exchange /src/libssh2/src/kex.c:3871:17\n    #5 0x571ff3 in session_startup /src/libssh2/src/session.c:739:14\n    #6 0x5715fd in libssh2_session_handshake /src/libssh2/src/session.c:830:5\n    #7 0x56edea in LLVMFuzzerTestOneInput /src/libssh2/tests/ossfuzz/ssh2_client_fuzzer.cc:67:6\n    #8 0x440643 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #9 0x42bda2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #10 0x43164c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #11 0x45ab82 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #12 0x7ffff78c8082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: 1878e6b475720c7c51969e69ab2d276fae6d1dee)\n\nDEDUP_TOKEN: malloc--libssh2_default_alloc--_libssh2_transport_read\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/libssh2/src/misc.c:221:23 in _libssh2_ntohu32",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2023-343"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-buffer-overflow",
+        "measured": "Heap-buffer-overflow READ 1",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "_libssh2_ntohu32",
+          "packet_authagent_open",
+          "_libssh2_packet_add"
+        ],
+        "measured": [
+          "_libssh2_ntohu32",
+          "packet_authagent_open",
+          "_libssh2_packet_add"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.644359,
+      "input_tokens": 220,
+      "output_tokens": 117,
+      "total_tokens": 337,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001713,
+      "request_id": "ac9c3348c7acd31c3f4b08a6a95b0066"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42523626,
+      "kind": "vul",
+      "checkpoint_uuid": "c22ff3eb-8935-414e-a7a2-9ebfc808c55c",
+      "checkpoint_operation_uuid": "01a157f3-ee0e-748b-a204-e1470a8ee860",
+      "checkpoint_wall_seconds": 11.518972,
+      "checkpoint_cost_usd": 0.00006213,
+      "operation_uuid": "01a157f4-1f96-718f-b968-6b94e36c1a73",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 2443188663\nINFO: Loaded 1 modules   (4075 inline 8-bit counters): 4075 [0x6cdcd0, 0x6cecbb), \nINFO: Loaded 1 PC tables (4075 PCs): 4075 [0x66b110,0x67afc0), \n/out/ssh2_client_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==8==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60300001f10f at pc 0x0000005f12d5 bp 0x7fffffffb6f0 sp 0x7fffffffb6e8\nREAD of size 1 at 0x60300001f10f thread T0\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\n    #0 0x5f12d4 in _libssh2_ntohu32 /src/libssh2/src/misc.c:221:23\n    #1 0x601646 in packet_authagent_open /src/libssh2/src/packet.c:486:48\n    #2 0x5fbb28 in _libssh2_packet_add /src/libssh2/src/packet.c:1215:22\n    #3 0x5849b9 in fullpacket /src/libssh2/src/transport.c:321:14\n    #4 0x580f1d in _libssh2_transport_read /src/libssh2/src/transport.c:731:18\n    #5 0x603833 in _libssh2_packet_require /src/libssh2/src/packet.c:1414:19\n    #6 0x5bd2b3 in _libssh2_kex_exchange /src/libssh2/src/kex.c:3871:17\n    #7 0x571ff3 in session_startup /src/libssh2/src/session.c:739:14\n    #8 0x5715fd in libssh2_session_handshake /src/libssh2/src/session.c:830:5\n    #9 0x56edea in LLVMFuzzerTestOneInput /src/libssh2/tests/ossfuzz/ssh2_client_fuzzer.cc:67:6\n    #10 0x440643 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #11 0x42bda2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #12 0x43164c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #13 0x45ab82 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #14 0x7ffff78c8082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: 1878e6b475720c7c51969e69ab2d276fae6d1dee)\n    #15 0x421f6d in _start (/out/ssh2_client_fuzzer+0x421f6d)\n\nDEDUP_TOKEN: _libssh2_ntohu32--packet_authagent_open--_libssh2_packet_add\n0x60300001f10f is located 0 bytes to the right of 31-byte region [0x60300001f0f0,0x60300001f10f)\nallocated by thread T0 here:\n    #0 0x5317d6 in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:69:3\n    #1 0x5701e0 in libssh2_default_alloc /src/libssh2/src/session.c:79:12\n    #2 0x57f81d in _libssh2_transport_read /src/libssh2/src/transport.c:587:26\n    #3 0x603833 in _libssh2_packet_require /src/libssh2/src/packet.c:1414:19\n    #4 0x5bd2b3 in _libssh2_kex_exchange /src/libssh2/src/kex.c:3871:17\n    #5 0x571ff3 in session_startup /src/libssh2/src/session.c:739:14\n    #6 0x5715fd in libssh2_session_handshake /src/libssh2/src/session.c:830:5\n    #7 0x56edea in LLVMFuzzerTestOneInput /src/libssh2/tests/ossfuzz/ssh2_client_fuzzer.cc:67:6\n    #8 0x440643 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #9 0x42bda2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #10 0x43164c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #11 0x45ab82 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #12 0x7ffff78c8082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: 1878e6b475720c7c51969e69ab2d276fae6d1dee)\n\nDEDUP_TOKEN: malloc--libssh2_default_alloc--_libssh2_transport_read\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/libssh2/src/misc.c:221:23 in _libssh2_ntohu32\nShadow bytes around the buggy address:\n  0x0c067fffbdd0: 00 00 00 fa fa fa 00 00 00 fa fa fa 00 00 00 fa\n  0x0c067fffbde0: fa fa 00 00 00 fa fa fa 00 00 00 fa fa fa 00 00\n  0x0c067fffbdf0: 00 fa fa fa 00 00 00 fa fa fa 00 00 00 fa fa fa\n  0x0c067fffbe00: 00 00 00 fa fa fa 00 00 00 fa fa fa 00 00 00 fa\n  0x0c067fffbe10: fa fa 00 00 00 fa fa fa 00 00 00 fa fa fa 00 00\n=>0x0c067fffbe20: 00[07]fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c067fffbe30: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c067fffbe40: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c067fffbe50: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c067fffbe60: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c067fffbe70: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==8==ABORTING\n",
+      "wall_seconds": 0.956921,
+      "server_elapsed_seconds": 0.014574,
+      "cost_usd": 0.00034486,
+      "disposable": true
+    },
+    {
+      "task_id": 42523626,
+      "kind": "fix",
+      "checkpoint_uuid": "db6b3f0a-e319-4982-afb9-6daf7c4c7461",
+      "checkpoint_operation_uuid": "01a157f4-19f1-70fd-bb04-53c6bbec71dd",
+      "checkpoint_wall_seconds": 10.441108,
+      "checkpoint_cost_usd": 0.000051489999999999997,
+      "operation_uuid": "01a157f4-2099-747d-85f6-bd248fef5973",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 2443693840\nINFO: Loaded 1 modules   (4088 inline 8-bit counters): 4088 [0x6d04f0, 0x6d14e8), \nINFO: Loaded 1 PC tables (4088 PCs): 4088 [0x66ce50,0x67cdd0), \n/out/ssh2_client_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 3 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.216024,
+      "server_elapsed_seconds": 0.012184,
+      "cost_usd": 0.0003109,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "d6815af83fedaef8aa82f988354f21c555de3956dc9a4e89be498750cff42389",
+    "fix": "c7fd1c24b25d4155c5a4d69051008a933a0d429915b5d750533538cb3ee6bb41"
+  },
+  "provenance": {
+    "arvo_task_sha256": "07d01a066f2ba5b689d1e43b10943f78254d0540746b82673f910f2af77667b7",
+    "report_sha256": "1d4d705bf9be7e470255f79780265f26472f56e26fb4bc562d16fe2944db0274",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2023-343"
+  },
+  "model_cost_usd": 0.0001713,
+  "sandbox_cost_usd": 0.00076938,
+  "total_cost_usd": 0.00094068,
+  "wall_seconds": 26.591482,
+  "public_status": null
+}

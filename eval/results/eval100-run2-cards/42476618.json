@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42476618,
+  "project": "openthread",
+  "report_source": "public OSS-Fuzz OSV report OSV-2020-383; this is not a private report",
+  "report_text": "Stack-buffer-overflow in ot::NetworkData::Leader::IsStableUpdated\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=15971\n\n```\nCrash type: Stack-buffer-overflow READ 8\nCrash state:\not::NetworkData::Leader::IsStableUpdated\not::NetworkData::Leader::RegisterNetworkData\not::NetworkData::Leader::HandleServerData\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [],
+  "evidence": {
+    "crash": {
+      "crash_type": "Stack-buffer-overflow READ 8",
+      "crash_state": [
+        "ot::NetworkData::Leader::IsStableUpdated",
+        "ot::NetworkData::Leader::RegisterNetworkData",
+        "ot::NetworkData::Leader::HandleServerData"
+      ],
+      "sanitizer_excerpt": "==8==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7ffff7f55521 at pc 0x0000004cdfb2 bp 0x7fffffffdef0 sp 0x7fffffffd698\nREAD of size 8 at 0x7ffff7f55521 thread T0\nSCARINESS: 38 (8-byte-read-stack-buffer-overflow)\n    #0 0x4cdfb1 in MemcmpInterceptorCommon(void*, int (*)(void const*, void const*, unsigned long), void const*, void const*, unsigned long) /src/llvm/projects/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:835:7\n    #1 0x4ce3c9 in __interceptor_bcmp /src/llvm/projects/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:880:10\n    #2 0x63140e in ot::NetworkData::Leader::IsStableUpdated(unsigned char*, unsigned char, unsigned char*, unsigned char) /src/openthread/src/core/thread/network_data_leader_ftd.cpp:638:46\n    #3 0x62fbe0 in ot::NetworkData::Leader::RegisterNetworkData(unsigned short, unsigned char*, unsigned char) /src/openthread/src/core/thread/network_data_leader_ftd.cpp:760:68\n    #4 0x62f77b in ot::NetworkData::Leader::HandleServerData(ot::Coap::Message&, ot::Ip6::MessageInfo const&) /src/openthread/src/core/thread/network_data_leader_ftd.cpp:168:9\n    #5 0x645786 in ot::Coap::CoapBase::ProcessReceivedRequest(ot::Coap::Message&, ot::Ip6::MessageInfo const&) /src/openthread/src/core/coap/coap.cpp:636:23\n    #6 0x5e68d0 in ot::Ip6::Udp::HandleMessage(ot::Message&, ot::Ip6::MessageInfo&) /src/openthread/src/core/net/udp6.cpp:389:5\n    #7 0x5dacd3 in ot::Ip6::Ip6::HandleDatagram(ot::Message&, ot::Ip6::Netif*, signed char, void const*, bool) /src/openthread/src/core/net/ip6.cpp:919:9\n    #8 0x5dbd42 in ot::Ip6::Ip6::HandleSendQueue() /src/openthread/src/core/net/ip6.cpp:549:9\n    #9 0x5a89ae in ot::TaskletScheduler::ProcessQueuedTasklets() /src/openthread/src/core/common/tasklet.cpp:113:14\n    #10 0x56015e in LLVMFuzzerTestOneInput /src/openthread/tests/fuzz/ncp_uart_received.cpp:76:13\n    #11 0x469414 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:529:15\n    #12 0x457611 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:286:6\n    #13 0x45c3bb in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:715:9\n    #14 0x482c12 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\n    #15 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n    #16 0x41dc38 in _start (/out/ncp-uart-received-fuzzer+0x41dc38)\n\nDEDUP_TOKEN: MemcmpInterceptorCommon(void*, int (*)(void const*, void const*, unsigned long), void const*, void const*, unsigned long)--__interceptor_bcmp--ot::NetworkData::Leader::IsStableUpdated(unsigned char*, unsigned char, unsigned char*, unsigned char)\nAddress 0x7ffff7f55521 is located in stack of thread T0 at offset 289 in frame\n    #0 0x62f58f in ot::NetworkData::Leader::HandleServerData(ot::Coap::Message&, ot::Ip6::MessageInfo const&) /src/openthread/src/core/thread/network_data_leader_ftd.cpp:153\n\nDEDUP_TOKEN: ot::NetworkData::Leader::HandleServerData(ot::Coap::Message&, ot::Ip6::MessageInfo const&)\n  This frame has 2 object(s):\n    [32, 289) 'networkData' (line 154) <== Memory access at offset 289 overflows this variable\n    [368, 372) 'rloc16' (line 155)\nHINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork\n      (longjmp and C++ exceptions *are* supported)\nSUMMARY: AddressSanitizer: stack-buffer-overflow /src/llvm/projects/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:835:7 in MemcmpInterceptorCommon(void*, int (*)(void const*, void const*, unsigned long), void const*, void const*, unsigned long)",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2020-383"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Stack-buffer-overflow",
+        "measured": "Stack-buffer-overflow READ 8",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "ot::NetworkData::Leader::IsStableUpdated",
+          "ot::NetworkData::Leader::RegisterNetworkData",
+          "ot::NetworkData::Leader::HandleServerData"
+        ],
+        "measured": [
+          "ot::NetworkData::Leader::IsStableUpdated",
+          "ot::NetworkData::Leader::RegisterNetworkData",
+          "ot::NetworkData::Leader::HandleServerData"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.75065,
+      "input_tokens": 235,
+      "output_tokens": 96,
+      "total_tokens": 331,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001569,
+      "request_id": "3b7e342e72e60fb5d3dc89b5660be1c7"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42476618,
+      "kind": "vul",
+      "checkpoint_uuid": "c74b6514-0c38-423f-84ab-7c5170eed83f",
+      "checkpoint_operation_uuid": "01a157b5-052b-74b4-b21c-5833cb195971",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e6-dee8-75d5-a552-272e34f7a9a9",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Seed: 1574756241\nINFO: Loaded 1 modules   (19436 inline 8-bit counters): 19436 [0x9fd570, 0xa0215c), \nINFO: Loaded 1 PC tables (19436 PCs): 19436 [0x720498,0x76c358), \n/out/ncp-uart-received-fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==8==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7ffff7f55521 at pc 0x0000004cdfb2 bp 0x7fffffffdef0 sp 0x7fffffffd698\nREAD of size 8 at 0x7ffff7f55521 thread T0\nSCARINESS: 38 (8-byte-read-stack-buffer-overflow)\n    #0 0x4cdfb1 in MemcmpInterceptorCommon(void*, int (*)(void const*, void const*, unsigned long), void const*, void const*, unsigned long) /src/llvm/projects/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:835:7\n    #1 0x4ce3c9 in __interceptor_bcmp /src/llvm/projects/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:880:10\n    #2 0x63140e in ot::NetworkData::Leader::IsStableUpdated(unsigned char*, unsigned char, unsigned char*, unsigned char) /src/openthread/src/core/thread/network_data_leader_ftd.cpp:638:46\n    #3 0x62fbe0 in ot::NetworkData::Leader::RegisterNetworkData(unsigned short, unsigned char*, unsigned char) /src/openthread/src/core/thread/network_data_leader_ftd.cpp:760:68\n    #4 0x62f77b in ot::NetworkData::Leader::HandleServerData(ot::Coap::Message&, ot::Ip6::MessageInfo const&) /src/openthread/src/core/thread/network_data_leader_ftd.cpp:168:9\n    #5 0x645786 in ot::Coap::CoapBase::ProcessReceivedRequest(ot::Coap::Message&, ot::Ip6::MessageInfo const&) /src/openthread/src/core/coap/coap.cpp:636:23\n    #6 0x5e68d0 in ot::Ip6::Udp::HandleMessage(ot::Message&, ot::Ip6::MessageInfo&) /src/openthread/src/core/net/udp6.cpp:389:5\n    #7 0x5dacd3 in ot::Ip6::Ip6::HandleDatagram(ot::Message&, ot::Ip6::Netif*, signed char, void const*, bool) /src/openthread/src/core/net/ip6.cpp:919:9\n    #8 0x5dbd42 in ot::Ip6::Ip6::HandleSendQueue() /src/openthread/src/core/net/ip6.cpp:549:9\n    #9 0x5a89ae in ot::TaskletScheduler::ProcessQueuedTasklets() /src/openthread/src/core/common/tasklet.cpp:113:14\n    #10 0x56015e in LLVMFuzzerTestOneInput /src/openthread/tests/fuzz/ncp_uart_received.cpp:76:13\n    #11 0x469414 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:529:15\n    #12 0x457611 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:286:6\n    #13 0x45c3bb in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:715:9\n    #14 0x482c12 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\n    #15 0x7ffff642082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n    #16 0x41dc38 in _start (/out/ncp-uart-received-fuzzer+0x41dc38)\n\nDEDUP_TOKEN: MemcmpInterceptorCommon(void*, int (*)(void const*, void const*, unsigned long), void const*, void const*, unsigned long)--__interceptor_bcmp--ot::NetworkData::Leader::IsStableUpdated(unsigned char*, unsigned char, unsigned char*, unsigned char)\nAddress 0x7ffff7f55521 is located in stack of thread T0 at offset 289 in frame\n    #0 0x62f58f in ot::NetworkData::Leader::HandleServerData(ot::Coap::Message&, ot::Ip6::MessageInfo const&) /src/openthread/src/core/thread/network_data_leader_ftd.cpp:153\n\nDEDUP_TOKEN: ot::NetworkData::Leader::HandleServerData(ot::Coap::Message&, ot::Ip6::MessageInfo const&)\n  This frame has 2 object(s):\n    [32, 289) 'networkData' (line 154) <== Memory access at offset 289 overflows this variable\n    [368, 372) 'rloc16' (line 155)\nHINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork\n      (longjmp and C++ exceptions *are* supported)\nSUMMARY: AddressSanitizer: stack-buffer-overflow /src/llvm/projects/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:835:7 in MemcmpInterceptorCommon(void*, int (*)(void const*, void const*, unsigned long), void const*, void const*, unsigned long)\nShadow bytes around the buggy address:\n  0x10007efe2a50: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5\n  0x10007efe2a60: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5\n  0x10007efe2a70: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5\n  0x10007efe2a80: f1 f1 f1 f1 00 00 00 00 00 00 00 00 00 00 00 00\n  0x10007efe2a90: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n=>0x10007efe2aa0: 00 00 00 00[01]f2 f2 f2 f2 f2 f2 f2 f2 f2 04 f3\n  0x10007efe2ab0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x10007efe2ac0: f1 f1 f1 f1 01 f2 01 f2 01 f2 00 00 00 00 00 00\n  0x10007efe2ad0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x10007efe2ae0: 00 00 00 00 00 00 00 00 00 07 f2 f2 f2 f2 f2 f2\n  0x10007efe2af0: f2 f2 01 f3 00 00 00 00 00 00 00 00 00 00 00 00\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n  Shadow gap:              cc\n==8==ABORTING\n",
+      "wall_seconds": 0.94892,
+      "server_elapsed_seconds": 0.01252,
+      "cost_usd": 0.00032396000000000004,
+      "disposable": true
+    },
+    {
+      "task_id": 42476618,
+      "kind": "fix",
+      "checkpoint_uuid": "bd43c4e3-9b64-4708-ac55-eecd4f8a3c6b",
+      "checkpoint_operation_uuid": "01a157b5-27f1-731e-9c5a-59c4ff92f593",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e6-dfda-747d-acd3-7cc51ccf1995",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Seed: 1575517293\nINFO: Loaded 1 modules   (19614 inline 8-bit counters): 19614 [0xa053f0, 0xa0a08e), \nINFO: Loaded 1 PC tables (19614 PCs): 19614 [0x7267d8,0x7731b8), \n/out/ncp-uart-received-fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 1 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.861096,
+      "server_elapsed_seconds": 0.010324,
+      "cost_usd": 0.00028888000000000004,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "42092bc30cf35c9834620a763f9b411e15eff188017677ef670ac82b1db85c24",
+    "fix": "d43f0c3e7257de2b3f61a9d70e972c08dcacf766d081f485e154abfa25e3b567"
+  },
+  "provenance": {
+    "arvo_task_sha256": "848452c885a9d4c6bc8190cd65b8e1c8ae7da157186b46fe2a6e3a591266afc2",
+    "report_sha256": "e009e2ace86a0fdc91592df52d2657b5dbda38637aa652dc25daa586590e76c8",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2020-383"
+  },
+  "model_cost_usd": 0.0001569,
+  "sandbox_cost_usd": 0.00061284,
+  "total_cost_usd": 0.00076974,
+  "wall_seconds": 4.480284,
+  "public_status": null
+}

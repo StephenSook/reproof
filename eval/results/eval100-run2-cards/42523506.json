@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42523506,
+  "project": "libheif",
+  "report_source": "public OSS-Fuzz OSV report OSV-2023-332; this is not a private report",
+  "report_text": "Heap-buffer-overflow in RegionGeometry_Polygon::parse\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=58183\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nRegionGeometry_Polygon::parse\nRegionItem::parse\nheif::HeifContext::interpret_heif_file\n```",
+  "verdict": "NEEDS_INFO",
+  "missing_details": [
+    "The vulnerable build did not produce a recognized sanitizer trace and did not complete cleanly (exit code 127); inspect its captured stdout and stderr.",
+    "The fixed build did not exit cleanly; inspect its captured stdout and stderr."
+  ],
+  "evidence": {
+    "crash": null,
+    "fix_clean": false,
+    "fixed_exit_code": 127,
+    "excluded_osv_ids": [
+      "OSV-2023-332"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-buffer-overflow",
+        "measured": "",
+        "matches": false,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "RegionGeometry_Polygon::parse",
+          "RegionItem::parse"
+        ],
+        "measured": [],
+        "matches": false,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.529,
+      "input_tokens": 224,
+      "output_tokens": 74,
+      "total_tokens": 298,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001338,
+      "request_id": "233a60e0339d9a844c3dff8e6c682d74"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42523506,
+      "kind": "vul",
+      "checkpoint_uuid": "95111ae4-0c86-481a-858c-f0ab6e409dce",
+      "checkpoint_operation_uuid": "01a157f9-6c33-71bd-b593-7109e668723b",
+      "checkpoint_wall_seconds": 101.544716,
+      "checkpoint_cost_usd": 0.00006328,
+      "operation_uuid": "01a157fa-ae19-70af-afe8-a9156aea08d7",
+      "exit_code": 127,
+      "stdout": "",
+      "stderr": "/out/file-fuzzer: error while loading shared libraries: librt.so.1: wrong ELF class: ELFCLASS64\n",
+      "wall_seconds": 0.929167,
+      "server_elapsed_seconds": 0.003753,
+      "cost_usd": 0.00008693000000000001,
+      "disposable": true
+    },
+    {
+      "task_id": 42523506,
+      "kind": "fix",
+      "checkpoint_uuid": "51419d5a-a996-44ad-8982-17eb0fbd73b2",
+      "checkpoint_operation_uuid": "01a157fa-a602-74e0-93b2-c7b7c1776808",
+      "checkpoint_wall_seconds": 79.827332,
+      "checkpoint_cost_usd": 0.00006335000000000001,
+      "operation_uuid": "01a157fa-dabc-7653-a7f3-bc58c2199b59",
+      "exit_code": 127,
+      "stdout": "",
+      "stderr": "/out/file-fuzzer: error while loading shared libraries: librt.so.1: wrong ELF class: ELFCLASS64\n",
+      "wall_seconds": 12.102678,
+      "server_elapsed_seconds": 0.003673,
+      "cost_usd": 0.00008607,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "1265e7142a84c0ef06cd061b1db4f47451aec3acb7fa2b26fee6a4133eb8cdaa",
+    "fix": "fab7f7062af72876a23be39c3c76709d28b6343d1478c555edadc7f920633e31"
+  },
+  "provenance": {
+    "arvo_task_sha256": "166b66ebd8cf69656eeb7233715a90cb99fb04467a640ab8bb6e8e8975309265",
+    "report_sha256": "d12c919c47e2b6c2e5f2fa35827e30e00aaa0f1b142096549e252901c607bf8f",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2023-332"
+  },
+  "model_cost_usd": 0.0001338,
+  "sandbox_cost_usd": 0.00029963,
+  "total_cost_usd": 0.00043343,
+  "wall_seconds": 196.838654,
+  "public_status": null
+}

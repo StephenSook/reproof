@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42476752,
+  "project": "libspng",
+  "report_source": "public OSS-Fuzz OSV report OSV-2020-344; this is not a private report",
+  "report_text": "Heap-buffer-overflow in spng_decode_image\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=16091\n\n```\nCrash type: Heap-buffer-overflow READ {*}\nCrash state:\nspng_decode_image\nspng_read_fuzzer.cc\n```",
+  "verdict": "DUPLICATE",
+  "missing_details": [
+    "crash type description (e.g., read/write size)",
+    "specific memory address involved",
+    "input file causing crash",
+    "stack trace beyond top two frames"
+  ],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "crash_state": [
+        "spng_decode_image",
+        "spng_read_fuzzer.cc"
+      ],
+      "sanitizer_excerpt": "==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x607000000061 at pc 0x00000053882a bp 0x7fffffffe090 sp 0x7fffffffd858\nREAD of size 128 at 0x607000000061 thread T0\nSCARINESS: 26 (multi-byte-read-heap-buffer-overflow)\n    #0 0x538829 in __asan_memcpy /src/llvm/projects/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cc:22:3\n    #1 0x56ed0a in spng_decode_image /src/libspng/build/../spng.c:2094:29\n    #2 0x56b78f in LLVMFuzzerTestOneInput /src/libspng/tests/spng_read_fuzzer.cc:65:8\n    #3 0x4736d1 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:553:15\n    #4 0x45e011 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:292:6\n    #5 0x463b9e in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:775:9\n    #6 0x48d142 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\n    #7 0x7ffff602082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n    #8 0x41dd48 in _start (/out/spng_read_fuzzer+0x41dd48)\n\nDEDUP_TOKEN: __asan_memcpy--spng_decode_image--LLVMFuzzerTestOneInput\n0x607000000061 is located 0 bytes to the right of 65-byte region [0x607000000020,0x607000000061)\nallocated by thread T0 here:\n    #0 0x5393ed in malloc /src/llvm/projects/compiler-rt/lib/asan/asan_malloc_linux.cc:145:3\n    #1 0x56c0e0 in spng_decode_image /src/libspng/build/../spng.c:1782:31\n    #2 0x56b78f in LLVMFuzzerTestOneInput /src/libspng/tests/spng_read_fuzzer.cc:65:8\n    #3 0x4736d1 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:553:15\n    #4 0x45e011 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:292:6\n    #5 0x463b9e in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:775:9\n    #6 0x48d142 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\n    #7 0x7ffff602082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n\nDEDUP_TOKEN: malloc--spng_decode_image--LLVMFuzzerTestOneInput\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/llvm/projects/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cc:22:3 in __asan_memcpy",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2020-344"
+    ],
+    "duplicate_candidates": [
+      {
+        "id": "OSV-2020-307",
+        "summary": "Heap-buffer-overflow in spng_decode_image",
+        "fixed_commits": [
+          "d7d4cced14f6107d05b52b5e7758207f79aa3465"
+        ],
+        "match_kind": "exact"
+      }
+    ],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "",
+        "measured": "Heap-buffer-overflow READ {*}",
+        "matches": false,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "spng_decode_image"
+        ],
+        "measured": [
+          "spng_decode_image",
+          "spng_read_fuzzer.cc"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.437532,
+      "input_tokens": 207,
+      "output_tokens": 94,
+      "total_tokens": 301,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001467,
+      "request_id": "0a1e3746b643df270bc6a56138dc2df5"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42476752,
+      "kind": "vul",
+      "checkpoint_uuid": "ed94d859-5cf1-48f5-bc82-a2ea618cc200",
+      "checkpoint_operation_uuid": "01a10d4b-4c3c-7786-8d1a-e5b102b6ebf4",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e3-ff15-75e9-ac10-fc8a37e22ca9",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Seed: 1386273405\nINFO: Loaded 1 modules   (1088 inline 8-bit counters): 1088 [0x7e85b0, 0x7e89f0), \nINFO: Loaded 1 PC tables (1088 PCs): 1088 [0x7e89f0,0x7ecdf0), \n/out/spng_read_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x607000000061 at pc 0x00000053882a bp 0x7fffffffe090 sp 0x7fffffffd858\nREAD of size 128 at 0x607000000061 thread T0\nSCARINESS: 26 (multi-byte-read-heap-buffer-overflow)\n    #0 0x538829 in __asan_memcpy /src/llvm/projects/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cc:22:3\n    #1 0x56ed0a in spng_decode_image /src/libspng/build/../spng.c:2094:29\n    #2 0x56b78f in LLVMFuzzerTestOneInput /src/libspng/tests/spng_read_fuzzer.cc:65:8\n    #3 0x4736d1 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:553:15\n    #4 0x45e011 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:292:6\n    #5 0x463b9e in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:775:9\n    #6 0x48d142 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\n    #7 0x7ffff602082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n    #8 0x41dd48 in _start (/out/spng_read_fuzzer+0x41dd48)\n\nDEDUP_TOKEN: __asan_memcpy--spng_decode_image--LLVMFuzzerTestOneInput\n0x607000000061 is located 0 bytes to the right of 65-byte region [0x607000000020,0x607000000061)\nallocated by thread T0 here:\n    #0 0x5393ed in malloc /src/llvm/projects/compiler-rt/lib/asan/asan_malloc_linux.cc:145:3\n    #1 0x56c0e0 in spng_decode_image /src/libspng/build/../spng.c:1782:31\n    #2 0x56b78f in LLVMFuzzerTestOneInput /src/libspng/tests/spng_read_fuzzer.cc:65:8\n    #3 0x4736d1 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:553:15\n    #4 0x45e011 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:292:6\n    #5 0x463b9e in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:775:9\n    #6 0x48d142 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\n    #7 0x7ffff602082f in __libc_start_main (/arvo-lib/libc.so.6+0x2082f)\n\nDEDUP_TOKEN: malloc--spng_decode_image--LLVMFuzzerTestOneInput\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/llvm/projects/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cc:22:3 in __asan_memcpy\nShadow bytes around the buggy address:\n  0x0c0e7fff7fb0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c0e7fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c0e7fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c0e7fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c0e7fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n=>0x0c0e7fff8000: fa fa fa fa 00 00 00 00 00 00 00 00[01]fa fa fa\n  0x0c0e7fff8010: fa fa 00 00 00 00 00 00 00 00 01 fa fa fa fa fa\n  0x0c0e7fff8020: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c0e7fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c0e7fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c0e7fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n  Shadow gap:              cc\n==9==ABORTING\n",
+      "wall_seconds": 0.943498,
+      "server_elapsed_seconds": 0.013129,
+      "cost_usd": 0.00032733,
+      "disposable": true
+    },
+    {
+      "task_id": 42476752,
+      "kind": "fix",
+      "checkpoint_uuid": "f4fff1bf-4db6-4abb-a74d-f78361dddf07",
+      "checkpoint_operation_uuid": "01a10d4b-66c7-72f4-9c4d-8ffdc138a3fb",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e4-0050-710b-8258-517bada7aa8d",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Seed: 1386652753\nINFO: Loaded 1 modules   (1088 inline 8-bit counters): 1088 [0x7e85b0, 0x7e89f0), \nINFO: Loaded 1 PC tables (1088 PCs): 1088 [0x7e89f0,0x7ecdf0), \n/out/spng_read_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 0 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.270382,
+      "server_elapsed_seconds": 0.010546,
+      "cost_usd": 0.00029246000000000003,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "299182474572210f5f55b37ff485db06436153e4f6dd29ce2e1fa8eba95c700d",
+    "fix": "8003c3aaeb4af5a080abf93e79a7362c520357328b03da4f5c2ee6e5a9acf014"
+  },
+  "provenance": {
+    "arvo_task_sha256": "fcc7649f57e8f091b57470bc74a04b3c71dc370d9a187b9afa5610e974b3f963",
+    "report_sha256": "98177a48c3eeb9d962e5357f1fceb949a30444611d5e81e9415e6da36cd87faf",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2020-344"
+  },
+  "model_cost_usd": 0.0001467,
+  "sandbox_cost_usd": 0.00061979,
+  "total_cost_usd": 0.00076649,
+  "wall_seconds": 3.591082,
+  "public_status": null
+}

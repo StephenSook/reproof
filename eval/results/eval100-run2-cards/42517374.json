@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42517374,
+  "project": "opensc",
+  "report_source": "public OSS-Fuzz OSV report OSV-2022-1084; this is not a private report",
+  "report_text": "Stack-buffer-overflow in authentic_parse_size\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=52662\n\n```\nCrash type: Stack-buffer-overflow READ 1\nCrash state:\nauthentic_parse_size\nauthentic_get_tagged_data\nauthentic_parse_credential_data\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [
+    "source file where functions are defined",
+    "exact line numbers of crash",
+    "version of opensc affected"
+  ],
+  "evidence": {
+    "crash": {
+      "crash_type": "Stack-buffer-overflow READ 1",
+      "crash_state": [
+        "authentic_parse_size",
+        "authentic_get_tagged_data",
+        "authentic_parse_credential_data"
+      ],
+      "sanitizer_excerpt": "==8==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7ffff72b31b0 at pc 0x00000086f8d3 bp 0x7fffffffc460 sp 0x7fffffffc458\nREAD of size 1 at 0x7ffff72b31b0 thread T0\nSCARINESS: 27 (1-byte-read-stack-buffer-overflow)\n    #0 0x86f8d2 in authentic_parse_size /src/opensc/src/libopensc/card-authentic.c:160:6\n    #1 0x86f500 in authentic_get_tagged_data /src/opensc/src/libopensc/card-authentic.c:197:14\n    #2 0x87a976 in authentic_parse_credential_data /src/opensc/src/libopensc/card-authentic.c:285:7\n    #3 0x8753e3 in authentic_pin_get_policy /src/opensc/src/libopensc/card-authentic.c:1519:7\n    #4 0x858f97 in authentic_pin_cmd /src/opensc/src/libopensc/card-authentic.c:1648:8\n    #5 0xb6319c in sc_pin_cmd /src/opensc/src/libopensc/sec.c:212:7\n    #6 0xa24182 in sc_pkcs15emu_din_66291_init /src/opensc/src/libopensc/pkcs15-din-66291.c:69:23\n    #7 0xa2363d in sc_pkcs15emu_din_66291_init_ex /src/opensc/src/libopensc/pkcs15-din-66291.c:244:23\n    #8 0x5ef243 in sc_pkcs15_bind_synthetic /src/opensc/src/libopensc/pkcs15-syn.c:133:8\n    #9 0x59b23c in sc_pkcs15_bind /src/opensc/src/libopensc/pkcs15.c:1290:8\n    #10 0x55dcbc in LLVMFuzzerTestOneInput /src/opensc/src/tests/fuzzing/fuzz_pkcs15_encode.c:47:2\n    #11 0x457d12 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #12 0x443942 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #13 0x44919c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #14 0x471a72 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #15 0x7ffff76e30b2 in __libc_start_main (/arvo-lib/libc.so.6+0x240b2)\n    #16 0x42209d in _start (/out/fuzz_pkcs15_encode+0x42209d)\n\nDEDUP_TOKEN: authentic_parse_size--authentic_get_tagged_data--authentic_parse_credential_data\nAddress 0x7ffff72b31b0 is located in stack of thread T0 at offset 432 in frame\n    #0 0x8748df in authentic_pin_get_policy /src/opensc/src/libopensc/card-authentic.c:1491\n\nDEDUP_TOKEN: authentic_pin_get_policy\n  This frame has 2 object(s):\n    [32, 136) 'apdu' (line 1493)\n    [176, 432) 'rbuf' (line 1494) <== Memory access at offset 432 overflows this variable\nHINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork\n      (longjmp and C++ exceptions *are* supported)\nSUMMARY: AddressSanitizer: stack-buffer-overflow /src/opensc/src/libopensc/card-authentic.c:160:6 in authentic_parse_size",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2022-1084"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Stack-buffer-overflow",
+        "measured": "Stack-buffer-overflow READ 1",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "authentic_parse_size",
+          "authentic_get_tagged_data",
+          "authentic_parse_credential_data"
+        ],
+        "measured": [
+          "authentic_parse_size",
+          "authentic_get_tagged_data",
+          "authentic_parse_credential_data"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.987229,
+      "input_tokens": 212,
+      "output_tokens": 103,
+      "total_tokens": 315,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001563,
+      "request_id": "7f1c1c86862f1302b8611a82e853b070"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42517374,
+      "kind": "vul",
+      "checkpoint_uuid": "5a294888-dbeb-401f-8a2e-c020a98a67a1",
+      "checkpoint_operation_uuid": "01a157b3-0f68-74d6-8d65-32de418328e0",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e6-ad3a-77af-998d-907f6674fdbb",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1561974088\nINFO: Loaded 1 modules   (40826 inline 8-bit counters): 40826 [0xefb790, 0xf0570a), \nINFO: Loaded 1 PC tables (40826 PCs): 40826 [0xd302d0,0xdcfa70), \n/out/fuzz_pkcs15_encode: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==8==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7ffff72b31b0 at pc 0x00000086f8d3 bp 0x7fffffffc460 sp 0x7fffffffc458\nREAD of size 1 at 0x7ffff72b31b0 thread T0\nSCARINESS: 27 (1-byte-read-stack-buffer-overflow)\n    #0 0x86f8d2 in authentic_parse_size /src/opensc/src/libopensc/card-authentic.c:160:6\n    #1 0x86f500 in authentic_get_tagged_data /src/opensc/src/libopensc/card-authentic.c:197:14\n    #2 0x87a976 in authentic_parse_credential_data /src/opensc/src/libopensc/card-authentic.c:285:7\n    #3 0x8753e3 in authentic_pin_get_policy /src/opensc/src/libopensc/card-authentic.c:1519:7\n    #4 0x858f97 in authentic_pin_cmd /src/opensc/src/libopensc/card-authentic.c:1648:8\n    #5 0xb6319c in sc_pin_cmd /src/opensc/src/libopensc/sec.c:212:7\n    #6 0xa24182 in sc_pkcs15emu_din_66291_init /src/opensc/src/libopensc/pkcs15-din-66291.c:69:23\n    #7 0xa2363d in sc_pkcs15emu_din_66291_init_ex /src/opensc/src/libopensc/pkcs15-din-66291.c:244:23\n    #8 0x5ef243 in sc_pkcs15_bind_synthetic /src/opensc/src/libopensc/pkcs15-syn.c:133:8\n    #9 0x59b23c in sc_pkcs15_bind /src/opensc/src/libopensc/pkcs15.c:1290:8\n    #10 0x55dcbc in LLVMFuzzerTestOneInput /src/opensc/src/tests/fuzzing/fuzz_pkcs15_encode.c:47:2\n    #11 0x457d12 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #12 0x443942 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #13 0x44919c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #14 0x471a72 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #15 0x7ffff76e30b2 in __libc_start_main (/arvo-lib/libc.so.6+0x240b2)\n    #16 0x42209d in _start (/out/fuzz_pkcs15_encode+0x42209d)\n\nDEDUP_TOKEN: authentic_parse_size--authentic_get_tagged_data--authentic_parse_credential_data\nAddress 0x7ffff72b31b0 is located in stack of thread T0 at offset 432 in frame\n    #0 0x8748df in authentic_pin_get_policy /src/opensc/src/libopensc/card-authentic.c:1491\n\nDEDUP_TOKEN: authentic_pin_get_policy\n  This frame has 2 object(s):\n    [32, 136) 'apdu' (line 1493)\n    [176, 432) 'rbuf' (line 1494) <== Memory access at offset 432 overflows this variable\nHINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork\n      (longjmp and C++ exceptions *are* supported)\nSUMMARY: AddressSanitizer: stack-buffer-overflow /src/opensc/src/libopensc/card-authentic.c:160:6 in authentic_parse_size\nShadow bytes around the buggy address:\n  0x10007ee4e5e0: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5\n  0x10007ee4e5f0: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5\n  0x10007ee4e600: f1 f1 f1 f1 00 00 00 00 00 00 00 00 00 00 00 00\n  0x10007ee4e610: 00 f2 f2 f2 f2 f2 00 00 00 00 00 00 00 00 00 00\n  0x10007ee4e620: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n=>0x10007ee4e630: 00 00 00 00 00 00[f3]f3 f3 f3 f3 f3 f3 f3 f3 f3\n  0x10007ee4e640: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5\n  0x10007ee4e650: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5\n  0x10007ee4e660: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5\n  0x10007ee4e670: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5\n  0x10007ee4e680: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==8==ABORTING\n",
+      "wall_seconds": 0.95334,
+      "server_elapsed_seconds": 0.017042,
+      "cost_usd": 0.00040502,
+      "disposable": true
+    },
+    {
+      "task_id": 42517374,
+      "kind": "fix",
+      "checkpoint_uuid": "6106c7ec-b15f-458c-a4b0-25ea11f1767d",
+      "checkpoint_operation_uuid": "01a157b3-5281-72ba-97be-580cc83030be",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e6-ae1e-7158-b674-e05729d4a034",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1562548215\nINFO: Loaded 1 modules   (41393 inline 8-bit counters): 41393 [0xf48290, 0xf52441), \nINFO: Loaded 1 PC tables (41393 PCs): 41393 [0xd75cf0,0xe17800), \n/out/fuzz_pkcs15_encode: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 4 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.443425,
+      "server_elapsed_seconds": 0.014689,
+      "cost_usd": 0.00038611,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "3f6a8661639cc50f88b29956bd94e82d367e96c2201fb5432d494c99b6b4a426",
+    "fix": "456e9a9ef81db61d0707fed2d7bb1609a74e8e5e55223fa7f6c0f47ea594dfea"
+  },
+  "provenance": {
+    "arvo_task_sha256": "37a9acb87c30426820d0374f5f6ae640ec7cc0828689b6143cf4324565d98918",
+    "report_sha256": "aece4f19446edeb0ba33d8b04e43e251b589ee51979f5ff31bef09a061515dcd",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2022-1084"
+  },
+  "model_cost_usd": 0.0001563,
+  "sandbox_cost_usd": 0.00079113,
+  "total_cost_usd": 0.00094743,
+  "wall_seconds": 4.374604,
+  "public_status": null
+}

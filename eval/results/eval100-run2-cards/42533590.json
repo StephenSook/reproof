@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42533590,
+  "project": "gpac",
+  "report_source": "public OSS-Fuzz OSV report OSV-2024-157; this is not a private report",
+  "report_text": "Heap-buffer-overflow in gf_strmemstr\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=67261\n\n```\nCrash type: Heap-buffer-overflow READ 13\nCrash state:\ngf_strmemstr\ntxtin_probe_data\ngf_filter_pid_raw_new\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [
+    "version of gpac affected"
+  ],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow READ 13",
+      "crash_state": [
+        "gf_strmemstr",
+        "txtin_probe_data",
+        "gf_filter_pid_raw_new"
+      ],
+      "sanitizer_excerpt": "==8==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x62200000a489 at pc 0x0000004caf58 bp 0x7fffffffdb70 sp 0x7fffffffd340\nREAD of size 13 at 0x62200000a489 thread T0\nSCARINESS: 26 (multi-byte-read-heap-buffer-overflow)\n    #0 0x4caf57 in memchr /src/llvm-project/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:931:3\n    #1 0x573a3d in gf_strmemstr /src/gpac/src/utils/error.c:2189:29\n    #2 0x842a0a in txtin_probe_data /src/gpac/src/filters/load_text.c:4364:6\n    #3 0x5c6486 in gf_filter_pid_raw_new /src/gpac/src/filter_core/filter.c:4409:13\n    #4 0x786945 in filein_process /src/gpac/src/filters/in_file.c:610:7\n    #5 0x5bdd55 in gf_filter_process_task /src/gpac/src/filter_core/filter.c:3025:7\n    #6 0x5956d1 in gf_fs_thread_proc /src/gpac/src/filter_core/filter_session.c:2100:3\n    #7 0x592fb4 in gf_fs_run /src/gpac/src/filter_core/filter_session.c:2400:3\n    #8 0x56ee44 in LLVMFuzzerTestOneInput /src/gpac/testsuite/oss-fuzzers/fuzz_probe_analyze.c:22:5\n    #9 0x4406d3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #10 0x42be32 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #11 0x4316dc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #12 0x45ac12 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #13 0x7ffff7832082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: eebe5d5f4b608b8a53ec446b63981bba373ca0ca)\n    #14 0x421ffd in _start (/out/fuzz_probe_analyze+0x421ffd)\n\nDEDUP_TOKEN: memchr--gf_strmemstr--txtin_probe_data\n0x62200000a489 is located 0 bytes to the right of 5001-byte region [0x622000009100,0x62200000a489)\nallocated by thread T0 here:\n    #0 0x531866 in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:69:3\n    #1 0x573b8f in gf_malloc /src/gpac/src/utils/alloc.c:150:9\n    #2 0x78aa00 in filein_initialize_ex /src/gpac/src/filters/in_file.c:248:16\n    #3 0x7883ba in filein_initialize /src/gpac/src/filters/in_file.c:259:9\n    #4 0x5ad80a in gf_filter_new_finalize /src/gpac/src/filter_core/filter.c:556:8\n    #5 0x5ab53f in gf_filter_new /src/gpac/src/filter_core/filter.c:469:7\n    #6 0x59ef32 in gf_fs_load_source_dest_internal /src/gpac/src/filter_core/filter_session.c:3543:12\n    #7 0x59ff76 in gf_fs_load_source /src/gpac/src/filter_core/filter_session.c:3585:9\n    #8 0x56ee2c in LLVMFuzzerTestOneInput /src/gpac/testsuite/oss-fuzzers/fuzz_probe_analyze.c:20:22\n    #9 0x4406d3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #10 0x42be32 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #11 0x4316dc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #12 0x45ac12 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #13 0x7ffff7832082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: eebe5d5f4b608b8a53ec446b63981bba373ca0ca)\n\nDEDUP_TOKEN: malloc--gf_malloc--filein_initialize_ex\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/llvm-project/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:931:3 in memchr",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2024-157"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-buffer-overflow",
+        "measured": "Heap-buffer-overflow READ 13",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "gf_strmemstr",
+          "txtin_probe_data",
+          "gf_filter_pid_raw_new"
+        ],
+        "measured": [
+          "gf_strmemstr",
+          "txtin_probe_data",
+          "gf_filter_pid_raw_new"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.531275,
+      "input_tokens": 216,
+      "output_tokens": 86,
+      "total_tokens": 302,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001422,
+      "request_id": "8525ee8419e3c6976cecdb1b5103f670"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42533590,
+      "kind": "vul",
+      "checkpoint_uuid": "2314547a-54ef-45cc-9ed2-481375ad4b79",
+      "checkpoint_operation_uuid": "01a157b2-3281-7609-b404-6756a900b823",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e6-9987-7409-bdf2-1901b9d82e49",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1556927235\nINFO: Loaded 1 modules   (238178 inline 8-bit counters): 238178 [0x1f74c80, 0x1faeee2), \nINFO: Loaded 1 PC tables (238178 PCs): 238178 [0x1faeee8,0x2351508), \n/out/fuzz_probe_analyze: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==8==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x62200000a489 at pc 0x0000004caf58 bp 0x7fffffffdb70 sp 0x7fffffffd340\nREAD of size 13 at 0x62200000a489 thread T0\nSCARINESS: 26 (multi-byte-read-heap-buffer-overflow)\n    #0 0x4caf57 in memchr /src/llvm-project/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:931:3\n    #1 0x573a3d in gf_strmemstr /src/gpac/src/utils/error.c:2189:29\n    #2 0x842a0a in txtin_probe_data /src/gpac/src/filters/load_text.c:4364:6\n    #3 0x5c6486 in gf_filter_pid_raw_new /src/gpac/src/filter_core/filter.c:4409:13\n    #4 0x786945 in filein_process /src/gpac/src/filters/in_file.c:610:7\n    #5 0x5bdd55 in gf_filter_process_task /src/gpac/src/filter_core/filter.c:3025:7\n    #6 0x5956d1 in gf_fs_thread_proc /src/gpac/src/filter_core/filter_session.c:2100:3\n    #7 0x592fb4 in gf_fs_run /src/gpac/src/filter_core/filter_session.c:2400:3\n    #8 0x56ee44 in LLVMFuzzerTestOneInput /src/gpac/testsuite/oss-fuzzers/fuzz_probe_analyze.c:22:5\n    #9 0x4406d3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #10 0x42be32 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #11 0x4316dc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #12 0x45ac12 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #13 0x7ffff7832082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: eebe5d5f4b608b8a53ec446b63981bba373ca0ca)\n    #14 0x421ffd in _start (/out/fuzz_probe_analyze+0x421ffd)\n\nDEDUP_TOKEN: memchr--gf_strmemstr--txtin_probe_data\n0x62200000a489 is located 0 bytes to the right of 5001-byte region [0x622000009100,0x62200000a489)\nallocated by thread T0 here:\n    #0 0x531866 in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:69:3\n    #1 0x573b8f in gf_malloc /src/gpac/src/utils/alloc.c:150:9\n    #2 0x78aa00 in filein_initialize_ex /src/gpac/src/filters/in_file.c:248:16\n    #3 0x7883ba in filein_initialize /src/gpac/src/filters/in_file.c:259:9\n    #4 0x5ad80a in gf_filter_new_finalize /src/gpac/src/filter_core/filter.c:556:8\n    #5 0x5ab53f in gf_filter_new /src/gpac/src/filter_core/filter.c:469:7\n    #6 0x59ef32 in gf_fs_load_source_dest_internal /src/gpac/src/filter_core/filter_session.c:3543:12\n    #7 0x59ff76 in gf_fs_load_source /src/gpac/src/filter_core/filter_session.c:3585:9\n    #8 0x56ee2c in LLVMFuzzerTestOneInput /src/gpac/testsuite/oss-fuzzers/fuzz_probe_analyze.c:20:22\n    #9 0x4406d3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #10 0x42be32 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #11 0x4316dc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #12 0x45ac12 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #13 0x7ffff7832082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: eebe5d5f4b608b8a53ec446b63981bba373ca0ca)\n\nDEDUP_TOKEN: malloc--gf_malloc--filein_initialize_ex\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/llvm-project/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:931:3 in memchr\nShadow bytes around the buggy address:\n  0x0c447fff9440: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c447fff9450: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c447fff9460: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c447fff9470: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c447fff9480: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n=>0x0c447fff9490: 00[01]fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c447fff94a0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c447fff94b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c447fff94c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c447fff94d0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c447fff94e0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==8==ABORTING\n",
+      "wall_seconds": 0.926912,
+      "server_elapsed_seconds": 0.034698,
+      "cost_usd": 0.0006647999999999999,
+      "disposable": true
+    },
+    {
+      "task_id": 42533590,
+      "kind": "fix",
+      "checkpoint_uuid": "3a386a6b-4969-4330-a412-8473c42219da",
+      "checkpoint_operation_uuid": "01a157b2-b486-7537-a2c9-330fda5a5e13",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e6-9a81-7331-9511-84241ffb62e2",
+      "exit_code": 0,
+      "stdout": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<GPACInspect>\n</GPACInspect>\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<GPACInspect>\n</GPACInspect>\n",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1557552987\nINFO: Loaded 1 modules   (238196 inline 8-bit counters): 238196 [0x1f74c40, 0x1faeeb4), \nINFO: Loaded 1 PC tables (238196 PCs): 238196 [0x1faeeb8,0x23515f8), \n/out/fuzz_probe_analyze: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n\u001b[33m[M3U8] Unsupported directive #EXTM3U��?id=Mag.app/ick\n\u001b[0m\u001b[33m[M3U8] Unsupported directive #EXTM18446744073709551614U��?id=Mag.app/ick\n\u001b[0m\u001b[33m[M3U8] Unsupported directive #EXTM3U��?id=Mag.app/ick\n\u001b[0m\u001b[33m[M3U8] Unsupported directive #EXTM18446744073709551614U��?id=Mag.app/ick\n\u001b[0m\u001b[31m[DASHDmx] group 0 error locating plugin for segment - mime type video/mp2t name /tmp/v=�����������������?AAAAAA�(''': Requested URL is not valid or cannot be found\n\u001b[0m\u001b[33m[M3U8] Unsupported directive #EXTM3U��?id=Mag.app/ick\n\u001b[0m\u001b[33m[M3U8] Unsupported directive #EXTM18446744073709551614U��?id=Mag.app/ick\n\u001b[0m\u001b[33m[M3U8] Unsupported directive #EXTM3U��?id=Mag.app/ick\n\u001b[0m\u001b[33m[M3U8] Unsupported directive #EXTM18446744073709551614U��?id=Mag.app/ick\n\u001b[0m\u001b[31m[DASHDmx] group 0 error locating plugin for segment - mime type video/mp2t name /tmp/v=�����������������?AAAAAA�(''': Requested URL is not valid or cannot be found\n\u001b[0mExecuted /tmp/poc in 43 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.543269,
+      "server_elapsed_seconds": 0.051547,
+      "cost_usd": 0.0008548100000000001,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "5e5b895a6bd363f1c10fe9c196451502fe16cdafc48ff606cc42c7c9baf8c0da",
+    "fix": "814c802acc24b6921b8a5dc6eba6a496259bf523c7f82455eb989cbe59f227a2"
+  },
+  "provenance": {
+    "arvo_task_sha256": "fb269fd28e9b0a497c446babd4cc0db820decca99ccc0505e2fb31fc7dc471a4",
+    "report_sha256": "93db01c8c17d8f2ae22508a491b47a22b232e3a466d4ccca4a97d9ac8eaf5569",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2024-157"
+  },
+  "model_cost_usd": 0.0001422,
+  "sandbox_cost_usd": 0.00151961,
+  "total_cost_usd": 0.00166181,
+  "wall_seconds": 4.119322,
+  "public_status": null
+}

@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42513620,
+  "project": "mruby",
+  "report_source": "public OSS-Fuzz OSV report OSV-2022-606; this is not a private report",
+  "report_text": "Heap-buffer-overflow in mrb_bint_add\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=49282\n\n```\nCrash type: Heap-buffer-overflow READ 8\nCrash state:\nmrb_bint_add\nmrb_int_add\nint_add\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [
+    "version of mruby affected"
+  ],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow READ 8",
+      "crash_state": [
+        "mpz_get_int",
+        "bint_norm",
+        "mrb_bint_add"
+      ],
+      "sanitizer_excerpt": "==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x602000002fd8 at pc 0x000000586637 bp 0x7fffffffccb0 sp 0x7fffffffcca8\nREAD of size 8 at 0x602000002fd8 thread T0\nSCARINESS: 23 (8-byte-read-heap-buffer-overflow)\n    #0 0x586636 in mpz_get_int /src/mruby/mrbgems/mruby-bigint/core/bigint.c:749:29\n    #1 0x586636 in bint_norm /src/mruby/mrbgems/mruby-bigint/core/bigint.c:1013:7\n    #2 0x586636 in mrb_bint_add /src/mruby/mrbgems/mruby-bigint/core/bigint.c:1122:10\n    #3 0x57a227 in mrb_int_add /src/mruby/src/numeric.c\n    #4 0x57c474 in int_add /src/mruby/src/numeric.c:1673:10\n    #5 0x6517e3 in mrb_vm_exec /src/mruby/src/vm.c\n    #6 0x63c80a in mrb_vm_run /src/mruby/src/vm.c:1208:12\n    #7 0x638f1f in mrb_top_run /src/mruby/src/vm.c\n    #8 0x5b6c6f in mrb_load_exec /src/mruby/mrbgems/mruby-compiler/core/parse.y:6889:7\n    #9 0x5b7f3c in mrb_load_nstring_cxt /src/mruby/mrbgems/mruby-compiler/core/parse.y:6961:10\n    #10 0x5b80ec in mrb_load_string_cxt /src/mruby/mrbgems/mruby-compiler/core/parse.y:6973:10\n    #11 0x5b80ec in mrb_load_string /src/mruby/mrbgems/mruby-compiler/core/parse.y:6979:10\n    #12 0x55e3a1 in LLVMFuzzerTestOneInput /src/mruby/oss-fuzz/mruby_fuzzer.c:14:5\n    #13 0x456663 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #14 0x4422f2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #15 0x447b3c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #16 0x470732 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #17 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082)\n    #18 0x420b1d in _start (/out/mruby_fuzzer+0x420b1d)\n\nDEDUP_TOKEN: mpz_get_int--bint_norm--mrb_bint_add\n0x602000002fd8 is located 0 bytes to the right of 8-byte region [0x602000002fd0,0x602000002fd8)\nallocated by thread T0 here:\n    #0 0x525223 in __interceptor_realloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:148:3\n    #1 0x55e5a5 in mrb_default_allocf /src/mruby/src/state.c:69:12\n    #2 0x622f8b in mrb_realloc_simple /src/mruby/src/gc.c:227:8\n    #3 0x622f8b in mrb_realloc /src/mruby/src/gc.c:241:8\n    #4 0x58681d in mpz_realloc /src/mruby/mrbgems/mruby-bigint/core/bigint.c:39:20\n    #5 0x58681d in mpz_set /src/mruby/mrbgems/mruby-bigint/core/bigint.c:104:3\n    #6 0x58681d in mpz_add /src/mruby/mrbgems/mruby-bigint/core/bigint.c:207:5\n    #7 0x58640a in mrb_bint_add /src/mruby/mrbgems/mruby-bigint/core/bigint.c:1121:3\n    #8 0x57a227 in mrb_int_add /src/mruby/src/numeric.c\n    #9 0x57c474 in int_add /src/mruby/src/numeric.c:1673:10\n    #10 0x6517e3 in mrb_vm_exec /src/mruby/src/vm.c\n    #11 0x63c80a in mrb_vm_run /src/mruby/src/vm.c:1208:12\n    #12 0x638f1f in mrb_top_run /src/mruby/src/vm.c\n    #13 0x5b6c6f in mrb_load_exec /src/mruby/mrbgems/mruby-compiler/core/parse.y:6889:7\n    #14 0x5b7f3c in mrb_load_nstring_cxt /src/mruby/mrbgems/mruby-compiler/core/parse.y:6961:10\n    #15 0x5b80ec in mrb_load_string_cxt /src/mruby/mrbgems/mruby-compiler/core/parse.y:6973:10\n    #16 0x5b80ec in mrb_load_string /src/mruby/mrbgems/mruby-compiler/core/parse.y:6979:10\n    #17 0x55e3a1 in LLVMFuzzerTestOneInput /src/mruby/oss-fuzz/mruby_fuzzer.c:14:5\n    #18 0x456663 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #19 0x4422f2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #20 0x447b3c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #21 0x470732 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #22 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082)\n\nDEDUP_TOKEN: __interceptor_realloc--mrb_default_allocf--mrb_realloc_simple\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/mruby/mrbgems/mruby-bigint/core/bigint.c:749:29 in mpz_get_int",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2022-606"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "heap buffer overflow read 8",
+        "measured": "Heap-buffer-overflow READ 8",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "mrb_bint_add",
+          "mrb_int_add",
+          "int_add"
+        ],
+        "measured": [
+          "mpz_get_int",
+          "bint_norm",
+          "mrb_bint_add"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.105209,
+      "input_tokens": 209,
+      "output_tokens": 83,
+      "total_tokens": 292,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001374,
+      "request_id": "fea45230bfd0cc0a2c15b0afb5b3e03d"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42513620,
+      "kind": "vul",
+      "checkpoint_uuid": "a6dfcfbb-3ea9-4bcd-bcad-dec10b392142",
+      "checkpoint_operation_uuid": "01a157a8-3c56-72d6-aa27-b37c02fd3bfa",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e5-5640-700f-be79-95fdb5ac34a2",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1474158936\nINFO: Loaded 1 modules   (23204 inline 8-bit counters): 23204 [0x930230, 0x935cd4), \nINFO: Loaded 1 PC tables (23204 PCs): 23204 [0x80af38,0x865978), \n/out/mruby_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x602000002fd8 at pc 0x000000586637 bp 0x7fffffffccb0 sp 0x7fffffffcca8\nREAD of size 8 at 0x602000002fd8 thread T0\nSCARINESS: 23 (8-byte-read-heap-buffer-overflow)\n    #0 0x586636 in mpz_get_int /src/mruby/mrbgems/mruby-bigint/core/bigint.c:749:29\n    #1 0x586636 in bint_norm /src/mruby/mrbgems/mruby-bigint/core/bigint.c:1013:7\n    #2 0x586636 in mrb_bint_add /src/mruby/mrbgems/mruby-bigint/core/bigint.c:1122:10\n    #3 0x57a227 in mrb_int_add /src/mruby/src/numeric.c\n    #4 0x57c474 in int_add /src/mruby/src/numeric.c:1673:10\n    #5 0x6517e3 in mrb_vm_exec /src/mruby/src/vm.c\n    #6 0x63c80a in mrb_vm_run /src/mruby/src/vm.c:1208:12\n    #7 0x638f1f in mrb_top_run /src/mruby/src/vm.c\n    #8 0x5b6c6f in mrb_load_exec /src/mruby/mrbgems/mruby-compiler/core/parse.y:6889:7\n    #9 0x5b7f3c in mrb_load_nstring_cxt /src/mruby/mrbgems/mruby-compiler/core/parse.y:6961:10\n    #10 0x5b80ec in mrb_load_string_cxt /src/mruby/mrbgems/mruby-compiler/core/parse.y:6973:10\n    #11 0x5b80ec in mrb_load_string /src/mruby/mrbgems/mruby-compiler/core/parse.y:6979:10\n    #12 0x55e3a1 in LLVMFuzzerTestOneInput /src/mruby/oss-fuzz/mruby_fuzzer.c:14:5\n    #13 0x456663 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #14 0x4422f2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #15 0x447b3c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #16 0x470732 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #17 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082)\n    #18 0x420b1d in _start (/out/mruby_fuzzer+0x420b1d)\n\nDEDUP_TOKEN: mpz_get_int--bint_norm--mrb_bint_add\n0x602000002fd8 is located 0 bytes to the right of 8-byte region [0x602000002fd0,0x602000002fd8)\nallocated by thread T0 here:\n    #0 0x525223 in __interceptor_realloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:148:3\n    #1 0x55e5a5 in mrb_default_allocf /src/mruby/src/state.c:69:12\n    #2 0x622f8b in mrb_realloc_simple /src/mruby/src/gc.c:227:8\n    #3 0x622f8b in mrb_realloc /src/mruby/src/gc.c:241:8\n    #4 0x58681d in mpz_realloc /src/mruby/mrbgems/mruby-bigint/core/bigint.c:39:20\n    #5 0x58681d in mpz_set /src/mruby/mrbgems/mruby-bigint/core/bigint.c:104:3\n    #6 0x58681d in mpz_add /src/mruby/mrbgems/mruby-bigint/core/bigint.c:207:5\n    #7 0x58640a in mrb_bint_add /src/mruby/mrbgems/mruby-bigint/core/bigint.c:1121:3\n    #8 0x57a227 in mrb_int_add /src/mruby/src/numeric.c\n    #9 0x57c474 in int_add /src/mruby/src/numeric.c:1673:10\n    #10 0x6517e3 in mrb_vm_exec /src/mruby/src/vm.c\n    #11 0x63c80a in mrb_vm_run /src/mruby/src/vm.c:1208:12\n    #12 0x638f1f in mrb_top_run /src/mruby/src/vm.c\n    #13 0x5b6c6f in mrb_load_exec /src/mruby/mrbgems/mruby-compiler/core/parse.y:6889:7\n    #14 0x5b7f3c in mrb_load_nstring_cxt /src/mruby/mrbgems/mruby-compiler/core/parse.y:6961:10\n    #15 0x5b80ec in mrb_load_string_cxt /src/mruby/mrbgems/mruby-compiler/core/parse.y:6973:10\n    #16 0x5b80ec in mrb_load_string /src/mruby/mrbgems/mruby-compiler/core/parse.y:6979:10\n    #17 0x55e3a1 in LLVMFuzzerTestOneInput /src/mruby/oss-fuzz/mruby_fuzzer.c:14:5\n    #18 0x456663 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #19 0x4422f2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #20 0x447b3c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #21 0x470732 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #22 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082)\n\nDEDUP_TOKEN: __interceptor_realloc--mrb_default_allocf--mrb_realloc_simple\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/mruby/mrbgems/mruby-bigint/core/bigint.c:749:29 in mpz_get_int\nShadow bytes around the buggy address:\n  0x0c047fff85a0: fa fa 00 00 fa fa 00 00 fa fa 00 00 fa fa 00 00\n  0x0c047fff85b0: fa fa 00 00 fa fa 00 00 fa fa 00 00 fa fa 00 00\n  0x0c047fff85c0: fa fa 00 00 fa fa 00 00 fa fa 00 00 fa fa 00 00\n  0x0c047fff85d0: fa fa 00 00 fa fa 00 00 fa fa 00 fa fa fa fd fd\n  0x0c047fff85e0: fa fa fd fd fa fa fd fd fa fa 00 00 fa fa fd fa\n=>0x0c047fff85f0: fa fa fd fa fa fa 00 fa fa fa 00[fa]fa fa fa fa\n  0x0c047fff8600: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8610: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8620: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8630: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8640: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==9==ABORTING\n",
+      "wall_seconds": 0.975732,
+      "server_elapsed_seconds": 0.016582,
+      "cost_usd": 0.00038018000000000004,
+      "disposable": true
+    },
+    {
+      "task_id": 42513620,
+      "kind": "fix",
+      "checkpoint_uuid": "a0835a6f-7f57-482f-9b3a-7c012532808d",
+      "checkpoint_operation_uuid": "01a157a8-6419-7287-bbbb-d7c4835b9184",
+      "checkpoint_wall_seconds": 0.0,
+      "checkpoint_cost_usd": 0.0,
+      "operation_uuid": "01a157e5-5738-74fc-a73a-0afae676d298",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1474649524\nINFO: Loaded 1 modules   (23345 inline 8-bit counters): 23345 [0x933270, 0x938da1), \nINFO: Loaded 1 PC tables (23345 PCs): 23345 [0x80cf58,0x868268), \n/out/mruby_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 7 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.525875,
+      "server_elapsed_seconds": 0.014256,
+      "cost_usd": 0.00034506,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "359ee34f0777530ff52dd5edf794ead36848a84c0656f35d4381ee5808c8b2ad",
+    "fix": "a656201ee3f1fa34e256fb319b86da8f5d0711f949bde7c31bb0cc6b27c480d9"
+  },
+  "provenance": {
+    "arvo_task_sha256": "607e18eac4839f9726d5ae15f487824368955574f3d28613f204ff8a5940b6b6",
+    "report_sha256": "ed1e6b1a0a6adebd4b5ef82227f35a515f8f34dccba97c897e8e3e50d384549a",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2022-606"
+  },
+  "model_cost_usd": 0.0001374,
+  "sandbox_cost_usd": 0.00072524,
+  "total_cost_usd": 0.00086264,
+  "wall_seconds": 3.615796,
+  "public_status": null
+}

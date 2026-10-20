@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42528883,
+  "project": "libdwarf",
+  "report_source": "public OSS-Fuzz OSV report OSV-2023-977; this is not a private report",
+  "report_text": "Heap-buffer-overflow in _dwarf_memcpy_noswap_bytes\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=63024\n\n```\nCrash type: Heap-buffer-overflow READ 8\nCrash state:\n_dwarf_memcpy_noswap_bytes\nfill_in_uni_arch_64\n_dwarf_macho_setup\n```",
+  "verdict": "DUPLICATE",
+  "missing_details": [
+    "Reproduction steps (test case)",
+    "Affected version of libdwarf"
+  ],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow READ 8",
+      "crash_state": [
+        "_dwarf_memcpy_noswap_bytes",
+        "fill_in_uni_arch_64",
+        "_dwarf_object_detector_universal_head_fd"
+      ],
+      "sanitizer_excerpt": "==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6030000000e4 at pc 0x00000052e311 bp 0x7fffffffdef0 sp 0x7fffffffd6c0\nREAD of size 8 at 0x6030000000e4 thread T0\nSCARINESS: 23 (8-byte-read-heap-buffer-overflow)\n    #0 0x52e310 in __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:22:3\n    #1 0x5e7dbe in _dwarf_memcpy_noswap_bytes /src/libdwarf/src/lib/libdwarf/dwarf_memcpy_swap.c:49:5\n    #2 0x5dcf8c in fill_in_uni_arch_64 /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:1213:9\n    #3 0x5dc25a in _dwarf_object_detector_universal_head_fd /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:1340:15\n    #4 0x5dc25a in _dwarf_macho_inner_object_fd /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:948:12\n    #5 0x5dc25a in _dwarf_macho_object_access_internals_init /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:1027:16\n    #6 0x5dc25a in _dwarf_macho_object_access_init /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:1138:11\n    #7 0x5dc25a in _dwarf_macho_setup /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:880:11\n    #8 0x5a4a9a in dwarf_init_b /src/libdwarf/src/lib/libdwarf/dwarf_generic_init.c:441:16\n    #9 0x569f56 in LLVMFuzzerTestOneInput /src/libdwarf/fuzz/fuzz_macro_dwarf4.c:53:9\n    #10 0x43ddf3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #11 0x429552 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #12 0x42edfc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #13 0x458332 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #14 0x7ffff7a5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: 1878e6b475720c7c51969e69ab2d276fae6d1dee)\n    #15 0x41f71d in _start (/out/fuzz_macro_dwarf4+0x41f71d)\n\nDEDUP_TOKEN: __asan_memcpy--_dwarf_memcpy_noswap_bytes--fill_in_uni_arch_64\n0x6030000000e4 is located 0 bytes to the right of 20-byte region [0x6030000000d0,0x6030000000e4)\nallocated by thread T0 here:\n    #0 0x52f15e in __interceptor_calloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:77:3\n    #1 0x5db8b2 in _dwarf_object_detector_universal_head_fd /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:1323:36\n    #2 0x5db8b2 in _dwarf_macho_inner_object_fd /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:948:12\n    #3 0x5db8b2 in _dwarf_macho_object_access_internals_init /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:1027:16\n    #4 0x5db8b2 in _dwarf_macho_object_access_init /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:1138:11\n    #5 0x5db8b2 in _dwarf_macho_setup /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:880:11\n    #6 0x5a4a9a in dwarf_init_b /src/libdwarf/src/lib/libdwarf/dwarf_generic_init.c:441:16\n    #7 0x569f56 in LLVMFuzzerTestOneInput /src/libdwarf/fuzz/fuzz_macro_dwarf4.c:53:9\n    #8 0x43ddf3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #9 0x429552 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #10 0x42edfc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #11 0x458332 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #12 0x7ffff7a5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: 1878e6b475720c7c51969e69ab2d276fae6d1dee)\n\nDEDUP_TOKEN: __interceptor_calloc--_dwarf_object_detector_universal_head_fd--_dwarf_macho_inner_object_fd\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:22:3 in __asan_memcpy",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2023-977"
+    ],
+    "duplicate_candidates": [
+      {
+        "id": "OSV-2023-959",
+        "summary": "Heap-buffer-overflow in _dwarf_memcpy_noswap_bytes",
+        "fixed_commits": [
+          "aea77dad8745d9aad5275c3226e4e3156effa71f"
+        ],
+        "match_kind": "inline_tolerant"
+      }
+    ],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-buffer-overflow",
+        "measured": "Heap-buffer-overflow READ 8",
+        "matches": true,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "_dwarf_memcpy_noswap_bytes"
+        ],
+        "measured": [
+          "_dwarf_memcpy_noswap_bytes",
+          "fill_in_uni_arch_64",
+          "_dwarf_object_detector_universal_head_fd"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.695146,
+      "input_tokens": 225,
+      "output_tokens": 88,
+      "total_tokens": 313,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001467,
+      "request_id": "d9ced9fb351970a0ba24da6a784a9aa4"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42528883,
+      "kind": "vul",
+      "checkpoint_uuid": "6e978c3d-bd30-4c09-905f-1020dd89105a",
+      "checkpoint_operation_uuid": "01a157f0-327b-769f-b569-4a1e58abad49",
+      "checkpoint_wall_seconds": 9.599735,
+      "checkpoint_cost_usd": 0.00007501,
+      "operation_uuid": "01a157f0-5c52-75f0-acf8-008341f18df0",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 2196590228\nINFO: Loaded 1 modules   (11980 inline 8-bit counters): 11980 [0x773420, 0x7762ec), \nINFO: Loaded 1 PC tables (11980 PCs): 11980 [0x6d4d38,0x7039f8), \n/out/fuzz_macro_dwarf4: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6030000000e4 at pc 0x00000052e311 bp 0x7fffffffdef0 sp 0x7fffffffd6c0\nREAD of size 8 at 0x6030000000e4 thread T0\nSCARINESS: 23 (8-byte-read-heap-buffer-overflow)\n    #0 0x52e310 in __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:22:3\n    #1 0x5e7dbe in _dwarf_memcpy_noswap_bytes /src/libdwarf/src/lib/libdwarf/dwarf_memcpy_swap.c:49:5\n    #2 0x5dcf8c in fill_in_uni_arch_64 /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:1213:9\n    #3 0x5dc25a in _dwarf_object_detector_universal_head_fd /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:1340:15\n    #4 0x5dc25a in _dwarf_macho_inner_object_fd /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:948:12\n    #5 0x5dc25a in _dwarf_macho_object_access_internals_init /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:1027:16\n    #6 0x5dc25a in _dwarf_macho_object_access_init /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:1138:11\n    #7 0x5dc25a in _dwarf_macho_setup /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:880:11\n    #8 0x5a4a9a in dwarf_init_b /src/libdwarf/src/lib/libdwarf/dwarf_generic_init.c:441:16\n    #9 0x569f56 in LLVMFuzzerTestOneInput /src/libdwarf/fuzz/fuzz_macro_dwarf4.c:53:9\n    #10 0x43ddf3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #11 0x429552 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #12 0x42edfc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #13 0x458332 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #14 0x7ffff7a5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: 1878e6b475720c7c51969e69ab2d276fae6d1dee)\n    #15 0x41f71d in _start (/out/fuzz_macro_dwarf4+0x41f71d)\n\nDEDUP_TOKEN: __asan_memcpy--_dwarf_memcpy_noswap_bytes--fill_in_uni_arch_64\n0x6030000000e4 is located 0 bytes to the right of 20-byte region [0x6030000000d0,0x6030000000e4)\nallocated by thread T0 here:\n    #0 0x52f15e in __interceptor_calloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:77:3\n    #1 0x5db8b2 in _dwarf_object_detector_universal_head_fd /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:1323:36\n    #2 0x5db8b2 in _dwarf_macho_inner_object_fd /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:948:12\n    #3 0x5db8b2 in _dwarf_macho_object_access_internals_init /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:1027:16\n    #4 0x5db8b2 in _dwarf_macho_object_access_init /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:1138:11\n    #5 0x5db8b2 in _dwarf_macho_setup /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:880:11\n    #6 0x5a4a9a in dwarf_init_b /src/libdwarf/src/lib/libdwarf/dwarf_generic_init.c:441:16\n    #7 0x569f56 in LLVMFuzzerTestOneInput /src/libdwarf/fuzz/fuzz_macro_dwarf4.c:53:9\n    #8 0x43ddf3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #9 0x429552 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #10 0x42edfc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #11 0x458332 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #12 0x7ffff7a5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: 1878e6b475720c7c51969e69ab2d276fae6d1dee)\n\nDEDUP_TOKEN: __interceptor_calloc--_dwarf_object_detector_universal_head_fd--_dwarf_macho_inner_object_fd\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:22:3 in __asan_memcpy\nShadow bytes around the buggy address:\n  0x0c067fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c067fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c067fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c067fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c067fff8000: fa fa 00 00 00 fa fa fa 00 00 00 fa fa fa 00 00\n=>0x0c067fff8010: 00 fa fa fa 00 00 00 00 fa fa 00 00[04]fa fa fa\n  0x0c067fff8020: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c067fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c067fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c067fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c067fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==9==ABORTING\n",
+      "wall_seconds": 0.941598,
+      "server_elapsed_seconds": 0.014595,
+      "cost_usd": 0.00035745,
+      "disposable": true
+    },
+    {
+      "task_id": 42528883,
+      "kind": "fix",
+      "checkpoint_uuid": "9a6a5600-b298-4f1c-a30c-fcd54b5a7b65",
+      "checkpoint_operation_uuid": "01a157f0-56d6-7197-9e12-22046e6ff0e0",
+      "checkpoint_wall_seconds": 8.467155,
+      "checkpoint_cost_usd": 0.00006924,
+      "operation_uuid": "01a157f0-5d3e-7168-b90f-53ddb5e1bd05",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 2198083337\nINFO: Loaded 1 modules   (11996 inline 8-bit counters): 11996 [0x7732e0, 0x7761bc), \nINFO: Loaded 1 PC tables (11996 PCs): 11996 [0x6d4b38,0x7038f8), \n/out/fuzz_macro_dwarf4: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 1 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 2.474745,
+      "server_elapsed_seconds": 0.012097,
+      "cost_usd": 0.00032729000000000005,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "0ec0e15e6f6b7ab49abc1a831562c86c3cac15ff07400fbed780436fc7a3da9d",
+    "fix": "8a2044a0e74ce04d7b7dca0c539cbd7512949cbe86231f954357b052ed9fed14"
+  },
+  "provenance": {
+    "arvo_task_sha256": "d60a56f20d05b126a7695344f07790786d08ad32f5e7831055238ebab4845411",
+    "report_sha256": "f376e504bd57dbfc54cc5b2604291b1d479c3b2395b94ce92322479846e69b59",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2023-977"
+  },
+  "model_cost_usd": 0.0001467,
+  "sandbox_cost_usd": 0.00082899,
+  "total_cost_usd": 0.00097569,
+  "wall_seconds": 23.792986,
+  "public_status": null
+}

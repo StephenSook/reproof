@@ -1,0 +1,124 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42517796,
+  "project": "oniguruma",
+  "report_source": "public OSS-Fuzz OSV report OSV-2022-1144; this is not a private report",
+  "report_text": "Heap-buffer-overflow in onigenc_mbn_mbc_case_fold\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=53041\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nonigenc_mbn_mbc_case_fold\neuckr_mbc_case_fold\nmatch_at\n```",
+  "verdict": "REPRODUCED",
+  "missing_details": [
+    "Bug class (e.g., CWE identifier)",
+    "Affected version or commit hash",
+    "Trigger input or test case"
+  ],
+  "evidence": {
+    "crash": {
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "crash_state": [
+        "onigenc_mbn_mbc_case_fold",
+        "euckr_mbc_case_fold",
+        "string_cmp_ic"
+      ],
+      "sanitizer_excerpt": "==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x607000001dc0 at pc 0x0000005fd2fe bp 0x7fffffffc6a0 sp 0x7fffffffc698\nREAD of size 1 at 0x607000001dc0 thread T0\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\n    #0 0x5fd2fd in onigenc_mbn_mbc_case_fold /src/oniguruma/src/regenc.c:829:18\n    #1 0x61657f in euckr_mbc_case_fold /src/oniguruma/src/euc_kr.c:114:10\n    #2 0x5e55d2 in string_cmp_ic /src/oniguruma/src/regexec.c:2445:12\n    #3 0x5e55d2 in match_at /src/oniguruma/src/regexec.c:3850:11\n    #4 0x5ef8b9 in search_in_range /src/oniguruma/src/regexec.c:5646:7\n    #5 0x5ed891 in onig_search /src/oniguruma/src/regexec.c:5403:7\n    #6 0x56d23b in search /src/oniguruma/harnesses/base.c:271:7\n    #7 0x56ccd0 in exec /src/oniguruma/harnesses/base.c:364:7\n    #8 0x56ccd0 in alloc_exec /src/oniguruma/harnesses/base.c:458:7\n    #9 0x56ccd0 in LLVMFuzzerTestOneInput /src/oniguruma/harnesses/base.c:679:7\n    #10 0x43ddb3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #11 0x429512 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #12 0x42edbc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #13 0x4582f2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #14 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: 1878e6b475720c7c51969e69ab2d276fae6d1dee)\n    #15 0x41f6dd in _start (/out/fuzzer+0x41f6dd)\n\nDEDUP_TOKEN: onigenc_mbn_mbc_case_fold--euckr_mbc_case_fold--string_cmp_ic\n0x607000001dc0 is located 0 bytes to the right of 80-byte region [0x607000001d70,0x607000001dc0)\nallocated by thread T0 here:\n    #0 0x52ef46 in __interceptor_malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:69:3\n    #1 0x56c978 in alloc_exec /src/oniguruma/harnesses/base.c:437:37\n    #2 0x56c978 in LLVMFuzzerTestOneInput /src/oniguruma/harnesses/base.c:679:7\n    #3 0x43ddb3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #4 0x429512 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #5 0x42edbc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #6 0x4582f2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #7 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: 1878e6b475720c7c51969e69ab2d276fae6d1dee)\n\nDEDUP_TOKEN: __interceptor_malloc--alloc_exec--LLVMFuzzerTestOneInput\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/oniguruma/src/regenc.c:829:18 in onigenc_mbn_mbc_case_fold",
+      "sanitizer_kind": "AddressSanitizer"
+    },
+    "fix_clean": true,
+    "fixed_exit_code": 0,
+    "excluded_osv_ids": [
+      "OSV-2022-1144"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "",
+        "measured": "Heap-buffer-overflow READ 1",
+        "matches": false,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "onigenc_mbn_mbc_case_fold",
+          "euckr_mbc_case_fold"
+        ],
+        "measured": [
+          "onigenc_mbn_mbc_case_fold",
+          "euckr_mbc_case_fold",
+          "string_cmp_ic"
+        ],
+        "matches": true,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.712328,
+      "input_tokens": 224,
+      "output_tokens": 100,
+      "total_tokens": 324,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001572,
+      "request_id": "a64e067fdab7373e54c86aa6cc202582"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42517796,
+      "kind": "vul",
+      "checkpoint_uuid": "f9aecae0-df60-4513-81c3-231e9e2d0a83",
+      "checkpoint_operation_uuid": "01a157eb-3137-77d1-a142-c94b43cbc111",
+      "checkpoint_wall_seconds": 11.773389,
+      "checkpoint_cost_usd": 0.00006357,
+      "operation_uuid": "01a157eb-5b1f-7311-adb6-4664e6d0e1e1",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1868607725\nINFO: Loaded 1 modules   (9906 inline 8-bit counters): 9906 [0x7500c0, 0x752772), \nINFO: Loaded 1 PC tables (9906 PCs): 9906 [0x6c4110,0x6eac30), \n/out/fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==9==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x607000001dc0 at pc 0x0000005fd2fe bp 0x7fffffffc6a0 sp 0x7fffffffc698\nREAD of size 1 at 0x607000001dc0 thread T0\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\n    #0 0x5fd2fd in onigenc_mbn_mbc_case_fold /src/oniguruma/src/regenc.c:829:18\n    #1 0x61657f in euckr_mbc_case_fold /src/oniguruma/src/euc_kr.c:114:10\n    #2 0x5e55d2 in string_cmp_ic /src/oniguruma/src/regexec.c:2445:12\n    #3 0x5e55d2 in match_at /src/oniguruma/src/regexec.c:3850:11\n    #4 0x5ef8b9 in search_in_range /src/oniguruma/src/regexec.c:5646:7\n    #5 0x5ed891 in onig_search /src/oniguruma/src/regexec.c:5403:7\n    #6 0x56d23b in search /src/oniguruma/harnesses/base.c:271:7\n    #7 0x56ccd0 in exec /src/oniguruma/harnesses/base.c:364:7\n    #8 0x56ccd0 in alloc_exec /src/oniguruma/harnesses/base.c:458:7\n    #9 0x56ccd0 in LLVMFuzzerTestOneInput /src/oniguruma/harnesses/base.c:679:7\n    #10 0x43ddb3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #11 0x429512 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #12 0x42edbc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #13 0x4582f2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #14 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: 1878e6b475720c7c51969e69ab2d276fae6d1dee)\n    #15 0x41f6dd in _start (/out/fuzzer+0x41f6dd)\n\nDEDUP_TOKEN: onigenc_mbn_mbc_case_fold--euckr_mbc_case_fold--string_cmp_ic\n0x607000001dc0 is located 0 bytes to the right of 80-byte region [0x607000001d70,0x607000001dc0)\nallocated by thread T0 here:\n    #0 0x52ef46 in __interceptor_malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:69:3\n    #1 0x56c978 in alloc_exec /src/oniguruma/harnesses/base.c:437:37\n    #2 0x56c978 in LLVMFuzzerTestOneInput /src/oniguruma/harnesses/base.c:679:7\n    #3 0x43ddb3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #4 0x429512 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #5 0x42edbc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #6 0x4582f2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #7 0x7ffff7c5a082 in __libc_start_main (/arvo-lib/libc.so.6+0x24082) (BuildId: 1878e6b475720c7c51969e69ab2d276fae6d1dee)\n\nDEDUP_TOKEN: __interceptor_malloc--alloc_exec--LLVMFuzzerTestOneInput\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/oniguruma/src/regenc.c:829:18 in onigenc_mbn_mbc_case_fold\nShadow bytes around the buggy address:\n  0x0c0e7fff8360: fd fd fd fa fa fa fa fa fd fd fd fd fd fd fd fd\n  0x0c0e7fff8370: fd fa fa fa fa fa fd fd fd fd fd fd fd fd fd fa\n  0x0c0e7fff8380: fa fa fa fa fd fd fd fd fd fd fd fd fd fa fa fa\n  0x0c0e7fff8390: fa fa fd fd fd fd fd fd fd fd fd fa fa fa fa fa\n  0x0c0e7fff83a0: fd fd fd fd fd fd fd fd fd fa fa fa fa fa 00 00\n=>0x0c0e7fff83b0: 00 00 00 00 00 00 00 00[fa]fa fa fa fd fd fd fd\n  0x0c0e7fff83c0: fd fd fd fd fd fa fa fa fa fa fd fd fd fd fd fd\n  0x0c0e7fff83d0: fd fd fd fa fa fa fa fa fd fd fd fd fd fd fd fd\n  0x0c0e7fff83e0: fd fa fa fa fa fa fd fd fd fd fd fd fd fd fd fa\n  0x0c0e7fff83f0: fa fa fa fa fd fd fd fd fd fd fd fd fd fa fa fa\n  0x0c0e7fff8400: fa fa fd fd fd fd fd fd fd fd fd fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==9==ABORTING\n",
+      "wall_seconds": 1.025252,
+      "server_elapsed_seconds": 0.012911,
+      "cost_usd": 0.00033959,
+      "disposable": true
+    },
+    {
+      "task_id": 42517796,
+      "kind": "fix",
+      "checkpoint_uuid": "2f14d749-b6b8-4876-8f98-3f3d9d49733d",
+      "checkpoint_operation_uuid": "01a157eb-5505-70c5-bdc0-f4acefd4faf2",
+      "checkpoint_wall_seconds": 8.66646,
+      "checkpoint_cost_usd": 0.00006117000000000001,
+      "operation_uuid": "01a157eb-5c15-7730-84e7-104886c7ef5f",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1869115927\nINFO: Loaded 1 modules   (9910 inline 8-bit counters): 9910 [0x7500c0, 0x752776), \nINFO: Loaded 1 PC tables (9910 PCs): 9910 [0x6c4110,0x6eac70), \n/out/fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 2 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***\n",
+      "wall_seconds": 1.491642,
+      "server_elapsed_seconds": 0.010573,
+      "cost_usd": 0.00030831,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "eba30591e92be9e7789e1714c5b3e2f74ad9ae3317e4ee596fb3d35d01413833",
+    "fix": "eaeeff0da73b206b2162852780479fb6988f27b2d817079141930da271f913d0"
+  },
+  "provenance": {
+    "arvo_task_sha256": "2ae8fbba0107d9324299362542dd07c73cc89fcd9c7cfdd35b9cbb5274496dc8",
+    "report_sha256": "35f03a055bba006ed048e6623a2b8f3ce50046a67fdf0574cf34589fc60ac03f",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2022-1144"
+  },
+  "model_cost_usd": 0.0001572,
+  "sandbox_cost_usd": 0.00077264,
+  "total_cost_usd": 0.00092984,
+  "wall_seconds": 25.357468,
+  "public_status": null
+}

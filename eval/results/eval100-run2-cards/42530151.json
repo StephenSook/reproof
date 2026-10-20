@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.5",
+  "arvo_id": 42530151,
+  "project": "lcms",
+  "report_source": "public OSS-Fuzz OSV report OSV-2023-1164; this is not a private report",
+  "report_text": "Heap-buffer-overflow in WriteCLUT\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=64166\n\n```\nCrash type: Heap-buffer-overflow READ 4\nCrash state:\nWriteCLUT\ncmsGetPostScriptColorResource\ncmsGetPostScriptCRD\n```",
+  "verdict": "NEEDS_INFO",
+  "missing_details": [
+    "version of lcms affected",
+    "The vulnerable build did not produce a recognized sanitizer trace and did not complete cleanly (exit code 127); inspect its captured stdout and stderr.",
+    "The fixed build did not exit cleanly; inspect its captured stdout and stderr."
+  ],
+  "evidence": {
+    "crash": null,
+    "fix_clean": false,
+    "fixed_exit_code": 127,
+    "excluded_osv_ids": [
+      "OSV-2023-1164"
+    ],
+    "duplicate_candidates": [],
+    "claim_vs_evidence": [
+      {
+        "field": "bug_class",
+        "claimed": "Heap-buffer-overflow",
+        "measured": "",
+        "matches": false,
+        "detail": "normalized sanitizer bug family equality"
+      },
+      {
+        "field": "functions",
+        "claimed": [
+          "WriteCLUT"
+        ],
+        "measured": [],
+        "matches": false,
+        "detail": "at least one claimed function occurs in the top ClusterFuzz crash frames"
+      }
+    ],
+    "inputs_tried": [
+      "stored ARVO PoC at /tmp/poc"
+    ]
+  },
+  "model_calls": [
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "latency_seconds": 1.254676,
+      "input_tokens": 213,
+      "output_tokens": 70,
+      "total_tokens": 283,
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 0.9,
+      "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+      "cost_usd": 0.0001269,
+      "request_id": "9fe9a722ae233e7afe25ca60830bf91d"
+    }
+  ],
+  "sandbox_operations": [
+    {
+      "task_id": 42530151,
+      "kind": "vul",
+      "checkpoint_uuid": "8355ef9f-e128-4849-be0d-94123db7438c",
+      "checkpoint_operation_uuid": "01a157fc-32d9-73a6-808d-a3573a69ca2e",
+      "checkpoint_wall_seconds": 9.629364,
+      "checkpoint_cost_usd": 0.00006125,
+      "operation_uuid": "01a157fc-5d8a-72a2-9252-d9c120c989ee",
+      "exit_code": 127,
+      "stdout": "",
+      "stderr": "/out/cms_postscript_fuzzer: error while loading shared libraries: libm.so.6: wrong ELF class: ELFCLASS64\n",
+      "wall_seconds": 0.98052,
+      "server_elapsed_seconds": 0.003034,
+      "cost_usd": 0.00006898,
+      "disposable": true
+    },
+    {
+      "task_id": 42530151,
+      "kind": "fix",
+      "checkpoint_uuid": "7b25a8ee-8547-449e-87bb-ea85ae4286e3",
+      "checkpoint_operation_uuid": "01a157fc-57dd-7138-9ef9-18a49d589bba",
+      "checkpoint_wall_seconds": 8.935531,
+      "checkpoint_cost_usd": 0.00006445,
+      "operation_uuid": "01a157fc-5e7c-77d2-afdb-88ea1e39a642",
+      "exit_code": 127,
+      "stdout": "",
+      "stderr": "/out/cms_postscript_fuzzer: error while loading shared libraries: libm.so.6: wrong ELF class: ELFCLASS64\n",
+      "wall_seconds": 1.45332,
+      "server_elapsed_seconds": 0.003555,
+      "cost_usd": 0.00008495,
+      "disposable": true
+    }
+  ],
+  "slice_manifest_sha256": {
+    "vul": "cac517ca4b7e1d8ae5f20c90d14f126bbf386476f785cd288b282d87191520bc",
+    "fix": "9f85dd159d73ad4b6634897b081ba7a7fd707028713e0ee63cdc7798de4e90b7"
+  },
+  "provenance": {
+    "arvo_task_sha256": "c2b0e4e04e7bda23f12297a8cf89ff364aa1fb3e0ed8dc36c6101c0f045616fa",
+    "report_sha256": "cb9cbd5cfad68819de63388da4454e04774760bc41ac9c070192f3e771dcc1df",
+    "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+    "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+    "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+    "derivation_method": "live-execution",
+    "osv_record_id": "OSV-2023-1164"
+  },
+  "model_cost_usd": 0.0001269,
+  "sandbox_cost_usd": 0.00027963,
+  "total_cost_usd": 0.00040653,
+  "wall_seconds": 22.829118,
+  "public_status": null
+}
