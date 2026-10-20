@@ -90,6 +90,33 @@ The selection is registered in `eval/eval100_prereg.json` (seed 20261019, 10 his
 | Baseline Set A result | `3 references; 82 frame rejects; 14 host rejects; 42.719854 seconds` | PowerShell sums over Set A `baseline` rows in `eval/results/public_status.json`; output matches the value | MEASURED |
 | Baseline Set B result | `0 references; 175 frame rejects; 22 host rejects; 180.699298 seconds` | PowerShell sums over Set B `baseline` rows in `eval/results/public_status.json`; output matches the value | MEASURED |
 
+## Public status on eval-100, registered 2026-10-19
+
+The paid stage covers the historical 10 plus the first 40 accepted draw tasks; the other 50 draw tasks are reported as not run, as registered. Run on 2026-10-20.
+
+| Claim | Exact value | Source | Tag |
+|---|---:|---|---|
+| Pre-registration SHA-256 | `6e4f18c2b48f11b9e4dd6c80ce2e8c7a00e9e0e11b7fcbd39ece0403c457d2eb` | `eval/results/public_status_100.json#prereg_sha256` | MEASURED |
+| Pre-registered Tavily credit cap | `250` | `eval/results/public_status_100.json#tavily_credit_cap` | MEASURED |
+| Pre-registered Nemotron call cap | `200` | `eval/results/public_status_100.json#nemotron_call_cap` | MEASURED |
+| Historical tasks run | `10` | `eval/results/public_status_100.json#tavily_summary.by_set.historical.ran` | MEASURED |
+| Historical tasks with a verified reference | `4` | `eval/results/public_status_100.json#tavily_summary.by_set.historical.with_verified_reference` | MEASURED |
+| Historical tasks with no public findings | `6` | `eval/results/public_status_100.json#tavily_summary.by_set.historical.no_public_findings` | MEASURED |
+| Historical tasks publicly known and fixed | `1` | `eval/results/public_status_100.json#tavily_summary.by_set.historical.states.PUBLICLY_KNOWN_FIXED` | MEASURED |
+| Historical tasks publicly known and open | `2` | `eval/results/public_status_100.json#tavily_summary.by_set.historical.states.PUBLICLY_KNOWN_OPEN` | MEASURED |
+| Draw tasks run | `40` | `eval/results/public_status_100.json#tavily_summary.by_set.draw.ran` | MEASURED |
+| Draw tasks not run, as registered | `50` | `eval/results/public_status_100.json#tavily_summary.by_set.draw.not_run` | MEASURED |
+| Draw tasks with a verified reference | `2` | `eval/results/public_status_100.json#tavily_summary.by_set.draw.with_verified_reference` | MEASURED |
+| Draw tasks with no public findings | `37` | `eval/results/public_status_100.json#tavily_summary.by_set.draw.no_public_findings` | MEASURED |
+| Draw tasks whose lookup was unavailable | `1` | `eval/results/public_status_100.json#tavily_summary.by_set.draw.states.LOOKUP_UNAVAILABLE` | MEASURED |
+| Draw rejected pages: frame | `63` | `eval/results/public_status_100.json#tavily_summary.by_set.draw.frame_rejected` | MEASURED |
+| Draw rejected pages: host | `88` | `eval/results/public_status_100.json#tavily_summary.by_set.draw.host_rejected` | MEASURED |
+| Draw rejected snippets | `44` | `eval/results/public_status_100.json#tavily_summary.by_set.draw.snippet_rejected` | MEASURED |
+| Tavily credits charged by this run | `221` | `eval/results/public_status_100.json#tavily_credits_this_run` | MEASURED |
+| Nemotron calls in this run | `64` | `eval/results/public_status_100.json#nemotron_calls` | MEASURED |
+| Verified Tavily evidence pages | `11` | `eval/results/public_status_100.json#tavily_summary.evidence_pages` | MEASURED |
+| Baseline verified references across all 100 | `7` | `eval/results/public_status_100.json#baseline_verified_references` | MEASURED |
+
 ## Advisory rescore
 
 | Claim | Exact value | Source | Tag |

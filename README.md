@@ -406,6 +406,14 @@ in `tests/fixtures/tavily`. The eval ledger starts at 7. Each call sets `include
 `/usage` endpoint is not called. The batch stops before a call that would pass either budget, and
 a task that was not started is reported as not run.
 
+### Public status on eval-100, registered 2026-10-19
+
+`eval/public_status_prereg_100.json` (SHA-256 `6e4f18c2b48f11b9e4dd6c80ce2e8c7a00e9e0e11b7fcbd39ece0403c457d2eb`) registered the same lookup for the eval-100 population: the historical 10 plus the first 40 accepted draw tasks, capped at 250 Tavily credits and 200 Nemotron calls. The other 50 draw tasks are reported as not run. `eval/run_public_status.py --prereg eval/public_status_prereg_100.json --out eval/results/public_status_100.json` ran on 2026-10-20 and used 221 credits and 64 Nemotron calls.
+
+- Historical 10: 4 tasks kept a verified reference (1 publicly known and fixed, 2 publicly known and open, 1 related variants only) and 6 had no public findings. The October 5 run of the same 10 kept 3 and found 7 with none; the web changed in between, so the two runs are reported side by side, not merged.
+- Draw 40: 2 tasks kept a verified reference (both publicly known and open), 37 had no public findings, and 1 lookup was unavailable. The guard rejected 63 pages on frame, 88 on host and 44 snippets.
+- The no-Tavily baseline kept 7 references across all 100 tasks.
+
 ### Advisory rescore, registered before the run
 
 For every kept evidence page and every baseline reference in `eval/results/public_status.json` whose URL is a GitHub security advisory on that task's own repository, `eval/rescore_advisories.py` reads `GET /repos/{owner}/{repo}/security-advisories/{ghsa_id}` and runs the existing ancestry check against that task's OSV fix commits. It writes `eval/results/advisory_rescore.json`, including the GitHub API URLs it called. It does not modify `eval/results/public_status.json`. It does not call Tavily or Nemotron. The advisory record is a version claim. The result state is `PUBLICLY_KNOWN_FIXED` only when ancestry says the tag contains the fix. A failed read, a patched version git cannot check, or an empty patched-version string is `NOT_CHECKABLE`. A version git contradicts is not `FIXED`.
