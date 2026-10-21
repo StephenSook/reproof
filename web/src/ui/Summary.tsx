@@ -116,7 +116,20 @@ function PublicLine({ status }: { status: PublicSummary }) {
   );
 }
 
-function Totals({ summary, running }: { summary: DoorSummary; running: boolean }) {
+/** A recorded run's own time, shown as the reference while a live run counts up. */
+export type TypicalRun = { seconds: number; project: string };
+
+function Totals({
+  summary,
+  running,
+  elapsedSeconds,
+  typicalRun,
+}: {
+  summary: DoorSummary;
+  running: boolean;
+  elapsedSeconds: number | null;
+  typicalRun: TypicalRun | null;
+}) {
   const { totals } = summary;
   const wait = waitingWord(running).toLowerCase();
   const credits =
@@ -136,6 +149,18 @@ function Totals({ summary, running }: { summary: DoorSummary; running: boolean }
             <>
               {totals.seconds.toFixed(2)}
               <span className="unit"> s</span>
+            </>
+          ) : running && elapsedSeconds !== null ? (
+            <>
+              <span data-elapsed={elapsedSeconds}>
+                {elapsedSeconds}
+                <span className="unit"> s elapsed</span>
+              </span>
+              {typicalRun ? (
+                <small data-typical-run>
+                  The recorded {typicalRun.project} run took {typicalRun.seconds.toFixed(1)} s.
+                </small>
+              ) : null}
             </>
           ) : (
             wait
@@ -208,12 +233,17 @@ export function Summary({
   running,
   title,
   progress,
+  elapsedSeconds = null,
+  typicalRun = null,
 }: {
   summary: DoorSummary;
   running: boolean;
   /** The report as a maintainer names it, for example "jq: heap-buffer-overflow in decToString". */
   title: string | null;
   progress: Progress;
+  /** Whole seconds since a live triage started, while it runs. */
+  elapsedSeconds?: number | null;
+  typicalRun?: TypicalRun | null;
 }) {
   const tone = summary.verdict ? verdictTone(summary.verdict) : "slate";
   const verdictRef = useRef<HTMLSpanElement>(null);
@@ -280,7 +310,7 @@ export function Summary({
         <FixedBuild running={running} tile={summary.fixed} />
       </div>
       <PublicLine status={summary.publicStatus} />
-      <Totals running={running} summary={summary} />
+      <Totals elapsedSeconds={elapsedSeconds} running={running} summary={summary} typicalRun={typicalRun} />
       <Spend summary={summary} />
     </div>
   );

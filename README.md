@@ -476,7 +476,10 @@ the card's `model_calls[].model` and the platform from their `price_source` URL,
 and the line says so. Every value in the summary comes from the stream, the recorded response, or
 the saved row. A value that has not arrived says so.
 
-Triage streams each step as it finishes, and the summary fills in as the steps arrive. Nemotron 3
+Triage streams each step as it finishes, and the summary fills in as the steps arrive. While it
+runs, the wall-time tile counts the seconds since Triage was pressed and names the recorded jq
+run's own time, 14.8 s from request to last byte (`client_elapsed_seconds` in
+`eval/results/door-42530604.json`), as the reference. Nemotron 3
 Super extracts the claim. The vulnerable and fixed builds run in parallel disposable branches of
 that task's cached ConTree checkpoint. The sanitizer output is parsed. Duplicates are searched in
 the committed per-project OSV index, and the task's own issue is excluded. A public-status lookup

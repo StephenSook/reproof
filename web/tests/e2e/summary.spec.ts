@@ -15,6 +15,7 @@ const fixedSentence = "Fixed in jq 1.7.1. Git ancestry: tag jq-1.7.1 contains OS
 const advisory = "https://github.com/jqlang/jq/security/advisories/GHSA-686w-5m7m-54vc";
 // One recorded response of the deployed door (eval/results/door-42530604.json).
 const receipt = JSON.parse(readFileSync(resolve(here, "../../src/content/door-42530604.json"), "utf8")) as {
+  client_elapsed_seconds: number;
   events: {
     type: string;
     result?: {
@@ -316,6 +317,16 @@ test("the summary fills in while the stream arrives and the evidence closes at t
   await expect(summary.locator('[data-summary-verdict=""]')).toContainText("Running");
   await expect(page.locator("[data-result]")).toHaveCount(0);
 
+  // While it runs, the wall-time tile counts whole seconds and names the recorded run's own time.
+  const elapsed = summary.locator("[data-summary-totals] [data-elapsed]");
+  await expect(elapsed).toContainText("s elapsed");
+  await expect(summary.locator("[data-typical-run]")).toHaveText(
+    `The recorded jq run took ${receipt.client_elapsed_seconds.toFixed(1)} s.`,
+  );
+  await expect
+    .poll(async () => Number(await elapsed.getAttribute("data-elapsed")), { timeout: 5_000 })
+    .toBeGreaterThanOrEqual(2);
+
   await push([0, 3]);
   await expect(page.locator("[data-step]")).toHaveCount(3);
   await expect(summary.locator("[data-summary-vulnerable]")).toContainText("Exit code1");
@@ -336,4 +347,6 @@ test("the summary fills in while the stream arrives and the evidence closes at t
   await expect(page.locator(".evidence details[open]")).toHaveCount(0);
   await expect(page.locator(".evidence details")).toHaveCount(8);
   await expect(summary.locator(".progress")).toHaveCount(0);
+  await expect(summary.locator("[data-elapsed]")).toHaveCount(0);
+  await expect(summary.locator("[data-summary-totals]")).toContainText("4.70 s");
 });

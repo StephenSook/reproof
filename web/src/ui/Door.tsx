@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { stepKey, takeLines, type DoorStepEvent } from "@/lib/events";
 import { receiptArvoId, receiptSummary, replayEvents, type DoorReceipt } from "@/lib/receipt";
@@ -10,7 +10,7 @@ import { liveResultFrom, liveSummary, recordedSummary, type DoorSummary } from "
 import { CardBody, Disclosure, STEP_LABEL, StepItem, stepLabel, type ShownCard, type ShownResult } from "@/ui/Evidence";
 import { scrollToElement } from "@/ui/motion/motion";
 import { SquashButton } from "@/ui/SquashButton";
-import { Summary, type Progress } from "@/ui/Summary";
+import { Summary, type Progress, type TypicalRun } from "@/ui/Summary";
 
 export type ReportTask = {
   arvo_id: number;
@@ -72,8 +72,24 @@ export function Door({
   const [run, setRun] = useState(0);
   const [opened, setOpened] = useState<Record<string, boolean>>({});
   const [notice, setNotice] = useState<string | null>(null);
+  // Clock readings for the elapsed counter of a running triage, from performance.now().
+  const [startedAt, setStartedAt] = useState<number | null>(null);
+  const [now, setNow] = useState(0);
   const resultRef = useRef<HTMLElement>(null);
   const current = tasks.find((task) => task.arvo_id === selected) ?? tasks[0];
+
+  useEffect(() => {
+    if (!busy) return;
+    const timer = window.setInterval(() => setNow(performance.now()), 250);
+    return () => window.clearInterval(timer);
+  }, [busy]);
+  const elapsedSeconds = busy && startedAt !== null ? Math.max(0, Math.floor((now - startedAt) / 1000)) : null;
+  // The reference time is the recorded run's own client time, request to last byte.
+  const reference = receipts[0];
+  const referenceProject = reference ? tasks.find((task) => task.arvo_id === receiptArvoId(reference))?.project : undefined;
+  const typicalRun: TypicalRun | null = reference
+    ? { seconds: reference.client_elapsed_seconds, project: referenceProject ?? `ARVO ${receiptArvoId(reference)}` }
+    : null;
 
   function bringResultIntoView() {
     const element = resultRef.current;
@@ -136,8 +152,11 @@ export function Door({
   }
 
   async function runTriage() {
+    const clock = performance.now();
     flushSync(() => {
       setBusy(true);
+      setStartedAt(clock);
+      setNow(clock);
       setNotice(null);
       setResult(null);
       setRecordedTask(null);
@@ -296,7 +315,14 @@ export function Door({
             data-verdict={result ? result.verdict : undefined}
             ref={resultRef}
           >
-            <Summary progress={progress} running={busy} summary={summary} title={runTitle} />
+            <Summary
+              elapsedSeconds={elapsedSeconds}
+              progress={progress}
+              running={busy}
+              summary={summary}
+              title={runTitle}
+              typicalRun={typicalRun}
+            />
             <section aria-labelledby="evidence-heading" className="evidence">
               <div className="evidence-head">
                 <h3 id="evidence-heading">Evidence</h3>
