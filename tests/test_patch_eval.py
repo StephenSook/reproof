@@ -146,6 +146,12 @@ def test_source_windows_merge_and_respect_the_cap(monkeypatch: pytest.MonkeyPatc
 
 
 class FakeWorkspace:
+    """A tree in memory that behaves like the Docker workspace of run 2.
+
+    A compile can leave state behind (``build_leftover``), like a build script that makes a
+    directory with plain mkdir; ``reset`` brings back the snapshot unless only reads ran.
+    """
+
     workdir = WORKDIR
 
     def __init__(
@@ -166,22 +172,41 @@ class FakeWorkspace:
         self.seed_count = seed_count
         self.written: list[str] = []
         self.seen_on_compile: list[bytes] = []
+        self.leftover_on_compile: list[bool] = []
+        self.fresh = False
+        self.resets = 0
+
+    def reset(self) -> None:
+        if self.fresh:
+            return
+        self.files = dict(self.original)
+        self.fresh = True
+        self.resets += 1
 
     def read(self, path: str) -> bytes | None:
         return self.files.get(path)
 
     def write(self, path: str, data: bytes) -> None:
+        self.fresh = False
         self.written.append(path)
         self.files[path] = data
 
+    def find_source(self, line: str) -> list[str]:
+        return sorted(path for path, data in self.files.items() if line.encode() in data)
+
     def compile(self) -> ExecResult:
+        self.fresh = False
         self.seen_on_compile.append(self.files[JV])
+        self.leftover_on_compile.append("/src/jq/build/leftover" in self.files)
+        self.files["/src/jq/build/leftover"] = b""
         return self.compiles.pop(0)
 
     def poc(self) -> ExecResult:
+        self.fresh = False
         return self.pocs.pop(0)
 
     def seeds(self) -> ExecResult | None:
+        self.fresh = False
         return self.seed_runs.pop(0) if self.seed_runs else None
 
 
@@ -247,7 +272,11 @@ def test_failed_attempts_feed_back_and_a_later_attempt_is_proven() -> None:
     assert "+    int len = digits + 15;" in attempts[2].diff
     # Each attempt starts from the original tree, and the tree is restored after each one.
     assert all(b"digits + 14" not in seen for seen in workspace.seen_on_compile)
-    assert workspace.files == workspace.original
+    assert workspace.files == {**workspace.original, "/src/jq/build/leftover": b""}
+    # Run 2: no attempt's compile sees what an earlier compile left. The source was read after
+    # one reset, attempt 2 still had a fresh tree (attempt 1 wrote nothing), attempt 3 needed one.
+    assert workspace.leftover_on_compile == [False, False]
+    assert workspace.resets == 2
     # The model saw each failure before its next try.
     second, third = model.seen[1], model.seen[2]
     assert "fuzz harness" in second[-1]["content"]
@@ -460,3 +489,202 @@ def test_the_client_has_no_hidden_retries(monkeypatch: pytest.MonkeyPatch) -> No
     monkeypatch.setenv("NEBIUS_API_KEY", "k" * 40)
     TokenFactoryModel()
     assert seen["max_retries"] == 0
+
+
+class MkdirWorkspace(FakeWorkspace):
+    """A build script that makes a directory with plain mkdir: its second run in a tree stops."""
+
+    def compile(self) -> ExecResult:
+        left = "/src/jq/build/leftover" in self.files
+        result = super().compile()
+        if left:
+            return _result(1, "mkdir: cannot create directory 'build': File exists")
+        return result
+
+
+def test_every_attempt_compiles_from_the_state_the_control_compile_started_from() -> None:
+    def run(workspace: FakeWorkspace) -> list[str]:
+        attempts: list[Any] = []
+        evaluate_task(
+            TASK, workspace, FakeModel([GOOD, GOOD, GOOD]), Budget(3.0), HARNESS, attempts
+        )
+        return [attempt.outcome for attempt in attempts]
+
+    fixed = MkdirWorkspace(compiles=[_result(0, "ok")] * 3, pocs=[_result(1, CRASH)] * 3)
+    assert run(fixed) == ["STILL_CRASHES"] * 3
+    assert fixed.leftover_on_compile == [False, False, False]
+
+    class NoReset(MkdirWorkspace):
+        def reset(self) -> None:  # run 1: one tree for every compile
+            return None
+
+    # Without the reset the fake fails the way run 1 did, so the check above can fail.
+    broken = NoReset(compiles=[_result(0, "ok")] * 3, pocs=[_result(1, CRASH)] * 3)
+    broken.files["/src/jq/build/leftover"] = b""  # the control compile already ran here
+    assert run(broken) == ["COMPILE_FAILED"] * 3
+
+
+GENERATED = "/src/miniz/build/amalgamation/miniz.c"
+ZIP = "/src/miniz/miniz_zip.c"
+ZIP_TEXT = "\n".join(
+    [
+        '#include "miniz.h"',
+        "static size_t mz_zip_mem_read_func(void *p, mz_uint64 ofs, void *buf, size_t n)",
+        "{",
+        "    size_t s = (ofs >= size) ? 0 : (size_t)MZ_MIN(size - ofs, n);",
+        "    memcpy(buf, (const mz_uint8 *)base + ofs, s);",
+        "    return s;",
+        "}",
+        "mz_bool mz_zip_reader_init_mem(mz_zip_archive *z, const void *mem, size_t size)",
+        "{",
+        "    if (!mz_zip_reader_read_central_dir(z, flags))",
+        "        return MZ_FALSE;",
+        "    return MZ_TRUE;",
+        "}",
+        "",
+    ]
+)
+# The amalgamation puts other code first and drops the include, so its line numbers differ.
+GENERATED_TEXT = "/* amalgamated */\nint a;\nint b;\nint c;\n" + ZIP_TEXT.split("\n", 1)[1]
+MINIZ_CRASH = "\n".join(
+    [
+        "==1==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x1 at pc 0x2",
+        "READ of size 4 at 0x1 thread T0",
+        "    #0 0x4f in __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/x.cpp:22:3",
+        f"    #1 0x55 in mz_zip_mem_read_func {GENERATED}:8:5",
+        f"    #2 0x56 in mz_zip_reader_init_mem {GENERATED}:13:10",
+        "    #3 0x57 in LLVMFuzzerTestOneInput /src/miniz/tests/zip_fuzzer.c:20:5",
+        "    #4 0x58 in helper /src/miniz/missing.c:3:1",
+    ]
+)
+
+
+class MinizWorkspace(FakeWorkspace):
+    workdir = "/src/miniz"
+
+    def __init__(self, files: dict[str, bytes]) -> None:
+        super().__init__(compiles=[], pocs=[])
+        self.files = dict(files)
+        self.original = dict(files)
+
+
+def _miniz_harness() -> Harness:
+    return Harness(
+        _result(1, MINIZ_CRASH),
+        _result(0, "built"),
+        _result(1, MINIZ_CRASH),
+        None,
+        {GENERATED: GENERATED_TEXT.encode()},
+    )
+
+
+def test_a_frame_in_a_generated_file_is_shown_from_the_source_file_it_came_from() -> None:
+    workspace = MinizWorkspace({ZIP: ZIP_TEXT.encode()})
+    frames, notes, source = patch_eval.build_source(workspace, _miniz_harness())
+    assert [(frame.function, frame.path, frame.line) for frame in frames] == [
+        ("mz_zip_mem_read_func", ZIP, 5),
+        ("mz_zip_reader_init_mem", ZIP, 10),
+    ]
+    assert frames[0].generated_path == GENERATED and frames[0].generated_line == 8
+    assert ZIP_TEXT.split("\n")[4] == GENERATED_TEXT.split("\n")[7]
+    assert f"reported at {GENERATED}:8, a file the build generates" in source
+    assert source.startswith(f"=== {ZIP}, lines 1 to 13 (")
+    assert notes[0].endswith(f"not in the source tree before the build; shown from {ZIP}:5")
+    # A frame whose file is in neither tree is skipped and says so; the harness is never edited.
+    assert any("missing.c:3: the file is in neither" in note for note in notes)
+    assert all("zip_fuzzer" not in frame.path for frame in frames)
+    # The model may not edit the generated file: it does not exist before the build.
+    _, errors = apply_edits(
+        {ZIP: ZIP_TEXT}, [PatchEdit(path=GENERATED, old_text="s", new_text="t")], "/src/miniz"
+    )
+    assert "does not exist" in errors[0]
+
+
+def test_a_generated_frame_whose_text_is_not_unique_is_skipped() -> None:
+    copy = "/src/miniz/examples/copy_of_zip.c"
+    workspace = MinizWorkspace({ZIP: ZIP_TEXT.encode(), copy: ZIP_TEXT.encode()})
+    frames, notes, source = patch_eval.build_source(workspace, _miniz_harness())
+    assert frames == [] and source == ""
+    assert "occurs 2 times in 2 candidate source files; frame skipped" in notes[0]
+
+
+def test_frames_of_files_in_the_source_tree_are_unchanged_by_the_generated_file_rule() -> None:
+    workspace = FakeWorkspace(compiles=[], pocs=[])
+    frames, notes, _ = patch_eval.build_source(workspace, HARNESS)
+    assert frames == select_frames(parse_frames(CRASH), WORKDIR)
+    assert notes == []
+
+
+class FakeRunner:
+    """Answers docker commands from a script and records them in order."""
+
+    def __init__(self) -> None:
+        self.calls: list[list[str]] = []
+
+    def run(self, args: list[str], *, timeout: float, stdin: bytes | None = None) -> ExecResult:
+        self.calls.append(args)
+        joined = " ".join(args)
+        if args[1] == "image" and "{{.Id}}" in joined:
+            return _result(0, "sha256:snap\n")
+        if args[1] == "image":
+            return _result(0, '["n132/arvo@sha256:abc"]|123|/src/jq\n')
+        if "cat -- /bin/arvo" in joined:
+            return _result(0, "export FUZZING_ENGINE=libfuzzer\n/out/jq_fuzz /tmp/poc\n")
+        if args[-1] == "arvo":
+            return _result(1, CRASH)
+        if "seed_corpus.zip" in joined:
+            return _result(3, "")
+        return _result(0, "")
+
+
+def test_the_snapshot_is_taken_before_the_control_compile_and_attempts_start_from_it() -> None:
+    runner = FakeRunner()
+    docker = patch_eval.DockerTask(42530604, runner=runner)  # type: ignore[arg-type]
+    fields: dict[str, Any] = {}
+    prepared = patch_eval.prepare_harness(docker, fields)
+    assert prepared is not None
+    workspace, harness = prepared
+    commands = [" ".join(call) for call in runner.calls]
+    commit = next(i for i, c in enumerate(commands) if c.startswith("docker commit"))
+    compile_at = next(i for i, c in enumerate(commands) if "arvo compile" in c)
+    baseline = next(i for i, c in enumerate(commands) if c.endswith(" arvo"))
+    seeds = next(i for i, c in enumerate(commands) if "seed_corpus.zip" in c)
+    assert baseline < seeds < commit < compile_at
+    assert commands[commit] == "docker commit reproof-patch-42530604 reproof-patch-42530604:clean"
+    assert fields["snapshot_image"] == "sha256:snap"
+    assert harness.control_compile.exit_code == 0
+    # The control container ran a compile, so the next reset starts a clean container from
+    # the snapshot; a second reset with nothing run in between starts none.
+    runner.calls.clear()
+    workspace.reset()
+    workspace.reset()
+    assert [" ".join(call[:4]) for call in runner.calls] == [
+        "docker rm -f reproof-patch-42530604",
+        "docker run -d --name",
+    ]
+    assert runner.calls[1][-3:] == ["reproof-patch-42530604:clean", "sleep", "infinity"]
+    assert workspace.clean_containers == 1
+    runner.calls.clear()
+    assert docker.remove() is True
+    assert [" ".join(call) for call in runner.calls] == [
+        "docker rm -f reproof-patch-42530604",
+        "docker rmi reproof-patch-42530604:clean",
+        "docker rmi n132/arvo:42530604-vul",
+    ]
+
+
+def test_a_reset_without_a_snapshot_is_a_harness_error() -> None:
+    workspace = patch_eval.DockerWorkspace(FakeRunner(), "c", WORKDIR, "")  # type: ignore[arg-type]
+    with pytest.raises(RuntimeError, match="no snapshot"):
+        workspace.reset()
+
+
+def test_a_registered_run_is_never_started_again(tmp_path: Path) -> None:
+    with pytest.raises(RuntimeError, match="run 1"):
+        patch_eval.refuse_a_second_run(patch_eval.RUN1, False, tmp_path)
+    patch_eval.refuse_a_second_run(patch_eval.RUN2, False, tmp_path)
+    (tmp_path / "eval/results").mkdir(parents=True)
+    (tmp_path / patch_eval.RUN2.report).write_text("{}", encoding="utf-8")
+    with pytest.raises(RuntimeError, match="not started again"):
+        patch_eval.refuse_a_second_run(patch_eval.RUN2, False, tmp_path)
+    patch_eval.refuse_a_second_run(patch_eval.RUN2, True, tmp_path)

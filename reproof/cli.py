@@ -60,7 +60,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     patch = commands.add_parser(
         "patch-eval",
-        help="run the registered offline patch evaluation (needs Docker; see eval/PATCH-PREREG.md)",
+        help=(
+            "run the registered offline patch evaluation, run 2 (needs Docker; see "
+            "eval/PATCH-PREREG-RUN2.md)"
+        ),
     )
     patch.add_argument("--resume", action="store_true", help="keep task cards already written")
     return parser
