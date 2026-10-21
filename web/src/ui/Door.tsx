@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { stepKey, takeLines, type DoorStepEvent } from "@/lib/events";
+import type { PreparedCatalog, PreparedTask } from "@/lib/prepared";
 import { receiptArvoId, receiptSummary, replayEvents, type DoorReceipt } from "@/lib/receipt";
 import { recordedView, type RecordedTask } from "@/lib/recorded";
 import { reportIds, reportLabel } from "@/lib/reports";
@@ -10,6 +11,7 @@ import { liveResultFrom, liveSummary, recordedSummary, type DoorSummary } from "
 import { CardBody, Disclosure, STEP_LABEL, StepItem, stepLabel, type ShownCard, type ShownResult } from "@/ui/Evidence";
 import { scrollToElement } from "@/ui/motion/motion";
 import { Button } from "@/ui/Button";
+import { PreparedPicker } from "@/ui/PreparedPicker";
 import { Summary, type Progress, type TypicalRun } from "@/ui/Summary";
 import { useTriageChannel } from "@/ui/TriageContext";
 
@@ -50,19 +52,27 @@ async function readFailure(response: Response): Promise<string> {
   }
 }
 
+/** The 100-bug run's reports as the first paint knows them: counts and one sentence, no rows. */
+export type PreparedSummary = { count: number; projects: number; note: string };
+
 export function Door({
   tasks,
   recordedTasks,
   receipts,
   limitsNote,
+  prepared,
 }: {
   tasks: ReportTask[];
   recordedTasks: RecordedTask[];
   receipts: DoorReceipt[];
   /** The door's shared limits in one paragraph, shown on request beside the buttons. */
   limitsNote: string;
+  prepared: PreparedSummary;
 }) {
   const [selected, setSelected] = useState(tasks[0]?.arvo_id ?? 0);
+  const [preparedTasks, setPreparedTasks] = useState<PreparedTask[] | null>(null);
+  const [preparedError, setPreparedError] = useState<string | null>(null);
+  const preparedLoading = useRef(false);
   const [busy, setBusy] = useState(false);
   const [source, setSource] = useState<"LIVE" | "RECORDED" | null>(null);
   const [steps, setSteps] = useState<DoorStepEvent[]>([]);
@@ -77,7 +87,24 @@ export function Door({
   const [startedAt, setStartedAt] = useState<number | null>(null);
   const [now, setNow] = useState(0);
   const resultRef = useRef<HTMLElement>(null);
-  const current = tasks.find((task) => task.arvo_id === selected) ?? tasks[0];
+  const allTasks: ReportTask[] = preparedTasks ? [...tasks, ...preparedTasks] : tasks;
+  const current = allTasks.find((task) => task.arvo_id === selected) ?? tasks[0];
+
+  // The 100-bug run's rows are a separate chunk, fetched the first time their disclosure opens.
+  async function loadPrepared() {
+    if (preparedLoading.current) return;
+    preparedLoading.current = true;
+    setPreparedError(null);
+    try {
+      const loaded = (await import("@/content/prepared-catalog.json")).default as unknown as PreparedCatalog;
+      setPreparedTasks(loaded.tasks);
+    } catch (error) {
+      preparedLoading.current = false;
+      setPreparedError(
+        `The reports did not load (${error instanceof Error ? error.message : "unknown error"}). Close and open the list to try again.`,
+      );
+    }
+  }
 
   useEffect(() => {
     if (!busy) return;
@@ -114,7 +141,10 @@ export function Door({
   }
 
   function showRecorded(arvoId: number) {
-    const task = recordedTasks.find((row) => row.arvo_id === arvoId);
+    // A report from the 100-bug run carries the eval row its card was proved by.
+    const task =
+      recordedTasks.find((row) => row.arvo_id === arvoId) ??
+      preparedTasks?.find((row) => row.arvo_id === arvoId)?.recorded;
     const receipt = receipts.find((row) => receiptArvoId(row) === arvoId);
     let shown = false;
     flushSync(() => {
@@ -242,7 +272,7 @@ export function Door({
   const summarySentence = summary?.publicStatus.kind === "STATUS" ? summary.publicStatus.ancestrySentence : null;
   const seen = new Set(steps.map(stepKey));
   const progress: Progress = PROGRESS_KEYS.map((key) => ({ key, label: STEP_LABEL[key] ?? key, done: seen.has(key) }));
-  const runTask = tasks.find((task) => task.arvo_id === runArvo);
+  const runTask = allTasks.find((task) => task.arvo_id === runArvo);
   const runTitle = runTask ? reportLabel(runTask) : runArvo !== null ? `ARVO ${runArvo}` : null;
   const lastStep = steps.at(-1);
   const announcement = summary?.verdict
@@ -283,6 +313,16 @@ export function Door({
             ))}
           </div>
         </fieldset>
+        <PreparedPicker
+          count={prepared.count}
+          error={preparedError}
+          note={prepared.note}
+          onOpen={() => void loadPrepared()}
+          onSelect={setSelected}
+          projects={prepared.projects}
+          selected={current?.arvo_id ?? 0}
+          tasks={preparedTasks}
+        />
       </form>
       <section aria-labelledby="work-heading" className="work">
         <div className="report-card">

@@ -29,13 +29,8 @@ from reproof.crash import (
     parse_crash,
     sanitizer_excerpt,
 )
-from reproof.door_data import (
-    ProjectIndex,
-    load_catalog,
-    load_manifest,
-    load_project_index,
-    project_repository,
-)
+from reproof.door_data import ProjectIndex, project_repository
+from reproof.door_prepared import load_door_catalog, load_door_manifest, load_door_project_index
 from reproof.models import (
     Claim,
     CrashEvidence,
@@ -299,6 +294,19 @@ def _usable_frames(frames: tuple[str, ...]) -> tuple[str, ...]:
     return tuple(seen)
 
 
+def task_repository(task: dict[str, Any]) -> tuple[str, str, str]:
+    """Owner, repo, and site for a catalog row.
+
+    A prepared eval-100 row carries the repository of its OSV record's first github.com GIT
+    range, the one eval-100's public-status run used; an empty owner means it has none. A
+    featured row carries no repository and uses the OSS-Fuzz project map.
+    """
+
+    if "owner" in task:
+        return str(task.get("owner") or ""), str(task.get("repo") or ""), ""
+    return project_repository(str(task["project"]))
+
+
 def _public_request(
     *,
     project: str,
@@ -306,8 +314,9 @@ def _public_request(
     frames: tuple[str, ...],
     arvo_id: int,
     index: ProjectIndex,
+    repository: tuple[str, str, str] | None = None,
 ) -> PublicLookupRequest:
-    owner, repo, site = project_repository(project)
+    owner, repo, site = repository if repository is not None else project_repository(project)
     return PublicLookupRequest(
         project=project,
         crash_type=crash_type,
@@ -578,9 +587,9 @@ def iter_cached_triage(
     """Yield live steps, then one result. A missing checkpoint is NEEDS_INFO."""
 
     started = time.perf_counter()
-    catalog_value = catalog if catalog is not None else load_catalog()
-    manifest_value = manifest if manifest is not None else load_manifest()
-    index = project_index if project_index is not None else load_project_index()
+    catalog_value = catalog if catalog is not None else load_door_catalog()
+    manifest_value = manifest if manifest is not None else load_door_manifest()
+    index = project_index if project_index is not None else load_door_project_index()
     task = _task_row(catalog_value, arvo_id)
     if task is None:
         result = _needs_info(
@@ -746,6 +755,7 @@ def iter_cached_triage(
             frames=frames,
             arvo_id=arvo_id,
             index=index,
+            repository=task_repository(task),
         ),
         public_lookup,
         public_budget,

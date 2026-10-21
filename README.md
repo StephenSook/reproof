@@ -521,8 +521,14 @@ paid Token Factory and ConTree requests and run only when `REPROOF_LIVE=1`.
 
 ## Judge door
 
-A judge opens one site, with no login and no key, picks one of the 10 public ARVO reports, and
-presses Triage. Each report is named the way a maintainer would name it, project and bug first,
+A judge opens one site, with no login and no key, picks one of the 10 featured ARVO reports, and
+presses Triage. Under them, a closed list holds 53 more reports from the eval-100 run, grouped by
+project and searchable by project, bug, crash type, OSV id, or ARVO id. Its rows are a separate
+chunk that loads when the list first opens, so the first paint carries only the count. A draw task
+is offered only when its committed eval-100 card ran both builds from the ConTree checkpoint pair
+in `reproof/assets/prepared_checkpoints.json` and measured a crash on the vulnerable build
+(`python -m reproof.door_prepared`); the other 37 are listed with the reason in
+`reproof/assets/prepared_catalog.json` under `not_offered`. Each report is named the way a maintainer would name it, project and bug first,
 from the report's own first line (for example `jq: heap-buffer-overflow in decToString`), with its
 ARVO and OSV ids under the name. The page shows that report's public text. The browser does not
 receive `NEBIUS_API_KEY` or the Nebius project id. Those values stay in the Python process.

@@ -1,0 +1,1119 @@
+{
+  "retention_days": 180,
+  "schema_version": "1",
+  "tasks": {
+    "42470538": {
+      "arvo_task_sha256": "dc22a3a993354afdde11eed4acc5859903cebebdc00861c1e21f6b941bd6acaf",
+      "fix": {
+        "checkpoint_cost_usd": 5.2249999999999996e-05,
+        "checkpoint_uuid": "52eed4db-9260-4a84-ad17-7afb21fe04b1",
+        "checkpoint_wall_seconds": 64.4169,
+        "create_operation_uuid": "01a157a7-f8ba-73a5-ae84-1fa572f392f3",
+        "manifest_sha256": "76a0f6e18b36459981996d98f1add30808a17b5c98703d99efb25f67b067cb04",
+        "tag": "reproof-42470538-fix-76a0f6e18b36"
+      },
+      "osv_record_id": "OSV-2018-201",
+      "project": "radare2",
+      "vul": {
+        "checkpoint_cost_usd": 6.378e-05,
+        "checkpoint_uuid": "6ffd3d96-09fe-4b53-871d-29c6cf2aa382",
+        "checkpoint_wall_seconds": 64.701573,
+        "create_operation_uuid": "01a157a6-fb1f-7089-bc2e-2065122b4a47",
+        "manifest_sha256": "9e4aa1580c3c54acf12ab0a8c85f44f6e2fa2c64395f4dced9c2399116c81510",
+        "tag": "reproof-42470538-vul-9e4aa1580c3c"
+      }
+    },
+    "42471044": {
+      "arvo_task_sha256": "564ecb6c7d0eada2ee82fd4206e95cbfe1cec8c84eceea05fec40e9f57bfd4d4",
+      "fix": {
+        "checkpoint_cost_usd": 6.170000000000001e-05,
+        "checkpoint_uuid": "21c6567f-1173-4f73-9baf-da08676542e2",
+        "checkpoint_wall_seconds": 15.511592,
+        "create_operation_uuid": "01a157a3-970c-77d2-9eaa-1eb06034e020",
+        "manifest_sha256": "6ff8279a15ab78ee0ea2a18d08bdd09cc9e87bbaec95bca7708beaa6c33e341b",
+        "tag": "reproof-42471044-fix-6ff8279a15ab"
+      },
+      "osv_record_id": "OSV-2018-162",
+      "project": "harfbuzz",
+      "vul": {
+        "checkpoint_cost_usd": 6.236e-05,
+        "checkpoint_uuid": "a7424ca0-e9af-42c1-9153-dc35a5b8346f",
+        "checkpoint_wall_seconds": 18.959529,
+        "create_operation_uuid": "01a157a3-57c8-71c8-bb0f-2eb9dbfc3b91",
+        "manifest_sha256": "7280098b1f1046c529f0b97fcd26d89db015a60c1e1b58ea5dc5ad0066b71cbd",
+        "tag": "reproof-42471044-vul-7280098b1f10"
+      }
+    },
+    "42471105": {
+      "arvo_task_sha256": "16fa2c0ab9b810e9761973aed99aad59310fc7c65c946a2355bed744ae010ad9",
+      "fix": {
+        "checkpoint_cost_usd": 6.167e-05,
+        "checkpoint_uuid": "71c3da2f-9b54-4266-a605-da4fc204998c",
+        "checkpoint_wall_seconds": 15.107955,
+        "create_operation_uuid": "01a157a8-f1f2-703e-9f62-c3cdb697986b",
+        "manifest_sha256": "fcb2294f48d842015063de24c6e75cb28da0d979674ebf5c8d0c76412f26c44c",
+        "tag": "reproof-42471105-fix-fcb2294f48d8"
+      },
+      "osv_record_id": "OSV-2018-185",
+      "project": "harfbuzz",
+      "vul": {
+        "checkpoint_cost_usd": 6.287e-05,
+        "checkpoint_uuid": "7ca86266-682e-480c-a9f4-5ff963fab88a",
+        "checkpoint_wall_seconds": 16.418318,
+        "create_operation_uuid": "01a157a8-b496-72cf-be0f-4f2a59e02050",
+        "manifest_sha256": "a389866a02a303fd5d59e57ea968a993f9266c942eccabeb4a425c0e191f7d8f",
+        "tag": "reproof-42471105-vul-a389866a02a3"
+      }
+    },
+    "42471108": {
+      "arvo_task_sha256": "b5630c789b1e4142e3183859c0fcf082d1edb16ef9d6a10df160d621a35148e3",
+      "fix": {
+        "checkpoint_cost_usd": 5.196e-05,
+        "checkpoint_uuid": "dbe2770e-4c74-4fef-8ebf-534f44a347c9",
+        "checkpoint_wall_seconds": 17.86864,
+        "create_operation_uuid": "01a157aa-0c59-71fb-8cd4-2a3d3b8c4d22",
+        "manifest_sha256": "f203bd56863fe60e6825784e303017e5b9c30c5ef8b20921ab6d071e1d4761d2",
+        "tag": "reproof-42471108-fix-f203bd56863f"
+      },
+      "osv_record_id": "OSV-2018-2",
+      "project": "libgit2",
+      "vul": {
+        "checkpoint_cost_usd": 6.252e-05,
+        "checkpoint_uuid": "ec463387-5415-48a0-8d5b-c990bbfa054d",
+        "checkpoint_wall_seconds": 17.878577,
+        "create_operation_uuid": "01a157a9-c46c-75d4-a266-f40a22581a11",
+        "manifest_sha256": "f3c4760ed6bff01be6378714459baf20be3475e27ea0f17ce5603ad8f5ca2839",
+        "tag": "reproof-42471108-vul-f3c4760ed6bf"
+      }
+    },
+    "42471287": {
+      "arvo_task_sha256": "5168dfde1e5630ae821a4380775d77644ea3bb19b665cbb59af324266cc80440",
+      "fix": {
+        "checkpoint_cost_usd": 6.212999999999999e-05,
+        "checkpoint_uuid": "bed8f1ce-8f85-40d1-a996-74342df7656d",
+        "checkpoint_wall_seconds": 18.683369,
+        "create_operation_uuid": "01a157f3-9ea6-7632-8bbf-f6bca6a406aa",
+        "manifest_sha256": "ca1762e974474d22b9533ef64713bd10826ef37b1472f4f080ece72bf53192e6",
+        "tag": "reproof-42471287-fix-ca1762e97447"
+      },
+      "osv_record_id": "OSV-2018-202",
+      "project": "libgit2",
+      "vul": {
+        "checkpoint_cost_usd": 6.426e-05,
+        "checkpoint_uuid": "932b8413-963b-47bf-9b13-70eedb8578bf",
+        "checkpoint_wall_seconds": 2.03846,
+        "create_operation_uuid": "01a157f3-54b8-72ce-98ba-ba993b1ad5ab",
+        "manifest_sha256": "152997fe2fcae9597b53ad0ec21d3c56b1639cc5bb08048f6ba53e423d567fb0",
+        "tag": "reproof-42471287-vul-152997fe2fca"
+      }
+    },
+    "42474141": {
+      "arvo_task_sha256": "f0f87b6f5a8ecbbed099770b0426837d8109803be31d1970f7963255de1bc59c",
+      "fix": {
+        "checkpoint_cost_usd": 6.177e-05,
+        "checkpoint_uuid": "f2a23e32-a69c-45c7-b4e9-7a770741ce4b",
+        "checkpoint_wall_seconds": 14.354296,
+        "create_operation_uuid": "01a157b1-9663-739a-91c0-391bca5cbb19",
+        "manifest_sha256": "3cb19e3dde02d8c50fcc0127a6cfb6fa7b49a1c1180820b65a54e97cbde692fd",
+        "tag": "reproof-42474141-fix-3cb19e3dde02"
+      },
+      "osv_record_id": "OSV-2020-343",
+      "project": "openthread",
+      "vul": {
+        "checkpoint_cost_usd": 6.289e-05,
+        "checkpoint_uuid": "69c9a4b2-cd0e-421c-accb-f39a64886a30",
+        "checkpoint_wall_seconds": 17.09724,
+        "create_operation_uuid": "01a157b1-5bd4-7083-9f1f-57fcabb13c47",
+        "manifest_sha256": "7861606da2a95a1dd28b0188922c464b86473b3bd1edabb6a14ef8c822f3032f",
+        "tag": "reproof-42474141-vul-7861606da2a9"
+      }
+    },
+    "42475195": {
+      "arvo_task_sha256": "7e0c43d0be5dd2757c558ee799663257cd19b827637a423294cf62cc8579c7be",
+      "fix": {
+        "checkpoint_cost_usd": 6.445000000000001e-05,
+        "checkpoint_uuid": "5909dede-77aa-42ed-9c7b-aecb72ab51ec",
+        "checkpoint_wall_seconds": 52.620801,
+        "create_operation_uuid": "01a157af-5695-750c-b175-f6efb86f90e5",
+        "manifest_sha256": "8eaf9e6d80e11af12eb6f40d08cd1d44cdf1cf18f967db5cb0dbddbea12ed6f7",
+        "tag": "reproof-42475195-fix-8eaf9e6d80e1"
+      },
+      "osv_record_id": "OSV-2020-455",
+      "project": "radare2",
+      "vul": {
+        "checkpoint_cost_usd": 6.403e-05,
+        "checkpoint_uuid": "053d72fe-2e6d-43ba-bde1-9af47058bc91",
+        "checkpoint_wall_seconds": 53.716544,
+        "create_operation_uuid": "01a157ae-808d-7661-a45f-d3a20a7fb62c",
+        "manifest_sha256": "70fa0110f57e00d37213d20b19bc58cdc85f510bc3cf4d8045ab5ae7745f3169",
+        "tag": "reproof-42475195-vul-70fa0110f57e"
+      }
+    },
+    "42475782": {
+      "arvo_task_sha256": "6a81388475236a7f1d369e05e222162d75a1031c0e68a478201972928fb2c62d",
+      "fix": {
+        "checkpoint_cost_usd": 6.293e-05,
+        "checkpoint_uuid": "bad16b06-b0dd-4d63-9572-176f66496f92",
+        "checkpoint_wall_seconds": 53.052632,
+        "create_operation_uuid": "01a157ab-c566-71e4-8af4-b920763c8008",
+        "manifest_sha256": "f17b9a0b4f29cc9265a227c8dfee4549820f4604568c0a3340d0d1ed30353cfd",
+        "tag": "reproof-42475782-fix-f17b9a0b4f29"
+      },
+      "osv_record_id": "OSV-2020-722",
+      "project": "radare2",
+      "vul": {
+        "checkpoint_cost_usd": 6.267999999999999e-05,
+        "checkpoint_uuid": "f7a899c4-535a-4c4b-84fd-23c80bc2d1cb",
+        "checkpoint_wall_seconds": 55.184083,
+        "create_operation_uuid": "01a157aa-f3d3-7361-9c24-ed44b912b367",
+        "manifest_sha256": "0f95c081333deae38a98e92fcc11941bd8c3e070d47c763077dc0cbd396ada46",
+        "tag": "reproof-42475782-vul-0f95c081333d"
+      }
+    },
+    "42476618": {
+      "arvo_task_sha256": "848452c885a9d4c6bc8190cd65b8e1c8ae7da157186b46fe2a6e3a591266afc2",
+      "fix": {
+        "checkpoint_cost_usd": 6.14e-05,
+        "checkpoint_uuid": "bd43c4e3-9b64-4708-ac55-eecd4f8a3c6b",
+        "checkpoint_wall_seconds": 8.419882,
+        "create_operation_uuid": "01a157b5-27f1-731e-9c5a-59c4ff92f593",
+        "manifest_sha256": "d43f0c3e7257de2b3f61a9d70e972c08dcacf766d081f485e154abfa25e3b567",
+        "tag": "reproof-42476618-fix-d43f0c3e7257"
+      },
+      "osv_record_id": "OSV-2020-383",
+      "project": "openthread",
+      "vul": {
+        "checkpoint_cost_usd": 7.32e-05,
+        "checkpoint_uuid": "c74b6514-0c38-423f-84ab-7c5170eed83f",
+        "checkpoint_wall_seconds": 10.65677,
+        "create_operation_uuid": "01a157b5-052b-74b4-b21c-5833cb195971",
+        "manifest_sha256": "42092bc30cf35c9834620a763f9b411e15eff188017677ef670ac82b1db85c24",
+        "tag": "reproof-42476618-vul-42092bc30cf3"
+      }
+    },
+    "42477222": {
+      "arvo_task_sha256": "262ee6c5ef9dbc039d118c0b560a09980def04af386763112741d960b8deba66",
+      "fix": {
+        "checkpoint_cost_usd": 6.170000000000001e-05,
+        "checkpoint_uuid": "2705070d-fce7-4eec-9c9c-dc4f3cad80f1",
+        "checkpoint_wall_seconds": 7.106019,
+        "create_operation_uuid": "01a157ad-1213-73dc-b8ec-a48b21f2f8ba",
+        "manifest_sha256": "71db6a742fd7bd4e7f56daf137c1a9735a5e7ea08644bd5acb04689df1e8374c",
+        "tag": "reproof-42477222-fix-71db6a742fd7"
+      },
+      "osv_record_id": "OSV-2020-1153",
+      "project": "libavc",
+      "vul": {
+        "checkpoint_cost_usd": 6.193e-05,
+        "checkpoint_uuid": "14be1d84-ea41-459b-b9d2-57aded05d6a5",
+        "checkpoint_wall_seconds": 7.04308,
+        "create_operation_uuid": "01a157ac-f4ac-7392-806c-ad3054b545d8",
+        "manifest_sha256": "714ed59d0e67be7a8edd3b862bb5d1e90afc530678ecddcb1e272c4802caba76",
+        "tag": "reproof-42477222-vul-714ed59d0e67"
+      }
+    },
+    "42477302": {
+      "arvo_task_sha256": "2704b3ea46923cf13412842c1ecaed97a1e381a2bf85b3368ecb8457a438c305",
+      "fix": {
+        "checkpoint_cost_usd": 6.336e-05,
+        "checkpoint_uuid": "5211073e-c3cd-442f-bb6f-9c25d1c824eb",
+        "checkpoint_wall_seconds": 8.572635,
+        "create_operation_uuid": "01a1579a-9253-76ea-aa76-a9d65aec6fbb",
+        "manifest_sha256": "a5563d49b8a6b8a350d4f11084fd302cc7732d463e7de9d936b6a60c9b16a657",
+        "tag": "reproof-42477302-fix-a5563d49b8a6"
+      },
+      "osv_record_id": "OSV-2020-1242",
+      "project": "libavc",
+      "vul": {
+        "checkpoint_cost_usd": 6.324e-05,
+        "checkpoint_uuid": "56d395ad-46c2-46d0-92e3-47212830f6f0",
+        "checkpoint_wall_seconds": 7.57044,
+        "create_operation_uuid": "01a1579a-702f-73ab-8516-e5048981c262",
+        "manifest_sha256": "91c7666c6084e7476ec558c8f6fb05316c257a25be57e649f40a58c00f8439f6",
+        "tag": "reproof-42477302-vul-91c7666c6084"
+      }
+    },
+    "42479408": {
+      "arvo_task_sha256": "3743397ca2f5fe2302876ec64c94b70ca89ad963ba315f332b1ad86d150dc571",
+      "fix": {
+        "checkpoint_cost_usd": 6.170000000000001e-05,
+        "checkpoint_uuid": "8861a0e6-3d35-4ebc-858e-5e0b70cdf77e",
+        "checkpoint_wall_seconds": 11.842234,
+        "create_operation_uuid": "01a157f4-8565-7322-9f09-20ccc5d2c87c",
+        "manifest_sha256": "d3eaa5696d39245d60ccd3dd3daf81ddb9e505f55ffd4031ca10476fe4220060",
+        "tag": "reproof-42479408-fix-d3eaa5696d39"
+      },
+      "osv_record_id": "OSV-2020-680",
+      "project": "opensc",
+      "vul": {
+        "checkpoint_cost_usd": 6.204000000000001e-05,
+        "checkpoint_uuid": "b8a715dc-ac25-41b0-8e11-b0015333c7aa",
+        "checkpoint_wall_seconds": 11.32674,
+        "create_operation_uuid": "01a157f4-5667-7371-853e-a8fdf1abc5e5",
+        "manifest_sha256": "7a77b785ff4c10ecd73caed6000c38220c376d2cdb084eb9db306d695e702d4b",
+        "tag": "reproof-42479408-vul-7a77b785ff4c"
+      }
+    },
+    "42479852": {
+      "arvo_task_sha256": "770d9f5d05eef5da10d520ccd64542da413e7f0f6bc16dd13242270afca85baf",
+      "fix": {
+        "checkpoint_cost_usd": 6.314e-05,
+        "checkpoint_uuid": "bb2c6869-7ef0-4266-aebd-6ef03aef2eea",
+        "checkpoint_wall_seconds": 12.496085,
+        "create_operation_uuid": "01a157e9-4bd5-703f-99ee-95f6d781b909",
+        "manifest_sha256": "8eae45ade43207a30bf4ef0bdda4ed112a6c39c8df39e7a3fc41a7167c2e899d",
+        "tag": "reproof-42479852-fix-8eae45ade432"
+      },
+      "osv_record_id": "OSV-2020-313",
+      "project": "libgit2",
+      "vul": {
+        "checkpoint_cost_usd": 6.356e-05,
+        "checkpoint_uuid": "d6c1849c-f148-4db6-9151-8c4512cef039",
+        "checkpoint_wall_seconds": 14.275931,
+        "create_operation_uuid": "01a157e9-18a0-7502-ba62-4227383aa30a",
+        "manifest_sha256": "2851ac5207e35e6639aa7364af3a7c92f0e7f6d22e8a3f16f4b2631be1e15951",
+        "tag": "reproof-42479852-vul-2851ac5207e3"
+      }
+    },
+    "42481193": {
+      "arvo_task_sha256": "7cc3f04660c3ed142320b418ac14c70c341170b1d263e63e986d296cff683813",
+      "fix": {
+        "checkpoint_cost_usd": 6.14e-05,
+        "checkpoint_uuid": "f18d88cc-bd35-4e8f-a129-b583dc148f80",
+        "checkpoint_wall_seconds": 10.967533,
+        "create_operation_uuid": "01a157ac-3420-73be-ac55-7436f1d7a3a1",
+        "manifest_sha256": "d99fde1d9c6db9a6e511baefd25c41c2f8e5ebeb43133d399ed8737c69c4feee",
+        "tag": "reproof-42481193-fix-d99fde1d9c6d"
+      },
+      "osv_record_id": "OSV-2020-242",
+      "project": "ndpi",
+      "vul": {
+        "checkpoint_cost_usd": 6.243e-05,
+        "checkpoint_uuid": "d6c85a96-13af-40d6-9ac9-fe89694f8113",
+        "checkpoint_wall_seconds": 11.694563,
+        "create_operation_uuid": "01a157ac-0756-7316-a313-041ac8d39b67",
+        "manifest_sha256": "1f254f9c140b669e9ee0b8bbfdbd2f86ead49e54655bbaed1d2f1baad2f60ea3",
+        "tag": "reproof-42481193-vul-1f254f9c140b"
+      }
+    },
+    "42481221": {
+      "arvo_task_sha256": "105dfaa971ea22bca9e56a6c773ee0e620eea62a97827730d1507ae987505348",
+      "fix": {
+        "checkpoint_cost_usd": 7.375e-05,
+        "checkpoint_uuid": "d5f3083d-2a44-4a50-af34-9963b55ec599",
+        "checkpoint_wall_seconds": 64.281765,
+        "create_operation_uuid": "01a1579c-b005-7192-9896-935206c454bb",
+        "manifest_sha256": "a340fc22eaca583ebd5aec67f7067b83e0a6910109c08215dd143fe3cf951871",
+        "tag": "reproof-42481221-fix-a340fc22eaca"
+      },
+      "osv_record_id": "OSV-2020-974",
+      "project": "arrow",
+      "vul": {
+        "checkpoint_cost_usd": 5.186e-05,
+        "checkpoint_uuid": "869c3219-d0a0-4fa7-8ef1-37a97a0e0f46",
+        "checkpoint_wall_seconds": 68.435446,
+        "create_operation_uuid": "01a1579b-b1ad-7079-af6a-9b98519bf396",
+        "manifest_sha256": "592ea5a0d610e6ecc4e96867eb782f73e9825d5f94353f498928c6d0ed243886",
+        "tag": "reproof-42481221-vul-592ea5a0d610"
+      }
+    },
+    "42481224": {
+      "arvo_task_sha256": "fc775cfcac754fcb980b00bee2574a4eac7930436e81fa86c0c796dad167055e",
+      "fix": {
+        "checkpoint_cost_usd": 5.2279999999999994e-05,
+        "checkpoint_uuid": "7e42859c-1fab-4a9a-b5cb-951094a4b1db",
+        "checkpoint_wall_seconds": 64.390877,
+        "create_operation_uuid": "01a1579e-3f10-7061-8949-4bd262e866fb",
+        "manifest_sha256": "a6ee425ad6ccff00d0ffcedd5848de6e764fdcd666572dd28e2cb726c0156c20",
+        "tag": "reproof-42481224-fix-a6ee425ad6cc"
+      },
+      "osv_record_id": "OSV-2020-1058",
+      "project": "arrow",
+      "vul": {
+        "checkpoint_cost_usd": 6.318e-05,
+        "checkpoint_uuid": "46a6d830-1c02-4f89-8043-13a4b41f8502",
+        "checkpoint_wall_seconds": 2.461299,
+        "create_operation_uuid": "01a1579d-42a0-7176-86f1-a3334702500b",
+        "manifest_sha256": "c340464aab6e043c540cde519f26a9191434bbb0320ad77f01c35f111ad4ff67",
+        "tag": "reproof-42481224-vul-c340464aab6e"
+      }
+    },
+    "42481945": {
+      "arvo_task_sha256": "296e263c1737c409da1c688cedc15d51e577e50e8d850f77ed7b0c8c556a01bf",
+      "fix": {
+        "checkpoint_cost_usd": 6.29e-05,
+        "checkpoint_uuid": "17ded5ee-ccef-4628-a301-9100b57df8a1",
+        "checkpoint_wall_seconds": 8.121305,
+        "create_operation_uuid": "01a1579e-a1aa-73a0-a177-56e4fd73e822",
+        "manifest_sha256": "4d5dc5f15455a882ea8427ce35b8a66dcc7de6fcd722a59efa27a308c416dcbd",
+        "tag": "reproof-42481945-fix-4d5dc5f15455"
+      },
+      "osv_record_id": "OSV-2020-40",
+      "project": "ndpi",
+      "vul": {
+        "checkpoint_cost_usd": 6.165000000000001e-05,
+        "checkpoint_uuid": "3c5438a9-2b55-4e41-aacd-9d8c5b9ece8f",
+        "checkpoint_wall_seconds": 10.960679,
+        "create_operation_uuid": "01a1579e-7fe8-7022-b99f-d316fd7191e2",
+        "manifest_sha256": "ee8f8852d9c458cd9342fe85f35c87448ee4174e92240b2ed3d58f4826df98ce",
+        "tag": "reproof-42481945-vul-ee8f8852d9c4"
+      }
+    },
+    "42483517": {
+      "arvo_task_sha256": "b1439cd868a8391c9f31b4d02cabc80386288f79e4f6e0413702af52a1941e66",
+      "fix": {
+        "checkpoint_cost_usd": 6.584e-05,
+        "checkpoint_uuid": "0225a57d-a6c0-43d4-8646-48ec08796e2d",
+        "checkpoint_wall_seconds": 9.608766,
+        "create_operation_uuid": "01a157b6-ba99-719f-9900-246a9a7316dd",
+        "manifest_sha256": "7b688ae8716f443a3d2d5a66c413eab7cb4f98545dcb349d9e8c88990f902996",
+        "tag": "reproof-42483517-fix-7b688ae8716f"
+      },
+      "osv_record_id": "OSV-2020-112",
+      "project": "fluent-bit",
+      "vul": {
+        "checkpoint_cost_usd": 7.264e-05,
+        "checkpoint_uuid": "0c45c71d-3bca-4621-9ec5-04472dd870e2",
+        "checkpoint_wall_seconds": 9.533379,
+        "create_operation_uuid": "01a157b6-9442-76ec-9271-ad63fa4b3ba1",
+        "manifest_sha256": "b2d9be6cf0db16c3100d76147486e8798a6ec9186c9c3eb96e5072a05272baaa",
+        "tag": "reproof-42483517-vul-b2d9be6cf0db"
+      }
+    },
+    "42486565": {
+      "arvo_task_sha256": "0aa030b1a1015f7b3e9fd6c5c60c2696946e19215c1867012087af9cebcd3b5c",
+      "fix": {
+        "checkpoint_cost_usd": 6.296e-05,
+        "checkpoint_uuid": "3bbf9da6-cdd2-4906-bbb6-a5f5450fe0bb",
+        "checkpoint_wall_seconds": 10.190974,
+        "create_operation_uuid": "01a157a5-edec-7412-a869-98ec38506b9d",
+        "manifest_sha256": "a428b1c9e763e0e4ec06e081e1170d43bd00cd6763b3ebe6fa9568ea1877d86d",
+        "tag": "reproof-42486565-fix-a428b1c9e763"
+      },
+      "osv_record_id": "OSV-2020-1623",
+      "project": "libxml2",
+      "vul": {
+        "checkpoint_cost_usd": 7.355e-05,
+        "checkpoint_uuid": "01340930-d774-4e9a-957d-715b0139a5ab",
+        "checkpoint_wall_seconds": 11.838466,
+        "create_operation_uuid": "01a157a5-c37b-75b8-a515-820a0afc473e",
+        "manifest_sha256": "a5b55a7bcc53956a53cfc23549d7ffd86418308c41a0cd9bf19d3d2f1b83be84",
+        "tag": "reproof-42486565-vul-a5b55a7bcc53"
+      }
+    },
+    "42488172": {
+      "arvo_task_sha256": "5a7868c43108cf7f743206cfdc96be994b109b7689d0a6ed50607bd8907a22eb",
+      "fix": {
+        "checkpoint_cost_usd": 6.345999999999999e-05,
+        "checkpoint_uuid": "4e108953-932a-4147-bef4-9e3961b36496",
+        "checkpoint_wall_seconds": 11.278099,
+        "create_operation_uuid": "01a157ef-2cae-767b-98d6-a580ab02ab01",
+        "manifest_sha256": "8e595fd633217be8ed6b399819f6a7cb7b40b2670fe161e1ef24da071ec09472",
+        "tag": "reproof-42488172-fix-8e595fd63321"
+      },
+      "osv_record_id": "OSV-2020-2080",
+      "project": "libcoap",
+      "vul": {
+        "checkpoint_cost_usd": 6.331e-05,
+        "checkpoint_uuid": "c4a9a90c-41c1-4531-8a22-7ad5659cb992",
+        "checkpoint_wall_seconds": 20.512592,
+        "create_operation_uuid": "01a157ee-f987-7778-8940-83ad1934542b",
+        "manifest_sha256": "2732a6a076f6fd2dd7458f7124aabdeefc71282df5e2fdca19e3e6ca523ee941",
+        "tag": "reproof-42488172-vul-2732a6a076f6"
+      }
+    },
+    "42488737": {
+      "arvo_task_sha256": "614754975020d99ec8d800d07e21d91d129e34588e18b4cea6712723b2152b2c",
+      "fix": {
+        "checkpoint_cost_usd": 6.337e-05,
+        "checkpoint_uuid": "e0e516c5-39cf-4181-9f33-939352f5be56",
+        "checkpoint_wall_seconds": 10.275985,
+        "create_operation_uuid": "01a157b6-5ce5-75a0-b0cf-faaac42cfd6c",
+        "manifest_sha256": "a797adfeb0bd93d29a7f2c1f9b6e5edd3441611340c8e93030fe8aec0d8a42ce",
+        "tag": "reproof-42488737-fix-a797adfeb0bd"
+      },
+      "osv_record_id": "OSV-2020-2126",
+      "project": "ndpi",
+      "vul": {
+        "checkpoint_cost_usd": 6.314000000000001e-05,
+        "checkpoint_uuid": "d2021003-d6b6-4c0b-87be-72dc9eb489d3",
+        "checkpoint_wall_seconds": 1.90187,
+        "create_operation_uuid": "01a157b6-33da-756e-8b71-3ac25c3139e6",
+        "manifest_sha256": "e48a7c5fc3eca5fe634a5045c08c177cc9b4111d369f5af4d94237191c047c8b",
+        "tag": "reproof-42488737-vul-e48a7c5fc3ec"
+      }
+    },
+    "42490025": {
+      "arvo_task_sha256": "b56b3aa059cb776e3b7c1e7fb9a05cc5e1e90a526ac0ffd898c17039269c2eef",
+      "fix": {
+        "checkpoint_cost_usd": 6.351e-05,
+        "checkpoint_uuid": "e8ab7a1f-6d85-4b4f-adc1-b5cb079fdaaa",
+        "checkpoint_wall_seconds": 8.527909,
+        "create_operation_uuid": "01a157b3-ac21-75f9-9778-4fb8943bd244",
+        "manifest_sha256": "4e674492cdb1b633d07478081f7c619c88c43d938064442f864ac729ea65c489",
+        "tag": "reproof-42490025-fix-4e674492cdb1"
+      },
+      "osv_record_id": "OSV-2020-2212",
+      "project": "libavc",
+      "vul": {
+        "checkpoint_cost_usd": 5.3649999999999996e-05,
+        "checkpoint_uuid": "983fa0ed-4290-4893-9af9-c2394570a80e",
+        "checkpoint_wall_seconds": 9.382046,
+        "create_operation_uuid": "01a157b3-89ca-72f2-a9b9-74d4f1b0e5ae",
+        "manifest_sha256": "e1b134aa17130062f71ada874f3610a389f02d2acac57e99d6378d6fb7703edf",
+        "tag": "reproof-42490025-vul-e1b134aa1713"
+      }
+    },
+    "42496031": {
+      "arvo_task_sha256": "cb4bd62b2af90773ae9c2c01c5b3f146ad4c4f40ffea0ce37b9d2e24085e67a6",
+      "fix": {
+        "checkpoint_cost_usd": 6.207000000000001e-05,
+        "checkpoint_uuid": "5f5ebfe5-d34f-4cda-8794-c4938fd08317",
+        "checkpoint_wall_seconds": 11.303505,
+        "create_operation_uuid": "01a157b5-9463-73f7-af13-07b3b294f9c6",
+        "manifest_sha256": "9eddf42aac0cfa537218a95a3f03b401eba724340d7116a8db45060d24382b13",
+        "tag": "reproof-42496031-fix-9eddf42aac0c"
+      },
+      "osv_record_id": "OSV-2021-664",
+      "project": "irssi",
+      "vul": {
+        "checkpoint_cost_usd": 6.204e-05,
+        "checkpoint_uuid": "d7a08cc4-13dd-4393-bef2-5f8422f4dc54",
+        "checkpoint_wall_seconds": 11.587627,
+        "create_operation_uuid": "01a157b5-6660-75a0-abe7-94bcfb9531c9",
+        "manifest_sha256": "43a6dbc039cee5211ab71777ff8709322c9d70557fa0313faf797a7f5ed9d541",
+        "tag": "reproof-42496031-vul-43a6dbc039ce"
+      }
+    },
+    "42498970": {
+      "arvo_task_sha256": "6ce6f984af31c38188ee063fae2a0fed67adabdfeed50d80c1d1ec8b429c7442",
+      "fix": {
+        "checkpoint_cost_usd": 5.286e-05,
+        "checkpoint_uuid": "75be043a-4d24-4d1c-bdf0-b6b3626f163c",
+        "checkpoint_wall_seconds": 15.705334,
+        "create_operation_uuid": "01a157ac-c3ca-74a4-85d8-3dd3d6166e2b",
+        "manifest_sha256": "1a400ae3fac00fc6c39044dd30b663b4488db3648cf319cf96c677174a9ef85e",
+        "tag": "reproof-42498970-fix-1a400ae3fac0"
+      },
+      "osv_record_id": "OSV-2017-78",
+      "project": "open62541",
+      "vul": {
+        "checkpoint_cost_usd": 5.987e-05,
+        "checkpoint_uuid": "180ecf45-e9fb-4f4d-95ec-238400694bf6",
+        "checkpoint_wall_seconds": 16.156659,
+        "create_operation_uuid": "01a157ac-8470-774b-a4fb-a1c5b067b269",
+        "manifest_sha256": "80cd99ffb46ba3a4b19ca43f8096c2c5afec841ac43c0ce69cd7d36bcf69be92",
+        "tag": "reproof-42498970-vul-80cd99ffb46b"
+      }
+    },
+    "42499827": {
+      "arvo_task_sha256": "f5195fff15abac75a3e9a52c7389a88dea50ea4f9be1870022902b6b82f4ac8d",
+      "fix": {
+        "checkpoint_cost_usd": 6.146e-05,
+        "checkpoint_uuid": "40ac119e-12fa-4d78-abaa-568ebbf5479c",
+        "checkpoint_wall_seconds": 7.652577,
+        "create_operation_uuid": "01a157af-aaf1-70da-a536-efe6ec5a92e9",
+        "manifest_sha256": "fc91d7841a375bd479978821db3fd3c1af8d0e712f000189430f3bfbdc050a1f",
+        "tag": "reproof-42499827-fix-fc91d7841a37"
+      },
+      "osv_record_id": "OSV-2021-1102",
+      "project": "spice-usbredir",
+      "vul": {
+        "checkpoint_cost_usd": 6.225e-05,
+        "checkpoint_uuid": "7d1b0d3a-9767-40f5-84f2-4d5154fd6983",
+        "checkpoint_wall_seconds": 8.017438,
+        "create_operation_uuid": "01a157af-8b01-75f4-9a5d-78841c7783e6",
+        "manifest_sha256": "43c58d9f035afbcd3a76928865098d93ae4729937a49fddec6af65764edd52f9",
+        "tag": "reproof-42499827-vul-43c58d9f035a"
+      }
+    },
+    "42499964": {
+      "arvo_task_sha256": "f72932360ad99f110e9bc499dd1388f41ddd616f66f47ffbd01da1dffe2e4e93",
+      "fix": {
+        "checkpoint_cost_usd": 5.4340000000000005e-05,
+        "checkpoint_uuid": "5e4833fd-0006-43ba-9532-3788ea9b8c17",
+        "checkpoint_wall_seconds": 70.841484,
+        "create_operation_uuid": "01a157f7-18f5-74b1-9fe3-c9f3186f0592",
+        "manifest_sha256": "494c510b6de2c769e3cfb9dc1471659f6ca593f5fb4ef3b227dbbcfa3677f71f",
+        "tag": "reproof-42499964-fix-494c510b6de2"
+      },
+      "osv_record_id": "OSV-2021-1116",
+      "project": "serenity",
+      "vul": {
+        "checkpoint_cost_usd": 6.426e-05,
+        "checkpoint_uuid": "7f3df87d-3bec-46ec-ab04-ab0daafc43da",
+        "checkpoint_wall_seconds": 92.535376,
+        "create_operation_uuid": "01a157f6-02ea-77f0-b630-bedea6b98ba0",
+        "manifest_sha256": "1a26f16a0ed368dbaf194617a228c2211a47c66242b756b3596106e9cfc85456",
+        "tag": "reproof-42499964-vul-1a26f16a0ed3"
+      }
+    },
+    "42500367": {
+      "arvo_task_sha256": "9d7a9ba4bcab7457e7d85eb8d98896231691717674370b93d8330e1b48b45ca2",
+      "fix": {
+        "checkpoint_cost_usd": 6.259999999999999e-05,
+        "checkpoint_uuid": "4154be67-b974-4215-ba84-46f85aee46b3",
+        "checkpoint_wall_seconds": 19.617279,
+        "create_operation_uuid": "01a157a1-cf93-77e1-b357-ad1789282319",
+        "manifest_sha256": "9b93a880af9ecf6dfb630fcbf51a67eec12f32faa7da0cea9284a1e9dc555fe3",
+        "tag": "reproof-42500367-fix-9b93a880af9e"
+      },
+      "osv_record_id": "OSV-2021-1153",
+      "project": "harfbuzz",
+      "vul": {
+        "checkpoint_cost_usd": 6.419e-05,
+        "checkpoint_uuid": "5214fcd4-88b2-406d-af12-44ad04caafb3",
+        "checkpoint_wall_seconds": 20.429247,
+        "create_operation_uuid": "01a157a1-7f25-77e1-8103-9434f402cc5b",
+        "manifest_sha256": "888fc6aebf59cb4abc9af2c333a1d155f09a675ba8b3598dc3ddb4cbf80ea285",
+        "tag": "reproof-42500367-vul-888fc6aebf59"
+      }
+    },
+    "42501143": {
+      "arvo_task_sha256": "b65f86076496229227e4bed662e03f9d5572011bc60f77f6c5ffb9fa933d1553",
+      "fix": {
+        "checkpoint_cost_usd": 6.209e-05,
+        "checkpoint_uuid": "8b2cf46e-2a94-48aa-961e-90f7e8515597",
+        "checkpoint_wall_seconds": 14.722877,
+        "create_operation_uuid": "01a157b1-091e-7684-a798-b614b421c872",
+        "manifest_sha256": "b96af69e845727b714336fb98ebd34d62b19de85a8e801400bd186a2c8e8e926",
+        "tag": "reproof-42501143-fix-b96af69e8457"
+      },
+      "osv_record_id": "OSV-2021-1195",
+      "project": "kamailio",
+      "vul": {
+        "checkpoint_cost_usd": 6.176e-05,
+        "checkpoint_uuid": "bec1c6a3-2064-48db-83d2-39dde149db49",
+        "checkpoint_wall_seconds": 14.322192,
+        "create_operation_uuid": "01a157b0-cdb9-701b-be07-948a9832cfb9",
+        "manifest_sha256": "7f97f780a7dd8250dd913d2e2a1ec047c7d4dfc73c512fd51c033ac9529a44ea",
+        "tag": "reproof-42501143-vul-7f97f780a7dd"
+      }
+    },
+    "42501148": {
+      "arvo_task_sha256": "155df50b9d08f69e18808dc5c31d80f90f8a9ad3ebd69f9a29a0cb32f26a0009",
+      "fix": {
+        "checkpoint_cost_usd": 6.321e-05,
+        "checkpoint_uuid": "823ea784-2d7c-49c4-8c7c-de2be4c0330a",
+        "checkpoint_wall_seconds": 17.916858,
+        "create_operation_uuid": "01a157ef-fb8a-71ad-ac06-3fbf7c34b15c",
+        "manifest_sha256": "e82ab75ac4cc079475675a400d1fca4b982858d2931ede7fb2d46837e608f8d7",
+        "tag": "reproof-42501148-fix-e82ab75ac4cc"
+      },
+      "osv_record_id": "OSV-2021-1198",
+      "project": "kamailio",
+      "vul": {
+        "checkpoint_cost_usd": 6.167e-05,
+        "checkpoint_uuid": "f9ebadd5-757d-40c3-9050-b300f7489b11",
+        "checkpoint_wall_seconds": 24.166344,
+        "create_operation_uuid": "01a157ef-b1a0-7665-a3a1-91452b42cb9c",
+        "manifest_sha256": "0c5626199d6cc825da999ca649eb18138b1cefe94ca70826f0eacbeb05fb85d0",
+        "tag": "reproof-42501148-vul-0c5626199d6c"
+      }
+    },
+    "42501162": {
+      "arvo_task_sha256": "2086c47ffe82d79ec70646108408e713e40c2a8eecc0d6af7e95918d6b1d245d",
+      "fix": {
+        "checkpoint_cost_usd": 6.423e-05,
+        "checkpoint_uuid": "b64ce027-fd33-4d78-b8bb-de3904056f94",
+        "checkpoint_wall_seconds": 15.867312,
+        "create_operation_uuid": "01a157a5-2806-74e9-b556-601d89e9281e",
+        "manifest_sha256": "3e6ca1f6ac5a852e3d4793ff113e344eebffef29a9803fd63f5f63a9aedca7d2",
+        "tag": "reproof-42501162-fix-3e6ca1f6ac5a"
+      },
+      "osv_record_id": "OSV-2021-1201",
+      "project": "kamailio",
+      "vul": {
+        "checkpoint_cost_usd": 6.319e-05,
+        "checkpoint_uuid": "894a3ef0-363b-48f8-ae30-e3589c41bb01",
+        "checkpoint_wall_seconds": 15.555368,
+        "create_operation_uuid": "01a157a4-e903-714b-8f16-4812bcc31d2a",
+        "manifest_sha256": "43eac10d33cca2378c497376459a819bf9ce868aed17104be111a62b3994891a",
+        "tag": "reproof-42501162-vul-43eac10d33cc"
+      }
+    },
+    "42501200": {
+      "arvo_task_sha256": "a3ff3866d65e706e91f795e822f330a1aa2f5de316712d1bf4b2c29e93ee2773",
+      "fix": {
+        "checkpoint_cost_usd": 6.158e-05,
+        "checkpoint_uuid": "2bff895a-65eb-45fe-a057-907cf23b3142",
+        "checkpoint_wall_seconds": 11.564982,
+        "create_operation_uuid": "01a157a9-6e70-72a7-b7a9-5e3dbe49db0a",
+        "manifest_sha256": "23046068917221b8e193c937d4910a311f2f7332c0f064fb4e4d5071e02979ca",
+        "tag": "reproof-42501200-fix-230460689172"
+      },
+      "osv_record_id": "OSV-2017-59",
+      "project": "json",
+      "vul": {
+        "checkpoint_cost_usd": 6.204e-05,
+        "checkpoint_uuid": "1f331203-dc02-4e92-ac11-25095aeadeae",
+        "checkpoint_wall_seconds": 13.285518,
+        "create_operation_uuid": "01a157a9-3dff-7123-81da-cb9ecf0729a8",
+        "manifest_sha256": "74146473db2db094821a9bf1e47499220c6e390ea942819d1f5f965ef1e967a8",
+        "tag": "reproof-42501200-vul-74146473db2d"
+      }
+    },
+    "42504114": {
+      "arvo_task_sha256": "513ba7d9657218f09ef012520636d54409f0896160cb81169ffd9d76f20f0c69",
+      "fix": {
+        "checkpoint_cost_usd": 6.319e-05,
+        "checkpoint_uuid": "8d3f51ee-1bf3-4277-bc42-15da28cb503f",
+        "checkpoint_wall_seconds": 8.131708,
+        "create_operation_uuid": "01a157a0-bc2d-76cb-8abf-4c67feee7052",
+        "manifest_sha256": "6120932e74116ab6c12e7701eca198a0c87274b2a11c968bd227bbd0d5fe0e74",
+        "tag": "reproof-42504114-fix-6120932e7411"
+      },
+      "osv_record_id": "OSV-2021-1540",
+      "project": "qpid-proton",
+      "vul": {
+        "checkpoint_cost_usd": 6.302e-05,
+        "checkpoint_uuid": "6ba40430-996c-4328-83c5-ba70e8f48623",
+        "checkpoint_wall_seconds": 10.515606,
+        "create_operation_uuid": "01a157a0-9809-770d-9a9d-301008516ac7",
+        "manifest_sha256": "f1aa3aa3550a1621f4494d9dca96e1bea16d847115a474ef89462e8826a8a95d",
+        "tag": "reproof-42504114-vul-f1aa3aa3550a"
+      }
+    },
+    "42504387": {
+      "arvo_task_sha256": "a3ab1863e770a793db05688624f8c6a00f9bf3e21133c12a294448eb819ee593",
+      "fix": {
+        "checkpoint_cost_usd": 6.323e-05,
+        "checkpoint_uuid": "8b24f3c1-a9da-4368-badf-3a1fbdd364ee",
+        "checkpoint_wall_seconds": 14.638258,
+        "create_operation_uuid": "01a157a4-9a52-703e-a5f8-f2ac6171b6bd",
+        "manifest_sha256": "158f46a83ec6aaf9096934d7603a2801320568d09e4461707bdb58e33cbd5182",
+        "tag": "reproof-42504387-fix-158f46a83ec6"
+      },
+      "osv_record_id": "OSV-2017-10",
+      "project": "open62541",
+      "vul": {
+        "checkpoint_cost_usd": 6.335e-05,
+        "checkpoint_uuid": "7a377c4d-3258-4e52-ac3a-110b8c74f364",
+        "checkpoint_wall_seconds": 19.913852,
+        "create_operation_uuid": "01a157a4-5edc-7232-a512-2b992d88574c",
+        "manifest_sha256": "9ece40e87adc92a511bed6b92e0cff29fceb3a891694365239600994fada6cbc",
+        "tag": "reproof-42504387-vul-9ece40e87adc"
+      }
+    },
+    "42510753": {
+      "arvo_task_sha256": "b3402182bec2d8318bef1b96eb100e9c77b13667a96d189daacc440adaa2fd3b",
+      "fix": {
+        "checkpoint_cost_usd": 6.518999999999999e-05,
+        "checkpoint_uuid": "b0483c7a-f040-496a-a89f-bf48799c3d4e",
+        "checkpoint_wall_seconds": 15.841053,
+        "create_operation_uuid": "01a157b0-40f1-76e0-8850-8ccd045b2307",
+        "manifest_sha256": "dfbd8e9b7f0e89638373db9f3b9390c9a88ce1e1d4fb9ac71ac5f6555593ecb4",
+        "tag": "reproof-42510753-fix-dfbd8e9b7f0e"
+      },
+      "osv_record_id": "OSV-2022-349",
+      "project": "quickjs",
+      "vul": {
+        "checkpoint_cost_usd": 6.367e-05,
+        "checkpoint_uuid": "f8d490f0-526f-472b-b4a9-92646298dc31",
+        "checkpoint_wall_seconds": 18.22875,
+        "create_operation_uuid": "01a157b0-0133-7676-b975-ad138f2d6190",
+        "manifest_sha256": "ada20812dbd6da1f109b53f7ea388ac921ac2f65145901055a8866d914153f9d",
+        "tag": "reproof-42510753-vul-ada20812dbd6"
+      }
+    },
+    "42513154": {
+      "arvo_task_sha256": "107ecbe2bca29e4e92388d363ceeb53b61aaae8fa4ba9750366ce36e3165c2bf",
+      "fix": {
+        "checkpoint_cost_usd": 6.282e-05,
+        "checkpoint_uuid": "65fefbcb-c179-41cc-8c3d-5a679b269e8e",
+        "checkpoint_wall_seconds": 7.940511,
+        "create_operation_uuid": "01a157f1-d5ee-730c-8328-1610a3f4f4c9",
+        "manifest_sha256": "f9caca452ab3eba7dafe9d245f4a98214ca4870cc3eb36d50353910b6d80c868",
+        "tag": "reproof-42513154-fix-f9caca452ab3"
+      },
+      "osv_record_id": "OSV-2022-551",
+      "project": "libpcap",
+      "vul": {
+        "checkpoint_cost_usd": 6.319e-05,
+        "checkpoint_uuid": "767b93e5-7233-4bc3-bced-d8e217257906",
+        "checkpoint_wall_seconds": 8.363929,
+        "create_operation_uuid": "01a157f1-b4bc-7158-a4c2-78c08f24eaeb",
+        "manifest_sha256": "4b75a73b26a706bd8f63e62571ab8e92f85e3c501f984618b41d1ab4627e4ca6",
+        "tag": "reproof-42513154-vul-4b75a73b26a7"
+      }
+    },
+    "42513620": {
+      "arvo_task_sha256": "607e18eac4839f9726d5ae15f487824368955574f3d28613f204ff8a5940b6b6",
+      "fix": {
+        "checkpoint_cost_usd": 6.314e-05,
+        "checkpoint_uuid": "a0835a6f-7f57-482f-9b3a-7c012532808d",
+        "checkpoint_wall_seconds": 9.873398,
+        "create_operation_uuid": "01a157a8-6419-7287-bbbb-d7c4835b9184",
+        "manifest_sha256": "a656201ee3f1fa34e256fb319b86da8f5d0711f949bde7c31bb0cc6b27c480d9",
+        "tag": "reproof-42513620-fix-a656201ee3f1"
+      },
+      "osv_record_id": "OSV-2022-606",
+      "project": "mruby",
+      "vul": {
+        "checkpoint_cost_usd": 6.18e-05,
+        "checkpoint_uuid": "a6dfcfbb-3ea9-4bcd-bcad-dec10b392142",
+        "checkpoint_wall_seconds": 10.139919,
+        "create_operation_uuid": "01a157a8-3c56-72d6-aa27-b37c02fd3bfa",
+        "manifest_sha256": "359ee34f0777530ff52dd5edf794ead36848a84c0656f35d4381ee5808c8b2ad",
+        "tag": "reproof-42513620-vul-359ee34f0777"
+      }
+    },
+    "42513988": {
+      "arvo_task_sha256": "e5019f78255104dc080b70e7f1b8c7194dbce0859d26ce79612a55eb5abdacc9",
+      "fix": {
+        "checkpoint_cost_usd": 6.321e-05,
+        "checkpoint_uuid": "9f1f0f5c-782a-423c-b228-64533da53797",
+        "checkpoint_wall_seconds": 46.212851,
+        "create_operation_uuid": "01a157e8-c4ab-71d9-ba25-8aa0e91e6be6",
+        "manifest_sha256": "ea0acd287181258b90a2be70fb74aac082de19bb5a63242e3aad0a9dacad354c",
+        "tag": "reproof-42513988-fix-ea0acd287181"
+      },
+      "osv_record_id": "OSV-2022-657",
+      "project": "libredwg",
+      "vul": {
+        "checkpoint_cost_usd": 6.427e-05,
+        "checkpoint_uuid": "a328151e-69d5-421f-a27a-313fa739ad57",
+        "checkpoint_wall_seconds": 43.746191,
+        "create_operation_uuid": "01a157e8-0de6-7239-b182-4d76e2997364",
+        "manifest_sha256": "3bcc19bf9d24aaed8db1f1d3a7f5e5935cd76a2ec2d23a1b411ce27822940eee",
+        "tag": "reproof-42513988-vul-3bcc19bf9d24"
+      }
+    },
+    "42517374": {
+      "arvo_task_sha256": "37a9acb87c30426820d0374f5f6ae640ec7cc0828689b6143cf4324565d98918",
+      "fix": {
+        "checkpoint_cost_usd": 6.313e-05,
+        "checkpoint_uuid": "6106c7ec-b15f-458c-a4b0-25ea11f1767d",
+        "checkpoint_wall_seconds": 16.726678,
+        "create_operation_uuid": "01a157b3-5281-72ba-97be-580cc83030be",
+        "manifest_sha256": "456e9a9ef81db61d0707fed2d7bb1609a74e8e5e55223fa7f6c0f47ea594dfea",
+        "tag": "reproof-42517374-fix-456e9a9ef81d"
+      },
+      "osv_record_id": "OSV-2022-1084",
+      "project": "opensc",
+      "vul": {
+        "checkpoint_cost_usd": 6.14e-05,
+        "checkpoint_uuid": "5a294888-dbeb-401f-8a2e-c020a98a67a1",
+        "checkpoint_wall_seconds": 17.989542,
+        "create_operation_uuid": "01a157b3-0f68-74d6-8d65-32de418328e0",
+        "manifest_sha256": "3f6a8661639cc50f88b29956bd94e82d367e96c2201fb5432d494c99b6b4a426",
+        "tag": "reproof-42517374-vul-3f6a8661639c"
+      }
+    },
+    "42517725": {
+      "arvo_task_sha256": "0996be2a50f0468d127f5297f68c4d30814f1b02d226c2c0af42bc3dcc262b8f",
+      "fix": {
+        "checkpoint_cost_usd": 6.347e-05,
+        "checkpoint_uuid": "1eda9072-3037-47f6-ae7b-a26013c11791",
+        "checkpoint_wall_seconds": 37.812437,
+        "create_operation_uuid": "01a157b4-c57b-76f8-90e7-e2ff9b181b90",
+        "manifest_sha256": "23f7f0a08a2ec1e8583e47451d38789023e1e0363fb58841488909c1ab4fb70e",
+        "tag": "reproof-42517725-fix-23f7f0a08a2e"
+      },
+      "osv_record_id": "OSV-2022-1132",
+      "project": "fluent-bit",
+      "vul": {
+        "checkpoint_cost_usd": 6.375e-05,
+        "checkpoint_uuid": "7408a96c-6611-46cc-9583-2c29f8f31ae3",
+        "checkpoint_wall_seconds": 29.722062,
+        "create_operation_uuid": "01a157b4-2ec5-711f-9dd2-1b0ab3ed3d40",
+        "manifest_sha256": "26684ec88b693849a325d7579a70bac87b2f14dd1d8e791a2e1807e7382e2c9f",
+        "tag": "reproof-42517725-vul-26684ec88b69"
+      }
+    },
+    "42517796": {
+      "arvo_task_sha256": "2ae8fbba0107d9324299362542dd07c73cc89fcd9c7cfdd35b9cbb5274496dc8",
+      "fix": {
+        "checkpoint_cost_usd": 6.117000000000001e-05,
+        "checkpoint_uuid": "2f14d749-b6b8-4876-8f98-3f3d9d49733d",
+        "checkpoint_wall_seconds": 8.66646,
+        "create_operation_uuid": "01a157eb-5505-70c5-bdc0-f4acefd4faf2",
+        "manifest_sha256": "eaeeff0da73b206b2162852780479fb6988f27b2d817079141930da271f913d0",
+        "tag": "reproof-42517796-fix-eaeeff0da73b"
+      },
+      "osv_record_id": "OSV-2022-1144",
+      "project": "oniguruma",
+      "vul": {
+        "checkpoint_cost_usd": 6.357e-05,
+        "checkpoint_uuid": "f9aecae0-df60-4513-81c3-231e9e2d0a83",
+        "checkpoint_wall_seconds": 11.773389,
+        "create_operation_uuid": "01a157eb-3137-77d1-a142-c94b43cbc111",
+        "manifest_sha256": "eba30591e92be9e7789e1714c5b3e2f74ad9ae3317e4ee596fb3d35d01413833",
+        "tag": "reproof-42517796-vul-eba30591e92b"
+      }
+    },
+    "42518269": {
+      "arvo_task_sha256": "8295a9ead73031eb383c0f71d2c5e5ca3b063d54d9fa2cfe94acfec0592dcd36",
+      "fix": {
+        "checkpoint_cost_usd": 6.267000000000001e-05,
+        "checkpoint_uuid": "00b87737-ff6f-4122-ae90-52279d9164b4",
+        "checkpoint_wall_seconds": 34.941403,
+        "create_operation_uuid": "01a157a2-f7c5-757d-9aa4-1f9375e05259",
+        "manifest_sha256": "96a7ab7ac1356ead60a6799488424bea41b6542c5856b5315517ea297242345b",
+        "tag": "reproof-42518269-fix-96a7ab7ac135"
+      },
+      "osv_record_id": "OSV-2022-1180",
+      "project": "libredwg",
+      "vul": {
+        "checkpoint_cost_usd": 6.335999999999999e-05,
+        "checkpoint_uuid": "3f53eceb-9a98-40ef-8910-cccdc7f2f98f",
+        "checkpoint_wall_seconds": 35.298413,
+        "create_operation_uuid": "01a157a2-6d32-7714-ad29-8f9989c283bd",
+        "manifest_sha256": "dc359b86b784dacd095f461c83c6d2e65ef697a9868d9127fd6c6e7e056dd89c",
+        "tag": "reproof-42518269-vul-dc359b86b784"
+      }
+    },
+    "42520614": {
+      "arvo_task_sha256": "529e581bc59255d003b6b032a18bd6d616c3360d635750548392932ab02876e2",
+      "fix": {
+        "checkpoint_cost_usd": 6.248e-05,
+        "checkpoint_uuid": "f136f4e0-f0fa-4c80-b050-c19def920781",
+        "checkpoint_wall_seconds": 38.823151,
+        "create_operation_uuid": "01a157a0-5a12-756d-9698-88639e871e99",
+        "manifest_sha256": "497c39a7aecb2903e991ad99fe659fa3befb141e68d4a70e9ebae591d353bc5a",
+        "tag": "reproof-42520614-fix-497c39a7aecb"
+      },
+      "osv_record_id": "OSV-2023-42",
+      "project": "libredwg",
+      "vul": {
+        "checkpoint_cost_usd": 6.495e-05,
+        "checkpoint_uuid": "03233a95-7a07-4709-9b5a-813f7f3c8831",
+        "checkpoint_wall_seconds": 38.798328,
+        "create_operation_uuid": "01a1579f-c0ac-700d-8002-5b88e8e5119b",
+        "manifest_sha256": "1f3273944ac332871466cc355c4211199ad861aeb402763c7f4788001bac3cbb",
+        "tag": "reproof-42520614-vul-1f3273944ac3"
+      }
+    },
+    "42522233": {
+      "arvo_task_sha256": "56c50ddd62479e43f6b45752b72b8d6c67d53d63efe151c28263094ca7a14b9f",
+      "fix": {
+        "checkpoint_cost_usd": 5.168e-05,
+        "checkpoint_uuid": "47cbad18-d16b-4d8b-83d6-b8b37b9ee4f8",
+        "checkpoint_wall_seconds": 10.747274,
+        "create_operation_uuid": "01a157a3-ffec-717f-a765-e2f811db1a9a",
+        "manifest_sha256": "bfedc3f743b7778d89c9bb02d236b436643ccdad2f9158910e7ecbb8212ff44f",
+        "tag": "reproof-42522233-fix-bfedc3f743b7"
+      },
+      "osv_record_id": "OSV-2023-178",
+      "project": "mruby",
+      "vul": {
+        "checkpoint_cost_usd": 5.215000000000001e-05,
+        "checkpoint_uuid": "8f0d6002-0fba-47ee-bc79-5e846f71f5ea",
+        "checkpoint_wall_seconds": 11.130315,
+        "create_operation_uuid": "01a157a3-d2a0-7609-b7ac-69034f0cf539",
+        "manifest_sha256": "95471fa398873f7eeeb3911d6b6552caad50be5a7ae822be0361d3462af6b062",
+        "tag": "reproof-42522233-vul-95471fa39887"
+      }
+    },
+    "42522531": {
+      "arvo_task_sha256": "530b20c2f9f44c81f42ce420ecbcac57e858376d54836ccf042168c73cb1b137",
+      "fix": {
+        "checkpoint_cost_usd": 5.319e-05,
+        "checkpoint_uuid": "831c4202-59fe-4709-b5eb-a336bec59d55",
+        "checkpoint_wall_seconds": 14.521076,
+        "create_operation_uuid": "01a157b6-16d5-73b0-b312-c380998a7727",
+        "manifest_sha256": "8854862a3b6af1604d68a0d93e1ca460df50ea070356aada6b9cb3c6435f2074",
+        "tag": "reproof-42522531-fix-8854862a3b6a"
+      },
+      "osv_record_id": "OSV-2023-216",
+      "project": "hdf5",
+      "vul": {
+        "checkpoint_cost_usd": 7.371999999999999e-05,
+        "checkpoint_uuid": "d5b6d82b-68c5-4c8f-b389-29ac5b74bc22",
+        "checkpoint_wall_seconds": 14.051833,
+        "create_operation_uuid": "01a157b5-dbfd-74a6-a958-600df9f10fac",
+        "manifest_sha256": "0625717e32184a647fecf07c7dccb1e6aa340d29faf8189315275af129a36121",
+        "tag": "reproof-42522531-vul-0625717e3218"
+      }
+    },
+    "42523626": {
+      "arvo_task_sha256": "07d01a066f2ba5b689d1e43b10943f78254d0540746b82673f910f2af77667b7",
+      "fix": {
+        "checkpoint_cost_usd": 5.1489999999999997e-05,
+        "checkpoint_uuid": "db6b3f0a-e319-4982-afb9-6daf7c4c7461",
+        "checkpoint_wall_seconds": 10.441108,
+        "create_operation_uuid": "01a157f4-19f1-70fd-bb04-53c6bbec71dd",
+        "manifest_sha256": "c7fd1c24b25d4155c5a4d69051008a933a0d429915b5d750533538cb3ee6bb41",
+        "tag": "reproof-42523626-fix-c7fd1c24b25d"
+      },
+      "osv_record_id": "OSV-2023-343",
+      "project": "libssh2",
+      "vul": {
+        "checkpoint_cost_usd": 6.213e-05,
+        "checkpoint_uuid": "c22ff3eb-8935-414e-a7a2-9ebfc808c55c",
+        "checkpoint_wall_seconds": 11.518972,
+        "create_operation_uuid": "01a157f3-ee0e-748b-a204-e1470a8ee860",
+        "manifest_sha256": "d6815af83fedaef8aa82f988354f21c555de3956dc9a4e89be498750cff42389",
+        "tag": "reproof-42523626-vul-d6815af83fed"
+      }
+    },
+    "42523942": {
+      "arvo_task_sha256": "3fc870047d096b61d8cad5f3222a8e2845021047f7538b7c836c8c6ce2a3974e",
+      "fix": {
+        "checkpoint_cost_usd": 6.308e-05,
+        "checkpoint_uuid": "3777ecde-3652-41b2-a812-956706906ce7",
+        "checkpoint_wall_seconds": 10.341358,
+        "create_operation_uuid": "01a1579d-2313-752b-9fba-fd4ab5c5aec1",
+        "manifest_sha256": "c62d5e3696459d8091d901bae6c6445a06a7c1df40fa461a42e27c66a00be741",
+        "tag": "reproof-42523942-fix-c62d5e369645"
+      },
+      "osv_record_id": "OSV-2023-366",
+      "project": "mruby",
+      "vul": {
+        "checkpoint_cost_usd": 6.308e-05,
+        "checkpoint_uuid": "e4d57acc-ae4e-4cda-9076-284551ba38c1",
+        "checkpoint_wall_seconds": 13.99415,
+        "create_operation_uuid": "01a1579c-f82d-72b8-b980-3f318c716a14",
+        "manifest_sha256": "2bc6c29c4c7c05f3d9178e0ecaf3c5000e86c9a91915952f7fa3ce0002243275",
+        "tag": "reproof-42523942-vul-2bc6c29c4c7c"
+      }
+    },
+    "42527431": {
+      "arvo_task_sha256": "54772f0a2b71aa7e5c0830d35de86a43dd7646e9406325257429874c9503b204",
+      "fix": {
+        "checkpoint_cost_usd": 6.349e-05,
+        "checkpoint_uuid": "aa8a0013-1235-4d56-bf3e-6a6d06466e46",
+        "checkpoint_wall_seconds": 23.009196,
+        "create_operation_uuid": "01a157fb-9b2e-708b-9729-b22f0c41236d",
+        "manifest_sha256": "74fab90eebaa36a4b936143773c384e2099ee23d2425a47b99946a1a2cf872d5",
+        "tag": "reproof-42527431-fix-74fab90eebaa"
+      },
+      "osv_record_id": "OSV-2023-736",
+      "project": "libheif",
+      "vul": {
+        "checkpoint_cost_usd": 6.477e-05,
+        "checkpoint_uuid": "cb80b3c4-1f40-43b5-820d-bc3b505fb7ba",
+        "checkpoint_wall_seconds": 23.595295,
+        "create_operation_uuid": "01a157fb-3f1b-7725-b36d-192dcda9385b",
+        "manifest_sha256": "ab4119dd558a6946dab7a140608d34d2fa1a9346da54d8156babbe981b4fba6a",
+        "tag": "reproof-42527431-vul-ab4119dd558a"
+      }
+    },
+    "42528883": {
+      "arvo_task_sha256": "d60a56f20d05b126a7695344f07790786d08ad32f5e7831055238ebab4845411",
+      "fix": {
+        "checkpoint_cost_usd": 6.924e-05,
+        "checkpoint_uuid": "9a6a5600-b298-4f1c-a30c-fcd54b5a7b65",
+        "checkpoint_wall_seconds": 8.467155,
+        "create_operation_uuid": "01a157f0-56d6-7197-9e12-22046e6ff0e0",
+        "manifest_sha256": "8a2044a0e74ce04d7b7dca0c539cbd7512949cbe86231f954357b052ed9fed14",
+        "tag": "reproof-42528883-fix-8a2044a0e74c"
+      },
+      "osv_record_id": "OSV-2023-977",
+      "project": "libdwarf",
+      "vul": {
+        "checkpoint_cost_usd": 7.501e-05,
+        "checkpoint_uuid": "6e978c3d-bd30-4c09-905f-1020dd89105a",
+        "checkpoint_wall_seconds": 9.599735,
+        "create_operation_uuid": "01a157f0-327b-769f-b569-4a1e58abad49",
+        "manifest_sha256": "0ec0e15e6f6b7ab49abc1a831562c86c3cac15ff07400fbed780436fc7a3da9d",
+        "tag": "reproof-42528883-vul-0ec0e15e6f6b"
+      }
+    },
+    "42532225": {
+      "arvo_task_sha256": "e0ad07810bb8a36e0364250352219cdb504f0feeb0102bff7d54c90ffde480c8",
+      "fix": {
+        "checkpoint_cost_usd": 6.484e-05,
+        "checkpoint_uuid": "77bec777-5440-4b6a-b448-ba518e29fcdf",
+        "checkpoint_wall_seconds": 34.936414,
+        "create_operation_uuid": "01a157f3-3196-71ec-adcd-0b2008a063fd",
+        "manifest_sha256": "bb65bf69ec0d0678b162d6521128c375193f62bf09a7863052f39d070ad84ec2",
+        "tag": "reproof-42532225-fix-bb65bf69ec0d"
+      },
+      "osv_record_id": "OSV-2024-33",
+      "project": "gpac",
+      "vul": {
+        "checkpoint_cost_usd": 6.418e-05,
+        "checkpoint_uuid": "538cb6ba-683d-4a47-9b0f-8fa46be42b86",
+        "checkpoint_wall_seconds": 36.498285,
+        "create_operation_uuid": "01a157f2-a712-7058-a46a-5b1ccd8686f2",
+        "manifest_sha256": "c6ecfd1c35f59afb59bb36f54b04cfac2a463ca83f118f97a03234dcd0b41a3b",
+        "tag": "reproof-42532225-vul-c6ecfd1c35f5"
+      }
+    },
+    "42532259": {
+      "arvo_task_sha256": "96d94829605495b4a7ed24747c29157d9a6cecc20f8f54f7323721693c84bc35",
+      "fix": {
+        "checkpoint_cost_usd": 6.306e-05,
+        "checkpoint_uuid": "23cb3a61-b1ad-42c9-a7df-c7ab8fb650fd",
+        "checkpoint_wall_seconds": 8.774737,
+        "create_operation_uuid": "01a157a5-83bf-77ed-8011-917f2d8e066b",
+        "manifest_sha256": "6be3c5f5fdc6a96a4eaf70bf9dde7648b4fa06296e5fa4dc9f0469add1d5366f",
+        "tag": "reproof-42532259-fix-6be3c5f5fdc6"
+      },
+      "osv_record_id": "OSV-2024-39",
+      "project": "simdutf",
+      "vul": {
+        "checkpoint_cost_usd": 6.298e-05,
+        "checkpoint_uuid": "e78513f1-5a2e-45f6-9a7e-2cf030740204",
+        "checkpoint_wall_seconds": 9.029095,
+        "create_operation_uuid": "01a157a5-608c-7436-b67c-a27c9fb35bd0",
+        "manifest_sha256": "32a08df5a672a6c646ebe2ecc2b50ffb9bc0a742de6ef851a9588ee734e232cb",
+        "tag": "reproof-42532259-vul-32a08df5a672"
+      }
+    },
+    "42532885": {
+      "arvo_task_sha256": "4dc6055a009f3bc99f8cf910586f18c6c7d85c8a75f3a715f9a82d4ec62bb0a3",
+      "fix": {
+        "checkpoint_cost_usd": 6.301e-05,
+        "checkpoint_uuid": "f414547c-8e8f-46fa-8e52-d6be946dc9fe",
+        "checkpoint_wall_seconds": 25.912966,
+        "create_operation_uuid": "01a157ee-45f2-778d-9cad-3c4cca123249",
+        "manifest_sha256": "6221108227687874488ad6554b19d56da4c75cd746ee16601822826a29005cb2",
+        "tag": "reproof-42532885-fix-622110822768"
+      },
+      "osv_record_id": "OSV-2024-163",
+      "project": "matio",
+      "vul": {
+        "checkpoint_cost_usd": 7.514e-05,
+        "checkpoint_uuid": "28d3b174-0fbb-400d-b480-19f053824e3d",
+        "checkpoint_wall_seconds": 25.880477,
+        "create_operation_uuid": "01a157ed-de64-7797-8403-c6412634dca2",
+        "manifest_sha256": "61e47b74c0d9e33134436db03dcc070cb1eef64bfe9428f9b14fa7ebb80749e4",
+        "tag": "reproof-42532885-vul-61e47b74c0d9"
+      }
+    },
+    "42533590": {
+      "arvo_task_sha256": "fb269fd28e9b0a497c446babd4cc0db820decca99ccc0505e2fb31fc7dc471a4",
+      "fix": {
+        "checkpoint_cost_usd": 6.39e-05,
+        "checkpoint_uuid": "3a386a6b-4969-4330-a412-8473c42219da",
+        "checkpoint_wall_seconds": 32.920015,
+        "create_operation_uuid": "01a157b2-b486-7537-a2c9-330fda5a5e13",
+        "manifest_sha256": "814c802acc24b6921b8a5dc6eba6a496259bf523c7f82455eb989cbe59f227a2",
+        "tag": "reproof-42533590-fix-814c802acc24"
+      },
+      "osv_record_id": "OSV-2024-157",
+      "project": "gpac",
+      "vul": {
+        "checkpoint_cost_usd": 6.395e-05,
+        "checkpoint_uuid": "2314547a-54ef-45cc-9ed2-481375ad4b79",
+        "checkpoint_wall_seconds": 35.128331,
+        "create_operation_uuid": "01a157b2-3281-7609-b404-6756a900b823",
+        "manifest_sha256": "5e5b895a6bd363f1c10fe9c196451502fe16cdafc48ff606cc42c7c9baf8c0da",
+        "tag": "reproof-42533590-vul-5e5b895a6bd3"
+      }
+    },
+    "42534483": {
+      "arvo_task_sha256": "ae1d1d5d8b587f609c78214c4fd2c07b979775c0d68c5f6bb1b897c4433e625c",
+      "fix": {
+        "checkpoint_cost_usd": 6.316000000000001e-05,
+        "checkpoint_uuid": "57371627-ebed-4218-bb84-bfb590457757",
+        "checkpoint_wall_seconds": 16.66013,
+        "create_operation_uuid": "01a157ea-4dc9-74eb-a377-e3633286b7ca",
+        "manifest_sha256": "9d723add7a3f45d3a33c6c0183b46daa04994395c9f93fbab9b097cef8092a17",
+        "tag": "reproof-42534483-fix-9d723add7a3f"
+      },
+      "osv_record_id": "OSV-2024-265",
+      "project": "matio",
+      "vul": {
+        "checkpoint_cost_usd": 6.155e-05,
+        "checkpoint_uuid": "4b8c2957-6089-4094-b4b3-530c40b9234c",
+        "checkpoint_wall_seconds": 34.876096,
+        "create_operation_uuid": "01a157ea-0a62-769c-a732-5ed3e64d1fa2",
+        "manifest_sha256": "07e45da91423db2547d2e197baf8fe76ddc848c20889e8edee3d36eabfa462ee",
+        "tag": "reproof-42534483-vul-07e45da91423"
+      }
+    }
+  }
+}
