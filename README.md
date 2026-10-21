@@ -171,29 +171,65 @@ Can Nemotron 3 Super write the fix, with the ARVO image as the judge? `uv run re
 patch-eval` gives it the report, the sanitizer output and the source around the top frames,
 asks for exact-text edits (path, old text, new text) under a strict JSON schema at temperature 0,
 applies them inside the bug's `n132/arvo:<id>-vul` image, runs `arvo compile`, reruns the stored
-PoC, runs the fuzz target over its seed corpus when the image has one, puts the files back, and
-sends the failure back for up to 3 attempts. Code decides the outcome. It needs Docker and runs
-offline only: the judge door's runtime slices carry no compiler or `/src`, so the door cannot
-rebuild. Patches are proposed and proven in local containers that are deleted afterwards; none is
-applied upstream, filed, or sent to a project.
+PoC, runs the fuzz target over its seed corpus when the image has one, and sends the failure back
+for up to 3 attempts. Code decides the outcome. It needs Docker and runs offline only: the judge
+door's runtime slices carry no compiler or `/src`, so the door cannot rebuild. Patches are
+proposed and proven in local containers that are deleted afterwards; none is applied upstream,
+filed, or sent to a project. Proven means it rebuilt and stopped the crash, not that it is the
+upstream fix or safe to merge.
 
-The protocol was committed in `bc162af` (`eval/PATCH-PREREG.md`) before the one scored run on
-2026-10-21 (15:21 to 15:42 UTC). Result, `eval/results/patch-eval.json` and
-`eval/results/patch-cards/`:
+It ran twice, each time under a rule committed and pushed before the run, and both results are
+published as recorded:
 
-- 2 of 10 proven: jq ARVO 42530604 on attempt 2 (`digits + 14` raised to `digits + 25`; the
-  upstream fix is `+ 15`) and libplist ARVO 42508390 on attempt 3 (the number parser rewritten;
-  its 2-file seed corpus also ran clean). Proven means it rebuilt and stopped the crash, not that
-  it is the upstream fix or safe to merge.
-- 29 Nemotron calls, 177,343 input and 22,159 output tokens, $0.073146.
-- Of the 29 attempts: 7 edits did not apply, 13 builds failed, 6 still crashed, 1 reply was cut
-  off at the token limit, 2 were proven.
-- Found during the run and written down after it (`eval/results/patch-eval-notes.json`): 12 of
-  the 13 failed builds never tested the edit. In 5 images the build script makes a directory with
-  plain `mkdir`, so its second run in one container stops with `mkdir: cannot create directory
-  '...': File exists`, and the harness's control compile was always the first run. Those tasks
-  stay not proven under the registered rule, and the run was not repeated. Only 8 attempts, in 4
-  tasks, built an edit: 2 were proven and 6 still crashed.
+| | Run 1 | Run 2 |
+|---|---|---|
+| Registration | `eval/PATCH-PREREG.md`, commit `bc162af`, pushed 2026-10-21 15:20:29 UTC | `eval/PATCH-PREREG-RUN2.md`, commit `bbe6e9a`, pushed 2026-10-21 16:32:06 UTC |
+| Ran | 2026-10-21, 15:21 to 15:42 UTC | 2026-10-21, 16:32 to 16:52 UTC |
+| Harness | every attempt rebuilt in the container that had run the control build | every attempt rebuilt in a fresh container from a snapshot taken before the control build |
+| Proven | 2 of 10 | 2 of 10 |
+| Nemotron calls | 29 | 28 |
+| Tokens | 177,343 input, 22,159 output | 196,571 input, 35,979 output |
+| Token Factory cost | $0.073146 | $0.0913524 |
+| Attempts | 7 edits did not apply, 13 builds failed, 6 still crashed, 1 reply cut off at the token limit, 2 proven | 10 edits did not apply, 4 replies cut off at the token limit, 11 still crashed, 1 failed the seed corpus, 2 proven |
+| Attempts a build script stopped before they tested the edit | 12 of 29, in 5 images | 0 of 28 |
+| Attempts that built an edit | 8, in 4 tasks | 14, in 7 tasks |
+| Result files | `eval/results/patch-eval.json`, `eval/results/patch-cards/` | `eval/results/patch-eval-run2.json`, `eval/results/patch-eval-run2-cards/` |
+
+What each proven edit is:
+
+- Run 1, jq ARVO 42530604, attempt 2: the buffer for a number's text in `jv.c` grows from
+  `digits + 14` to `digits + 25` bytes. The upstream fix, `71c2ab5`, made it `digits + 15`.
+- Run 1, libplist ARVO 42508390, attempt 3: the JSON number parser in `jplist.c` is rewritten by
+  hand to read digits in a loop that stops at the end of the token instead of calling `strtol`;
+  floats still go to `atof`. Its 2-file seed corpus also ran clean.
+- Run 2, libplist ARVO 42507851, attempt 3: the number is copied into a new buffer that ends in a
+  NUL byte, and `strtol` and the float checks run on the copy, so parsing stops at the end of the
+  token. Floats still go to `atof` on the original text, and the two error messages that report
+  an offset now compute it from pointers into the copy. Attempt 2 had stopped the crash but
+  failed the seed corpus; attempt 3 passed both.
+- Run 2, libplist ARVO 42508390, attempt 1: a number that is a lone minus sign, or a minus sign
+  not followed by a digit, is rejected before `strtol` runs; the rest of the parser is unchanged,
+  only indented one level deeper. Its 2-file seed corpus also ran clean.
+
+None of the four is the upstream fix, and none was checked for completeness or safety beyond the
+stored input and the seed corpus. Only libplist ARVO 42508390 was proven in both runs, by two
+different edits; jq ARVO 42530604 was proven in run 1 and not in run 2, and libplist ARVO
+42507851 the other way round. Temperature 0 did not make Nemotron's replies repeat between runs:
+for jq ARVO 42530604, whose first message was built the same way both times, attempt 1 was an edit
+that did not apply in run 1 and a reply cut off at the token limit in run 2.
+
+Run 1's harness defect was found in its cards and written down after it
+(`eval/results/patch-eval-notes.json`): in 5 images the build script makes a directory with plain
+`mkdir`, so its second run in one container stops with `mkdir: cannot create directory '...':
+File exists`, and the harness's control compile was always the first run. Run 1 stays as
+recorded. Run 2 fixed that by committing the container as a snapshot before the control compile
+and starting every attempt from it, and it showed miniz's crash frames, which name a file the
+build generates (`build/amalgamation/miniz.c`), from the source file that holds the same lines
+(`miniz_zip.c`), by a rule written before the run. Before registering run 2, a check with no
+model call (`eval/check_patch_harness.py`, `eval/results/patch-harness-check.json`) rebuilt all
+10 images twice after their control build: 20 of 20 compiles exited 0 and the stored input still
+crashed every one. The same blocked-attempt count for run 2 is in
+`eval/results/patch-eval-run2-notes.json`.
 
 ## Public status evaluation
 
