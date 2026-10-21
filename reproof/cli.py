@@ -11,6 +11,7 @@ from reproof.door_data import ASSETS_DIR, build_door_assets
 from reproof.eval_prepare import run_eval_prepare
 from reproof.evaluation import run_eval
 from reproof.evaluation100 import DEFAULT_EVAL100_OUTPUT, run_eval100
+from reproof.patch_eval import run_patch_eval
 from reproof.triage import run_triage
 
 
@@ -56,6 +57,12 @@ def build_parser() -> argparse.ArgumentParser:
     door_data.add_argument("--arvo-db", type=Path)
     door_data.add_argument("--slices", type=Path)
     door_data.add_argument("--cards", type=Path)
+
+    patch = commands.add_parser(
+        "patch-eval",
+        help="run the registered offline patch evaluation (needs Docker; see eval/PATCH-PREREG.md)",
+    )
+    patch.add_argument("--resume", action="store_true", help="keep task cards already written")
     return parser
 
 
@@ -90,6 +97,9 @@ def main(argv: list[str] | None = None) -> int:
                 cards=args.cards,
             )
             print(json.dumps(summary, indent=2, sort_keys=True))
+        elif args.command == "patch-eval":
+            patch_report = run_patch_eval(resume=args.resume)
+            print(json.dumps(patch_report.get("totals", {}), indent=2, sort_keys=True))
         elif args.prereg is not None:
             eval100_report = run_eval100(
                 args.prereg,
