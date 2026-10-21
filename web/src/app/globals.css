@@ -596,7 +596,7 @@ pre {
   cursor: pointer;
   display: grid;
   gap: 0.25rem 0.75rem;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr);
   min-height: 3.4rem;
   padding: 0.65rem 0.85rem;
   transition:
@@ -612,21 +612,23 @@ pre {
   width: 1.1rem;
 }
 
-.pick-id {
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-size: 1.05rem;
+.pick-title {
   font-weight: 800;
-  letter-spacing: -0.02em;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
-.pick-osv {
+.pick-ids {
   color: var(--ink-soft);
   font-size: 0.8rem;
   font-weight: 700;
 }
 
-.pick-project {
-  justify-self: end;
+.report-ids {
+  color: var(--ink-soft);
+  flex-basis: 100%;
+  font-size: 0.9rem;
+  font-weight: 700;
 }
 
 .pick:has(:checked) {
@@ -636,14 +638,8 @@ pre {
   transform: translateX(4px);
 }
 
-.pick:has(:checked) .pick-osv {
+.pick:has(:checked) .pick-ids {
   color: #d3d7e2;
-}
-
-.pick:has(:checked) .chip {
-  background: var(--amber);
-  border-color: var(--amber);
-  color: var(--ink);
 }
 
 .pick:has(:checked) input {

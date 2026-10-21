@@ -456,8 +456,10 @@ paid Token Factory and ConTree requests and run only when `REPROOF_LIVE=1`.
 ## Judge door
 
 A judge opens one site, with no login and no key, picks one of the 10 public ARVO reports, and
-presses Triage. The page shows that report's public text and its source OSV id. The browser does
-not receive `NEBIUS_API_KEY` or the Nebius project id. Those values stay in the Python process.
+presses Triage. Each report is named the way a maintainer would name it, project and bug first,
+from the report's own first line (for example `jq: heap-buffer-overflow in decToString`), with its
+ARVO and OSV ids under the name. The page shows that report's public text. The browser does not
+receive `NEBIUS_API_KEY` or the Nebius project id. Those values stay in the Python process.
 
 The result starts with the answer. Its first line is the maintainer's next step, built from the
 verdict, the public status, the fix row, and the duplicate ids of that result, for example

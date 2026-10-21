@@ -206,12 +206,13 @@ function Spend({ summary }: { summary: DoorSummary }) {
 export function Summary({
   summary,
   running,
-  arvoId,
+  title,
   progress,
 }: {
   summary: DoorSummary;
   running: boolean;
-  arvoId: number | null;
+  /** The report as a maintainer names it, for example "jq: heap-buffer-overflow in decToString". */
+  title: string | null;
   progress: Progress;
 }) {
   const tone = summary.verdict ? verdictTone(summary.verdict) : "slate";
@@ -224,7 +225,7 @@ export function Summary({
       <div className="summary-top">
         <span className={`source-chip source-${summary.source.toLowerCase()}`}>{summary.source}</span>
         <h3 className="summary-kicker" id="result-heading" tabIndex={-1}>
-          {arvoId !== null ? `Answer for ARVO ${arvoId}` : "Answer"}
+          {title !== null ? `Answer for ${title}` : "Answer"}
         </h3>
       </div>
       {summary.source === "RECORDED" && summary.recordedAt ? (

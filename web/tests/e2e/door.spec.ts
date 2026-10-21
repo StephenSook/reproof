@@ -13,15 +13,22 @@ const catalog = JSON.parse(
 
 const widths = [390, 768, 1024, 1440];
 
-test("the picker shows each public report and its OSV id", async ({ page }) => {
+test("the picker names each report by project and bug first, then its ids", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("radio")).toHaveCount(catalog.tasks.length);
   for (const task of catalog.tasks) {
     const row = page.locator(`[data-task="${task.arvo_id}"]`);
+    const first = task.report_text.split("\n")[0] ?? "";
+    const label = `${task.project}: ${first.charAt(0).toLowerCase()}${first.slice(1)}`;
     await row.locator('input[type="radio"]').check();
-    await expect(row).toContainText(task.osv_record_id);
-    await expect(row).toContainText(task.project);
-    await expect(page.locator("[data-report]")).toContainText(task.report_text.split("\n")[0] ?? "");
+    await expect(row.locator(".pick-title")).toHaveText(label);
+    await expect(row.locator(".pick-ids")).toHaveText(`ARVO ${task.arvo_id}, ${task.osv_record_id}`);
+    const titleTop = await row.locator(".pick-title").evaluate((node) => node.getBoundingClientRect().top);
+    const idsTop = await row.locator(".pick-ids").evaluate((node) => node.getBoundingClientRect().top);
+    expect(titleTop).toBeLessThan(idsTop);
+    await expect(row.getByRole("radio")).toHaveAccessibleName(`${label} ARVO ${task.arvo_id}, ${task.osv_record_id}`);
+    await expect(page.locator("#work-heading")).toHaveText(label);
+    await expect(page.locator("[data-report]")).toContainText(first);
   }
 });
 

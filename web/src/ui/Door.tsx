@@ -5,6 +5,7 @@ import { flushSync } from "react-dom";
 import { stepKey, takeLines, type DoorStepEvent } from "@/lib/events";
 import { receiptArvoId, receiptSummary, replayEvents, type DoorReceipt } from "@/lib/receipt";
 import { recordedView, type RecordedTask } from "@/lib/recorded";
+import { reportIds, reportLabel } from "@/lib/reports";
 import { liveResultFrom, liveSummary, recordedSummary, type DoorSummary } from "@/lib/summary";
 import { CardBody, Disclosure, STEP_LABEL, StepItem, stepLabel, type ShownCard, type ShownResult } from "@/ui/Evidence";
 import { scrollToElement } from "@/ui/motion/motion";
@@ -202,6 +203,8 @@ export function Door({
   const summarySentence = summary?.publicStatus.kind === "STATUS" ? summary.publicStatus.ancestrySentence : null;
   const seen = new Set(steps.map(stepKey));
   const progress: Progress = PROGRESS_KEYS.map((key) => ({ key, label: STEP_LABEL[key] ?? key, done: seen.has(key) }));
+  const runTask = tasks.find((task) => task.arvo_id === runArvo);
+  const runTitle = runTask ? reportLabel(runTask) : runArvo !== null ? `ARVO ${runArvo}` : null;
   const lastStep = steps.at(-1);
   const announcement = summary?.verdict
     ? `Verdict ${summary.verdict}.`
@@ -234,10 +237,9 @@ export function Door({
                   value={task.arvo_id}
                 />
                 <span className="grid min-w-0">
-                  <span className="pick-id">ARVO {task.arvo_id}</span>
-                  <span className="pick-osv">{task.osv_record_id}</span>
+                  <span className="pick-title">{reportLabel(task)}</span>
+                  <span className="pick-ids">{reportIds(task)}</span>
                 </span>
-                <span className="chip pick-project">{task.project}</span>
               </label>
             ))}
           </div>
@@ -246,9 +248,8 @@ export function Door({
       <section aria-labelledby="work-heading" className="work">
         <div className="report-card">
           <div className="report-head">
-            <h2 id="work-heading">{current ? `ARVO ${current.arvo_id}` : "No report"}</h2>
-            {current ? <span className="chip">{current.project}</span> : null}
-            {current ? <span className="chip">{current.osv_record_id}</span> : null}
+            <h2 id="work-heading">{current ? reportLabel(current) : "No report"}</h2>
+            {current ? <p className="report-ids">{reportIds(current)}</p> : null}
           </div>
           {current ? (
             <>
@@ -288,7 +289,7 @@ export function Door({
             data-verdict={result ? result.verdict : undefined}
             ref={resultRef}
           >
-            <Summary arvoId={runArvo} progress={progress} running={busy} summary={summary} />
+            <Summary progress={progress} running={busy} summary={summary} title={runTitle} />
             <section aria-labelledby="evidence-heading" className="evidence">
               <div className="evidence-head">
                 <h3 id="evidence-heading">Evidence</h3>
