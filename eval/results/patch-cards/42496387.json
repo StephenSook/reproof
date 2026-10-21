@@ -1,0 +1,258 @@
+{
+  "arvo_id": 42496387,
+  "attempts": [
+    {
+      "apply_errors": [],
+      "attempt": 1,
+      "compile": {
+        "command": "arvo compile",
+        "exit_code": 1,
+        "output_bytes": 893,
+        "output_sha256": "62aacf6fe29b1a965899f11c44ea6073f83c09ea15ca9838269d1236de43f903",
+        "output_tail": "---------------------------------------------------------------\nCompiling libFuzzer to /usr/lib/libFuzzingEngine.a...  done.\n---------------------------------------------------------------\nCC=clang\nCXX=clang++\nCFLAGS=-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link\nCXXFLAGS=-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++\n---------------------------------------------------------------\n+ mkdir build\nmkdir: cannot create directory 'build': File exists\n+ cmake -DBUILD_WASI=none ..\nCMake Error: The source directory \"/src\" does not appear to contain CMakeLists.txt.\nSpecify --help for usage, or press the help button on the CMake GUI.",
+        "timed_out": false,
+        "wall_seconds": 0.118
+      },
+      "detail": "arvo compile exited 1. Error lines:\nCMake Error: The source directory \"/src\" does not appear to contain CMakeLists.txt.\nLast lines of the build log:\n---------------------------------------------------------------\nCompiling libFuzzer to /usr/lib/libFuzzingEngine.a...  done.\n---------------------------------------------------------------\nCC=clang\nCXX=clang++\nCFLAGS=-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link\nCXXFLAGS=-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++\n---------------------------------------------------------------\n+ mkdir build\nmkdir: cannot create directory 'build': File exists\n+ cmake -DBUILD_WASI=none ..\nCMake Error: The source directory \"/src\" does not appear to contain CMakeLists.txt.\nSpecify --help for usage, or press the help button on the CMake GUI.",
+      "diff": "--- a/src/wasm3/source/m3_env.c\n+++ b/src/wasm3/source/m3_env.c\n@@ -216,6 +216,9 @@\n \n void *  _FreeModule  (IM3Module i_module, void * i_info)\n {\n+    IM3Environment env = i_module ? i_module->environment : NULL;\n+    if (env && (env->pagesOpen || env->pagesFull))\n+        return NULL;  // Defer free if code pages are in use\n     m3_FreeModule (i_module);\n     return NULL;\n }\n",
+      "edits": [
+        {
+          "new_text": "void *  _FreeModule  (IM3Module i_module, void * i_info)\n{\n    IM3Environment env = i_module ? i_module->environment : NULL;\n    if (env && (env->pagesOpen || env->pagesFull))\n        return NULL;  // Defer free if code pages are in use\n    m3_FreeModule (i_module);\n    return NULL;\n}",
+          "old_text": "void *  _FreeModule  (IM3Module i_module, void * i_info)\n{\n    m3_FreeModule (i_module);\n    return NULL;\n}",
+          "path": "/src/wasm3/source/m3_env.c"
+        }
+      ],
+      "feedback": "Attempt 1 applied, but the build failed. Edits reverted:\narvo compile exited 1. Error lines:\nCMake Error: The source directory \"/src\" does not appear to contain CMakeLists.txt.\nLast lines of the build log:\n---------------------------------------------------------------\nCompiling libFuzzer to /usr/lib/libFuzzingEngine.a...  done.\n---------------------------------------------------------------\nCC=clang\nCXX=clang++\nCFLAGS=-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link\nCXXFLAGS=-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++\n---------------------------------------------------------------\n+ mkdir build\nmkdir: cannot create directory 'build': File exists\n+ cmake -DBUILD_WASI=none ..\nCMake Error: The source directory \"/src\" does not appear to contain CMakeLists.txt.\nSpecify --help for usage, or press the help button on the CMake GUI.\nPropose new edits against the original source shown in the first message.",
+      "model_call": {
+        "cost_usd": 0.0018486,
+        "input_price_per_million": 0.3,
+        "input_tokens": 5394,
+        "latency_seconds": 2.302847,
+        "model": "nvidia/nemotron-3-super-120b-a12b",
+        "output_price_per_million": 0.9,
+        "output_tokens": 256,
+        "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+        "request_id": "5a3295f3364d4045cd45806a5a6ba422",
+        "total_tokens": 5650
+      },
+      "model_cost_usd": 0.0018486,
+      "model_error": "",
+      "outcome": "COMPILE_FAILED",
+      "poc": null,
+      "poc_crash_state": [],
+      "poc_crash_type": "",
+      "rationale": "The issue occurs because `Compile_ExtendedOpcode` calls `_FreeModule` via `ForEachModule`, which frees modules still referenced during compilation. This leads to a use-after-free when later accessing those modules. To prevent this, we guard against calling `_FreeModule` during active compilation by checking if any code pages are currently in use (`pagesOpen || pagesFull`). If so, we defer freeing until after compilation ends.",
+      "regression": null,
+      "regression_check": "",
+      "request_ids": [
+        "5a3295f3364d4045cd45806a5a6ba422"
+      ]
+    },
+    {
+      "apply_errors": [],
+      "attempt": 2,
+      "compile": {
+        "command": "arvo compile",
+        "exit_code": 1,
+        "output_bytes": 893,
+        "output_sha256": "62aacf6fe29b1a965899f11c44ea6073f83c09ea15ca9838269d1236de43f903",
+        "output_tail": "---------------------------------------------------------------\nCompiling libFuzzer to /usr/lib/libFuzzingEngine.a...  done.\n---------------------------------------------------------------\nCC=clang\nCXX=clang++\nCFLAGS=-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link\nCXXFLAGS=-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++\n---------------------------------------------------------------\n+ mkdir build\nmkdir: cannot create directory 'build': File exists\n+ cmake -DBUILD_WASI=none ..\nCMake Error: The source directory \"/src\" does not appear to contain CMakeLists.txt.\nSpecify --help for usage, or press the help button on the CMake GUI.",
+        "timed_out": false,
+        "wall_seconds": 0.117
+      },
+      "detail": "arvo compile exited 1. Error lines:\nCMake Error: The source directory \"/src\" does not appear to contain CMakeLists.txt.\nLast lines of the build log:\n---------------------------------------------------------------\nCompiling libFuzzer to /usr/lib/libFuzzingEngine.a...  done.\n---------------------------------------------------------------\nCC=clang\nCXX=clang++\nCFLAGS=-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link\nCXXFLAGS=-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++\n---------------------------------------------------------------\n+ mkdir build\nmkdir: cannot create directory 'build': File exists\n+ cmake -DBUILD_WASI=none ..\nCMake Error: The source directory \"/src\" does not appear to contain CMakeLists.txt.\nSpecify --help for usage, or press the help button on the CMake GUI.",
+      "diff": "--- a/src/wasm3/source/m3_env.c\n+++ b/src/wasm3/source/m3_env.c\n@@ -223,7 +223,10 @@\n \n void  Runtime_Release  (IM3Runtime i_runtime)\n {\n-    ForEachModule (i_runtime, _FreeModule, NULL);                   d_m3Assert (i_runtime->numActiveCodePages == 0);\n+    if (i_runtime->environment->pagesOpen == NULL && i_runtime->environment->pagesFull == NULL) {\n+        ForEachModule (i_runtime, _FreeModule, NULL);\n+    }\n+    d_m3Assert (i_runtime->numActiveCodePages == 0);\n \n     Environment_ReleaseCodePages (i_runtime->environment, i_runtime->pagesOpen);\n     Environment_ReleaseCodePages (i_runtime->environment, i_runtime->pagesFull);\n",
+      "edits": [
+        {
+          "new_text": "void  Runtime_Release  (IM3Runtime i_runtime)\n{\n    if (i_runtime->environment->pagesOpen == NULL && i_runtime->environment->pagesFull == NULL) {\n        ForEachModule (i_runtime, _FreeModule, NULL);\n    }\n    d_m3Assert (i_runtime->numActiveCodePages == 0);\n\n    Environment_ReleaseCodePages (i_runtime->environment, i_runtime->pagesOpen);\n    Environment_ReleaseCodePages (i_runtime->environment, i_runtime->pagesFull);\n\n    m3_Free (i_runtime->stack);\n    m3_Free (i_runtime->memory.mallocated);\n}",
+          "old_text": "void  Runtime_Release  (IM3Runtime i_runtime)\n{\n    ForEachModule (i_runtime, _FreeModule, NULL);                   d_m3Assert (i_runtime->numActiveCodePages == 0);\n\n    Environment_ReleaseCodePages (i_runtime->environment, i_runtime->pagesOpen);\n    Environment_ReleaseCodePages (i_runtime->environment, i_runtime->pagesFull);\n\n    m3_Free (i_runtime->stack);\n    m3_Free (i_runtime->memory.mallocated);\n}",
+          "path": "/src/wasm3/source/m3_env.c"
+        }
+      ],
+      "feedback": "Attempt 2 applied, but the build failed. Edits reverted:\narvo compile exited 1. Error lines:\nCMake Error: The source directory \"/src\" does not appear to contain CMakeLists.txt.\nLast lines of the build log:\n---------------------------------------------------------------\nCompiling libFuzzer to /usr/lib/libFuzzingEngine.a...  done.\n---------------------------------------------------------------\nCC=clang\nCXX=clang++\nCFLAGS=-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link\nCXXFLAGS=-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++\n---------------------------------------------------------------\n+ mkdir build\nmkdir: cannot create directory 'build': File exists\n+ cmake -DBUILD_WASI=none ..\nCMake Error: The source directory \"/src\" does not appear to contain CMakeLists.txt.\nSpecify --help for usage, or press the help button on the CMake GUI.\nPropose new edits against the original source shown in the first message.",
+      "model_call": {
+        "cost_usd": 0.0021831,
+        "input_price_per_million": 0.3,
+        "input_tokens": 5960,
+        "latency_seconds": 3.342033,
+        "model": "nvidia/nemotron-3-super-120b-a12b",
+        "output_price_per_million": 0.9,
+        "output_tokens": 439,
+        "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+        "request_id": "4ef65608e683938b817e3d10be6cdafe",
+        "total_tokens": 6399
+      },
+      "model_cost_usd": 0.0021831,
+      "model_error": "",
+      "outcome": "COMPILE_FAILED",
+      "poc": null,
+      "poc_crash_state": [],
+      "poc_crash_type": "",
+      "rationale": "The previous attempt failed due to a build system mismatch, but the core issue remains: `_FreeModule` is called during active compilation via `ForEachModule` in `Runtime_Release`, leading to use-after-free when modules are accessed afterward. The fix must avoid modifying `_FreeModule` directly if it causes build issues. Instead, we modify `Runtime_Release` to skip freeing modules if there are active code pages (indicating ongoing compilation), thus preventing the premature free. This is safer and avoids touching the module-freeing logic directly.",
+      "regression": null,
+      "regression_check": "",
+      "request_ids": [
+        "4ef65608e683938b817e3d10be6cdafe"
+      ]
+    },
+    {
+      "apply_errors": [],
+      "attempt": 3,
+      "compile": {
+        "command": "arvo compile",
+        "exit_code": 1,
+        "output_bytes": 893,
+        "output_sha256": "62aacf6fe29b1a965899f11c44ea6073f83c09ea15ca9838269d1236de43f903",
+        "output_tail": "---------------------------------------------------------------\nCompiling libFuzzer to /usr/lib/libFuzzingEngine.a...  done.\n---------------------------------------------------------------\nCC=clang\nCXX=clang++\nCFLAGS=-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link\nCXXFLAGS=-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++\n---------------------------------------------------------------\n+ mkdir build\nmkdir: cannot create directory 'build': File exists\n+ cmake -DBUILD_WASI=none ..\nCMake Error: The source directory \"/src\" does not appear to contain CMakeLists.txt.\nSpecify --help for usage, or press the help button on the CMake GUI.",
+        "timed_out": false,
+        "wall_seconds": 0.117
+      },
+      "detail": "arvo compile exited 1. Error lines:\nCMake Error: The source directory \"/src\" does not appear to contain CMakeLists.txt.\nLast lines of the build log:\n---------------------------------------------------------------\nCompiling libFuzzer to /usr/lib/libFuzzingEngine.a...  done.\n---------------------------------------------------------------\nCC=clang\nCXX=clang++\nCFLAGS=-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link\nCXXFLAGS=-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++\n---------------------------------------------------------------\n+ mkdir build\nmkdir: cannot create directory 'build': File exists\n+ cmake -DBUILD_WASI=none ..\nCMake Error: The source directory \"/src\" does not appear to contain CMakeLists.txt.\nSpecify --help for usage, or press the help button on the CMake GUI.",
+      "diff": "--- a/src/wasm3/source/m3_env.c\n+++ b/src/wasm3/source/m3_env.c\n@@ -223,7 +223,10 @@\n \n void  Runtime_Release  (IM3Runtime i_runtime)\n {\n-    ForEachModule (i_runtime, _FreeModule, NULL);                   d_m3Assert (i_runtime->numActiveCodePages == 0);\n+    if (i_runtime->environment->pagesOpen == NULL && i_runtime->environment->pagesFull == NULL) {\n+        ForEachModule (i_runtime, _FreeModule, NULL);\n+    }\n+    d_m3Assert (i_runtime->numActiveCodePages == 0);\n \n     Environment_ReleaseCodePages (i_runtime->environment, i_runtime->pagesOpen);\n     Environment_ReleaseCodePages (i_runtime->environment, i_runtime->pagesFull);\n",
+      "edits": [
+        {
+          "new_text": "void  Runtime_Release  (IM3Runtime i_runtime)\n{\n    if (i_runtime->environment->pagesOpen == NULL && i_runtime->environment->pagesFull == NULL) {\n        ForEachModule (i_runtime, _FreeModule, NULL);\n    }\n    d_m3Assert (i_runtime->numActiveCodePages == 0);\n\n    Environment_ReleaseCodePages (i_runtime->environment, i_runtime->pagesOpen);\n    Environment_ReleaseCodePages (i_runtime->environment, i_runtime->pagesFull);\n\n    m3_Free (i_runtime->stack);\n    m3_Free (i_runtime->memory.mallocated);\n}",
+          "old_text": "void  Runtime_Release  (IM3Runtime i_runtime)\n{\n    ForEachModule (i_runtime, _FreeModule, NULL);                   d_m3Assert (i_runtime->numActiveCodePages == 0);\n\n    Environment_ReleaseCodePages (i_runtime->environment, i_runtime->pagesOpen);\n    Environment_ReleaseCodePages (i_runtime->environment, i_runtime->pagesFull);\n\n    m3_Free (i_runtime->stack);\n    m3_Free (i_runtime->memory.mallocated);\n}",
+          "path": "/src/wasm3/source/m3_env.c"
+        }
+      ],
+      "feedback": "Attempt 3 applied, but the build failed. Edits reverted:\narvo compile exited 1. Error lines:\nCMake Error: The source directory \"/src\" does not appear to contain CMakeLists.txt.\nLast lines of the build log:\n---------------------------------------------------------------\nCompiling libFuzzer to /usr/lib/libFuzzingEngine.a...  done.\n---------------------------------------------------------------\nCC=clang\nCXX=clang++\nCFLAGS=-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link\nCXXFLAGS=-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++\n---------------------------------------------------------------\n+ mkdir build\nmkdir: cannot create directory 'build': File exists\n+ cmake -DBUILD_WASI=none ..\nCMake Error: The source directory \"/src\" does not appear to contain CMakeLists.txt.\nSpecify --help for usage, or press the help button on the CMake GUI.\nPropose new edits against the original source shown in the first message.",
+      "model_call": {
+        "cost_usd": 0.0024171,
+        "input_price_per_million": 0.3,
+        "input_tokens": 6710,
+        "latency_seconds": 2.774967,
+        "model": "nvidia/nemotron-3-super-120b-a12b",
+        "output_price_per_million": 0.9,
+        "output_tokens": 449,
+        "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+        "request_id": "2b0692f82f7f37f8d40d399a91aee0be",
+        "total_tokens": 7159
+      },
+      "model_cost_usd": 0.0024171,
+      "model_error": "",
+      "outcome": "COMPILE_FAILED",
+      "poc": null,
+      "poc_crash_state": [],
+      "poc_crash_type": "",
+      "rationale": "The build failure is due to an incorrect source directory in the test environment, not the proposed code changes. We must proceed with the logically correct fix. The root cause is that `Runtime_Release` calls `ForEachModule(_FreeModule)` while compilation may still be active, leading to use-after-free when modules are accessed post-free. The correct fix is to defer module freeing if there are active code pages (either open or full), as this indicates ongoing compilation. We modify `Runtime_Release` to conditionally call `ForEachModule` only when no code pages are in use.",
+      "regression": null,
+      "regression_check": "",
+      "request_ids": [
+        "2b0692f82f7f37f8d40d399a91aee0be"
+      ]
+    }
+  ],
+  "baseline": {
+    "command": "arvo",
+    "exit_code": 1,
+    "output_bytes": 5843,
+    "output_sha256": "163dafe0ef6f586976f9964b96d700be11fab5af4617901309fe5de73ebf865b",
+    "output_tail": "    #4 0x572a7a in Compile_ExtendedOpcode /src/wasm3/source/m3_compile.c:1120:1\n    #5 0x5a5579 in CompileBlockStatements /src/wasm3/source/m3_compile.c:2477:1\n    #6 0x57e2e6 in CompileBlock /src/wasm3/source/m3_compile.c:2609:1\n    #7 0x57d37c in Compile_LoopOrBlock /src/wasm3/source/m3_compile.c:1804:1\n    #8 0x5a5579 in CompileBlockStatements /src/wasm3/source/m3_compile.c:2477:1\n    #9 0x5a7aa6 in CompileFunction /src/wasm3/source/m3_compile.c:2767:1\n    #10 0x55d17c in m3_FindFunction /src/wasm3/source/m3_env.c:686:1\n    #11 0x556e36 in LLVMFuzzerTestOneInput /src/wasm3/platforms/app_fuzz/fuzzer.c:33:30\n    #12 0x459c43 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:599:15\n    #13 0x443a52 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\n    #14 0x44989a in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:856:9\n    #15 0x475582 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #16 0x72a1e7bcf83f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2083f)\n\nDEDUP_TOKEN: free--_FreeModule--ForEachModule\npreviously allocated by thread T0 here:\n    #0 0x523712 in calloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:154:3\n    #1 0x567ecb in m3_ParseModule /src/wasm3/source/m3_parse.c:581:14\n    #2 0x556d88 in LLVMFuzzerTestOneInput /src/wasm3/platforms/app_fuzz/fuzzer.c:28:22\n    #3 0x459c43 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:599:15\n    #4 0x443a52 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\n    #5 0x44989a in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:856:9\n    #6 0x475582 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #7 0x72a1e7bcf83f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2083f)\n\nDEDUP_TOKEN: calloc--m3_ParseModule--LLVMFuzzerTestOneInput\nSUMMARY: AddressSanitizer: heap-use-after-free /src/wasm3/source/m3_env.c:205:34 in ForEachModule\nShadow bytes around the buggy address:\n  0x0c1c7fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c1c7fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c1c7fff8000: fa fa fa fa fa fa fa fa 00 00 00 00 00 00 00 00\n  0x0c1c7fff8010: 00 00 00 00 00 00 00 00 00 00 00 00 fa fa fa fa\n  0x0c1c7fff8020: fa fa fa fa fd fd fd fd fd fd fd fd fd fd fd fd\n=>0x0c1c7fff8030: fd fd fd fd fd fd fd[fd]fa fa fa fa fa fa fa fa\n  0x0c1c7fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c1c7fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c1c7fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c1c7fff8070: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c1c7fff8080: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n  Shadow gap:              cc\n==21==ABORTING",
+    "timed_out": false,
+    "wall_seconds": 0.309
+  },
+  "baseline_crash_state": [
+    "ForEachModule",
+    "Runtime_Release",
+    "m3_FreeRuntime"
+  ],
+  "baseline_crash_type": "Heap-use-after-free READ 8",
+  "control_compile": {
+    "command": "arvo compile",
+    "exit_code": 0,
+    "output_bytes": 3798,
+    "output_sha256": "e9ad9761fb19a8c4bd2fc43ae068c2dfddd398bcf721f7911e6c8cf182bb3a50",
+    "output_tail": "---------------------------------------------------------------\nCC=clang\nCXX=clang++\nCFLAGS=-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link\nCXXFLAGS=-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++\n---------------------------------------------------------------\n-- The C compiler identification is Clang 12.0.0\n-- The CXX compiler identification is Clang 12.0.0\n-- Detecting C compiler ABI info\n-- Detecting C compiler ABI info - done\n-- Check for working C compiler: /usr/local/bin/clang - skipped\n-- Detecting C compile features\n-- Detecting C compile features - done\n-- Detecting CXX compiler ABI info\n-- Detecting CXX compiler ABI info - done\n-- Check for working CXX compiler: /usr/local/bin/clang++ - skipped\n-- Detecting CXX compile features\n-- Detecting CXX compile features - done\n-- Configuring done\n-- Generating done\n-- Build files have been written to: /src/wasm3/build\nScanning dependencies of target m3\n[ 15%] Building C object source/CMakeFiles/m3.dir/m3_api_wasi.c.o\n[ 15%] Building C object source/CMakeFiles/m3.dir/m3_api_uvwasi.c.o\n[ 15%] Building C object source/CMakeFiles/m3.dir/m3_api_libc.c.o\n[ 21%] Building C object source/CMakeFiles/m3.dir/m3_api_meta_wasi.c.o\n[ 26%] Building C object source/CMakeFiles/m3.dir/m3_api_tracer.c.o\n[ 31%] Building C object source/CMakeFiles/m3.dir/m3_bind.c.o\n[ 36%] Building C object source/CMakeFiles/m3.dir/m3_code.c.o\n[ 42%] Building C object source/CMakeFiles/m3.dir/m3_compile.c.o\n[ 52%] Building C object source/CMakeFiles/m3.dir/m3_emit.c.o\n[ 52%] Building C object source/CMakeFiles/m3.dir/m3_core.c.o\n[ 57%] Building C object source/CMakeFiles/m3.dir/m3_env.c.o\n[ 63%] Building C object source/CMakeFiles/m3.dir/m3_exec.c.o\n[ 68%] Building C object source/CMakeFiles/m3.dir/m3_function.c.o\n[ 73%] Building C object source/CMakeFiles/m3.dir/m3_info.c.o\n[ 78%] Building C object source/CMakeFiles/m3.dir/m3_module.c.o\n[ 84%] Building C object source/CMakeFiles/m3.dir/m3_parse.c.o\n[ 89%] Linking C static library libm3.a\n[ 89%] Built target m3\nScanning dependencies of target wasm3\n[ 94%] Building C object CMakeFiles/wasm3.dir/platforms/app/main.c.o\n[100%] Linking C executable wasm3\n[100%] Built target wasm3\n+ mkdir build\n+ cd build\n+ cmake -DBUILD_WASI=none ..\n----\nGenerator:  Unix Makefiles\nCompiler:   Clang\nBuild Type: Release\nLTO:        ON\nFlags:         -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -Dd_m3HasTracer -Wall -Wextra -Wparentheses -Wundef -Wpointer-arith -Wstrict-aliasing=2 -Werror=implicit-function-declaration -Wno-unused-function -Wno-unused-variable -Wno-unused-parameter -Wno-missing-field-initializers\nDebug flags:   -g -DDEBUG=1 -ggdb -O0\nRelease flags: -O3 -Wfatal-errors -fomit-frame-pointer -fno-stack-check -fno-stack-protector -march=native\n----\n++ nproc\n+ make -j8\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c /src/wasm3/platforms/app_fuzz/fuzzer.c -o fuzzer.o -I/src/wasm3/source\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer -o /out/fuzzer fuzzer.o /src/wasm3/build/source/libm3.a",
+    "timed_out": false,
+    "wall_seconds": 4.973
+  },
+  "control_poc": {
+    "command": "arvo",
+    "exit_code": 1,
+    "output_bytes": 5845,
+    "output_sha256": "e672a3c459e50e7ad9be9e36b3b8ba3298c42608f25ef9dba9f688a1392d2e30",
+    "output_tail": "    #4 0x573dfa in Compile_ExtendedOpcode /src/wasm3/source/m3_compile.c:1120:1\n    #5 0x5a7b89 in CompileBlockStatements /src/wasm3/source/m3_compile.c:2477:1\n    #6 0x5803f4 in CompileBlock /src/wasm3/source/m3_compile.c:2609:1\n    #7 0x57eeaa in Compile_LoopOrBlock /src/wasm3/source/m3_compile.c:1804:1\n    #8 0x5a7b89 in CompileBlockStatements /src/wasm3/source/m3_compile.c:2477:1\n    #9 0x5aa2dc in CompileFunction /src/wasm3/source/m3_compile.c:2767:1\n    #10 0x55d18d in m3_FindFunction /src/wasm3/source/m3_env.c:686:1\n    #11 0x556e36 in LLVMFuzzerTestOneInput /src/wasm3/platforms/app_fuzz/fuzzer.c:33:30\n    #12 0x459c43 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:599:15\n    #13 0x443a52 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\n    #14 0x44989a in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:856:9\n    #15 0x475582 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #16 0x717fb81f483f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2083f)\n\nDEDUP_TOKEN: free--_FreeModule--ForEachModule\npreviously allocated by thread T0 here:\n    #0 0x523712 in calloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:154:3\n    #1 0x567f2b in m3_ParseModule /src/wasm3/source/m3_parse.c:581:14\n    #2 0x556d88 in LLVMFuzzerTestOneInput /src/wasm3/platforms/app_fuzz/fuzzer.c:28:22\n    #3 0x459c43 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:599:15\n    #4 0x443a52 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\n    #5 0x44989a in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:856:9\n    #6 0x475582 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #7 0x717fb81f483f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2083f)\n\nDEDUP_TOKEN: calloc--m3_ParseModule--LLVMFuzzerTestOneInput\nSUMMARY: AddressSanitizer: heap-use-after-free /src/wasm3/source/m3_env.c:205:34 in ForEachModule\nShadow bytes around the buggy address:\n  0x0c1c7fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c1c7fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c1c7fff8000: fa fa fa fa fa fa fa fa 00 00 00 00 00 00 00 00\n  0x0c1c7fff8010: 00 00 00 00 00 00 00 00 00 00 00 00 fa fa fa fa\n  0x0c1c7fff8020: fa fa fa fa fd fd fd fd fd fd fd fd fd fd fd fd\n=>0x0c1c7fff8030: fd fd fd fd fd fd fd[fd]fa fa fa fa fa fa fa fa\n  0x0c1c7fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c1c7fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c1c7fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c1c7fff8070: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c1c7fff8080: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n  Shadow gap:              cc\n==270==ABORTING",
+    "timed_out": false,
+    "wall_seconds": 0.283
+  },
+  "control_seeds": null,
+  "detail": "3 attempts; last: COMPILE_FAILED",
+  "frames": [
+    {
+      "function": "ForEachModule",
+      "index": 0,
+      "line": 205,
+      "path": "/src/wasm3/source/m3_env.c",
+      "section": "crash"
+    },
+    {
+      "function": "Runtime_Release",
+      "index": 1,
+      "line": 226,
+      "path": "/src/wasm3/source/m3_env.c",
+      "section": "crash"
+    },
+    {
+      "function": "m3_FreeRuntime",
+      "index": 2,
+      "line": 242,
+      "path": "/src/wasm3/source/m3_env.c",
+      "section": "crash"
+    },
+    {
+      "function": "_FreeModule",
+      "index": 1,
+      "line": 219,
+      "path": "/src/wasm3/source/m3_env.c",
+      "section": "freed"
+    },
+    {
+      "function": "Compile_ExtendedOpcode",
+      "index": 4,
+      "line": 1120,
+      "path": "/src/wasm3/source/m3_compile.c",
+      "section": "freed"
+    },
+    {
+      "function": "m3_ParseModule",
+      "index": 1,
+      "line": 581,
+      "path": "/src/wasm3/source/m3_parse.c",
+      "section": "allocated"
+    }
+  ],
+  "fuzz_target": "/out/fuzzer",
+  "host_free_bytes_at_start": 2558849024,
+  "image": "n132/arvo:42496387-vul",
+  "image_bytes": 3820696251,
+  "image_digest": "n132/arvo@sha256:b23fa4c7fc8160a8b9a7479883be8751b6015bc48c5d89505a85468bf97ebccb",
+  "image_removed": true,
+  "input_tokens": 18064,
+  "model_calls": 3,
+  "model_cost_usd": 0.0064488,
+  "outcome": "NOT_PROVEN",
+  "output_tokens": 1144,
+  "project": "wasm3",
+  "proven_attempt": null,
+  "pull": {
+    "command": "docker pull n132/arvo:42496387-vul",
+    "exit_code": 0,
+    "output_bytes": 3572,
+    "output_sha256": "7bdfcfe52210c17f84c59239e68530da12d40bd3cd1170ab5c4749f20d702103",
+    "output_tail": "474f71bb72b3: Download complete\nc83820c362b5: Download complete\nfb52bde70123: Download complete\n64788f86be3f: Pull complete\nfb52bde70123: Pull complete\n74781d57b23d: Download complete\n82d46eef423d: Download complete\nf2680ce45e2b: Download complete\nf5afbe1e5396: Download complete\n743935c21312: Download complete\nfa52fde55570: Download complete\nab515349643c: Download complete\n876679a823c7: Download complete\n576d10ddfbce: Download complete\n56673e297274: Download complete\n30e472c963a4: Download complete\nd17621a008ac: Download complete\n4dee9fc3ba67: Download complete\n33f6d5f2e001: Download complete\n33f6d5f2e001: Pull complete\ne00e48179c5f: Download complete\na1a4b0a5f18a: Download complete\n6049d975dd5a: Download complete\nb4985946264b: Download complete\n6049d975dd5a: Pull complete\n45f3f5da534a: Pull complete\n0950254c1fcd: Pull complete\n0153a4bc1880: Pull complete\nf2680ce45e2b: Pull complete\n6b1015845952: Pull complete\n9ffef0c2d841: Pull complete\n5a674254f63f: Pull complete\n449cff9f0e51: Pull complete\n830ffd3d8b95: Pull complete\nd8d762a239b7: Pull complete\n740daac41f2f: Pull complete\nab515349643c: Pull complete\n474f71bb72b3: Pull complete\nc83820c362b5: Pull complete\n82d46eef423d: Pull complete\nf5afbe1e5396: Pull complete\n4dee9fc3ba67: Pull complete\n74781d57b23d: Pull complete\n85c03ebfc0aa: Pull complete\n576d10ddfbce: Pull complete\nd17621a008ac: Pull complete\n876679a823c7: Pull complete\nd84a8d2a1d23: Pull complete\nc8be41ac0537: Pull complete\n743935c21312: Pull complete\ne00e48179c5f: Pull complete\na1a4b0a5f18a: Pull complete\n4f4fb700ef54: Pull complete\n56673e297274: Pull complete\n30e472c963a4: Pull complete\nfa52fde55570: Pull complete\nb4985946264b: Pull complete\nDigest: sha256:b23fa4c7fc8160a8b9a7479883be8751b6015bc48c5d89505a85468bf97ebccb\nStatus: Downloaded newer image for n132/arvo:42496387-vul\ndocker.io/n132/arvo:42496387-vul",
+    "timed_out": false,
+    "wall_seconds": 58.335
+  },
+  "schema_version": "1",
+  "seed_count": 0,
+  "seed_note": "no seed corpus: /out/fuzzer_seed_corpus.zip is not in the image",
+  "source_chars": 10874,
+  "upstream_fix_commits": [
+    "6bb612ccbfd5f8993a07a99092fab534722df1c3",
+    "3c0a7c159a77a58bbe128324091d39b02e77822f"
+  ],
+  "upstream_repository": "https://github.com/wasm3/wasm3",
+  "wall_seconds": 77.256,
+  "workdir": "/src/wasm3"
+}
