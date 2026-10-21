@@ -3,9 +3,11 @@ import evaluation from "@/content/arvo10.json";
 import catalog from "@/content/catalog.json";
 import jqReceipt from "@/content/door-42530604.json";
 import limits from "@/content/limits.json";
+import preparedCatalog from "@/content/prepared-catalog.json";
 import { limitsSentence } from "@/lib/measured";
+import { notOfferedSentence, projectCount, type PreparedCatalog } from "@/lib/prepared";
 import { receiptArvoId, type DoorReceipt } from "@/lib/receipt";
-import { Door } from "@/ui/Door";
+import { Door, type PreparedSummary } from "@/ui/Door";
 import { HeroAnswer } from "@/ui/HeroAnswer";
 import { Mark } from "@/ui/Mark";
 import { Measured } from "@/ui/Measured";
@@ -15,9 +17,17 @@ const REPO_URL = "https://github.com/StephenSook/reproof";
 // The recorded live response for ARVO 42530604 (eval/results/door-42530604.json).
 const HERO_RECEIPT = jqReceipt as DoorReceipt;
 const RECEIPTS: DoorReceipt[] = [HERO_RECEIPT];
+// The rows stay on the server: the client gets these counts, and loads the rows when the list opens.
+const PREPARED = preparedCatalog as unknown as PreparedCatalog;
+const PREPARED_SUMMARY: PreparedSummary = {
+  count: PREPARED.tasks.length,
+  projects: projectCount(PREPARED.tasks),
+  note: notOfferedSentence(PREPARED.not_offered),
+};
 
 export default function Page() {
   const count = catalog.tasks.length;
+  const total = count + PREPARED_SUMMARY.count;
   const heroTask = catalog.tasks.find((task) => task.arvo_id === receiptArvoId(HERO_RECEIPT));
   return (
     <div className="page">
@@ -68,7 +78,7 @@ export default function Page() {
                 the decision. Reproof files nothing upstream.
               </p>
               <p className="hero-more">
-                No login and no key. <a href="#reports">Pick one of the {count} reports</a> or{" "}
+                No login and no key. <a href="#reports">Pick one of the {total} reports</a> or{" "}
                 <a href="#measured">read the saved evaluation</a>.
               </p>
             </div>
@@ -77,14 +87,17 @@ export default function Page() {
         </section>
         <section aria-labelledby="door-title" className="section">
           <div className="section-heading door-intro">
-            <h2 id="door-title">{count} public reports</h2>
+            <h2 id="door-title">{total} public reports</h2>
             <p className="section-lede">
-              Pick one of the {count} public ARVO reports. Triage runs the claim, both builds, the crash parse, the
-              duplicate search, and a public-status lookup.
+              Pick one of the {count} featured ARVO reports, or open the {PREPARED_SUMMARY.count} more from the 100-bug
+              run and search them. Each has already run from its
+              sandbox checkpoints in a recorded evaluation. Triage runs the claim, both builds,
+              the crash parse, the duplicate search, and a public-status lookup.
             </p>
           </div>
           <Door
             limitsNote={limitsSentence(limits)}
+            prepared={PREPARED_SUMMARY}
             receipts={RECEIPTS}
             recordedTasks={evaluation.tasks}
             tasks={catalog.tasks}

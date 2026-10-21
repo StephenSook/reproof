@@ -1,0 +1,3709 @@
+{
+  "not_offered": [
+    {
+      "arvo_id": 42525192,
+      "detail": "run 2 completed it as NEEDS_INFO: the vulnerable build exited 127 and the fixed build exited 127, so no crash was measured. The target is 32-bit and its runtime slice carried a 64-bit library (wrong ELF class: ELFCLASS64).",
+      "project": "libxml2",
+      "reason": "no_crash_measured"
+    },
+    {
+      "arvo_id": 42497241,
+      "detail": "run 2 completed it as NEEDS_INFO: the vulnerable build exited 77 and the fixed build exited 77, so no crash was measured.",
+      "project": "espeak-ng",
+      "reason": "no_crash_measured"
+    },
+    {
+      "arvo_id": 42496936,
+      "detail": "run 2 completed it as NEEDS_INFO: the vulnerable build exited 127 and the fixed build exited 127, so no crash was measured. The target is 32-bit and its runtime slice carried a 64-bit library (wrong ELF class: ELFCLASS64).",
+      "project": "c-blosc2",
+      "reason": "no_crash_measured"
+    },
+    {
+      "arvo_id": 42477355,
+      "detail": "Neither ConTree checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call timed out).",
+      "project": "file",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42513189,
+      "detail": "Neither ConTree checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call timed out).",
+      "project": "fluent-bit",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42522285,
+      "detail": "Neither ConTree checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "libxml2",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42517205,
+      "detail": "Neither ConTree checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "curl",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 420198855,
+      "detail": "Neither ConTree checkpoint was created (run 2: base image lookup failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "readstat",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42532046,
+      "detail": "Neither ConTree checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "quickjs",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42509841,
+      "detail": "Neither ConTree checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "opensc",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42517450,
+      "detail": "No fix checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "openexr",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42499939,
+      "detail": "No fix checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "net-snmp",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42525816,
+      "detail": "Neither ConTree checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "serenity",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42523860,
+      "detail": "No fix checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "hdf5",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 396777457,
+      "detail": "No fix checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "net-snmp",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42512228,
+      "detail": "Neither ConTree checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "libjxl",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42498959,
+      "detail": "No fix checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "libpng",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42522804,
+      "detail": "Neither ConTree checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "libxslt",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42501136,
+      "detail": "Neither ConTree checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "matio",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42507220,
+      "detail": "Neither ConTree checkpoint was created (run 2: base image lookup failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "c-blosc2",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 379418968,
+      "detail": "Neither ConTree checkpoint was created (run 2: base image lookup failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "assimp",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42517530,
+      "detail": "Neither ConTree checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "libraw",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42517784,
+      "detail": "Neither ConTree checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "oniguruma",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42481233,
+      "detail": "Neither ConTree checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "arrow",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42498712,
+      "detail": "Neither ConTree checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "dnsmasq",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42536328,
+      "detail": "Neither ConTree checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "libssh2",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 411460530,
+      "detail": "Neither ConTree checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "openthread",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42513361,
+      "detail": "No fix checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "libjxl",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42526388,
+      "detail": "run 2 completed it as NEEDS_INFO: the vulnerable build exited 127 and the fixed build exited 127, so no crash was measured. The target is 32-bit and its runtime slice carried a 64-bit library (wrong ELF class: ELFCLASS64).",
+      "project": "c-blosc2",
+      "reason": "no_crash_measured"
+    },
+    {
+      "arvo_id": 42481492,
+      "detail": "No fix checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "jbig2dec",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42487660,
+      "detail": "Neither ConTree checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "libavif",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42497297,
+      "detail": "No fix checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "serenity",
+      "reason": "no_checkpoint_pair"
+    },
+    {
+      "arvo_id": 42523506,
+      "detail": "run 2 completed it as NEEDS_INFO: the vulnerable build exited 127 and the fixed build exited 127, so no crash was measured. The target is 32-bit and its runtime slice carried a 64-bit library (wrong ELF class: ELFCLASS64).",
+      "project": "libheif",
+      "reason": "no_crash_measured"
+    },
+    {
+      "arvo_id": 42533290,
+      "detail": "run 2 completed it as NEEDS_INFO: the vulnerable build exited 127 and the fixed build exited 127, so no crash was measured. The target is 32-bit and its runtime slice carried a 64-bit library (wrong ELF class: ELFCLASS64).",
+      "project": "igraph",
+      "reason": "no_crash_measured"
+    },
+    {
+      "arvo_id": 42530151,
+      "detail": "run 2 completed it as NEEDS_INFO: the vulnerable build exited 127 and the fixed build exited 127, so no crash was measured. The target is 32-bit and its runtime slice carried a 64-bit library (wrong ELF class: ELFCLASS64).",
+      "project": "lcms",
+      "reason": "no_crash_measured"
+    },
+    {
+      "arvo_id": 42536751,
+      "detail": "Both checkpoints exist, but no run completed from them (run 2: the sandbox run failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "gpac",
+      "reason": "never_completed"
+    },
+    {
+      "arvo_id": 42506689,
+      "detail": "Neither ConTree checkpoint was created (run 2: checkpoint creation failed with HTTP 500 from ConTree; run 1: the claim call lost its connection).",
+      "project": "sleuthkit",
+      "reason": "no_checkpoint_pair"
+    }
+  ],
+  "offer_rule": "Every eval-100 task outside the featured 10 whose committed run 2 card (or, when run 2 did not complete it, run 1 card) ran both builds from the ConTree checkpoint pair named here and measured a crash on the vulnerable build (verdict REPRODUCED or DUPLICATE). A task that run 2 completed without a crash is not offered, even if run 1 completed it.",
+  "schema_version": "1",
+  "sources": {
+    "eval/results/eval100-run2.json": "e9de3d999ef03a236bc1f5033ae7cf74a2c599641f4778d5af9b86ee5c76b9a7",
+    "eval/results/eval100.json": "6ad6faf183bd120762d7b869d16d8143cb4de6a6a536a40825625a52e0d80488"
+  },
+  "tasks": [
+    {
+      "arvo_id": 42477302,
+      "arvo_task_sha256": "2704b3ea46923cf13412842c1ecaed97a1e381a2bf85b3368ecb8457a438c305",
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "osv_record_id": "OSV-2020-1242",
+      "owner": "",
+      "project": "libavc",
+      "recorded": {
+        "arvo_id": 42477302,
+        "card_path": "eval/results/eval100-run2-cards/42477302.json",
+        "card_provenance": {
+          "arvo_task_sha256": "2704b3ea46923cf13412842c1ecaed97a1e381a2bf85b3368ecb8457a438c305",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2020-1242",
+          "report_sha256": "956508bcef9c12678bd86a44cd0f8e6ec39bff2383b7f4acd19caa1f014338c6"
+        },
+        "checkpoint_operation_uuids": [
+          "01a1579a-702f-73ab-8516-e5048981c262",
+          "01a1579a-9253-76ea-aa76-a9d65aec6fbb"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00101644,
+        "crash_state": [
+          "ih264d_cavlc_parse4x4coeff_n8",
+          "ih264d_cavlc_parse_8x8block_both_available",
+          "ih264d_parse_residual4x4_cavlc"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 4",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 257,
+        "model_cost_usd": 0.0001923,
+        "model_request_ids": [
+          "7ab136488871e142016f57045daa090a"
+        ],
+        "output_tokens": 128,
+        "project": "libavc",
+        "sandbox_cost_usd": 0.00082414,
+        "sandbox_operation_uuids": [
+          "01a157e4-0f6b-750c-a945-21f3316c3476",
+          "01a157e4-1051-7287-9d7d-228027ee7e70"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "a5563d49b8a6b8a350d4f11084fd302cc7732d463e7de9d936b6a60c9b16a657",
+          "vul": "91c7666c6084e7476ec558c8f6fb05316c257a25be57e649f40a58c00f8439f6"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 4.293893
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "",
+      "report_sha256": "956508bcef9c12678bd86a44cd0f8e6ec39bff2383b7f4acd19caa1f014338c6",
+      "report_source": "public OSS-Fuzz OSV report OSV-2020-1242; this is not a private report",
+      "report_text": "Heap-buffer-overflow in ih264d_cavlc_parse4x4coeff_n8\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=16587\n\n```\nCrash type: Heap-buffer-overflow READ 4\nCrash state:\nih264d_cavlc_parse4x4coeff_n8\nih264d_cavlc_parse_8x8block_both_available\nih264d_parse_residual4x4_cavlc\n```"
+    },
+    {
+      "arvo_id": 42481221,
+      "arvo_task_sha256": "105dfaa971ea22bca9e56a6c773ee0e620eea62a97827730d1507ae987505348",
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "osv_record_id": "OSV-2020-974",
+      "owner": "apache",
+      "project": "arrow",
+      "recorded": {
+        "arvo_id": 42481221,
+        "card_path": "eval/results/eval100-run2-cards/42481221.json",
+        "card_provenance": {
+          "arvo_task_sha256": "105dfaa971ea22bca9e56a6c773ee0e620eea62a97827730d1507ae987505348",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2020-974",
+          "report_sha256": "58e01dd49284f33127624a22d9023c181c70268293060a672037101f6d77be4e"
+        },
+        "checkpoint_operation_uuids": [
+          "01a1579b-b1ad-7079-af6a-9b98519bf396",
+          "01a1579c-b005-7192-9896-935206c454bb"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00084153,
+        "crash_state": [
+          "Visit",
+          "arrow::Status arrow::VisitArrayInline<arrow::internal::ValidateArrayDataVisitor>",
+          "arrow::internal::ValidateArrayData"
+        ],
+        "crash_state_agreement_with_osv": false,
+        "crash_type": "Heap-buffer-overflow READ 4",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 240,
+        "model_cost_usd": 0.0001566,
+        "model_request_ids": [
+          "85bb4eae4a8c3e5248455b7f2d31f47b"
+        ],
+        "output_tokens": 94,
+        "project": "arrow",
+        "sandbox_cost_usd": 0.00068493,
+        "sandbox_operation_uuids": [
+          "01a157e4-229b-77e2-88cd-4cd4f3dc989d",
+          "01a157e4-23ab-7128-95ab-3d28ce7955cc"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "a340fc22eaca583ebd5aec67f7067b83e0a6910109c08215dd143fe3cf951871",
+          "vul": "592ea5a0d610e6ecc4e96867eb782f73e9825d5f94353f498928c6d0ed243886"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 3.880091
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "arrow",
+      "report_sha256": "58e01dd49284f33127624a22d9023c181c70268293060a672037101f6d77be4e",
+      "report_source": "public OSS-Fuzz OSV report OSV-2020-974; this is not a private report",
+      "report_text": "Heap-buffer-overflow in arrow::Status arrow::VisitArrayInline<arrow::internal::ValidateArrayDataVisitor>\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=20113\n\n```\nCrash type: Heap-buffer-overflow READ 4\nCrash state:\narrow::Status arrow::VisitArrayInline<arrow::internal::ValidateArrayDataVisitor>\narrow::internal::ValidateArrayData\narrow::RecordBatch::ValidateFull\n```"
+    },
+    {
+      "arvo_id": 42523942,
+      "arvo_task_sha256": "3fc870047d096b61d8cad5f3222a8e2845021047f7538b7c836c8c6ce2a3974e",
+      "crash_type": "Heap-use-after-free READ 4",
+      "osv_record_id": "OSV-2023-366",
+      "owner": "mruby",
+      "project": "mruby",
+      "recorded": {
+        "arvo_id": 42523942,
+        "card_path": "eval/results/eval100-run2-cards/42523942.json",
+        "card_provenance": {
+          "arvo_task_sha256": "3fc870047d096b61d8cad5f3222a8e2845021047f7538b7c836c8c6ce2a3974e",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2023-366",
+          "report_sha256": "9a8ac0a640463c0d2225516d13981977b9417fb2fa68642d389d9191c4dbf4de"
+        },
+        "checkpoint_operation_uuids": [
+          "01a1579c-f82d-72b8-b980-3f318c716a14",
+          "01a1579d-2313-752b-9fba-fd4ab5c5aec1"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00123512,
+        "crash_state": [
+          "mrb_gc_mark",
+          "gc_mark_children",
+          "incremental_marking_phase"
+        ],
+        "crash_state_agreement_with_osv": false,
+        "crash_type": "Heap-use-after-free READ 4",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 209,
+        "model_cost_usd": 0.0001203,
+        "model_request_ids": [
+          "8f7e6679bb1d335ebf0332b3f3c11d88"
+        ],
+        "output_tokens": 64,
+        "project": "mruby",
+        "sandbox_cost_usd": 0.00111482,
+        "sandbox_operation_uuids": [
+          "01a157e4-326d-76ce-9a89-baf356abc838",
+          "01a157e4-3353-747a-bd3a-ac94c9fcb1bf"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "c62d5e3696459d8091d901bae6c6445a06a7c1df40fa461a42e27c66a00be741",
+          "vul": "2bc6c29c4c7c05f3d9178e0ecaf3c5000e86c9a91915952f7fa3ce0002243275"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 3.571168
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "mruby",
+      "report_sha256": "9a8ac0a640463c0d2225516d13981977b9417fb2fa68642d389d9191c4dbf4de",
+      "report_source": "public OSS-Fuzz OSV report OSV-2023-366; this is not a private report",
+      "report_text": "Heap-use-after-free in gc_mark_children\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=58577\n\n```\nCrash type: Heap-use-after-free READ 4\nCrash state:\ngc_mark_children\nincremental_gc\nmrb_full_gc\n```"
+    },
+    {
+      "arvo_id": 42481224,
+      "arvo_task_sha256": "fc775cfcac754fcb980b00bee2574a4eac7930436e81fa86c0c796dad167055e",
+      "crash_type": "Heap-buffer-overflow WRITE 4",
+      "osv_record_id": "OSV-2020-1058",
+      "owner": "apache",
+      "project": "arrow",
+      "recorded": {
+        "arvo_id": 42481224,
+        "card_path": "eval/results/eval100-run2-cards/42481224.json",
+        "card_provenance": {
+          "arvo_task_sha256": "fc775cfcac754fcb980b00bee2574a4eac7930436e81fa86c0c796dad167055e",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2020-1058",
+          "report_sha256": "e568a8aecfc36827e38390a865e4dacb965d35c1621f3f9878af73bc7a6f4795"
+        },
+        "checkpoint_operation_uuids": [
+          "01a1579d-42a0-7176-86f1-a3334702500b",
+          "01a1579e-3f10-7061-8949-4bd262e866fb"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.0008275,
+        "crash_state": [
+          "arrow::UnionType::UnionType",
+          "__compressed_pair_elem<const",
+          "__compressed_pair<std::__1::allocator<arrow::UnionType>"
+        ],
+        "crash_state_agreement_with_osv": false,
+        "crash_type": "Heap-buffer-overflow WRITE 4",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 222,
+        "model_cost_usd": 0.0001449,
+        "model_request_ids": [
+          "753e827e64295e63710231d158e8abfe"
+        ],
+        "output_tokens": 87,
+        "project": "arrow",
+        "sandbox_cost_usd": 0.0006826,
+        "sandbox_operation_uuids": [
+          "01a157e4-43fd-723b-834f-f91b91544927",
+          "01a157e4-4513-74e9-a058-6117a5ac7c02"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "a6ee425ad6ccff00d0ffcedd5848de6e764fdcd666572dd28e2cb726c0156c20",
+          "vul": "c340464aab6e043c540cde519f26a9191434bbb0320ad77f01c35f111ad4ff67"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 3.856114
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "arrow",
+      "report_sha256": "e568a8aecfc36827e38390a865e4dacb965d35c1621f3f9878af73bc7a6f4795",
+      "report_source": "public OSS-Fuzz OSV report OSV-2020-1058; this is not a private report",
+      "report_text": "Heap-buffer-overflow in arrow::UnionType::UnionType\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=20116\n\n```\nCrash type: Heap-buffer-overflow WRITE 4\nCrash state:\narrow::UnionType::UnionType\narrow::union_\narrow::ipc::internal::ConcreteTypeFromFlatbuffer\n```"
+    },
+    {
+      "arvo_id": 42481945,
+      "arvo_task_sha256": "296e263c1737c409da1c688cedc15d51e577e50e8d850f77ed7b0c8c556a01bf",
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "osv_record_id": "OSV-2020-40",
+      "owner": "ntop",
+      "project": "ndpi",
+      "recorded": {
+        "arvo_id": 42481945,
+        "card_path": "eval/results/eval100-run2-cards/42481945.json",
+        "card_provenance": {
+          "arvo_task_sha256": "296e263c1737c409da1c688cedc15d51e577e50e8d850f77ed7b0c8c556a01bf",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2020-40",
+          "report_sha256": "a7483a873903f1066934b67bdfbc8e9c7e02cc49fd8424ea33b226c78eca4e12"
+        },
+        "checkpoint_operation_uuids": [
+          "01a1579e-7fe8-7022-b99f-d316fd7191e2",
+          "01a1579e-a1aa-73a0-a177-56e4fd73e822"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00135834,
+        "crash_state": [
+          "ndpi_workflow_process_packet",
+          "fuzz_ndpi_reader.c"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 2",
+        "duplicate_candidates": [
+          "OSV-2020-1566",
+          "OSV-2020-2126",
+          "OSV-2020-242",
+          "OSV-2020-67",
+          "OSV-2020-821",
+          "OSV-2021-1804",
+          "OSV-2022-202",
+          "OSV-2023-229"
+        ],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 211,
+        "model_cost_usd": 0.0001668,
+        "model_request_ids": [
+          "d214b75174d2814c513e1442c396d2f9"
+        ],
+        "output_tokens": 115,
+        "project": "ndpi",
+        "sandbox_cost_usd": 0.00119154,
+        "sandbox_operation_uuids": [
+          "01a157e4-55b9-7183-872d-53571158097d",
+          "01a157e4-56fa-73fb-867e-d4fae4d6fe9e"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "4d5dc5f15455a882ea8427ce35b8a66dcc7de6fcd722a59efa27a308c416dcbd",
+          "vul": "ee8f8852d9c458cd9342fe85f35c87448ee4174e92240b2ed3d58f4826df98ce"
+        },
+        "verdict": "DUPLICATE",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 4.318501
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "nDPI",
+      "report_sha256": "a7483a873903f1066934b67bdfbc8e9c7e02cc49fd8424ea33b226c78eca4e12",
+      "report_source": "public OSS-Fuzz OSV report OSV-2020-40; this is not a private report",
+      "report_text": "Heap-buffer-overflow in ndpi_workflow_process_packet\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=20766\n\n```\nCrash type: Heap-buffer-overflow READ 2\nCrash state:\nndpi_workflow_process_packet\nfuzz_ndpi_reader.c\n```"
+    },
+    {
+      "arvo_id": 42520614,
+      "arvo_task_sha256": "529e581bc59255d003b6b032a18bd6d616c3360d635750548392932ab02876e2",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "osv_record_id": "OSV-2023-42",
+      "owner": "LibreDWG",
+      "project": "libredwg",
+      "recorded": {
+        "arvo_id": 42520614,
+        "card_path": "eval/results/eval100-run2-cards/42520614.json",
+        "card_provenance": {
+          "arvo_task_sha256": "529e581bc59255d003b6b032a18bd6d616c3360d635750548392932ab02876e2",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2023-42",
+          "report_sha256": "5b49dc67597e050bec659c4d609e11b2ca6997b2fe6865e97cbecb5ec64d67b0"
+        },
+        "checkpoint_operation_uuids": [
+          "01a1579f-c0ac-700d-8002-5b88e8e5119b",
+          "01a157a0-5a12-756d-9698-88639e871e99"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00091356,
+        "crash_state": [
+          "bit_read_BB",
+          "dwg_decode_MINSERT_private",
+          "dwg_decode_MINSERT"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 1",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 214,
+        "model_cost_usd": 0.0001659,
+        "model_request_ids": [
+          "4e380d55a2b38ad111d353cb25a910d4"
+        ],
+        "output_tokens": 113,
+        "project": "libredwg",
+        "sandbox_cost_usd": 0.00074766,
+        "sandbox_operation_uuids": [
+          "01a157e4-7cde-70d5-8eb5-9cf3a25ba578",
+          "01a157e4-7dd5-7018-8049-496725906a61"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "497c39a7aecb2903e991ad99fe659fa3befb141e68d4a70e9ebae591d353bc5a",
+          "vul": "1f3273944ac332871466cc355c4211199ad861aeb402763c7f4788001bac3cbb"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 4.199199
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "libredwg",
+      "report_sha256": "5b49dc67597e050bec659c4d609e11b2ca6997b2fe6865e97cbecb5ec64d67b0",
+      "report_source": "public OSS-Fuzz OSV report OSV-2023-42; this is not a private report",
+      "report_text": "Heap-buffer-overflow in bit_read_BB\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=55579\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nbit_read_BB\ndwg_decode_MINSERT_private\ndwg_decode_MINSERT\n```"
+    },
+    {
+      "arvo_id": 42504114,
+      "arvo_task_sha256": "513ba7d9657218f09ef012520636d54409f0896160cb81169ffd9d76f20f0c69",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "osv_record_id": "OSV-2021-1540",
+      "owner": "apache",
+      "project": "qpid-proton",
+      "recorded": {
+        "arvo_id": 42504114,
+        "card_path": "eval/results/eval100-run2-cards/42504114.json",
+        "card_provenance": {
+          "arvo_task_sha256": "513ba7d9657218f09ef012520636d54409f0896160cb81169ffd9d76f20f0c69",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2021-1540",
+          "report_sha256": "1f2c87e0f7668cf365355054475f2c4ce8419ca2b5ea13d45ceffcfba2eab63c"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157a0-9809-770d-9a9d-301008516ac7",
+          "01a157a0-bc2d-76cb-8abf-4c67feee7052"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00073377,
+        "crash_state": [
+          "pni_consumer_readf8",
+          "consume_list",
+          "pn_amqp_decode_DqEoQBIoIe"
+        ],
+        "crash_state_agreement_with_osv": false,
+        "crash_type": "Heap-buffer-overflow READ 1",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 217,
+        "model_cost_usd": 0.0001254,
+        "model_request_ids": [
+          "3b7d970a85cfecc3686f5da7446f0b4c"
+        ],
+        "output_tokens": 67,
+        "project": "qpid-proton",
+        "sandbox_cost_usd": 0.00060837,
+        "sandbox_operation_uuids": [
+          "01a157e4-9065-77c2-be3f-4c214d8561a8",
+          "01a157e4-91ad-7799-b4dd-b5fd5fc6884b"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "6120932e74116ab6c12e7701eca198a0c87274b2a11c968bd227bbd0d5fe0e74",
+          "vul": "f1aa3aa3550a1621f4494d9dca96e1bea16d847115a474ef89462e8826a8a95d"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 4.596735
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "qpid-proton",
+      "report_sha256": "1f2c87e0f7668cf365355054475f2c4ce8419ca2b5ea13d45ceffcfba2eab63c",
+      "report_source": "public OSS-Fuzz OSV report OSV-2021-1540; this is not a private report",
+      "report_text": "Heap-buffer-overflow in consume_list\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=40723\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nconsume_list\npn_amqp_decode_DqEoQBIoIe\npn_message_decode\n```"
+    },
+    {
+      "arvo_id": 42500367,
+      "arvo_task_sha256": "9d7a9ba4bcab7457e7d85eb8d98896231691717674370b93d8330e1b48b45ca2",
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "osv_record_id": "OSV-2021-1153",
+      "owner": "harfbuzz",
+      "project": "harfbuzz",
+      "recorded": {
+        "arvo_id": 42500367,
+        "card_path": "eval/results/eval100-run2-cards/42500367.json",
+        "card_provenance": {
+          "arvo_task_sha256": "9d7a9ba4bcab7457e7d85eb8d98896231691717674370b93d8330e1b48b45ca2",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2021-1153",
+          "report_sha256": "9076c81a13c55f23b1dafb6d97ee233bc7988e2d806571c962927b633ba29664"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157a1-7f25-77e1-8103-9434f402cc5b",
+          "01a157a1-cf93-77e1-b357-ad1789282319"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00088785,
+        "crash_state": [
+          "hb_array_t<OT::IntType<unsigned int, 4u> const> hb_array_t<OT::IntType<unsigned",
+          "OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >::copy",
+          "_hb_head_t<OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >*, decltype"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 4",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 303,
+        "model_cost_usd": 0.000189,
+        "model_request_ids": [
+          "a84ebeb9a2dfdf7c7645e46fa876073b"
+        ],
+        "output_tokens": 109,
+        "project": "harfbuzz",
+        "sandbox_cost_usd": 0.00069885,
+        "sandbox_operation_uuids": [
+          "01a157e4-b36d-7027-8a7d-0634cdba7dae",
+          "01a157e4-b861-7126-b251-407614d0882a"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "9b93a880af9ecf6dfb630fcbf51a67eec12f32faa7da0cea9284a1e9dc555fe3",
+          "vul": "888fc6aebf59cb4abc9af2c333a1d155f09a675ba8b3598dc3ddb4cbf80ea285"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 4.675124
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "harfbuzz",
+      "report_sha256": "9076c81a13c55f23b1dafb6d97ee233bc7988e2d806571c962927b633ba29664",
+      "report_source": "public OSS-Fuzz OSV report OSV-2021-1153; this is not a private report",
+      "report_text": "Heap-buffer-overflow in hb_array_t<OT::IntType<unsigned int, 4u> const> hb_array_t<OT::IntType<unsigned \n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=37348\n\n```\nCrash type: Heap-buffer-overflow READ 4\nCrash state:\nhb_array_t<OT::IntType<unsigned int, 4u> const> hb_array_t<OT::IntType<unsigned \nOT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >::copy\n_hb_head_t<OT::UnsizedArrayOf<OT::IntType<unsigned int, 4u> >*, decltype\n```"
+    },
+    {
+      "arvo_id": 42518269,
+      "arvo_task_sha256": "8295a9ead73031eb383c0f71d2c5e5ca3b063d54d9fa2cfe94acfec0592dcd36",
+      "crash_type": "Heap-buffer-overflow READ 8",
+      "osv_record_id": "OSV-2022-1180",
+      "owner": "LibreDWG",
+      "project": "libredwg",
+      "recorded": {
+        "arvo_id": 42518269,
+        "card_path": "eval/results/eval100_cards/42518269.json",
+        "card_provenance": {
+          "arvo_task_sha256": "8295a9ead73031eb383c0f71d2c5e5ca3b063d54d9fa2cfe94acfec0592dcd36",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+          "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2022-1180",
+          "report_sha256": "bf89ad637081408befe52c3d293603b91ef913cc1bb9381f2b3dd94d9d50267e"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157a2-6d32-7714-ad29-8f9989c283bd",
+          "01a157a2-f7c5-757d-9aa4-1f9375e05259"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00166176,
+        "crash_state": [
+          "json_common_entity_data",
+          "dwg_json_LOAD",
+          "dwg_json_object"
+        ],
+        "crash_state_agreement_with_osv": false,
+        "crash_type": "Heap-buffer-overflow READ 8",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 210,
+        "model_cost_usd": 0.0001422,
+        "model_request_ids": [
+          "d55779bf816e2f58239700e1a2f1d21f"
+        ],
+        "output_tokens": 88,
+        "project": "libredwg",
+        "sandbox_cost_usd": 0.00151956,
+        "sandbox_operation_uuids": [
+          "01a157a3-0116-77ed-8b2d-4629c08d342b",
+          "01a157a3-025f-7677-8d96-0d5e0a03eef8"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "96a7ab7ac1356ead60a6799488424bea41b6542c5856b5315517ea297242345b",
+          "vul": "dc359b86b784dacd095f461c83c6d2e65ef697a9868d9127fd6c6e7e056dd89c"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 75.776286
+      },
+      "recorded_in": "eval/results/eval100.json",
+      "recorded_run": "run 1",
+      "repo": "libredwg",
+      "report_sha256": "bf89ad637081408befe52c3d293603b91ef913cc1bb9381f2b3dd94d9d50267e",
+      "report_source": "public OSS-Fuzz OSV report OSV-2022-1180; this is not a private report",
+      "report_text": "Heap-buffer-overflow in json_common_entity_data\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=53468\n\n```\nCrash type: Heap-buffer-overflow READ 8\nCrash state:\njson_common_entity_data\njson_objects_write\ndwg_write_json\n```"
+    },
+    {
+      "arvo_id": 42471044,
+      "arvo_task_sha256": "564ecb6c7d0eada2ee82fd4206e95cbfe1cec8c84eceea05fec40e9f57bfd4d4",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "osv_record_id": "OSV-2018-162",
+      "owner": "harfbuzz",
+      "project": "harfbuzz",
+      "recorded": {
+        "arvo_id": 42471044,
+        "card_path": "eval/results/eval100-run2-cards/42471044.json",
+        "card_provenance": {
+          "arvo_task_sha256": "564ecb6c7d0eada2ee82fd4206e95cbfe1cec8c84eceea05fec40e9f57bfd4d4",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2018-162",
+          "report_sha256": "93528885b38ba5ae2f431b56b73ff7575f96ff4fabfa79e8efa513818172ccaf"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157a3-57c8-71c8-bb0f-2eb9dbfc3b91",
+          "01a157a3-970c-77d2-9eaa-1eb06034e020"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00088799,
+        "crash_state": [
+          "BEInt<unsigned int, 4>::operator unsigned int",
+          "OT::OffsetTo<OT::UnsizedArrayOf<OT::IntType<short, 2u> >, OT::IntType<unsigned i",
+          "AAT::KerxSubTableFormat1::driver_context_t::driver_context_t"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 1",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 266,
+        "model_cost_usd": 0.0001581,
+        "model_request_ids": [
+          "345b8025a0e53819b3ac32028b64edce"
+        ],
+        "output_tokens": 87,
+        "project": "harfbuzz",
+        "sandbox_cost_usd": 0.00072989,
+        "sandbox_operation_uuids": [
+          "01a157e4-da41-7478-942e-a87f8d9ac730",
+          "01a157e4-db2c-76cb-a482-cbd32694157f"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "6ff8279a15ab78ee0ea2a18d08bdd09cc9e87bbaec95bca7708beaa6c33e341b",
+          "vul": "7280098b1f1046c529f0b97fcd26d89db015a60c1e1b58ea5dc5ad0066b71cbd"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 4.293336
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "harfbuzz",
+      "report_sha256": "93528885b38ba5ae2f431b56b73ff7575f96ff4fabfa79e8efa513818172ccaf",
+      "report_source": "public OSS-Fuzz OSV report OSV-2018-162; this is not a private report",
+      "report_text": "Heap-buffer-overflow in BEInt<unsigned int, 4>::operator unsigned int\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=10948\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nBEInt<unsigned int, 4>::operator unsigned int\nOT::OffsetTo<OT::UnsizedArrayOf<OT::IntType<short, 2u> >, OT::IntType<unsigned i\nAAT::KerxSubTableFormat1::driver_context_t::driver_context_t\n```"
+    },
+    {
+      "arvo_id": 42522233,
+      "arvo_task_sha256": "56c50ddd62479e43f6b45752b72b8d6c67d53d63efe151c28263094ca7a14b9f",
+      "crash_type": "Segv on unknown address",
+      "osv_record_id": "OSV-2023-178",
+      "owner": "mruby",
+      "project": "mruby",
+      "recorded": {
+        "arvo_id": 42522233,
+        "card_path": "eval/results/eval100-run2-cards/42522233.json",
+        "card_provenance": {
+          "arvo_task_sha256": "56c50ddd62479e43f6b45752b72b8d6c67d53d63efe151c28263094ca7a14b9f",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2023-178",
+          "report_sha256": "aee330b884f61ef981135f35feac6458706ea0fccc90bf48230e97cf64c584e2"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157a3-d2a0-7609-b7ac-69034f0cf539",
+          "01a157a3-ffec-717f-a765-e2f811db1a9a"
+        ],
+        "claim_agreement": false,
+        "cost_usd": 0.00087659,
+        "crash_state": [
+          "mrb_bint_sub",
+          "int_sub",
+          "mrb_vm_exec"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Segv on unknown address",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 208,
+        "model_cost_usd": 0.00012,
+        "model_request_ids": [
+          "fd3300dedfd869cbdb27a8d018a6478b"
+        ],
+        "output_tokens": 64,
+        "project": "mruby",
+        "sandbox_cost_usd": 0.00075659,
+        "sandbox_operation_uuids": [
+          "01a157e4-eb02-71ab-9f2d-2caf75603416",
+          "01a157e4-ebfc-7678-9b5b-2c5f4a5c0be9"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "bfedc3f743b7778d89c9bb02d236b436643ccdad2f9158910e7ecbb8212ff44f",
+          "vul": "95471fa398873f7eeeb3911d6b6552caad50be5a7ae822be0361d3462af6b062"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 3.353186
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "mruby",
+      "report_sha256": "aee330b884f61ef981135f35feac6458706ea0fccc90bf48230e97cf64c584e2",
+      "report_source": "public OSS-Fuzz OSV report OSV-2023-178; this is not a private report",
+      "report_text": "Segv on unknown address in mrb_bint_sub\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=57037\n\n```\nCrash type: Segv on unknown address\nCrash state:\nmrb_bint_sub\nint_sub\nmrb_vm_exec\n```"
+    },
+    {
+      "arvo_id": 42504387,
+      "arvo_task_sha256": "a3ab1863e770a793db05688624f8c6a00f9bf3e21133c12a294448eb819ee593",
+      "crash_type": "Heap-use-after-free READ 8",
+      "osv_record_id": "OSV-2017-10",
+      "owner": "open62541",
+      "project": "open62541",
+      "recorded": {
+        "arvo_id": 42504387,
+        "card_path": "eval/results/eval100-run2-cards/42504387.json",
+        "card_provenance": {
+          "arvo_task_sha256": "a3ab1863e770a793db05688624f8c6a00f9bf3e21133c12a294448eb819ee593",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2017-10",
+          "report_sha256": "f0216bbd0e485f1af98982ef0e1c3e2f50bf958a4bb4e09aa2127eb9eb792a45"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157a4-5edc-7232-a512-2b992d88574c",
+          "01a157a4-9a52-703e-a5f8-f2ac6171b6bd"
+        ],
+        "claim_agreement": false,
+        "cost_usd": 0.00106136,
+        "crash_state": [
+          "UA_Subscription_answerPublishRequestsNoSubscription",
+          "processDelayedCallbacks",
+          "UA_Server_run_shutdown"
+        ],
+        "crash_state_agreement_with_osv": false,
+        "crash_type": "Heap-use-after-free READ 8",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 221,
+        "model_cost_usd": 0.0001302,
+        "model_request_ids": [
+          "5d7be4f8ee5a5861e8323c086060e000"
+        ],
+        "output_tokens": 71,
+        "project": "open62541",
+        "sandbox_cost_usd": 0.00093116,
+        "sandbox_operation_uuids": [
+          "01a157e4-fac3-73dc-9b19-4851e2b8dde7",
+          "01a157e4-fbc5-72b0-b423-9f6466e8683f"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "158f46a83ec6aaf9096934d7603a2801320568d09e4461707bdb58e33cbd5182",
+          "vul": "9ece40e87adc92a511bed6b92e0cff29fceb3a891694365239600994fada6cbc"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 3.58295
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "open62541",
+      "report_sha256": "f0216bbd0e485f1af98982ef0e1c3e2f50bf958a4bb4e09aa2127eb9eb792a45",
+      "report_source": "public OSS-Fuzz OSV report OSV-2017-10; this is not a private report",
+      "report_text": "Heap-use-after-free in UA_Subscription_answerPublishRequestsNoSubscription\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=4097\n\n```\nCrash type: Heap-use-after-free READ 8\nCrash state:\nUA_Subscription_answerPublishRequestsNoSubscription\nUA_Server_run_shutdown\n_start\n```"
+    },
+    {
+      "arvo_id": 42501162,
+      "arvo_task_sha256": "2086c47ffe82d79ec70646108408e713e40c2a8eecc0d6af7e95918d6b1d245d",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "osv_record_id": "OSV-2021-1201",
+      "owner": "kamailio",
+      "project": "kamailio",
+      "recorded": {
+        "arvo_id": 42501162,
+        "card_path": "eval/results/eval100-run2-cards/42501162.json",
+        "card_provenance": {
+          "arvo_task_sha256": "2086c47ffe82d79ec70646108408e713e40c2a8eecc0d6af7e95918d6b1d245d",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2021-1201",
+          "report_sha256": "af247da6715bda0099fffb27643ad7e46707003cec80e9a14337fc0461bb511d"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157a4-e903-714b-8f16-4812bcc31d2a",
+          "01a157a5-2806-74e9-b556-601d89e9281e"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00095986,
+        "crash_state": [
+          "q_memchr",
+          "parse_quoted_param",
+          "parse_param_body"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 1",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 208,
+        "model_cost_usd": 0.0001605,
+        "model_request_ids": [
+          "f2947b6ee5ac2b4eb2219661305bdca2"
+        ],
+        "output_tokens": 109,
+        "project": "kamailio",
+        "sandbox_cost_usd": 0.00079936,
+        "sandbox_operation_uuids": [
+          "01a157e5-0bb3-77b3-9fd8-74129534359a",
+          "01a157e5-0c9a-75e0-be98-79d6824e4731"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "3e6ca1f6ac5a852e3d4793ff113e344eebffef29a9803fd63f5f63a9aedca7d2",
+          "vul": "43eac10d33cca2378c497376459a819bf9ce868aed17104be111a62b3994891a"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 3.751337
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "kamailio",
+      "report_sha256": "af247da6715bda0099fffb27643ad7e46707003cec80e9a14337fc0461bb511d",
+      "report_source": "public OSS-Fuzz OSV report OSV-2021-1201; this is not a private report",
+      "report_text": "Heap-buffer-overflow in q_memchr\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=38065\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nq_memchr\nparse_quoted_param\nparse_param_body\n```"
+    },
+    {
+      "arvo_id": 42532259,
+      "arvo_task_sha256": "96d94829605495b4a7ed24747c29157d9a6cecc20f8f54f7323721693c84bc35",
+      "crash_type": "Heap-buffer-overflow WRITE 16",
+      "osv_record_id": "OSV-2024-39",
+      "owner": "simdutf",
+      "project": "simdutf",
+      "recorded": {
+        "arvo_id": 42532259,
+        "card_path": "eval/results/eval100-run2-cards/42532259.json",
+        "card_provenance": {
+          "arvo_task_sha256": "96d94829605495b4a7ed24747c29157d9a6cecc20f8f54f7323721693c84bc35",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2024-39",
+          "report_sha256": "67152f12e203865065bfc09d032ae4e950f1676163d29ee4db5fce7fd42beb36"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157a5-608c-7436-b67c-a27c9fb35bd0",
+          "01a157a5-83bf-77ed-8011-917f2d8e066b"
+        ],
+        "claim_agreement": false,
+        "cost_usd": 0.00082517,
+        "crash_state": [
+          "store_ascii_as_utf32",
+          "store_ascii_as_utf32",
+          "convert"
+        ],
+        "crash_state_agreement_with_osv": false,
+        "crash_type": "Heap-buffer-overflow WRITE {*}",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 234,
+        "model_cost_usd": 0.0001692,
+        "model_request_ids": [
+          "36b819cfad73f0dbc26f33ee2e36130a"
+        ],
+        "output_tokens": 110,
+        "project": "simdutf",
+        "sandbox_cost_usd": 0.00065597,
+        "sandbox_operation_uuids": [
+          "01a157e5-1c22-7430-b1c4-1e21a1056042",
+          "01a157e5-1d08-76bf-b10c-39cdcd326908"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "6be3c5f5fdc6a96a4eaf70bf9dde7648b4fa06296e5fa4dc9f0469add1d5366f",
+          "vul": "32a08df5a672a6c646ebe2ecc2b50ffb9bc0a742de6ef851a9588ee734e232cb"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 4.179568
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "simdutf",
+      "report_sha256": "67152f12e203865065bfc09d032ae4e950f1676163d29ee4db5fce7fd42beb36",
+      "report_source": "public OSS-Fuzz OSV report OSV-2024-39; this is not a private report",
+      "report_text": "Heap-buffer-overflow in simdutf::westmere::implementation::convert_utf8_to_utf32\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=66063\n\n```\nCrash type: Heap-buffer-overflow WRITE 16\nCrash state:\nsimdutf::westmere::implementation::convert_utf8_to_utf32\nroundtrip.cc\n```"
+    },
+    {
+      "arvo_id": 42486565,
+      "arvo_task_sha256": "0aa030b1a1015f7b3e9fd6c5c60c2696946e19215c1867012087af9cebcd3b5c",
+      "crash_type": "Heap-use-after-free READ 4",
+      "osv_record_id": "OSV-2020-1623",
+      "owner": "",
+      "project": "libxml2",
+      "recorded": {
+        "arvo_id": 42486565,
+        "card_path": "eval/results/eval100-run2-cards/42486565.json",
+        "card_provenance": {
+          "arvo_task_sha256": "0aa030b1a1015f7b3e9fd6c5c60c2696946e19215c1867012087af9cebcd3b5c",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2020-1623",
+          "report_sha256": "6db1402ec49a041b1193e5a81bb6622171a123fb39a35ca1f8b425a85c0484bf"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157a5-c37b-75b8-a515-820a0afc473e",
+          "01a157a5-edec-7412-a869-98ec38506b9d"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00085543,
+        "crash_state": [
+          "xmlXIncludeIncludeNode",
+          "xmlXIncludeDoProcess",
+          "xmlXIncludeLoadFallback"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-use-after-free READ 4",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 215,
+        "model_cost_usd": 0.0001446,
+        "model_request_ids": [
+          "0c5cdb6a8ef629cf245589970204774f"
+        ],
+        "output_tokens": 89,
+        "project": "libxml2",
+        "sandbox_cost_usd": 0.00071083,
+        "sandbox_operation_uuids": [
+          "01a157e5-2e91-71cc-b15b-2545c7e6a2b5",
+          "01a157e5-2f83-75de-a5d9-33aa4c60e967"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "a428b1c9e763e0e4ec06e081e1170d43bd00cd6763b3ebe6fa9568ea1877d86d",
+          "vul": "a5b55a7bcc53956a53cfc23549d7ffd86418308c41a0cd9bf19d3d2f1b83be84"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 3.509284
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "",
+      "report_sha256": "6db1402ec49a041b1193e5a81bb6622171a123fb39a35ca1f8b425a85c0484bf",
+      "report_source": "public OSS-Fuzz OSV report OSV-2020-1623; this is not a private report",
+      "report_text": "Heap-use-after-free in xmlXIncludeIncludeNode\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=24925\n\n```\nCrash type: Heap-use-after-free READ 4\nCrash state:\nxmlXIncludeIncludeNode\nxmlXIncludeDoProcess\nxmlXIncludeLoadFallback\n```"
+    },
+    {
+      "arvo_id": 42470538,
+      "arvo_task_sha256": "dc22a3a993354afdde11eed4acc5859903cebebdc00861c1e21f6b941bd6acaf",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "osv_record_id": "OSV-2018-201",
+      "owner": "radare",
+      "project": "radare2",
+      "recorded": {
+        "arvo_id": 42470538,
+        "card_path": "eval/results/eval100-run2-cards/42470538.json",
+        "card_provenance": {
+          "arvo_task_sha256": "dc22a3a993354afdde11eed4acc5859903cebebdc00861c1e21f6b941bd6acaf",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2018-201",
+          "report_sha256": "965088eeaf763b9cdd34acf54920ac4e05f0aa7f5eda20da6ef4dd710eeeadf9"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157a6-fb1f-7089-bc2e-2065122b4a47",
+          "01a157a7-f8ba-73a5-ae84-1fa572f392f3"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.025637,
+        "crash_state": [
+          "r_str_utf16_to_utf8",
+          "sections",
+          "r_bin_object_set_items"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 1",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 220,
+        "model_cost_usd": 0.0001362,
+        "model_request_ids": [
+          "b8cb6777f7bccc4db073e7084bd49dd3"
+        ],
+        "output_tokens": 78,
+        "project": "radare2",
+        "sandbox_cost_usd": 0.0255008,
+        "sandbox_operation_uuids": [
+          "01a157e5-3ee4-7698-bbd3-92aa3b53ac65",
+          "01a157e5-3fcc-7503-8728-1aacb4964556"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "76a0f6e18b36459981996d98f1add30808a17b5c98703d99efb25f67b067cb04",
+          "vul": "9e4aa1580c3c54acf12ab0a8c85f44f6e2fa2c64395f4dced9c2399116c81510"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 5.567906
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "radare2",
+      "report_sha256": "965088eeaf763b9cdd34acf54920ac4e05f0aa7f5eda20da6ef4dd710eeeadf9",
+      "report_source": "public OSS-Fuzz OSV report OSV-2018-201; this is not a private report",
+      "report_text": "Heap-buffer-overflow in r_str_utf16_to_utf8\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=10487\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nr_str_utf16_to_utf8\nsections\nr_bin_object_set_items\n```"
+    },
+    {
+      "arvo_id": 42513620,
+      "arvo_task_sha256": "607e18eac4839f9726d5ae15f487824368955574f3d28613f204ff8a5940b6b6",
+      "crash_type": "Heap-buffer-overflow READ 8",
+      "osv_record_id": "OSV-2022-606",
+      "owner": "mruby",
+      "project": "mruby",
+      "recorded": {
+        "arvo_id": 42513620,
+        "card_path": "eval/results/eval100-run2-cards/42513620.json",
+        "card_provenance": {
+          "arvo_task_sha256": "607e18eac4839f9726d5ae15f487824368955574f3d28613f204ff8a5940b6b6",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2022-606",
+          "report_sha256": "ed1e6b1a0a6adebd4b5ef82227f35a515f8f34dccba97c897e8e3e50d384549a"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157a8-3c56-72d6-aa27-b37c02fd3bfa",
+          "01a157a8-6419-7287-bbbb-d7c4835b9184"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00086264,
+        "crash_state": [
+          "mpz_get_int",
+          "bint_norm",
+          "mrb_bint_add"
+        ],
+        "crash_state_agreement_with_osv": false,
+        "crash_type": "Heap-buffer-overflow READ 8",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 209,
+        "model_cost_usd": 0.0001374,
+        "model_request_ids": [
+          "fea45230bfd0cc0a2c15b0afb5b3e03d"
+        ],
+        "output_tokens": 83,
+        "project": "mruby",
+        "sandbox_cost_usd": 0.00072524,
+        "sandbox_operation_uuids": [
+          "01a157e5-5640-700f-be79-95fdb5ac34a2",
+          "01a157e5-5738-74fc-a73a-0afae676d298"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "a656201ee3f1fa34e256fb319b86da8f5d0711f949bde7c31bb0cc6b27c480d9",
+          "vul": "359ee34f0777530ff52dd5edf794ead36848a84c0656f35d4381ee5808c8b2ad"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 3.615796
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "mruby",
+      "report_sha256": "ed1e6b1a0a6adebd4b5ef82227f35a515f8f34dccba97c897e8e3e50d384549a",
+      "report_source": "public OSS-Fuzz OSV report OSV-2022-606; this is not a private report",
+      "report_text": "Heap-buffer-overflow in mrb_bint_add\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=49282\n\n```\nCrash type: Heap-buffer-overflow READ 8\nCrash state:\nmrb_bint_add\nmrb_int_add\nint_add\n```"
+    },
+    {
+      "arvo_id": 42471105,
+      "arvo_task_sha256": "16fa2c0ab9b810e9761973aed99aad59310fc7c65c946a2355bed744ae010ad9",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "osv_record_id": "OSV-2018-185",
+      "owner": "harfbuzz",
+      "project": "harfbuzz",
+      "recorded": {
+        "arvo_id": 42471105,
+        "card_path": "eval/results/eval100-run2-cards/42471105.json",
+        "card_provenance": {
+          "arvo_task_sha256": "16fa2c0ab9b810e9761973aed99aad59310fc7c65c946a2355bed744ae010ad9",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2018-185",
+          "report_sha256": "ccc0a04625865a5ceec1549cf55293afee81da8da3b50cd2b000e536ee43a46e"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157a8-b496-72cf-be0f-4f2a59e02050",
+          "01a157a8-f1f2-703e-9f62-c3cdb697986b"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00087136,
+        "crash_state": [
+          "BEInt<unsigned short, 2>::operator unsigned short",
+          "OT::IndexSubtable::get_extents",
+          "OT::IndexSubtableRecord::get_extents"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 1",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 236,
+        "model_cost_usd": 0.0001878,
+        "model_request_ids": [
+          "1db735e1a99908e76ba2c0ac5628dd58"
+        ],
+        "output_tokens": 130,
+        "project": "harfbuzz",
+        "sandbox_cost_usd": 0.00068356,
+        "sandbox_operation_uuids": [
+          "01a157e5-67d9-7521-a1fa-6609a20cbd28",
+          "01a157e5-68c9-707c-8a62-cdcf5dbb5dda"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "fcb2294f48d842015063de24c6e75cb28da0d979674ebf5c8d0c76412f26c44c",
+          "vul": "a389866a02a303fd5d59e57ea968a993f9266c942eccabeb4a425c0e191f7d8f"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 4.28065
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "harfbuzz",
+      "report_sha256": "ccc0a04625865a5ceec1549cf55293afee81da8da3b50cd2b000e536ee43a46e",
+      "report_source": "public OSS-Fuzz OSV report OSV-2018-185; this is not a private report",
+      "report_text": "Heap-buffer-overflow in BEInt<unsigned short, 2>::operator unsigned short\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=11001\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nBEInt<unsigned short, 2>::operator unsigned short\nOT::IndexSubtable::get_extents\nOT::IndexSubtableRecord::get_extents\n```"
+    },
+    {
+      "arvo_id": 42501200,
+      "arvo_task_sha256": "a3ff3866d65e706e91f795e822f330a1aa2f5de316712d1bf4b2c29e93ee2773",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "osv_record_id": "OSV-2017-59",
+      "owner": "nlohmann",
+      "project": "json",
+      "recorded": {
+        "arvo_id": 42501200,
+        "card_path": "eval/results/eval100_cards/42501200.json",
+        "card_provenance": {
+          "arvo_task_sha256": "a3ff3866d65e706e91f795e822f330a1aa2f5de316712d1bf4b2c29e93ee2773",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+          "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2017-59",
+          "report_sha256": "d725bb8654312cb8c6de6b6eee44afbdd87c30f54f6d52fafa9442244f7f91e7"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157a9-3dff-7123-81da-cb9ecf0729a8",
+          "01a157a9-6e70-72a7-b7a9-5e3dbe49db0a"
+        ],
+        "claim_agreement": false,
+        "cost_usd": 0.00092907,
+        "crash_state": [
+          "nlohmann::basic_json<std::__1::map, std::__1::vector, std::__1::basic_string<cha",
+          "nlohmann::basic_json<std::__1::map, std::__1::vector, std::__1::basic_string<cha",
+          "from_cbor"
+        ],
+        "crash_state_agreement_with_osv": false,
+        "crash_type": "Heap-buffer-overflow READ 1",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 298,
+        "model_cost_usd": 0.0001677,
+        "model_request_ids": [
+          "74b004ad9be59395f9ee6de5f6a90c33"
+        ],
+        "output_tokens": 87,
+        "project": "json",
+        "sandbox_cost_usd": 0.00076137,
+        "sandbox_operation_uuids": [
+          "01a157a9-741c-7339-bfce-ca966a6ecfb6",
+          "01a157a9-7503-71c4-8e30-2ed4ffe2dbae"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "23046068917221b8e193c937d4910a311f2f7332c0f064fb4e4d5071e02979ca",
+          "vul": "74146473db2db094821a9bf1e47499220c6e390ea942819d1f5f965ef1e967a8"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 30.694819
+      },
+      "recorded_in": "eval/results/eval100.json",
+      "recorded_run": "run 1",
+      "repo": "json",
+      "report_sha256": "d725bb8654312cb8c6de6b6eee44afbdd87c30f54f6d52fafa9442244f7f91e7",
+      "report_source": "public OSS-Fuzz OSV report OSV-2017-59; this is not a private report",
+      "report_text": "Heap-buffer-overflow in nlohmann::basic_json<std::__1::map, std::__1::vector, std::__1::basic_string<cha\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=381\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nnlohmann::basic_json<std::__1::map, std::__1::vector, std::__1::basic_string<cha\nnlohmann::basic_json<std::__1::map, std::__1::vector, std::__1::basic_string<cha\nnlohmann::basic_json<std::__1::map, std::__1::vector, std::__1::basic_string<cha\n```"
+    },
+    {
+      "arvo_id": 42471108,
+      "arvo_task_sha256": "b5630c789b1e4142e3183859c0fcf082d1edb16ef9d6a10df160d621a35148e3",
+      "crash_type": "Heap-buffer-overflow READ 13",
+      "osv_record_id": "OSV-2018-2",
+      "owner": "libgit2",
+      "project": "libgit2",
+      "recorded": {
+        "arvo_id": 42471108,
+        "card_path": "eval/results/eval100-run2-cards/42471108.json",
+        "card_provenance": {
+          "arvo_task_sha256": "b5630c789b1e4142e3183859c0fcf082d1edb16ef9d6a10df160d621a35148e3",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2018-2",
+          "report_sha256": "d428501c510408221cedb03cb1022f6380c139fe2035e8ca05ac0061952389e3"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157a9-c46c-75d4-a266-f40a22581a11",
+          "01a157aa-0c59-71fb-8cd4-2a3d3b8c4d22"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00084127,
+        "crash_state": [
+          "git_buf_vprintf",
+          "giterr_set",
+          "git__strntol32"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 13",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 214,
+        "model_cost_usd": 0.0001353,
+        "model_request_ids": [
+          "8ff3f0ffee5ead6923cc4798c816bed5"
+        ],
+        "output_tokens": 79,
+        "project": "libgit2",
+        "sandbox_cost_usd": 0.00070597,
+        "sandbox_operation_uuids": [
+          "01a157e5-8828-73ce-ae02-7e91a24ee653",
+          "01a157e5-890f-735c-a4ab-638d48b6bf5d"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "f203bd56863fe60e6825784e303017e5b9c30c5ef8b20921ab6d071e1d4761d2",
+          "vul": "f3c4760ed6bff01be6378714459baf20be3475e27ea0f17ce5603ad8f5ca2839"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 3.701955
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "libgit2",
+      "report_sha256": "d428501c510408221cedb03cb1022f6380c139fe2035e8ca05ac0061952389e3",
+      "report_source": "public OSS-Fuzz OSV report OSV-2018-2; this is not a private report",
+      "report_text": "Heap-buffer-overflow in git_buf_vprintf\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=11004\n\n```\nCrash type: Heap-buffer-overflow READ 13\nCrash state:\ngit_buf_vprintf\ngiterr_set\ngit__strntol32\n```"
+    },
+    {
+      "arvo_id": 42475782,
+      "arvo_task_sha256": "6a81388475236a7f1d369e05e222162d75a1031c0e68a478201972928fb2c62d",
+      "crash_type": "Heap-buffer-overflow WRITE {*}",
+      "osv_record_id": "OSV-2020-722",
+      "owner": "radare",
+      "project": "radare2",
+      "recorded": {
+        "arvo_id": 42475782,
+        "card_path": "eval/results/eval100-run2-cards/42475782.json",
+        "card_provenance": {
+          "arvo_task_sha256": "6a81388475236a7f1d369e05e222162d75a1031c0e68a478201972928fb2c62d",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2020-722",
+          "report_sha256": "b5aa8a071bc48a94cb5ce72c52270c964eddd43abaa09172704830476a80d1a9"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157aa-f3d3-7361-9c24-ed44b912b367",
+          "01a157ab-c566-71e4-8af4-b920763c8008"
+        ],
+        "claim_agreement": false,
+        "cost_usd": 0.00219371,
+        "crash_state": [
+          "r_buf_read",
+          "parse_function_starts",
+          "init_items"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Negative-size-param",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 205,
+        "model_cost_usd": 0.0001272,
+        "model_request_ids": [
+          "f8b808e56c34ad7c75dcaac6f3dfbe29"
+        ],
+        "output_tokens": 73,
+        "project": "radare2",
+        "sandbox_cost_usd": 0.00206651,
+        "sandbox_operation_uuids": [
+          "01a157e5-9a27-75fb-b9ca-8e3ce14a5b19",
+          "01a157e5-9b16-7254-a623-58a5d08a23f1"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "f17b9a0b4f29cc9265a227c8dfee4549820f4604568c0a3340d0d1ed30353cfd",
+          "vul": "0f95c081333deae38a98e92fcc11941bd8c3e070d47c763077dc0cbd396ada46"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 4.204183
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "radare2",
+      "report_sha256": "b5aa8a071bc48a94cb5ce72c52270c964eddd43abaa09172704830476a80d1a9",
+      "report_source": "public OSS-Fuzz OSV report OSV-2020-722; this is not a private report",
+      "report_text": "Heap-buffer-overflow in r_buf_read\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=15218\n\n```\nCrash type: Heap-buffer-overflow WRITE {*}\nCrash state:\nr_buf_read\nparse_function_starts\ninit_items\n```"
+    },
+    {
+      "arvo_id": 42481193,
+      "arvo_task_sha256": "7cc3f04660c3ed142320b418ac14c70c341170b1d263e63e986d296cff683813",
+      "crash_type": "Heap-buffer-overflow READ 2",
+      "osv_record_id": "OSV-2020-242",
+      "owner": "ntop",
+      "project": "ndpi",
+      "recorded": {
+        "arvo_id": 42481193,
+        "card_path": "eval/results/eval100-run2-cards/42481193.json",
+        "card_provenance": {
+          "arvo_task_sha256": "7cc3f04660c3ed142320b418ac14c70c341170b1d263e63e986d296cff683813",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2020-242",
+          "report_sha256": "084dc2bb5fdc069c99e2544546b649d1d2c3e59250699ba9fcfe247afae5ebc6"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157ac-0756-7316-a313-041ac8d39b67",
+          "01a157ac-3420-73be-ac55-7436f1d7a3a1"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.0013507,
+        "crash_state": [
+          "ndpi_workflow_process_packet",
+          "fuzz_ndpi_reader.c"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 2",
+        "duplicate_candidates": [
+          "OSV-2020-1566",
+          "OSV-2020-2126",
+          "OSV-2020-40",
+          "OSV-2020-67",
+          "OSV-2020-821",
+          "OSV-2021-1804",
+          "OSV-2022-202",
+          "OSV-2023-229"
+        ],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 211,
+        "model_cost_usd": 0.0001731,
+        "model_request_ids": [
+          "4e1ad402019f6caba67ef008b42361fd"
+        ],
+        "output_tokens": 122,
+        "project": "ndpi",
+        "sandbox_cost_usd": 0.0011776,
+        "sandbox_operation_uuids": [
+          "01a157e5-abc8-7288-8277-71da7f6d47c1",
+          "01a157e5-acb9-75c6-b5d1-06a12f4088db"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "d99fde1d9c6db9a6e511baefd25c41c2f8e5ebeb43133d399ed8737c69c4feee",
+          "vul": "1f254f9c140b669e9ee0b8bbfdbd2f86ead49e54655bbaed1d2f1baad2f60ea3"
+        },
+        "verdict": "DUPLICATE",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 3.696885
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "nDPI",
+      "report_sha256": "084dc2bb5fdc069c99e2544546b649d1d2c3e59250699ba9fcfe247afae5ebc6",
+      "report_source": "public OSS-Fuzz OSV report OSV-2020-242; this is not a private report",
+      "report_text": "Heap-buffer-overflow in ndpi_workflow_process_packet\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=20089\n\n```\nCrash type: Heap-buffer-overflow READ 2\nCrash state:\nndpi_workflow_process_packet\nfuzz_ndpi_reader.c\n```"
+    },
+    {
+      "arvo_id": 42498970,
+      "arvo_task_sha256": "6ce6f984af31c38188ee063fae2a0fed67adabdfeed50d80c1d1ec8b429c7442",
+      "crash_type": "Negative-size-param",
+      "osv_record_id": "OSV-2017-78",
+      "owner": "open62541",
+      "project": "open62541",
+      "recorded": {
+        "arvo_id": 42498970,
+        "card_path": "eval/results/eval100-run2-cards/42498970.json",
+        "card_provenance": {
+          "arvo_task_sha256": "6ce6f984af31c38188ee063fae2a0fed67adabdfeed50d80c1d1ec8b429c7442",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2017-78",
+          "report_sha256": "071cbd8bb996f358f782423b943d63f749db51faed58485db8ba907340c888cd"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157ac-8470-774b-a4fb-a1c5b067b269",
+          "01a157ac-c3ca-74a4-85d8-3dd3d6166e2b"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00101914,
+        "crash_state": [
+          "appendChunk",
+          "UA_SecureChannel_finalizeChunk",
+          "UA_SecureChannel_processChunk"
+        ],
+        "crash_state_agreement_with_osv": false,
+        "crash_type": "Negative-size-param",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 213,
+        "model_cost_usd": 0.0001719,
+        "model_request_ids": [
+          "780e6cea6d25d2fe12a14825aa3ef041"
+        ],
+        "output_tokens": 120,
+        "project": "open62541",
+        "sandbox_cost_usd": 0.00084724,
+        "sandbox_operation_uuids": [
+          "01a157e5-bc59-710e-a3f9-4639627b1544",
+          "01a157e5-bd45-7337-a745-b2372e2015b3"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "1a400ae3fac00fc6c39044dd30b663b4488db3648cf319cf96c677174a9ef85e",
+          "vul": "80cd99ffb46ba3a4b19ca43f8096c2c5afec841ac43c0ce69cd7d36bcf69be92"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 3.823543
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "open62541",
+      "report_sha256": "071cbd8bb996f358f782423b943d63f749db51faed58485db8ba907340c888cd",
+      "report_source": "public OSS-Fuzz OSV report OSV-2017-78; this is not a private report",
+      "report_text": "Negative-size-param in UA_SecureChannel_processChunk\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3609\n\n```\nCrash type: Negative-size-param\nCrash state:\nUA_SecureChannel_processChunk\nprocessCompleteChunk\nUA_Connection_processChunks\n```"
+    },
+    {
+      "arvo_id": 42477222,
+      "arvo_task_sha256": "262ee6c5ef9dbc039d118c0b560a09980def04af386763112741d960b8deba66",
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "osv_record_id": "OSV-2020-1153",
+      "owner": "",
+      "project": "libavc",
+      "recorded": {
+        "arvo_id": 42477222,
+        "card_path": "eval/results/eval100-run2-cards/42477222.json",
+        "card_provenance": {
+          "arvo_task_sha256": "262ee6c5ef9dbc039d118c0b560a09980def04af386763112741d960b8deba66",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2020-1153",
+          "report_sha256": "adf628a0ee3dbbf1ad62828f380f22f8845e95997094badf1f401abc90b67951"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157ac-f4ac-7392-806c-ad3054b545d8",
+          "01a157ad-1213-73dc-b8ec-a48b21f2f8ba"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00103362,
+        "crash_state": [
+          "ih264d_cavlc_4x4res_block_totalcoeff_11to16",
+          "ih264d_cavlc_parse4x4coeff_n0to7",
+          "ih264d_cavlc_parse_8x8block_both_available"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 4",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 275,
+        "model_cost_usd": 0.0002085,
+        "model_request_ids": [
+          "e0d72c9e73c947799fafd2286ff66fbe"
+        ],
+        "output_tokens": 140,
+        "project": "libavc",
+        "sandbox_cost_usd": 0.00082512,
+        "sandbox_operation_uuids": [
+          "01a157e5-cf17-774e-bf09-e9adc9dcc151",
+          "01a157e5-d020-76b0-a24d-acdf8094e962"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "71db6a742fd7bd4e7f56daf137c1a9735a5e7ea08644bd5acb04689df1e8374c",
+          "vul": "714ed59d0e67be7a8edd3b862bb5d1e90afc530678ecddcb1e272c4802caba76"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 3.992396
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "",
+      "report_sha256": "adf628a0ee3dbbf1ad62828f380f22f8845e95997094badf1f401abc90b67951",
+      "report_source": "public OSS-Fuzz OSV report OSV-2020-1153; this is not a private report",
+      "report_text": "Heap-buffer-overflow in ih264d_cavlc_4x4res_block_totalcoeff_11to16\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=16514\n\n```\nCrash type: Heap-buffer-overflow READ 4\nCrash state:\nih264d_cavlc_4x4res_block_totalcoeff_11to16\nih264d_cavlc_parse4x4coeff_n0to7\nih264d_cavlc_parse_8x8block_both_available\n```"
+    },
+    {
+      "arvo_id": 42475195,
+      "arvo_task_sha256": "7e0c43d0be5dd2757c558ee799663257cd19b827637a423294cf62cc8579c7be",
+      "crash_type": "Heap-buffer-overflow WRITE 8",
+      "osv_record_id": "OSV-2020-455",
+      "owner": "radare",
+      "project": "radare2",
+      "recorded": {
+        "arvo_id": 42475195,
+        "card_path": "eval/results/eval100-run2-cards/42475195.json",
+        "card_provenance": {
+          "arvo_task_sha256": "7e0c43d0be5dd2757c558ee799663257cd19b827637a423294cf62cc8579c7be",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2020-455",
+          "report_sha256": "f278633596b955df8b3e4621d9bfbc14c53861bbba764a95b70cc5b8489d883c"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157ae-808d-7661-a45f-d3a20a7fb62c",
+          "01a157af-5695-750c-b175-f6efb86f90e5"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00219693,
+        "crash_state": [
+          "r_core_lines_initcache",
+          "cb_linesto",
+          "r_config_set_i"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow WRITE 8",
+        "duplicate_candidates": [
+          "OSV-2020-317"
+        ],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 212,
+        "model_cost_usd": 0.0001338,
+        "model_request_ids": [
+          "30f8bd2acf65a8a79da6c124b45d4d23"
+        ],
+        "output_tokens": 78,
+        "project": "radare2",
+        "sandbox_cost_usd": 0.00206313,
+        "sandbox_operation_uuids": [
+          "01a157e5-f422-73fc-853f-8a1469b301ea",
+          "01a157e5-f526-7515-882f-edfdc131763b"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "8eaf9e6d80e11af12eb6f40d08cd1d44cdf1cf18f967db5cb0dbddbea12ed6f7",
+          "vul": "70fa0110f57e00d37213d20b19bc58cdc85f510bc3cf4d8045ab5ae7745f3169"
+        },
+        "verdict": "DUPLICATE",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 4.81404
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "radare2",
+      "report_sha256": "f278633596b955df8b3e4621d9bfbc14c53861bbba764a95b70cc5b8489d883c",
+      "report_source": "public OSS-Fuzz OSV report OSV-2020-455; this is not a private report",
+      "report_text": "Heap-buffer-overflow in r_core_lines_initcache\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=14690\n\n```\nCrash type: Heap-buffer-overflow WRITE 8\nCrash state:\nr_core_lines_initcache\ncb_linesto\nr_config_set_i\n```"
+    },
+    {
+      "arvo_id": 42499827,
+      "arvo_task_sha256": "f5195fff15abac75a3e9a52c7389a88dea50ea4f9be1870022902b6b82f4ac8d",
+      "crash_type": "Heap-use-after-free WRITE 4",
+      "osv_record_id": "OSV-2021-1102",
+      "owner": "",
+      "project": "spice-usbredir",
+      "recorded": {
+        "arvo_id": 42499827,
+        "card_path": "eval/results/eval100-run2-cards/42499827.json",
+        "card_provenance": {
+          "arvo_task_sha256": "f5195fff15abac75a3e9a52c7389a88dea50ea4f9be1870022902b6b82f4ac8d",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2021-1102",
+          "report_sha256": "3e69afea3aa9941eb3400028e0ea92c05a6783d9a7d1e3bd1082589c91c2d34d"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157af-8b01-75f4-9a5d-78841c7783e6",
+          "01a157af-aaf1-70da-a536-efe6ec5a92e9"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00141621,
+        "crash_state": [
+          "usbredirparser_serialize",
+          "try_serialize",
+          "usbredirparserfuzz.cc"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-use-after-free WRITE 4",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 218,
+        "model_cost_usd": 0.0001275,
+        "model_request_ids": [
+          "70a79d80381e4bfe0d746fc0ae8b9e6a"
+        ],
+        "output_tokens": 69,
+        "project": "spice-usbredir",
+        "sandbox_cost_usd": 0.00128871,
+        "sandbox_operation_uuids": [
+          "01a157e6-08bd-75b1-b223-3f68422315c3",
+          "01a157e6-09ab-771f-a4ae-6b89a6539f6c"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "fc91d7841a375bd479978821db3fd3c1af8d0e712f000189430f3bfbdc050a1f",
+          "vul": "43c58d9f035afbcd3a76928865098d93ae4729937a49fddec6af65764edd52f9"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 4.466295
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "",
+      "report_sha256": "3e69afea3aa9941eb3400028e0ea92c05a6783d9a7d1e3bd1082589c91c2d34d",
+      "report_source": "public OSS-Fuzz OSV report OSV-2021-1102; this is not a private report",
+      "report_text": "Heap-use-after-free in usbredirparser_serialize\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=36861\n\n```\nCrash type: Heap-use-after-free WRITE 4\nCrash state:\nusbredirparser_serialize\ntry_serialize\nusbredirparserfuzz.cc\n```"
+    },
+    {
+      "arvo_id": 42510753,
+      "arvo_task_sha256": "b3402182bec2d8318bef1b96eb100e9c77b13667a96d189daacc440adaa2fd3b",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "osv_record_id": "OSV-2022-349",
+      "owner": "bellard",
+      "project": "quickjs",
+      "recorded": {
+        "arvo_id": 42510753,
+        "card_path": "eval/results/eval100_cards/42510753.json",
+        "card_provenance": {
+          "arvo_task_sha256": "b3402182bec2d8318bef1b96eb100e9c77b13667a96d189daacc440adaa2fd3b",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+          "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2022-349",
+          "report_sha256": "2f67c973574308b9f27adc39b5a939b4d72b8c5a100c242419eaefefae6cfd36"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157b0-0133-7676-b975-ad138f2d6190",
+          "01a157b0-40f1-76e0-8850-8ccd045b2307"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.34249151,
+        "crash_state": [
+          "build_for_in_iterator",
+          "js_for_in_start",
+          "JS_CallInternal"
+        ],
+        "crash_state_agreement_with_osv": false,
+        "crash_type": "Heap-buffer-overflow READ 1",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 211,
+        "model_cost_usd": 0.0001263,
+        "model_request_ids": [
+          "cad71e80f305a06106014570f3a817c3"
+        ],
+        "output_tokens": 70,
+        "project": "quickjs",
+        "sandbox_cost_usd": 0.34236521,
+        "sandbox_operation_uuids": [
+          "01a157b0-47bf-70f1-9b1f-c1e9c326faa7",
+          "01a157b0-48b7-704c-aae4-b5e1f4cc2582"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "dfbd8e9b7f0e89638373db9f3b9390c9a88ce1e1d4fb9ac71ac5f6555593ecb4",
+          "vul": "ada20812dbd6da1f109b53f7ea388ac921ac2f65145901055a8866d914153f9d"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 55.943674
+      },
+      "recorded_in": "eval/results/eval100.json",
+      "recorded_run": "run 1",
+      "repo": "quickjs",
+      "report_sha256": "2f67c973574308b9f27adc39b5a939b4d72b8c5a100c242419eaefefae6cfd36",
+      "report_source": "public OSS-Fuzz OSV report OSV-2022-349; this is not a private report",
+      "report_text": "Heap-buffer-overflow in JS_CallInternal\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=46701\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nJS_CallInternal\nJS_EvalFunctionInternal\n__JS_EvalInternal\n```"
+    },
+    {
+      "arvo_id": 42501143,
+      "arvo_task_sha256": "b65f86076496229227e4bed662e03f9d5572011bc60f77f6c5ffb9fa933d1553",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "osv_record_id": "OSV-2021-1195",
+      "owner": "kamailio",
+      "project": "kamailio",
+      "recorded": {
+        "arvo_id": 42501143,
+        "card_path": "eval/results/eval100_cards/42501143.json",
+        "card_provenance": {
+          "arvo_task_sha256": "b65f86076496229227e4bed662e03f9d5572011bc60f77f6c5ffb9fa933d1553",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+          "execution_source_sha256": "9de0acd0e4610e9244645ac196453835208557f7330e6eea659ffc19a6a6e4e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2021-1195",
+          "report_sha256": "75de3cb7fb88bdaa76936343b90e56d83c55d35e7bbd8f729736d471e46cedd5"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157b0-cdb9-701b-be07-948a9832cfb9",
+          "01a157b1-091e-7684-a798-b614b421c872"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00103133,
+        "crash_state": [
+          "trim_leading",
+          "parse_contacts",
+          "contact_parser"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 1",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 205,
+        "model_cost_usd": 0.0001398,
+        "model_request_ids": [
+          "10f98ba67e6ab78e00ae49123a6e15a3"
+        ],
+        "output_tokens": 87,
+        "project": "kamailio",
+        "sandbox_cost_usd": 0.00089153,
+        "sandbox_operation_uuids": [
+          "01a157b1-0fd4-725f-81fb-c025504e943d",
+          "01a157b1-10d6-719d-a810-97475a586944"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "b96af69e845727b714336fb98ebd34d62b19de85a8e801400bd186a2c8e8e926",
+          "vul": "7f97f780a7dd8250dd913d2e2a1ec047c7d4dfc73c512fd51c033ac9529a44ea"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 33.219516
+      },
+      "recorded_in": "eval/results/eval100.json",
+      "recorded_run": "run 1",
+      "repo": "kamailio",
+      "report_sha256": "75de3cb7fb88bdaa76936343b90e56d83c55d35e7bbd8f729736d471e46cedd5",
+      "report_source": "public OSS-Fuzz OSV report OSV-2021-1195; this is not a private report",
+      "report_text": "Heap-buffer-overflow in trim_leading\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=38048\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\ntrim_leading\nparse_contacts\ncontact_parser\n```"
+    },
+    {
+      "arvo_id": 42474141,
+      "arvo_task_sha256": "f0f87b6f5a8ecbbed099770b0426837d8109803be31d1970f7963255de1bc59c",
+      "crash_type": "Stack-use-after-return READ 1",
+      "osv_record_id": "OSV-2020-343",
+      "owner": "openthread",
+      "project": "openthread",
+      "recorded": {
+        "arvo_id": 42474141,
+        "card_path": "eval/results/eval100-run2-cards/42474141.json",
+        "card_provenance": {
+          "arvo_task_sha256": "f0f87b6f5a8ecbbed099770b0426837d8109803be31d1970f7963255de1bc59c",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2020-343",
+          "report_sha256": "88c83af7005181d36483fabf48cb03a4f78fea6c320c0a3f8e14010a67caedaf"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157b1-5bd4-7083-9f1f-57fcabb13c47",
+          "01a157b1-9663-739a-91c0-391bca5cbb19"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00079692,
+        "crash_state": [
+          "ot::MeshCoP::ChannelMaskEntryBase::GetChannelPage",
+          "ot::MeshCoP::ChannelMaskTlv::GetChannelMask",
+          "ot::MeshCoP::ChannelMaskTlv::GetChannelMask"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Stack-use-after-return READ 1",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 251,
+        "model_cost_usd": 0.0001572,
+        "model_request_ids": [
+          "fb68d7a2e04559f6eac85480284efa77"
+        ],
+        "output_tokens": 91,
+        "project": "openthread",
+        "sandbox_cost_usd": 0.00063972,
+        "sandbox_operation_uuids": [
+          "01a157e6-83dd-72f7-8e59-a29bda43f3ba",
+          "01a157e6-84c7-72a8-b96b-f36a64eee7e5"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "3cb19e3dde02d8c50fcc0127a6cfb6fa7b49a1c1180820b65a54e97cbde692fd",
+          "vul": "7861606da2a95a1dd28b0188922c464b86473b3bd1edabb6a14ef8c822f3032f"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 4.670455
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "openthread",
+      "report_sha256": "88c83af7005181d36483fabf48cb03a4f78fea6c320c0a3f8e14010a67caedaf",
+      "report_source": "public OSS-Fuzz OSV report OSV-2020-343; this is not a private report",
+      "report_text": "Stack-use-after-return in ot::MeshCoP::ChannelMaskEntryBase::GetChannelPage\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=13741\n\n```\nCrash type: Stack-use-after-return READ 1\nCrash state:\not::MeshCoP::ChannelMaskEntryBase::GetChannelPage\not::MeshCoP::ChannelMaskTlv::GetChannelMask\not::MeshCoP::ChannelMaskTlv::GetChannelMask\n```"
+    },
+    {
+      "arvo_id": 42533590,
+      "arvo_task_sha256": "fb269fd28e9b0a497c446babd4cc0db820decca99ccc0505e2fb31fc7dc471a4",
+      "crash_type": "Heap-buffer-overflow READ 13",
+      "osv_record_id": "OSV-2024-157",
+      "owner": "gpac",
+      "project": "gpac",
+      "recorded": {
+        "arvo_id": 42533590,
+        "card_path": "eval/results/eval100-run2-cards/42533590.json",
+        "card_provenance": {
+          "arvo_task_sha256": "fb269fd28e9b0a497c446babd4cc0db820decca99ccc0505e2fb31fc7dc471a4",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2024-157",
+          "report_sha256": "93db01c8c17d8f2ae22508a491b47a22b232e3a466d4ccca4a97d9ac8eaf5569"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157b2-3281-7609-b404-6756a900b823",
+          "01a157b2-b486-7537-a2c9-330fda5a5e13"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00166181,
+        "crash_state": [
+          "gf_strmemstr",
+          "txtin_probe_data",
+          "gf_filter_pid_raw_new"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 13",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 216,
+        "model_cost_usd": 0.0001422,
+        "model_request_ids": [
+          "8525ee8419e3c6976cecdb1b5103f670"
+        ],
+        "output_tokens": 86,
+        "project": "gpac",
+        "sandbox_cost_usd": 0.00151961,
+        "sandbox_operation_uuids": [
+          "01a157e6-9987-7409-bdf2-1901b9d82e49",
+          "01a157e6-9a81-7331-9511-84241ffb62e2"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "814c802acc24b6921b8a5dc6eba6a496259bf523c7f82455eb989cbe59f227a2",
+          "vul": "5e5b895a6bd363f1c10fe9c196451502fe16cdafc48ff606cc42c7c9baf8c0da"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 4.119322
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "gpac",
+      "report_sha256": "93db01c8c17d8f2ae22508a491b47a22b232e3a466d4ccca4a97d9ac8eaf5569",
+      "report_source": "public OSS-Fuzz OSV report OSV-2024-157; this is not a private report",
+      "report_text": "Heap-buffer-overflow in gf_strmemstr\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=67261\n\n```\nCrash type: Heap-buffer-overflow READ 13\nCrash state:\ngf_strmemstr\ntxtin_probe_data\ngf_filter_pid_raw_new\n```"
+    },
+    {
+      "arvo_id": 42517374,
+      "arvo_task_sha256": "37a9acb87c30426820d0374f5f6ae640ec7cc0828689b6143cf4324565d98918",
+      "crash_type": "Stack-buffer-overflow READ 1",
+      "osv_record_id": "OSV-2022-1084",
+      "owner": "OpenSC",
+      "project": "opensc",
+      "recorded": {
+        "arvo_id": 42517374,
+        "card_path": "eval/results/eval100-run2-cards/42517374.json",
+        "card_provenance": {
+          "arvo_task_sha256": "37a9acb87c30426820d0374f5f6ae640ec7cc0828689b6143cf4324565d98918",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2022-1084",
+          "report_sha256": "aece4f19446edeb0ba33d8b04e43e251b589ee51979f5ff31bef09a061515dcd"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157b3-0f68-74d6-8d65-32de418328e0",
+          "01a157b3-5281-72ba-97be-580cc83030be"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00094743,
+        "crash_state": [
+          "authentic_parse_size",
+          "authentic_get_tagged_data",
+          "authentic_parse_credential_data"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Stack-buffer-overflow READ 1",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 212,
+        "model_cost_usd": 0.0001563,
+        "model_request_ids": [
+          "7f1c1c86862f1302b8611a82e853b070"
+        ],
+        "output_tokens": 103,
+        "project": "opensc",
+        "sandbox_cost_usd": 0.00079113,
+        "sandbox_operation_uuids": [
+          "01a157e6-ad3a-77af-998d-907f6674fdbb",
+          "01a157e6-ae1e-7158-b674-e05729d4a034"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "456e9a9ef81db61d0707fed2d7bb1609a74e8e5e55223fa7f6c0f47ea594dfea",
+          "vul": "3f6a8661639cc50f88b29956bd94e82d367e96c2201fb5432d494c99b6b4a426"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 4.374604
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "OpenSC",
+      "report_sha256": "aece4f19446edeb0ba33d8b04e43e251b589ee51979f5ff31bef09a061515dcd",
+      "report_source": "public OSS-Fuzz OSV report OSV-2022-1084; this is not a private report",
+      "report_text": "Stack-buffer-overflow in authentic_parse_size\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=52662\n\n```\nCrash type: Stack-buffer-overflow READ 1\nCrash state:\nauthentic_parse_size\nauthentic_get_tagged_data\nauthentic_parse_credential_data\n```"
+    },
+    {
+      "arvo_id": 42490025,
+      "arvo_task_sha256": "b56b3aa059cb776e3b7c1e7fb9a05cc5e1e90a526ac0ffd898c17039269c2eef",
+      "crash_type": "Heap-buffer-overflow READ 8",
+      "osv_record_id": "OSV-2020-2212",
+      "owner": "",
+      "project": "libavc",
+      "recorded": {
+        "arvo_id": 42490025,
+        "card_path": "eval/results/eval100-run2-cards/42490025.json",
+        "card_provenance": {
+          "arvo_task_sha256": "b56b3aa059cb776e3b7c1e7fb9a05cc5e1e90a526ac0ffd898c17039269c2eef",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2020-2212",
+          "report_sha256": "73bfa9f0b1ff3bad0bd04b38c53710f087b4ccea5b79362651b3b5851760ff82"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157b3-89ca-72f2-a9b9-74d4f1b0e5ae",
+          "01a157b3-ac21-75f9-9778-4fb8943bd244"
+        ],
+        "claim_agreement": false,
+        "cost_usd": 0.00102251,
+        "crash_state": [
+          "ih264d_fill_bs1_16x16mb_pslice",
+          "ih264d_compute_bs_non_mbaff_thread",
+          "ih264d_recon_deblk_slice"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 8",
+        "duplicate_candidates": [
+          "OSV-2021-1235",
+          "OSV-2021-380"
+        ],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 256,
+        "model_cost_usd": 0.0001947,
+        "model_request_ids": [
+          "04cadcafd311697163867cbdfcf63189"
+        ],
+        "output_tokens": 131,
+        "project": "libavc",
+        "sandbox_cost_usd": 0.00082781,
+        "sandbox_operation_uuids": [
+          "01a157e6-be15-74c0-b9c3-d109c2e2e642",
+          "01a157e6-bf04-7625-8a95-3c34ce5b95a0"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "4e674492cdb1b633d07478081f7c619c88c43d938064442f864ac729ea65c489",
+          "vul": "e1b134aa17130062f71ada874f3610a389f02d2acac57e99d6378d6fb7703edf"
+        },
+        "verdict": "DUPLICATE",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 3.673627
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "",
+      "report_sha256": "73bfa9f0b1ff3bad0bd04b38c53710f087b4ccea5b79362651b3b5851760ff82",
+      "report_source": "public OSS-Fuzz OSV report OSV-2020-2212; this is not a private report",
+      "report_text": "Heap-buffer-overflow in ih264d_fill_bs1_16x16mb_pslice\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=28039\n\n```\nCrash type: Heap-buffer-overflow READ 8\nCrash state:\nih264d_fill_bs1_16x16mb_pslice\nih264d_compute_bs_non_mbaff_thread\nih264d_recon_deblk_slice\n```"
+    },
+    {
+      "arvo_id": 42517725,
+      "arvo_task_sha256": "0996be2a50f0468d127f5297f68c4d30814f1b02d226c2c0af42bc3dcc262b8f",
+      "crash_type": "Heap-buffer-overflow READ 8",
+      "osv_record_id": "OSV-2022-1132",
+      "owner": "fluent",
+      "project": "fluent-bit",
+      "recorded": {
+        "arvo_id": 42517725,
+        "card_path": "eval/results/eval100-run2-cards/42517725.json",
+        "card_provenance": {
+          "arvo_task_sha256": "0996be2a50f0468d127f5297f68c4d30814f1b02d226c2c0af42bc3dcc262b8f",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2022-1132",
+          "report_sha256": "54e17697951caf3d9861452a291471bdd43962b3941e2c1ae4577ea33d46b014"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157b4-2ec5-711f-9dd2-1b0ab3ed3d40",
+          "01a157b4-c57b-76f8-90e7-e2ff9b181b90"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00093343,
+        "crash_state": [
+          "add_bytes",
+          "add_compile_string",
+          "compile_string_node"
+        ],
+        "crash_state_agreement_with_osv": false,
+        "crash_type": "Heap-buffer-overflow READ 8",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 206,
+        "model_cost_usd": 0.0001338,
+        "model_request_ids": [
+          "75e579901ea0586b4e6566f10fb08e95"
+        ],
+        "output_tokens": 80,
+        "project": "fluent-bit",
+        "sandbox_cost_usd": 0.00079963,
+        "sandbox_operation_uuids": [
+          "01a157e6-ced8-7733-9f2e-3a4b24be2ee3",
+          "01a157e6-cfea-763a-891b-c258669f680f"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "23f7f0a08a2ec1e8583e47451d38789023e1e0363fb58841488909c1ab4fb70e",
+          "vul": "26684ec88b693849a325d7579a70bac87b2f14dd1d8e791a2e1807e7382e2c9f"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 3.720769
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "fluent-bit",
+      "report_sha256": "54e17697951caf3d9861452a291471bdd43962b3941e2c1ae4577ea33d46b014",
+      "report_source": "public OSS-Fuzz OSV report OSV-2022-1132; this is not a private report",
+      "report_text": "Heap-buffer-overflow in add_compile_string\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=52979\n\n```\nCrash type: Heap-buffer-overflow READ 8\nCrash state:\nadd_compile_string\ncompile_tree\ncompile_tree\n```"
+    },
+    {
+      "arvo_id": 42476618,
+      "arvo_task_sha256": "848452c885a9d4c6bc8190cd65b8e1c8ae7da157186b46fe2a6e3a591266afc2",
+      "crash_type": "Stack-buffer-overflow READ 8",
+      "osv_record_id": "OSV-2020-383",
+      "owner": "openthread",
+      "project": "openthread",
+      "recorded": {
+        "arvo_id": 42476618,
+        "card_path": "eval/results/eval100-run2-cards/42476618.json",
+        "card_provenance": {
+          "arvo_task_sha256": "848452c885a9d4c6bc8190cd65b8e1c8ae7da157186b46fe2a6e3a591266afc2",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2020-383",
+          "report_sha256": "e009e2ace86a0fdc91592df52d2657b5dbda38637aa652dc25daa586590e76c8"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157b5-052b-74b4-b21c-5833cb195971",
+          "01a157b5-27f1-731e-9c5a-59c4ff92f593"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00076974,
+        "crash_state": [
+          "ot::NetworkData::Leader::IsStableUpdated",
+          "ot::NetworkData::Leader::RegisterNetworkData",
+          "ot::NetworkData::Leader::HandleServerData"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Stack-buffer-overflow READ 8",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 235,
+        "model_cost_usd": 0.0001569,
+        "model_request_ids": [
+          "3b7e342e72e60fb5d3dc89b5660be1c7"
+        ],
+        "output_tokens": 96,
+        "project": "openthread",
+        "sandbox_cost_usd": 0.00061284,
+        "sandbox_operation_uuids": [
+          "01a157e6-dee8-75d5-a552-272e34f7a9a9",
+          "01a157e6-dfda-747d-acd3-7cc51ccf1995"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "d43f0c3e7257de2b3f61a9d70e972c08dcacf766d081f485e154abfa25e3b567",
+          "vul": "42092bc30cf35c9834620a763f9b411e15eff188017677ef670ac82b1db85c24"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 4.480284
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "openthread",
+      "report_sha256": "e009e2ace86a0fdc91592df52d2657b5dbda38637aa652dc25daa586590e76c8",
+      "report_source": "public OSS-Fuzz OSV report OSV-2020-383; this is not a private report",
+      "report_text": "Stack-buffer-overflow in ot::NetworkData::Leader::IsStableUpdated\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=15971\n\n```\nCrash type: Stack-buffer-overflow READ 8\nCrash state:\not::NetworkData::Leader::IsStableUpdated\not::NetworkData::Leader::RegisterNetworkData\not::NetworkData::Leader::HandleServerData\n```"
+    },
+    {
+      "arvo_id": 42496031,
+      "arvo_task_sha256": "cb4bd62b2af90773ae9c2c01c5b3f146ad4c4f40ffea0ce37b9d2e24085e67a6",
+      "crash_type": "Heap-use-after-free READ 4",
+      "osv_record_id": "OSV-2021-664",
+      "owner": "irssi",
+      "project": "irssi",
+      "recorded": {
+        "arvo_id": 42496031,
+        "card_path": "eval/results/eval100-run2-cards/42496031.json",
+        "card_provenance": {
+          "arvo_task_sha256": "cb4bd62b2af90773ae9c2c01c5b3f146ad4c4f40ffea0ce37b9d2e24085e67a6",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2021-664",
+          "report_sha256": "753613ba4c69346ab93995e4b9c8815392704ab9222cc9b23b6778740d5b3425"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157b5-6660-75a0-abe7-94bcfb9531c9",
+          "01a157b5-9463-73f7-af13-07b3b294f9c6"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00143767,
+        "crash_state": [
+          "module_check_cast",
+          "server_connect_unref",
+          "server_unref"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-use-after-free READ 4",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 207,
+        "model_cost_usd": 0.0001278,
+        "model_request_ids": [
+          "3ca6d3fba8d332f3ac4ea4d1bd94a21b"
+        ],
+        "output_tokens": 73,
+        "project": "irssi",
+        "sandbox_cost_usd": 0.00130987,
+        "sandbox_operation_uuids": [
+          "01a157e6-f047-71b0-ae91-002cff5326c6",
+          "01a157e6-f140-7216-ad36-82ba01c65bc9"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "9eddf42aac0cfa537218a95a3f03b401eba724340d7116a8db45060d24382b13",
+          "vul": "43a6dbc039cee5211ab71777ff8709322c9d70557fa0313faf797a7f5ed9d541"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 3.494913
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "irssi",
+      "report_sha256": "753613ba4c69346ab93995e4b9c8815392704ab9222cc9b23b6778740d5b3425",
+      "report_source": "public OSS-Fuzz OSV report OSV-2021-664; this is not a private report",
+      "report_text": "Heap-use-after-free in module_check_cast\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=33444\n\n```\nCrash type: Heap-use-after-free READ 4\nCrash state:\nmodule_check_cast\nserver_connect_unref\nserver_unref\n```"
+    },
+    {
+      "arvo_id": 42522531,
+      "arvo_task_sha256": "530b20c2f9f44c81f42ce420ecbcac57e858376d54836ccf042168c73cb1b137",
+      "crash_type": "Heap-buffer-overflow READ 5",
+      "osv_record_id": "OSV-2023-216",
+      "owner": "HDFGroup",
+      "project": "hdf5",
+      "recorded": {
+        "arvo_id": 42522531,
+        "card_path": "eval/results/eval100-run2-cards/42522531.json",
+        "card_provenance": {
+          "arvo_task_sha256": "530b20c2f9f44c81f42ce420ecbcac57e858376d54836ccf042168c73cb1b137",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2023-216",
+          "report_sha256": "728b4d2ea1f422dc4c03b531b4887b7341d942c110be50a8e171a81610851d71"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157b5-dbfd-74a6-a958-600df9f10fac",
+          "01a157b6-16d5-73b0-b312-c380998a7727"
+        ],
+        "claim_agreement": false,
+        "cost_usd": 0.00102017,
+        "crash_state": [
+          "H5G__node_cmp3",
+          "H5B_find",
+          "H5G__stab_lookup"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 5",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 220,
+        "model_cost_usd": 0.0001416,
+        "model_request_ids": [
+          "190df5f6cccd599f48e9fa435e878fb0"
+        ],
+        "output_tokens": 84,
+        "project": "hdf5",
+        "sandbox_cost_usd": 0.00087857,
+        "sandbox_operation_uuids": [
+          "01a157e6-ff4e-743f-aeca-2c3d588e89be",
+          "01a157e7-004b-7749-9984-95032efc3fa8"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "8854862a3b6af1604d68a0d93e1ca460df50ea070356aada6b9cb3c6435f2074",
+          "vul": "0625717e32184a647fecf07c7dccb1e6aa340d29faf8189315275af129a36121"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 3.854966
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "hdf5",
+      "report_sha256": "728b4d2ea1f422dc4c03b531b4887b7341d942c110be50a8e171a81610851d71",
+      "report_source": "public OSS-Fuzz OSV report OSV-2023-216; this is not a private report",
+      "report_text": "Heap-buffer-overflow in H5G__node_cmp3\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=57305\n\n```\nCrash type: Heap-buffer-overflow READ 5\nCrash state:\nH5G__node_cmp3\nH5B_find\nH5G__stab_lookup\n```"
+    },
+    {
+      "arvo_id": 42488737,
+      "arvo_task_sha256": "614754975020d99ec8d800d07e21d91d129e34588e18b4cea6712723b2152b2c",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "osv_record_id": "OSV-2020-2126",
+      "owner": "ntop",
+      "project": "ndpi",
+      "recorded": {
+        "arvo_id": 42488737,
+        "card_path": "eval/results/eval100-run2-cards/42488737.json",
+        "card_provenance": {
+          "arvo_task_sha256": "614754975020d99ec8d800d07e21d91d129e34588e18b4cea6712723b2152b2c",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2020-2126",
+          "report_sha256": "6a55f4164b1a69dbbc8a5c684afe60bc84e9eb6de414f716d0eb096f6af34ab8"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157b6-33da-756e-8b71-3ac25c3139e6",
+          "01a157b6-5ce5-75a0-b0cf-faaac42cfd6c"
+        ],
+        "claim_agreement": false,
+        "cost_usd": 0.00196148,
+        "crash_state": [
+          "ndpi_workflow_process_packet",
+          "fuzz_ndpi_reader.c"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 1",
+        "duplicate_candidates": [
+          "OSV-2020-1566",
+          "OSV-2020-242",
+          "OSV-2020-40",
+          "OSV-2020-67",
+          "OSV-2020-821",
+          "OSV-2021-1804",
+          "OSV-2022-202",
+          "OSV-2023-229"
+        ],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 211,
+        "model_cost_usd": 0.0001569,
+        "model_request_ids": [
+          "06021151fe5070135cc408a6b6bda5cf"
+        ],
+        "output_tokens": 104,
+        "project": "ndpi",
+        "sandbox_cost_usd": 0.00180458,
+        "sandbox_operation_uuids": [
+          "01a157e7-11ac-776e-8bbb-19c79cb716e1",
+          "01a157e7-1287-7318-8cfd-5c91740f5d49"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "a797adfeb0bd93d29a7f2c1f9b6e5edd3441611340c8e93030fe8aec0d8a42ce",
+          "vul": "e48a7c5fc3eca5fe634a5045c08c177cc9b4111d369f5af4d94237191c047c8b"
+        },
+        "verdict": "DUPLICATE",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 4.887865
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "nDPI",
+      "report_sha256": "6a55f4164b1a69dbbc8a5c684afe60bc84e9eb6de414f716d0eb096f6af34ab8",
+      "report_source": "public OSS-Fuzz OSV report OSV-2020-2126; this is not a private report",
+      "report_text": "Heap-buffer-overflow in ndpi_workflow_process_packet\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=26880\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nndpi_workflow_process_packet\nfuzz_ndpi_reader.c\n```"
+    },
+    {
+      "arvo_id": 42483517,
+      "arvo_task_sha256": "b1439cd868a8391c9f31b4d02cabc80386288f79e4f6e0413702af52a1941e66",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "osv_record_id": "OSV-2020-112",
+      "owner": "fluent",
+      "project": "fluent-bit",
+      "recorded": {
+        "arvo_id": 42483517,
+        "card_path": "eval/results/eval100-run2-cards/42483517.json",
+        "card_provenance": {
+          "arvo_task_sha256": "b1439cd868a8391c9f31b4d02cabc80386288f79e4f6e0413702af52a1941e66",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2020-112",
+          "report_sha256": "4a69c5aa369e46a711993d8e925dcf686a955abb0ba93984ee5cf93678363980"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157b6-9442-76ec-9271-ad63fa4b3ba1",
+          "01a157b6-ba99-719f-9900-246a9a7316dd"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00078561,
+        "crash_state": [
+          "u8_read_escape_sequence",
+          "flb_unescape_string_utf8",
+          "logfmt_parser"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 1",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 216,
+        "model_cost_usd": 0.0001377,
+        "model_request_ids": [
+          "a41854094bd04a5a2d5a8d6f631079b4"
+        ],
+        "output_tokens": 81,
+        "project": "fluent-bit",
+        "sandbox_cost_usd": 0.00064791,
+        "sandbox_operation_uuids": [
+          "01a157e7-2589-70d4-a1e9-c362dd066841",
+          "01a157e7-2663-7000-b0db-46040c5af50e"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "7b688ae8716f443a3d2d5a66c413eab7cb4f98545dcb349d9e8c88990f902996",
+          "vul": "b2d9be6cf0db16c3100d76147486e8798a6ec9186c9c3eb96e5072a05272baaa"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 3.812472
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "fluent-bit",
+      "report_sha256": "4a69c5aa369e46a711993d8e925dcf686a955abb0ba93984ee5cf93678363980",
+      "report_source": "public OSS-Fuzz OSV report OSV-2020-112; this is not a private report",
+      "report_text": "Heap-buffer-overflow in u8_read_escape_sequence\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=22180\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nu8_read_escape_sequence\nflb_unescape_string_utf8\nlogfmt_parser\n```"
+    },
+    {
+      "arvo_id": 42513988,
+      "arvo_task_sha256": "e5019f78255104dc080b70e7f1b8c7194dbce0859d26ce79612a55eb5abdacc9",
+      "crash_type": "Heap-buffer-overflow WRITE {*}",
+      "osv_record_id": "OSV-2022-657",
+      "owner": "LibreDWG",
+      "project": "libredwg",
+      "recorded": {
+        "arvo_id": 42513988,
+        "card_path": "eval/results/eval100-run2-cards/42513988.json",
+        "card_provenance": {
+          "arvo_task_sha256": "e5019f78255104dc080b70e7f1b8c7194dbce0859d26ce79612a55eb5abdacc9",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2022-657",
+          "report_sha256": "3c48e783b6d8e7ebdbdb342ef9371f0fcb696b374054aa2a284f061040117a55"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157e8-0de6-7239-b182-4d76e2997364",
+          "01a157e8-c4ab-71d9-ba25-8aa0e91e6be6"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00105074,
+        "crash_state": [
+          "dynapi_set_helper",
+          "dwg_dynapi_entity_set_value",
+          "dxf_blocks_read"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow WRITE {*}",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 215,
+        "model_cost_usd": 0.000168,
+        "model_request_ids": [
+          "3e7e52163eb798042321dfe5d4d121dd"
+        ],
+        "output_tokens": 115,
+        "project": "libredwg",
+        "sandbox_cost_usd": 0.00088274,
+        "sandbox_operation_uuids": [
+          "01a157e8-cdfb-7776-9835-0890b72ee4cd",
+          "01a157e8-ceeb-76d3-b05f-a2abd7134020"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "ea0acd287181258b90a2be70fb74aac082de19bb5a63242e3aad0a9dacad354c",
+          "vul": "3bcc19bf9d24aaed8db1f1d3a7f5e5935cd76a2ec2d23a1b411ce27822940eee"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 94.840112
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "libredwg",
+      "report_sha256": "3c48e783b6d8e7ebdbdb342ef9371f0fcb696b374054aa2a284f061040117a55",
+      "report_source": "public OSS-Fuzz OSV report OSV-2022-657; this is not a private report",
+      "report_text": "Heap-buffer-overflow in dynapi_set_helper\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=49613\n\n```\nCrash type: Heap-buffer-overflow WRITE {*}\nCrash state:\ndynapi_set_helper\ndwg_dynapi_entity_set_value\ndxf_blocks_read\n```"
+    },
+    {
+      "arvo_id": 42479852,
+      "arvo_task_sha256": "770d9f5d05eef5da10d520ccd64542da413e7f0f6bc16dd13242270afca85baf",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "osv_record_id": "OSV-2020-313",
+      "owner": "libgit2",
+      "project": "libgit2",
+      "recorded": {
+        "arvo_id": 42479852,
+        "card_path": "eval/results/eval100-run2-cards/42479852.json",
+        "card_provenance": {
+          "arvo_task_sha256": "770d9f5d05eef5da10d520ccd64542da413e7f0f6bc16dd13242270afca85baf",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2020-313",
+          "report_sha256": "642a1f5dd05365a76b19be2792b4db8120f5e8f823d0c580123f16e27b751355"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157e9-18a0-7502-ba62-4227383aa30a",
+          "01a157e9-4bd5-703f-99ee-95f6d781b909"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00090549,
+        "crash_state": [
+          "git_buf_decode_base85",
+          "parse_patch_binary_side",
+          "parse_patch_binary"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 1",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 215,
+        "model_cost_usd": 0.0001338,
+        "model_request_ids": [
+          "e48db8824351801dfc2bc604caa7d8cb"
+        ],
+        "output_tokens": 77,
+        "project": "libgit2",
+        "sandbox_cost_usd": 0.00077169,
+        "sandbox_operation_uuids": [
+          "01a157e9-5285-7125-99ce-0d234a2fd0ce",
+          "01a157e9-53cd-74ce-9eb4-f3be7bcd123c"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "8eae45ade43207a30bf4ef0bdda4ed112a6c39c8df39e7a3fc41a7167c2e899d",
+          "vul": "2851ac5207e35e6639aa7364af3a7c92f0e7f6d22e8a3f16f4b2631be1e15951"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 30.851583
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "libgit2",
+      "report_sha256": "642a1f5dd05365a76b19be2792b4db8120f5e8f823d0c580123f16e27b751355",
+      "report_source": "public OSS-Fuzz OSV report OSV-2020-313; this is not a private report",
+      "report_text": "Heap-buffer-overflow in git_buf_decode_base85\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=18882\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\ngit_buf_decode_base85\nparse_patch_binary_side\nparse_patch_binary\n```"
+    },
+    {
+      "arvo_id": 42534483,
+      "arvo_task_sha256": "ae1d1d5d8b587f609c78214c4fd2c07b979775c0d68c5f6bb1b897c4433e625c",
+      "crash_type": "Heap-buffer-overflow READ 8",
+      "osv_record_id": "OSV-2024-265",
+      "owner": "tbeu",
+      "project": "matio",
+      "recorded": {
+        "arvo_id": 42534483,
+        "card_path": "eval/results/eval100-run2-cards/42534483.json",
+        "card_provenance": {
+          "arvo_task_sha256": "ae1d1d5d8b587f609c78214c4fd2c07b979775c0d68c5f6bb1b897c4433e625c",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2024-265",
+          "report_sha256": "6ddb7b884792bb3f3d1975262dc3eeed3ac4f6f82e2bd4ede967a2178fd6d7a7"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157ea-0a62-769c-a732-5ed3e64d1fa2",
+          "01a157ea-4dc9-74eb-a377-e3633286b7ca"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.0010833,
+        "crash_state": [
+          "Mat_VarDuplicate",
+          "MatioRead",
+          "matio_fuzzer.cpp"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 8",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 210,
+        "model_cost_usd": 0.0001206,
+        "model_request_ids": [
+          "4d281231b678ce89ec41c7013f882bf3"
+        ],
+        "output_tokens": 64,
+        "project": "matio",
+        "sandbox_cost_usd": 0.0009627,
+        "sandbox_operation_uuids": [
+          "01a157ea-549f-7142-9da0-7689bb3471fb",
+          "01a157ea-559f-7447-9cc6-c8ed50bafa97"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "9d723add7a3f45d3a33c6c0183b46daa04994395c9f93fbab9b097cef8092a17",
+          "vul": "07e45da91423db2547d2e197baf8fe76ddc848c20889e8edee3d36eabfa462ee"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 59.029742
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "matio",
+      "report_sha256": "6ddb7b884792bb3f3d1975262dc3eeed3ac4f6f82e2bd4ede967a2178fd6d7a7",
+      "report_source": "public OSS-Fuzz OSV report OSV-2024-265; this is not a private report",
+      "report_text": "Heap-buffer-overflow in Mat_VarDuplicate\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=68065\n\n```\nCrash type: Heap-buffer-overflow READ 8\nCrash state:\nMat_VarDuplicate\nMatioRead\nmatio_fuzzer.cpp\n```"
+    },
+    {
+      "arvo_id": 42517796,
+      "arvo_task_sha256": "2ae8fbba0107d9324299362542dd07c73cc89fcd9c7cfdd35b9cbb5274496dc8",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "osv_record_id": "OSV-2022-1144",
+      "owner": "kkos",
+      "project": "oniguruma",
+      "recorded": {
+        "arvo_id": 42517796,
+        "card_path": "eval/results/eval100-run2-cards/42517796.json",
+        "card_provenance": {
+          "arvo_task_sha256": "2ae8fbba0107d9324299362542dd07c73cc89fcd9c7cfdd35b9cbb5274496dc8",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2022-1144",
+          "report_sha256": "35f03a055bba006ed048e6623a2b8f3ce50046a67fdf0574cf34589fc60ac03f"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157eb-3137-77d1-a142-c94b43cbc111",
+          "01a157eb-5505-70c5-bdc0-f4acefd4faf2"
+        ],
+        "claim_agreement": false,
+        "cost_usd": 0.00092984,
+        "crash_state": [
+          "onigenc_mbn_mbc_case_fold",
+          "euckr_mbc_case_fold",
+          "string_cmp_ic"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 1",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 224,
+        "model_cost_usd": 0.0001572,
+        "model_request_ids": [
+          "a64e067fdab7373e54c86aa6cc202582"
+        ],
+        "output_tokens": 100,
+        "project": "oniguruma",
+        "sandbox_cost_usd": 0.00077264,
+        "sandbox_operation_uuids": [
+          "01a157eb-5b1f-7311-adb6-4664e6d0e1e1",
+          "01a157eb-5c15-7730-84e7-104886c7ef5f"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "eaeeff0da73b206b2162852780479fb6988f27b2d817079141930da271f913d0",
+          "vul": "eba30591e92be9e7789e1714c5b3e2f74ad9ae3317e4ee596fb3d35d01413833"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 25.357468
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "oniguruma",
+      "report_sha256": "35f03a055bba006ed048e6623a2b8f3ce50046a67fdf0574cf34589fc60ac03f",
+      "report_source": "public OSS-Fuzz OSV report OSV-2022-1144; this is not a private report",
+      "report_text": "Heap-buffer-overflow in onigenc_mbn_mbc_case_fold\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=53041\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nonigenc_mbn_mbc_case_fold\neuckr_mbc_case_fold\nmatch_at\n```"
+    },
+    {
+      "arvo_id": 42532885,
+      "arvo_task_sha256": "4dc6055a009f3bc99f8cf910586f18c6c7d85c8a75f3a715f9a82d4ec62bb0a3",
+      "crash_type": "Stack-buffer-overflow WRITE 8",
+      "osv_record_id": "OSV-2024-163",
+      "owner": "tbeu",
+      "project": "matio",
+      "recorded": {
+        "arvo_id": 42532885,
+        "card_path": "eval/results/eval100-run2-cards/42532885.json",
+        "card_provenance": {
+          "arvo_task_sha256": "4dc6055a009f3bc99f8cf910586f18c6c7d85c8a75f3a715f9a82d4ec62bb0a3",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2024-163",
+          "report_sha256": "c4ada3673e1edd13f6881716a45c9ad86475e4ed7621fd01b620e6c0172448ce"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157ed-de64-7797-8403-c6412634dca2",
+          "01a157ee-45f2-778d-9cad-3c4cca123249"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00141919,
+        "crash_state": [
+          "H5S_extent_get_dims",
+          "H5S_get_simple_extent_dims",
+          "H5Sget_simple_extent_dims"
+        ],
+        "crash_state_agreement_with_osv": false,
+        "crash_type": "Stack-buffer-overflow WRITE 8",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 222,
+        "model_cost_usd": 0.0001692,
+        "model_request_ids": [
+          "2ebe70b667b8eeefec7521ef8649ae3d"
+        ],
+        "output_tokens": 114,
+        "project": "matio",
+        "sandbox_cost_usd": 0.00124999,
+        "sandbox_operation_uuids": [
+          "01a157ee-4c70-7361-b86a-3305d691819a",
+          "01a157ee-4d65-705a-a7da-0ec71f70ce11"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "6221108227687874488ad6554b19d56da4c75cd746ee16601822826a29005cb2",
+          "vul": "61e47b74c0d9e33134436db03dcc070cb1eef64bfe9428f9b14fa7ebb80749e4"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 59.442711
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "matio",
+      "report_sha256": "c4ada3673e1edd13f6881716a45c9ad86475e4ed7621fd01b620e6c0172448ce",
+      "report_source": "public OSS-Fuzz OSV report OSV-2024-163; this is not a private report",
+      "report_text": "Stack-buffer-overflow in H5S_get_simple_extent_dims\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=66627\n\n```\nCrash type: Stack-buffer-overflow WRITE 8\nCrash state:\nH5S_get_simple_extent_dims\nH5Sget_simple_extent_dims\nMat_H5ReadFieldNames\n```"
+    },
+    {
+      "arvo_id": 42488172,
+      "arvo_task_sha256": "5a7868c43108cf7f743206cfdc96be994b109b7689d0a6ed50607bd8907a22eb",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "osv_record_id": "OSV-2020-2080",
+      "owner": "obgm",
+      "project": "libcoap",
+      "recorded": {
+        "arvo_id": 42488172,
+        "card_path": "eval/results/eval100-run2-cards/42488172.json",
+        "card_provenance": {
+          "arvo_task_sha256": "5a7868c43108cf7f743206cfdc96be994b109b7689d0a6ed50607bd8907a22eb",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2020-2080",
+          "report_sha256": "a5f1f6657e3be22075acbc02d124ba5cf20e72bb56cc0b3bf7009f9d237d539c"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157ee-f987-7778-8940-83ad1934542b",
+          "01a157ef-2cae-767b-98d6-a580ab02ab01"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00093632,
+        "crash_state": [
+          "coap_opt_length",
+          "coap_pdu_parse_opt",
+          "coap_pdu_parse"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 1",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 213,
+        "model_cost_usd": 0.000144,
+        "model_request_ids": [
+          "0743c95dbc7565dfd3ac551c012e51b2"
+        ],
+        "output_tokens": 89,
+        "project": "libcoap",
+        "sandbox_cost_usd": 0.00079232,
+        "sandbox_operation_uuids": [
+          "01a157ef-3354-7466-92d0-fc24e933ffbe",
+          "01a157ef-3453-7553-9df7-40ab986b5671"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "8e595fd633217be8ed6b399819f6a7cb7b40b2670fe161e1ef24da071ec09472",
+          "vul": "2732a6a076f6fd2dd7458f7124aabdeefc71282df5e2fdca19e3e6ca523ee941"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 38.990373
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "libcoap",
+      "report_sha256": "a5f1f6657e3be22075acbc02d124ba5cf20e72bb56cc0b3bf7009f9d237d539c",
+      "report_source": "public OSS-Fuzz OSV report OSV-2020-2080; this is not a private report",
+      "report_text": "Heap-buffer-overflow in coap_opt_length\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=26371\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\ncoap_opt_length\ncoap_pdu_parse_opt\ncoap_pdu_parse\n```"
+    },
+    {
+      "arvo_id": 42501148,
+      "arvo_task_sha256": "155df50b9d08f69e18808dc5c31d80f90f8a9ad3ebd69f9a29a0cb32f26a0009",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "osv_record_id": "OSV-2021-1198",
+      "owner": "kamailio",
+      "project": "kamailio",
+      "recorded": {
+        "arvo_id": 42501148,
+        "card_path": "eval/results/eval100-run2-cards/42501148.json",
+        "card_provenance": {
+          "arvo_task_sha256": "155df50b9d08f69e18808dc5c31d80f90f8a9ad3ebd69f9a29a0cb32f26a0009",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2021-1198",
+          "report_sha256": "af30e19facb391d5d8fbf2ec90d7659935461943a0d44bb60e9079c0f0253a00"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157ef-b1a0-7665-a3a1-91452b42cb9c",
+          "01a157ef-fb8a-71ad-ac06-3fbf7c34b15c"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.0010548,
+        "crash_state": [
+          "parse_param_name",
+          "parse_param2",
+          "parse_params2"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 1",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 206,
+        "model_cost_usd": 0.000141,
+        "model_request_ids": [
+          "9d9d6986a06b113cbba63df403d86416"
+        ],
+        "output_tokens": 88,
+        "project": "kamailio",
+        "sandbox_cost_usd": 0.0009138,
+        "sandbox_operation_uuids": [
+          "01a157f0-0247-74c4-ac19-0a6665792417",
+          "01a157f0-033c-7488-8b91-8624b183328f"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "e82ab75ac4cc079475675a400d1fca4b982858d2931ede7fb2d46837e608f8d7",
+          "vul": "0c5626199d6cc825da999ca649eb18138b1cefe94ca70826f0eacbeb05fb85d0"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 48.144633
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "kamailio",
+      "report_sha256": "af30e19facb391d5d8fbf2ec90d7659935461943a0d44bb60e9079c0f0253a00",
+      "report_source": "public OSS-Fuzz OSV report OSV-2021-1198; this is not a private report",
+      "report_text": "Heap-buffer-overflow in parse_param_name\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=38052\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nparse_param_name\nparse_param2\nparse_params2\n```"
+    },
+    {
+      "arvo_id": 42528883,
+      "arvo_task_sha256": "d60a56f20d05b126a7695344f07790786d08ad32f5e7831055238ebab4845411",
+      "crash_type": "Heap-buffer-overflow READ 8",
+      "osv_record_id": "OSV-2023-977",
+      "owner": "davea42",
+      "project": "libdwarf",
+      "recorded": {
+        "arvo_id": 42528883,
+        "card_path": "eval/results/eval100-run2-cards/42528883.json",
+        "card_provenance": {
+          "arvo_task_sha256": "d60a56f20d05b126a7695344f07790786d08ad32f5e7831055238ebab4845411",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2023-977",
+          "report_sha256": "f376e504bd57dbfc54cc5b2604291b1d479c3b2395b94ce92322479846e69b59"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157f0-327b-769f-b569-4a1e58abad49",
+          "01a157f0-56d6-7197-9e12-22046e6ff0e0"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00097569,
+        "crash_state": [
+          "_dwarf_memcpy_noswap_bytes",
+          "fill_in_uni_arch_64",
+          "_dwarf_object_detector_universal_head_fd"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 8",
+        "duplicate_candidates": [
+          "OSV-2023-959"
+        ],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 225,
+        "model_cost_usd": 0.0001467,
+        "model_request_ids": [
+          "d9ced9fb351970a0ba24da6a784a9aa4"
+        ],
+        "output_tokens": 88,
+        "project": "libdwarf",
+        "sandbox_cost_usd": 0.00082899,
+        "sandbox_operation_uuids": [
+          "01a157f0-5c52-75f0-acf8-008341f18df0",
+          "01a157f0-5d3e-7168-b90f-53ddb5e1bd05"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "8a2044a0e74ce04d7b7dca0c539cbd7512949cbe86231f954357b052ed9fed14",
+          "vul": "0ec0e15e6f6b7ab49abc1a831562c86c3cac15ff07400fbed780436fc7a3da9d"
+        },
+        "verdict": "DUPLICATE",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 23.792986
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "libdwarf-code",
+      "report_sha256": "f376e504bd57dbfc54cc5b2604291b1d479c3b2395b94ce92322479846e69b59",
+      "report_source": "public OSS-Fuzz OSV report OSV-2023-977; this is not a private report",
+      "report_text": "Heap-buffer-overflow in _dwarf_memcpy_noswap_bytes\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=63024\n\n```\nCrash type: Heap-buffer-overflow READ 8\nCrash state:\n_dwarf_memcpy_noswap_bytes\nfill_in_uni_arch_64\n_dwarf_macho_setup\n```"
+    },
+    {
+      "arvo_id": 42513154,
+      "arvo_task_sha256": "107ecbe2bca29e4e92388d363ceeb53b61aaae8fa4ba9750366ce36e3165c2bf",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "osv_record_id": "OSV-2022-551",
+      "owner": "the-tcpdump-group",
+      "project": "libpcap",
+      "recorded": {
+        "arvo_id": 42513154,
+        "card_path": "eval/results/eval100-run2-cards/42513154.json",
+        "card_provenance": {
+          "arvo_task_sha256": "107ecbe2bca29e4e92388d363ceeb53b61aaae8fa4ba9750366ce36e3165c2bf",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2022-551",
+          "report_sha256": "8e90a186b2bbdeefd0cc2607f2785869c0510f1ebe293fbf632dde3b2cfbfb8b"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157f1-b4bc-7158-a4c2-78c08f24eaeb",
+          "01a157f1-d5ee-730c-8328-1610a3f4f4c9"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00090559,
+        "crash_state": [
+          "fixup_pcap_pkthdr",
+          "pcap_next_packet",
+          "pcap_offline_read"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 1",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 219,
+        "model_cost_usd": 0.0001548,
+        "model_request_ids": [
+          "167e33c5e69d06885915f0cf65d2eb31"
+        ],
+        "output_tokens": 99,
+        "project": "libpcap",
+        "sandbox_cost_usd": 0.00075079,
+        "sandbox_operation_uuids": [
+          "01a157f1-db72-70a3-9b1f-f0e90b3625fd",
+          "01a157f1-dc63-71cf-b14e-f1fb2327634b"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "f9caca452ab3eba7dafe9d245f4a98214ca4870cc3eb36d50353910b6d80c868",
+          "vul": "4b75a73b26a706bd8f63e62571ab8e92f85e3c501f984618b41d1ab4627e4ca6"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 21.074241
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "libpcap",
+      "report_sha256": "8e90a186b2bbdeefd0cc2607f2785869c0510f1ebe293fbf632dde3b2cfbfb8b",
+      "report_source": "public OSS-Fuzz OSV report OSV-2022-551; this is not a private report",
+      "report_text": "Heap-buffer-overflow in fixup_pcap_pkthdr\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=48863\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nfixup_pcap_pkthdr\npcap_next_packet\npcap_offline_read\n```"
+    },
+    {
+      "arvo_id": 42532225,
+      "arvo_task_sha256": "e0ad07810bb8a36e0364250352219cdb504f0feeb0102bff7d54c90ffde480c8",
+      "crash_type": "Heap-buffer-overflow READ {*}",
+      "osv_record_id": "OSV-2024-33",
+      "owner": "gpac",
+      "project": "gpac",
+      "recorded": {
+        "arvo_id": 42532225,
+        "card_path": "eval/results/eval100-run2-cards/42532225.json",
+        "card_provenance": {
+          "arvo_task_sha256": "e0ad07810bb8a36e0364250352219cdb504f0feeb0102bff7d54c90ffde480c8",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2024-33",
+          "report_sha256": "963cb09ddd02ac0999ed8fb72e8555aa579c47149fd2777b28a74037c2f3e81f"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157f2-a712-7058-a46a-5b1ccd8686f2",
+          "01a157f3-3196-71ec-adcd-0b2008a063fd"
+        ],
+        "claim_agreement": false,
+        "cost_usd": 0.00173974,
+        "crash_state": [
+          "my_strstr",
+          "ctxload_probe_data",
+          "gf_filter_pid_raw_new"
+        ],
+        "crash_state_agreement_with_osv": false,
+        "crash_type": "Heap-buffer-overflow READ {*}",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 212,
+        "model_cost_usd": 0.0001176,
+        "model_request_ids": [
+          "63e0913887f360fbb96ebdf699a26326"
+        ],
+        "output_tokens": 60,
+        "project": "gpac",
+        "sandbox_cost_usd": 0.00162214,
+        "sandbox_operation_uuids": [
+          "01a157f3-3984-7639-9a61-0dfad2f7804c",
+          "01a157f3-3ace-76a4-8adb-dbe339a63dc8"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "bb65bf69ec0d0678b162d6521128c375193f62bf09a7863052f39d070ad84ec2",
+          "vul": "c6ecfd1c35f59afb59bb36f54b04cfac2a463ca83f118f97a03234dcd0b41a3b"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 76.701704
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "gpac",
+      "report_sha256": "963cb09ddd02ac0999ed8fb72e8555aa579c47149fd2777b28a74037c2f3e81f",
+      "report_source": "public OSS-Fuzz OSV report OSV-2024-33; this is not a private report",
+      "report_text": "Heap-buffer-overflow in ctxload_probe_data\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=66032\n\n```\nCrash type: Heap-buffer-overflow READ {*}\nCrash state:\nctxload_probe_data\ngf_filter_pid_raw_new\nfilein_process\n```"
+    },
+    {
+      "arvo_id": 42471287,
+      "arvo_task_sha256": "5168dfde1e5630ae821a4380775d77644ea3bb19b665cbb59af324266cc80440",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "osv_record_id": "OSV-2018-202",
+      "owner": "libgit2",
+      "project": "libgit2",
+      "recorded": {
+        "arvo_id": 42471287,
+        "card_path": "eval/results/eval100-run2-cards/42471287.json",
+        "card_provenance": {
+          "arvo_task_sha256": "5168dfde1e5630ae821a4380775d77644ea3bb19b665cbb59af324266cc80440",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2018-202",
+          "report_sha256": "763357fda50ff7644c0ff79bd1bed214a61376e55521f1321b0fff3fff7ec650"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157f3-54b8-72ce-98ba-ba993b1ad5ab",
+          "01a157f3-9ea6-7632-8bbf-f6bca6a406aa"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00095713,
+        "crash_state": [
+          "parse_mode",
+          "git_tree__parse_raw",
+          "git_object__from_raw"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 1",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 208,
+        "model_cost_usd": 0.00012,
+        "model_request_ids": [
+          "a99c840d6252c7267286752c3adcc080"
+        ],
+        "output_tokens": 64,
+        "project": "libgit2",
+        "sandbox_cost_usd": 0.00083713,
+        "sandbox_operation_uuids": [
+          "01a157f3-a57b-7602-9d14-b69f6c6654df",
+          "01a157f3-a679-70cb-b2b7-e6aebded6478"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "ca1762e974474d22b9533ef64713bd10826ef37b1472f4f080ece72bf53192e6",
+          "vul": "152997fe2fcae9597b53ad0ec21d3c56b1639cc5bb08048f6ba53e423d567fb0"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 27.411322
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "libgit2",
+      "report_sha256": "763357fda50ff7644c0ff79bd1bed214a61376e55521f1321b0fff3fff7ec650",
+      "report_source": "public OSS-Fuzz OSV report OSV-2018-202; this is not a private report",
+      "report_text": "Heap-buffer-overflow in parse_mode\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=11167\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\nparse_mode\ngit_tree__parse_raw\ngit_object__from_raw\n```"
+    },
+    {
+      "arvo_id": 42523626,
+      "arvo_task_sha256": "07d01a066f2ba5b689d1e43b10943f78254d0540746b82673f910f2af77667b7",
+      "crash_type": "Heap-buffer-overflow READ 1",
+      "osv_record_id": "OSV-2023-343",
+      "owner": "libssh2",
+      "project": "libssh2",
+      "recorded": {
+        "arvo_id": 42523626,
+        "card_path": "eval/results/eval100-run2-cards/42523626.json",
+        "card_provenance": {
+          "arvo_task_sha256": "07d01a066f2ba5b689d1e43b10943f78254d0540746b82673f910f2af77667b7",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2023-343",
+          "report_sha256": "1d4d705bf9be7e470255f79780265f26472f56e26fb4bc562d16fe2944db0274"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157f3-ee0e-748b-a204-e1470a8ee860",
+          "01a157f4-19f1-70fd-bb04-53c6bbec71dd"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00094068,
+        "crash_state": [
+          "_libssh2_ntohu32",
+          "packet_authagent_open",
+          "_libssh2_packet_add"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 1",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 220,
+        "model_cost_usd": 0.0001713,
+        "model_request_ids": [
+          "ac9c3348c7acd31c3f4b08a6a95b0066"
+        ],
+        "output_tokens": 117,
+        "project": "libssh2",
+        "sandbox_cost_usd": 0.00076938,
+        "sandbox_operation_uuids": [
+          "01a157f4-1f96-718f-b968-6b94e36c1a73",
+          "01a157f4-2099-747d-85f6-bd248fef5973"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "c7fd1c24b25d4155c5a4d69051008a933a0d429915b5d750533538cb3ee6bb41",
+          "vul": "d6815af83fedaef8aa82f988354f21c555de3956dc9a4e89be498750cff42389"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 26.591482
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "libssh2",
+      "report_sha256": "1d4d705bf9be7e470255f79780265f26472f56e26fb4bc562d16fe2944db0274",
+      "report_source": "public OSS-Fuzz OSV report OSV-2023-343; this is not a private report",
+      "report_text": "Heap-buffer-overflow in _libssh2_ntohu32\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=58291\n\n```\nCrash type: Heap-buffer-overflow READ 1\nCrash state:\n_libssh2_ntohu32\npacket_authagent_open\n_libssh2_packet_add\n```"
+    },
+    {
+      "arvo_id": 42479408,
+      "arvo_task_sha256": "3743397ca2f5fe2302876ec64c94b70ca89ad963ba315f332b1ad86d150dc571",
+      "crash_type": "Bad-free",
+      "osv_record_id": "OSV-2020-680",
+      "owner": "OpenSC",
+      "project": "opensc",
+      "recorded": {
+        "arvo_id": 42479408,
+        "card_path": "eval/results/eval100-run2-cards/42479408.json",
+        "card_provenance": {
+          "arvo_task_sha256": "3743397ca2f5fe2302876ec64c94b70ca89ad963ba315f332b1ad86d150dc571",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2020-680",
+          "report_sha256": "886c8b950ed202221b775635c38785c4b8a806fcc621151a78a98a612d1a3802"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157f4-5667-7371-853e-a8fdf1abc5e5",
+          "01a157f4-8565-7322-9f09-20ccc5d2c87c"
+        ],
+        "claim_agreement": false,
+        "cost_usd": 0.00098892,
+        "crash_state": [
+          "sc_pkcs15_decode_prkdf_entry",
+          "fuzz_pkcs15_decode.c"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Invalid-free",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 215,
+        "model_cost_usd": 0.0001581,
+        "model_request_ids": [
+          "e1a18c4ae1f8eb5bbe931f2ea7bde2fb"
+        ],
+        "output_tokens": 104,
+        "project": "opensc",
+        "sandbox_cost_usd": 0.00083082,
+        "sandbox_operation_uuids": [
+          "01a157f4-8c65-7511-9edb-dac7a589264d",
+          "01a157f4-8e8f-75cf-9de3-03b7c125ad1e"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "d3eaa5696d39245d60ccd3dd3daf81ddb9e505f55ffd4031ca10476fe4220060",
+          "vul": "7a77b785ff4c10ecd73caed6000c38220c376d2cdb084eb9db306d695e702d4b"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 28.093051
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "OpenSC",
+      "report_sha256": "886c8b950ed202221b775635c38785c4b8a806fcc621151a78a98a612d1a3802",
+      "report_source": "public OSS-Fuzz OSV report OSV-2020-680; this is not a private report",
+      "report_text": "Bad-free in sc_pkcs15_decode_prkdf_entry\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=18482\n\n```\nCrash type: Bad-free\nCrash state:\nsc_pkcs15_decode_prkdf_entry\nfuzz_pkcs15_decode.c\n```"
+    },
+    {
+      "arvo_id": 42499964,
+      "arvo_task_sha256": "f72932360ad99f110e9bc499dd1388f41ddd616f66f47ffbd01da1dffe2e4e93",
+      "crash_type": "Use-after-poison READ 1",
+      "osv_record_id": "OSV-2021-1116",
+      "owner": "SerenityOS",
+      "project": "serenity",
+      "recorded": {
+        "arvo_id": 42499964,
+        "card_path": "eval/results/eval100-run2-cards/42499964.json",
+        "card_provenance": {
+          "arvo_task_sha256": "f72932360ad99f110e9bc499dd1388f41ddd616f66f47ffbd01da1dffe2e4e93",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2021-1116",
+          "report_sha256": "e437f7a638c208cb9daa6873b00000aaf94b3268a8e7ee109a631307f85f77d0"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157f6-02ea-77f0-b630-bedea6b98ba0",
+          "01a157f7-18f5-74b1-9fe3-c9f3186f0592"
+        ],
+        "claim_agreement": false,
+        "cost_usd": 0.05477692,
+        "crash_state": [
+          "JS::PrimitiveString::string",
+          "JS::abstract_relation",
+          "JS::less_than"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Use-after-poison READ 1",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 217,
+        "model_cost_usd": 0.0001326,
+        "model_request_ids": [
+          "672288aa13bf1d6928fe7994f0a6eeb5"
+        ],
+        "output_tokens": 75,
+        "project": "serenity",
+        "sandbox_cost_usd": 0.05464432,
+        "sandbox_operation_uuids": [
+          "01a157f7-22f3-76fa-9119-588817b8ed7a",
+          "01a157f7-23fc-7330-860a-68b294f7df69"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "494c510b6de2c769e3cfb9dc1471659f6ca593f5fb4ef3b227dbbcfa3677f71f",
+          "vul": "1a26f16a0ed368dbaf194617a228c2211a47c66242b756b3596106e9cfc85456"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 173.59502
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "serenity",
+      "report_sha256": "e437f7a638c208cb9daa6873b00000aaf94b3268a8e7ee109a631307f85f77d0",
+      "report_source": "public OSS-Fuzz OSV report OSV-2021-1116; this is not a private report",
+      "report_text": "Use-after-poison in JS::PrimitiveString::string\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=36985\n\n```\nCrash type: Use-after-poison READ 1\nCrash state:\nJS::PrimitiveString::string\nJS::abstract_relation\nJS::less_than\n```"
+    },
+    {
+      "arvo_id": 42527431,
+      "arvo_task_sha256": "54772f0a2b71aa7e5c0830d35de86a43dd7646e9406325257429874c9503b204",
+      "crash_type": "Heap-buffer-overflow READ 4",
+      "osv_record_id": "OSV-2023-736",
+      "owner": "strukturag",
+      "project": "libheif",
+      "recorded": {
+        "arvo_id": 42527431,
+        "card_path": "eval/results/eval100-run2-cards/42527431.json",
+        "card_provenance": {
+          "arvo_task_sha256": "54772f0a2b71aa7e5c0830d35de86a43dd7646e9406325257429874c9503b204",
+          "derivation_method": "live-execution",
+          "derivation_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "execution_source_sha256": "3c1fa93ebc87b9e47131f498b5c10cfdc0e5c02c5163553bfbc6c3b034c458e7",
+          "monorail_mapping_sha256": "1ad8f1a691565b502a93197bcd3d2411dcc61313106f2a6128a269bc160b1513",
+          "osv_archive_sha256": "bb40a3b2d1b5c612f172bc03e9164b05c105a724826bdb794ac60568b363d13c",
+          "osv_record_id": "OSV-2023-736",
+          "report_sha256": "1e2d2ef637533b17bf976f7b3067a33707e1518942e9fe96d6e636e7fdf7eb11"
+        },
+        "checkpoint_operation_uuids": [
+          "01a157fb-3f1b-7725-b36d-192dcda9385b",
+          "01a157fb-9b2e-708b-9729-b22f0c41236d"
+        ],
+        "claim_agreement": true,
+        "cost_usd": 0.00097783,
+        "crash_state": [
+          "HeifContext::interpret_heif_file",
+          "HeifContext::read_from_memory",
+          "heif_context_read_from_memory"
+        ],
+        "crash_state_agreement_with_osv": true,
+        "crash_type": "Heap-buffer-overflow READ 4",
+        "duplicate_candidates": [],
+        "fix_clean": true,
+        "fixed_exit_code": 0,
+        "input_tokens": 225,
+        "model_cost_usd": 0.000162,
+        "model_request_ids": [
+          "e7a402a05907e153fa08f6cbffd20a3e"
+        ],
+        "output_tokens": 105,
+        "project": "libheif",
+        "sandbox_cost_usd": 0.00081583,
+        "sandbox_operation_uuids": [
+          "01a157fb-a1f8-76be-98c2-14c07ff63af9",
+          "01a157fb-a2e7-7725-9f83-fb0d85e918f2"
+        ],
+        "sanitizer_kind": "AddressSanitizer",
+        "slice_manifest_sha256": {
+          "fix": "74fab90eebaa36a4b936143773c384e2099ee23d2425a47b99946a1a2cf872d5",
+          "vul": "ab4119dd558a6946dab7a140608d34d2fa1a9346da54d8156babbe981b4fba6a"
+        },
+        "verdict": "REPRODUCED",
+        "vulnerable_clean": false,
+        "vulnerable_exit_code": 1,
+        "wall_seconds": 51.302779
+      },
+      "recorded_in": "eval/results/eval100-run2.json",
+      "recorded_run": "run 2",
+      "repo": "libheif",
+      "report_sha256": "1e2d2ef637533b17bf976f7b3067a33707e1518942e9fe96d6e636e7fdf7eb11",
+      "report_source": "public OSS-Fuzz OSV report OSV-2023-736; this is not a private report",
+      "report_text": "Heap-buffer-overflow in HeifContext::interpret_heif_file\n\nOSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=61718\n\n```\nCrash type: Heap-buffer-overflow READ 4\nCrash state:\nHeifContext::interpret_heif_file\nHeifContext::read_from_memory\nheif_context_read_from_memory\n```"
+    }
+  ]
+}

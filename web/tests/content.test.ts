@@ -28,6 +28,9 @@ describe("copied judge content", () => {
     expect(read(join(webRoot, "src/content/catalog.json"))).toEqual(
       read(join(repoRoot, "reproof/assets/catalog.json")),
     );
+    expect(read(join(webRoot, "src/content/prepared-catalog.json"))).toEqual(
+      read(join(repoRoot, "reproof/assets/prepared_catalog.json")),
+    );
     expect(read(join(webRoot, "src/content/limits.json"))).toEqual(
       read(join(repoRoot, "reproof/assets/limits.json")),
     );

@@ -12,12 +12,17 @@ the value of a credential variable set in this process.
 Usage:
     uv run python scripts/record_door_triage.py --url https://reproof-web.vercel.app \
         --arvo 42530604 --out eval/results/door-42530604
+
+A preview deployment behind Vercel Authentication needs --access-url, a share link for that
+deployment. The script opens it once to receive the access cookie and sends the triage with that
+cookie. The link is a temporary credential, so the receipt records only that one was used.
 """
 
 from __future__ import annotations
 
 import argparse
 import hashlib
+import http.cookiejar
 import json
 import os
 import sys
@@ -92,14 +97,30 @@ def record(url: str, arvo_id: int) -> tuple[dict[str, Any], bytes]:
     return receipt, body
 
 
+def use_access_link(access_url: str) -> None:
+    """Open a deployment share link once and keep its cookie for every later request."""
+
+    opener = urllib.request.build_opener(
+        urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar())
+    )
+    with opener.open(access_url, timeout=TIMEOUT_SECONDS) as response:
+        response.read()
+    urllib.request.install_opener(opener)
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--url", required=True, help="door origin, for example https://host")
     parser.add_argument("--arvo", required=True, type=int)
     parser.add_argument("--out", required=True, help="output stem; .json and .ndjson are added")
+    parser.add_argument("--access-url", help="share link for a protected preview; not recorded")
     args = parser.parse_args(argv)
 
+    if args.access_url:
+        use_access_link(args.access_url)
     receipt, body = record(args.url, args.arvo)
+    if args.access_url:
+        receipt["access"] = "Vercel share link for a protected preview; the link is not recorded"
     leaked = leaked_credentials(body, dict(os.environ))
     if leaked:
         print(f"refusing to write: the body contains {', '.join(leaked)}", file=sys.stderr)
