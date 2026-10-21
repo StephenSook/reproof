@@ -95,6 +95,20 @@ test("a report without a recorded response shows its saved evaluation row", asyn
   expect(triageCalls).toEqual([]);
 });
 
+test("the shared limits sit in a closed Limits disclosure beside the buttons", async ({ page }) => {
+  await page.goto("/");
+  const limits = page.locator("details[data-limits]");
+  await expect(limits).toHaveCount(1);
+  await expect(limits).not.toHaveAttribute("open", "");
+  await expect(limits.locator("summary")).toHaveText("Limits");
+  await expect(limits.locator("p")).toBeHidden();
+  await expect(page.locator(".report-card details[data-limits]")).toHaveCount(1);
+  await limits.locator("summary").click();
+  await expect(limits.locator("p")).toBeVisible();
+  await expect(limits.locator("p")).toContainText("This address can start 8 triages per hour.");
+  await expect(limits.locator("p")).toContainText("Instances do not share a disk.");
+});
+
 test("the Measured section renders the saved evaluation", async ({ page }) => {
   await page.goto("/");
   const measured = page.locator("#measured");

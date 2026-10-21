@@ -509,7 +509,8 @@ The page uses GSAP and Lenis for motion. When the browser asks for reduced motio
 This browser can run 1 triage at a time. This address can start 8 triages per hour. Everyone
 shares 60 triages per day. The Python service keeps the counts. On Vercel, each function instance
 keeps its own count file, and instances do not share a disk. A refused start returns HTTP 429 and
-does not invent a verdict.
+does not invent a verdict. On the page, these limits sit in a closed Limits disclosure under the
+Triage button.
 
 Tavily spend on the door: each lookup holds 5 credits (2 advanced searches and one basic extract)
 against 100 credits per UTC day on that server instance, and sends no search when the hold does not

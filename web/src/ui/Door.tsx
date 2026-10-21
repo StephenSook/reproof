@@ -53,10 +53,13 @@ export function Door({
   tasks,
   recordedTasks,
   receipts,
+  limitsNote,
 }: {
   tasks: ReportTask[];
   recordedTasks: RecordedTask[];
   receipts: DoorReceipt[];
+  /** The door's shared limits in one paragraph, shown on request beside the buttons. */
+  limitsNote: string;
 }) {
   const [selected, setSelected] = useState(tasks[0]?.arvo_id ?? 0);
   const [busy, setBusy] = useState(false);
@@ -270,6 +273,10 @@ export function Door({
           <p className="action-note">
             Triage makes real model, sandbox, and search calls now. Show recorded result makes none.
           </p>
+          <details className="limits" data-limits>
+            <summary>Limits</summary>
+            <p>{limitsNote}</p>
+          </details>
         </div>
         {notice ? (
           <p className="notice" role="alert">

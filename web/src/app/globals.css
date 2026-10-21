@@ -554,17 +554,23 @@ pre {
   gap: 1rem;
 }
 
-.limits-note {
-  background: var(--card);
-  border: 2px solid var(--ink);
-  border-left-width: 0.55rem;
-  border-radius: 1rem;
+.limits {
   color: var(--ink-soft);
   font-size: 0.86rem;
   font-weight: 600;
+  max-width: 44rem;
+}
+
+.limits summary {
+  cursor: pointer;
+  font-weight: 800;
+  min-height: 44px;
+  padding: 0.6rem 0;
+  width: fit-content;
+}
+
+.limits p {
   line-height: 1.5;
-  max-width: 52rem;
-  padding: 0.8rem 1rem;
 }
 
 .door-grid {

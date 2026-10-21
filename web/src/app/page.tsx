@@ -108,11 +108,13 @@ export default function Page() {
               Pick one of the {count} public ARVO reports. Triage runs the claim, both builds, the crash parse, the
               duplicate search, and a public-status lookup.
             </p>
-            <p className="limits-note" data-limits>
-              {limitsSentence(limits)}
-            </p>
           </div>
-          <Door receipts={RECEIPTS} recordedTasks={evaluation.tasks} tasks={catalog.tasks} />
+          <Door
+            limitsNote={limitsSentence(limits)}
+            receipts={RECEIPTS}
+            recordedTasks={evaluation.tasks}
+            tasks={catalog.tasks}
+          />
         </section>
         <Measured evaluation={evaluation} />
       </main>
