@@ -1121,6 +1121,63 @@ mark[data-matched-frame] {
   text-decoration-line: underline;
 }
 
+.spend {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.spend-bar {
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  display: flex;
+  height: 0.85rem;
+  overflow: hidden;
+}
+
+.spend-bar-model,
+.spend-key-model {
+  background: var(--dup);
+}
+
+.spend-bar-sandbox,
+.spend-key-sandbox {
+  background: var(--amber);
+}
+
+.spend-bar-sandbox {
+  flex: 1;
+}
+
+.spend-lines {
+  display: grid;
+  gap: 0.3rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.spend-lines li {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+  font-weight: 700;
+  gap: 0.25rem 0.5rem;
+}
+
+.spend-key {
+  border: 2px solid var(--ink);
+  border-radius: 0.2rem;
+  display: inline-block;
+  height: 0.75rem;
+  width: 0.75rem;
+}
+
+.spend-usd {
+  font-variant-numeric: tabular-nums;
+  margin-left: auto;
+}
+
 .totals small {
   display: block;
   font-family: var(--font-body), system-ui, sans-serif;

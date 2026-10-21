@@ -21,6 +21,8 @@ const receipt = JSON.parse(readFileSync(resolve(here, "../../src/content/door-42
       wall_seconds: number;
       card: {
         total_cost_usd: number;
+        model_cost_usd: number;
+        sandbox_cost_usd: number;
         model_calls: unknown[];
         public_status: { state: string; tavily_credits: number; evidence: { url: string }[] };
       };
@@ -94,6 +96,12 @@ test("the recorded result answers first and keeps the evidence one click away", 
     await expect(totals).toContainText(`${recorded.card.total_cost_usd.toFixed(8)} USD`);
     await expect(totals).toContainText(`Tavily credits${recorded.card.public_status.tavily_credits}`);
     await expect(totals).toContainText(`Model calls${recorded.card.model_calls.length}`);
+    const spend = summary.locator("[data-summary-spend]");
+    await expect(spend.locator("[data-spend-model]")).toContainText(
+      `${recorded.card.model_calls.length} calls to Nemotron 3 Super on Nebius Token Factory`,
+    );
+    await expect(spend.locator("[data-spend-model]")).toContainText(`${recorded.card.model_cost_usd.toFixed(8)} USD`);
+    await expect(spend.locator("[data-spend-sandbox]")).toContainText(`${recorded.card.sandbox_cost_usd.toFixed(8)} USD`);
 
     const evidenceTop = await page.locator("#evidence-heading").evaluate((node) => node.getBoundingClientRect().top);
     const summaryTop = await summary.evaluate((node) => node.getBoundingClientRect().top);

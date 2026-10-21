@@ -55,6 +55,17 @@ export type SummaryTotals = {
   modelCalls: number | null;
 };
 
+/** Where the money went: model calls against sandbox runs, with the model ids and their price source. */
+export type SummarySpend = {
+  modelUsd: number | null;
+  sandboxUsd: number | null;
+  sandboxRuns: number | null;
+  /** Distinct model ids the result names, in call order. Empty when the result does not name one. */
+  models: string[];
+  /** Distinct price-source URLs of the model calls, which name the platform that billed them. */
+  priceSources: string[];
+};
+
 export type DoorSummary = {
   source: SummarySource;
   /** When a recorded response was captured from the live door; null for a live run or a saved eval row. */
@@ -67,6 +78,7 @@ export type DoorSummary = {
   fixed: FixedTile;
   publicStatus: PublicSummary;
   totals: SummaryTotals;
+  spend: SummarySpend;
 };
 
 export type LiveResult = {
@@ -185,7 +197,19 @@ export function recordedSummary(task: RecordedTask): DoorSummary {
       tavilyUnanswered: 0,
       modelCalls: task.model_request_ids.length,
     },
+    // The saved row keeps both costs and the run ids, but not the model id or its price source.
+    spend: {
+      modelUsd: task.model_cost_usd,
+      sandboxUsd: task.sandbox_cost_usd,
+      sandboxRuns: task.sandbox_operation_uuids.length,
+      models: [],
+      priceSources: [],
+    },
   };
+}
+
+function distinct(values: (string | null)[]): string[] {
+  return [...new Set(values.filter((value): value is string => value !== null))];
 }
 
 function findStep(steps: DoorStepEvent[], key: string): Row | null {
@@ -393,6 +417,18 @@ export function liveSummary(
       tavilyCredits: fields ? fields.credits : null,
       tavilyUnanswered: fields ? fields.unanswered : 0,
       modelCalls,
+    },
+    spend: {
+      modelUsd: num(card?.model_cost_usd) ?? num(verdictStep?.model_cost_usd),
+      sandboxUsd: num(card?.sandbox_cost_usd) ?? num(verdictStep?.sandbox_cost_usd),
+      sandboxRuns: operations.length ? operations.length : [vul, fix].filter((row) => row !== null).length || null,
+      // Before the card arrives only the claim call names its model, so name it only when it is the only call.
+      models: cardCalls
+        ? distinct(cardCalls.map((call) => text(call.model)))
+        : modelCalls === 1
+          ? distinct([text(claim?.model)])
+          : [],
+      priceSources: cardCalls ? distinct(cardCalls.map((call) => text(call.price_source))) : [],
     },
   };
 }

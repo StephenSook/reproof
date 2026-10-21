@@ -3,6 +3,7 @@
 import { useRef, type ReactNode } from "react";
 import { money } from "@/lib/measured";
 import { nextStep } from "@/lib/nextStep";
+import { spendLines } from "@/lib/spend";
 import { utcMinute } from "@/lib/receipt";
 import type { DoorSummary, FixedTile, PublicSummary, VulnerableTile } from "@/lib/summary";
 import { AncestryRibbon } from "@/ui/AncestryRibbon";
@@ -169,6 +170,39 @@ function Totals({ summary, running }: { summary: DoorSummary; running: boolean }
   );
 }
 
+/** Where the cost went, model calls against sandbox runs, named from the result's own fields. */
+function Spend({ summary }: { summary: DoorSummary }) {
+  const savedRow = summary.source === "RECORDED" && summary.recordedAt === null;
+  const lines = spendLines(summary.spend, summary.totals.modelCalls, savedRow);
+  if (!lines.model && !lines.sandbox) return null;
+  return (
+    <div className="spend" data-summary-spend>
+      {lines.modelShare !== null ? (
+        <div aria-hidden="true" className="spend-bar">
+          <span className="spend-bar-model" style={{ width: `${(lines.modelShare * 100).toFixed(1)}%` }} />
+          <span className="spend-bar-sandbox" />
+        </div>
+      ) : null}
+      <ul className="spend-lines">
+        {lines.model ? (
+          <li data-spend-model>
+            <span className="spend-key spend-key-model" aria-hidden="true" />
+            <span>{lines.model}</span>
+            {lines.modelUsd ? <span className="spend-usd">{lines.modelUsd}</span> : null}
+          </li>
+        ) : null}
+        {lines.sandbox ? (
+          <li data-spend-sandbox>
+            <span className="spend-key spend-key-sandbox" aria-hidden="true" />
+            <span>{lines.sandbox}</span>
+            {lines.sandboxUsd ? <span className="spend-usd">{lines.sandboxUsd}</span> : null}
+          </li>
+        ) : null}
+      </ul>
+    </div>
+  );
+}
+
 export function Summary({
   summary,
   running,
@@ -246,6 +280,7 @@ export function Summary({
       </div>
       <PublicLine status={summary.publicStatus} />
       <Totals running={running} summary={summary} />
+      <Spend summary={summary} />
     </div>
   );
 }

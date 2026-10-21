@@ -467,8 +467,12 @@ summary then shows one sentence, the vulnerable and fixed builds side by side (c
 exit code), the public-status line, and the wall time, cost, Tavily credits, and model calls. It is
 labelled `LIVE` or `RECORDED`. When git ancestry decided the fix, the public-status line gives the
 sentence, for example `Fixed in jq 1.7.1. Git ancestry: tag jq-1.7.1 contains OSV fix 71c2ab5.`, a
-link to the page, and a ribbon that joins the release tag to the fix commit. Every value in the
-summary comes from the stream or the saved row. A value that has not arrived says so.
+link to the page, and a ribbon that joins the release tag to the fix commit. Under the totals, the
+cost is split between the model calls and the sandbox runs. The model line names the model from
+the card's `model_calls[].model` and the platform from their `price_source` URL, for example
+`3 calls to Nemotron 3 Super on Nebius Token Factory`; a saved eval row does not name the model,
+and the line says so. Every value in the summary comes from the stream, the recorded response, or
+the saved row. A value that has not arrived says so.
 
 Triage streams each step as it finishes, and the summary fills in as the steps arrive. Nemotron 3
 Super extracts the claim. The vulnerable and fixed builds run in parallel disposable branches of
