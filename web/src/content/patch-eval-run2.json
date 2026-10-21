@@ -1,0 +1,354 @@
+{
+  "budget_usd": 3.0,
+  "execution_source_sha256": "5e4934ae99133eed1eb503501fba2914e27ce70b1bce97672ec4369755bcadad",
+  "finished_at_utc": "2026-10-21T16:52:21+00:00",
+  "max_attempts": 3,
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "prereg": {
+    "commit": "bbe6e9a17942930215e1b5d44655d86b8b7539c1",
+    "head": "bbe6e9a17942930215e1b5d44655d86b8b7539c1",
+    "path": "eval/PATCH-PREREG-RUN2.md",
+    "sha256": "d894f059166f2c5d7d2d2be9ee24c7aebc291173304aacb6a3a4732be6aa4a3a"
+  },
+  "schema_version": "1",
+  "started_at_utc": "2026-10-21T16:32:25+00:00",
+  "task_ids": [
+    42530604,
+    42507851,
+    42496387,
+    42508524,
+    42536108,
+    42536112,
+    42508390,
+    42531297,
+    42531223,
+    42476752
+  ],
+  "tasks": [
+    {
+      "arvo_id": 42530604,
+      "attempt_outcomes": [
+        "MODEL_ERROR",
+        "APPLY_FAILED",
+        "APPLY_FAILED"
+      ],
+      "baseline_crash_type": "Heap-buffer-overflow WRITE 1",
+      "card_path": "eval/results/patch-eval-run2-cards/42530604.json",
+      "detail": "3 attempts; last: APPLY_FAILED",
+      "input_tokens": 34339,
+      "model_calls": 3,
+      "model_cost_usd": 0.0146001,
+      "outcome": "NOT_PROVEN",
+      "output_tokens": 4776,
+      "project": "jq",
+      "proven_attempt": null,
+      "proven_diff": "",
+      "proven_rationale": "",
+      "proven_regression_check": "",
+      "request_ids": [
+        "2a1dab09e37c2957c7fb713511475a45",
+        "2fad3003eb9f49f2ee02cb5bf21135e4",
+        "7359664261e84fe4ec92ba938170f8c0"
+      ],
+      "upstream_fix_commits": [
+        "71c2ab509a8628dbbad4bc7b3f98a64aa90d3297"
+      ],
+      "upstream_repository": "https://github.com/jqlang/jq",
+      "wall_seconds": 107.545
+    },
+    {
+      "arvo_id": 42507851,
+      "attempt_outcomes": [
+        "STILL_CRASHES",
+        "REGRESSION",
+        "PROVEN"
+      ],
+      "baseline_crash_type": "Heap-buffer-overflow READ 2",
+      "card_path": "eval/results/patch-eval-run2-cards/42507851.json",
+      "detail": "the PoC and the seed corpus ran clean",
+      "input_tokens": 15793,
+      "model_calls": 3,
+      "model_cost_usd": 0.0072192,
+      "outcome": "PROVEN",
+      "output_tokens": 2757,
+      "project": "libplist",
+      "proven_attempt": 3,
+      "proven_diff": "--- a/src/libplist/src/jplist.c\n+++ b/src/libplist/src/jplist.c\n@@ -437,16 +437,23 @@\n         data->type = PLIST_NULL;\n         val = plist_new_node(data);\n     } else if (str_val[0] == '-' || isdigit(str_val[0])) {\n+        char* buf = malloc(str_len + 1);\n+        if (!buf) {\n+            PLIST_JSON_ERR(\"%s: Out of memory\\n\", __func__);\n+            return NULL;\n+        }\n+        memcpy(buf, str_val, str_len);\n+        buf[str_len] = '\\0';\n         char* endp = NULL;\n-        long long intpart = strtol(str_val, &endp, 10);\n-        if (endp >= str_end) {\n+        long long intpart = strtol(buf, &endp, 10);\n+        if (endp >= buf + str_len) {\n             /* integer */\n             val = plist_new_uint((uint64_t)intpart);\n-        } else if (*endp == '.' && endp+1 < str_end && isdigit(*(endp+1))) {\n+        } else if (*endp == '.' && endp+1 < buf + str_len && isdigit(*(endp+1))) {\n             /* float */\n             char* fendp = endp+1;\n-            while (isdigit(*fendp) && fendp < str_end) fendp++;\n-            if ((fendp > endp+1 && fendp >= str_end) || (fendp+2 < str_end && (*fendp == 'e' || *fendp == 'E') && (*(fendp+1) == '+' || *(fendp+1) == '-') && isdigit(*(fendp+2)))) {\n+            while (isdigit(*fendp) && fendp < buf + str_len) fendp++;\n+            if ((fendp > endp+1 && fendp >= buf + str_len) || (fendp+2 < buf + str_len && (*fendp == 'e' || *fendp == 'E') && (*(fendp+1) == '+' || *(fendp+1) == '-') && isdigit(*(fendp+2)))) {\n                 double dval = atof(str_val);\n                 val = plist_new_real(dval);\n             } else {\n@@ -455,6 +462,7 @@\n         } else {\n             PLIST_JSON_ERR(\"%s: invalid character at offset %d when parsing numerical value\\n\", __func__, (int)(endp - js));\n         }\n+        free(buf);\n     } else {\n         PLIST_JSON_ERR(\"%s: invalid primitive value '%.*s' encountered\\n\", __func__, (int)str_len, str_val);\n     }\n",
+      "proven_rationale": "The previous fix introduced a use-after-free because it freed the temporary buffer before using `endp` in the subsequent checks. The variable `endp` is a pointer into the temporarily allocated buffer, so freeing the buffer before checking `endp` leads to undefined behavior when `endp` is later dereferenced. The fix is to delay the free of the temporary buffer until after all uses of `endp` are complete. We will allocate a null-terminated copy of the string, use it for `strtol`, and then free it only after we have finished using `endp` for any further checks (such as the float detection logic).",
+      "proven_regression_check": "seed corpus, 2 files",
+      "request_ids": [
+        "13a4e776ddb06829cf7fcdc7b53d5e3e",
+        "c92c914abda7fbb3e8cb08d8d4b9d1a2",
+        "feb3f5b5df1220580df4daad72048856"
+      ],
+      "upstream_fix_commits": [
+        "8ea84caa3cba801c4f240648a6b7919e9b3e0b0d"
+      ],
+      "upstream_repository": "https://github.com/libimobiledevice/libplist",
+      "wall_seconds": 135.223
+    },
+    {
+      "arvo_id": 42496387,
+      "attempt_outcomes": [
+        "STILL_CRASHES",
+        "MODEL_ERROR",
+        "STILL_CRASHES"
+      ],
+      "baseline_crash_type": "Heap-use-after-free READ 8",
+      "card_path": "eval/results/patch-eval-run2-cards/42496387.json",
+      "detail": "3 attempts; last: STILL_CRASHES",
+      "input_tokens": 24834,
+      "model_calls": 3,
+      "model_cost_usd": 0.011988,
+      "outcome": "NOT_PROVEN",
+      "output_tokens": 5042,
+      "project": "wasm3",
+      "proven_attempt": null,
+      "proven_diff": "",
+      "proven_rationale": "",
+      "proven_regression_check": "",
+      "request_ids": [
+        "1495252243f5b5da32156c3d6c948008",
+        "0d64a6c0490fef160df3b3e29168499e",
+        "d1ea491220ae6a0bb21f9b76489459f3"
+      ],
+      "upstream_fix_commits": [
+        "6bb612ccbfd5f8993a07a99092fab534722df1c3",
+        "3c0a7c159a77a58bbe128324091d39b02e77822f"
+      ],
+      "upstream_repository": "https://github.com/wasm3/wasm3",
+      "wall_seconds": 122.584
+    },
+    {
+      "arvo_id": 42508524,
+      "attempt_outcomes": [
+        "APPLY_FAILED",
+        "APPLY_FAILED",
+        "STILL_CRASHES"
+      ],
+      "baseline_crash_type": "Heap-buffer-overflow READ 1",
+      "card_path": "eval/results/patch-eval-run2-cards/42508524.json",
+      "detail": "3 attempts; last: STILL_CRASHES",
+      "input_tokens": 16438,
+      "model_calls": 3,
+      "model_cost_usd": 0.0091029,
+      "outcome": "NOT_PROVEN",
+      "output_tokens": 4635,
+      "project": "libplist",
+      "proven_attempt": null,
+      "proven_diff": "",
+      "proven_rationale": "",
+      "proven_regression_check": "",
+      "request_ids": [
+        "c02c97086c80ad383ba8b386d3c07da0",
+        "a905529e5f7d731dee2c91427f22965e",
+        "9c52e287ebf2a32976aa64232c540e07"
+      ],
+      "upstream_fix_commits": [
+        "106c4ee7f53ef800a82fce9638f29756e8b78640"
+      ],
+      "upstream_repository": "https://github.com/libimobiledevice/libplist",
+      "wall_seconds": 84.716
+    },
+    {
+      "arvo_id": 42536108,
+      "attempt_outcomes": [
+        "APPLY_FAILED",
+        "STILL_CRASHES",
+        "MODEL_ERROR"
+      ],
+      "baseline_crash_type": "Heap-buffer-overflow READ {*}",
+      "card_path": "eval/results/patch-eval-run2-cards/42536108.json",
+      "detail": "3 attempts; last: MODEL_ERROR",
+      "input_tokens": 17283,
+      "model_calls": 3,
+      "model_cost_usd": 0.0096354,
+      "outcome": "NOT_PROVEN",
+      "output_tokens": 4945,
+      "project": "miniz",
+      "proven_attempt": null,
+      "proven_diff": "",
+      "proven_rationale": "",
+      "proven_regression_check": "",
+      "request_ids": [
+        "77f46c3b0a68b40189abc2dffadd7939",
+        "6161e2a6a767a987644cc4f59092f46d",
+        "4dab261686bbdf304d7eef38218d560e"
+      ],
+      "upstream_fix_commits": [
+        "8573fd7cd6f49b262a0ccc447f3c6acfc415e556"
+      ],
+      "upstream_repository": "https://github.com/richgel999/miniz",
+      "wall_seconds": 83.394
+    },
+    {
+      "arvo_id": 42536112,
+      "attempt_outcomes": [
+        "APPLY_FAILED",
+        "MODEL_ERROR",
+        "APPLY_FAILED"
+      ],
+      "baseline_crash_type": "Heap-buffer-overflow READ {*}",
+      "card_path": "eval/results/patch-eval-run2-cards/42536112.json",
+      "detail": "3 attempts; last: APPLY_FAILED",
+      "input_tokens": 18601,
+      "model_calls": 3,
+      "model_cost_usd": 0.0101829,
+      "outcome": "NOT_PROVEN",
+      "output_tokens": 5114,
+      "project": "miniz",
+      "proven_attempt": null,
+      "proven_diff": "",
+      "proven_rationale": "",
+      "proven_regression_check": "",
+      "request_ids": [
+        "9dc1a03806f246e0ab832b60dee01496",
+        "eaae2c73c2b5c996d18d6a199aaaffad",
+        "db706e2a58b3bea1f587604191cdcf88"
+      ],
+      "upstream_fix_commits": [
+        "8573fd7cd6f49b262a0ccc447f3c6acfc415e556"
+      ],
+      "upstream_repository": "https://github.com/richgel999/miniz",
+      "wall_seconds": 95.329
+    },
+    {
+      "arvo_id": 42508390,
+      "attempt_outcomes": [
+        "PROVEN"
+      ],
+      "baseline_crash_type": "Heap-buffer-overflow READ 2",
+      "card_path": "eval/results/patch-eval-run2-cards/42508390.json",
+      "detail": "the PoC and the seed corpus ran clean",
+      "input_tokens": 3353,
+      "model_calls": 1,
+      "model_cost_usd": 0.0018429,
+      "outcome": "PROVEN",
+      "output_tokens": 930,
+      "project": "libplist",
+      "proven_attempt": 1,
+      "proven_diff": "--- a/src/libplist/src/jplist.c\n+++ b/src/libplist/src/jplist.c\n@@ -437,23 +437,31 @@\n         data->type = PLIST_NULL;\n         val = plist_new_node(data);\n     } else if (str_val[0] == '-' || isdigit(str_val[0])) {\n-        char* endp = NULL;\n-        long long intpart = strtol(str_val, &endp, 10);\n-        if (endp >= str_end) {\n-            /* integer */\n-            val = plist_new_uint((uint64_t)intpart);\n-        } else if (*endp == '.' && endp+1 < str_end && isdigit(*(endp+1))) {\n-            /* float */\n-            char* fendp = endp+1;\n-            while (isdigit(*fendp) && fendp < str_end) fendp++;\n-            if ((fendp > endp+1 && fendp >= str_end) || (fendp+2 < str_end && (*fendp == 'e' || *fendp == 'E') && (*(fendp+1) == '+' || *(fendp+1) == '-') && isdigit(*(fendp+2)))) {\n-                double dval = atof(str_val);\n-                val = plist_new_real(dval);\n+        /* Ensure we have at least one digit after optional minus sign */\n+        if (str_val[0] == '-' && (str_end - str_val < 2 || !isdigit(str_val[1])))\n+        {\n+            PLIST_JSON_ERR(\"%s: invalid primitive value '%.*s' encountered\\n\", __func__, (int)str_len, str_val);\n+        }\n+        else\n+        {\n+            char* endp = NULL;\n+            long long intpart = strtol(str_val, &endp, 10);\n+            if (endp >= str_end) {\n+                /* integer */\n+                val = plist_new_uint((uint64_t)intpart);\n+            } else if (*endp == '.' && endp+1 < str_end && isdigit(*(endp+1))) {\n+                /* float */\n+                char* fendp = endp+1;\n+                while (isdigit(*fendp) && fendp < str_end) fendp++;\n+                if ((fendp > endp+1 && fendp >= str_end) || (fendp+2 < str_end && (*fendp == 'e' || *fendp == 'E') && (*(fendp+1) == '+' || *(fendp+1) == '-') && isdigit(*(fendp+2)))) {\n+                    double dval = atof(str_val);\n+                    val = plist_new_real(dval);\n+                } else {\n+                    PLIST_JSON_ERR(\"%s: invalid character at offset %d when parsing floating point value\\n\", __func__, (int)(fendp - js));\n+                }\n             } else {\n-                PLIST_JSON_ERR(\"%s: invalid character at offset %d when parsing floating point value\\n\", __func__, (int)(fendp - js));\n-            }\n-        } else {\n-            PLIST_JSON_ERR(\"%s: invalid character at offset %d when parsing numerical value\\n\", __func__, (int)(endp - js));\n+                PLIST_JSON_ERR(\"%s: invalid character at offset %d when parsing numerical value\\n\", __func__, (int)(endp - js));\n+            }\n         }\n     } else {\n         PLIST_JSON_ERR(\"%s: invalid primitive value '%.*s' encountered\\n\", __func__, (int)str_len, str_val);\n",
+      "proven_rationale": "The issue occurs because `strtol` reads beyond the bounds of the allocated string when processing numeric primitives. Specifically, when `strtol` parses a number like `-`, it may read past the null terminator into adjacent memory due to insufficient validation before calling `strtol`. The fix adds a check to ensure there is at least one digit following a minus sign before attempting conversion.",
+      "proven_regression_check": "seed corpus, 2 files",
+      "request_ids": [
+        "70995401e3e7527e52fd793b007c6b51"
+      ],
+      "upstream_fix_commits": [
+        "7d2cdc6f378f1d6d5631b7739398dd50bea62663"
+      ],
+      "upstream_repository": "https://github.com/libimobiledevice/libplist",
+      "wall_seconds": 69.239
+    },
+    {
+      "arvo_id": 42531297,
+      "attempt_outcomes": [
+        "STILL_CRASHES",
+        "STILL_CRASHES",
+        "STILL_CRASHES"
+      ],
+      "baseline_crash_type": "Heap-buffer-overflow READ 2",
+      "card_path": "eval/results/patch-eval-run2-cards/42531297.json",
+      "detail": "3 attempts; last: STILL_CRASHES",
+      "input_tokens": 25687,
+      "model_calls": 3,
+      "model_cost_usd": 0.0101415,
+      "outcome": "NOT_PROVEN",
+      "output_tokens": 2706,
+      "project": "jq",
+      "proven_attempt": null,
+      "proven_diff": "",
+      "proven_rationale": "",
+      "proven_regression_check": "",
+      "request_ids": [
+        "e5aa6aeda5112ba72fc2bad1380c199b",
+        "12425d36e3d1bcd5887287acbfae5c68",
+        "224152dfe56e2fc7c9d949d622138850"
+      ],
+      "upstream_fix_commits": [
+        "9d6efec1987b544ac2f8030e3c22036f7cb70cd9"
+      ],
+      "upstream_repository": "https://github.com/jqlang/jq",
+      "wall_seconds": 231.927
+    },
+    {
+      "arvo_id": 42531223,
+      "attempt_outcomes": [
+        "APPLY_FAILED",
+        "APPLY_FAILED",
+        "APPLY_FAILED"
+      ],
+      "baseline_crash_type": "Stack-buffer-overflow WRITE 2",
+      "card_path": "eval/results/patch-eval-run2-cards/42531223.json",
+      "detail": "3 attempts; last: APPLY_FAILED",
+      "input_tokens": 26316,
+      "model_calls": 3,
+      "model_cost_usd": 0.0095616,
+      "outcome": "NOT_PROVEN",
+      "output_tokens": 1852,
+      "project": "jq",
+      "proven_attempt": null,
+      "proven_diff": "",
+      "proven_rationale": "",
+      "proven_regression_check": "",
+      "request_ids": [
+        "bd4c64320b9fbe5555082f1a0a20c1fc",
+        "93ccd27e271abd7d0aa81925373dcd5a",
+        "1d5dc5659014ff52d9831281d70c5458"
+      ],
+      "upstream_fix_commits": [
+        "b86ff49f46a4a37e5a8e75a140cb5fd6e1331384"
+      ],
+      "upstream_repository": "https://github.com/jqlang/jq",
+      "wall_seconds": 95.912
+    },
+    {
+      "arvo_id": 42476752,
+      "attempt_outcomes": [
+        "STILL_CRASHES",
+        "STILL_CRASHES",
+        "STILL_CRASHES"
+      ],
+      "baseline_crash_type": "Heap-buffer-overflow READ {*}",
+      "card_path": "eval/results/patch-eval-run2-cards/42476752.json",
+      "detail": "3 attempts; last: STILL_CRASHES",
+      "input_tokens": 13927,
+      "model_calls": 3,
+      "model_cost_usd": 0.0070779,
+      "outcome": "NOT_PROVEN",
+      "output_tokens": 3222,
+      "project": "libspng",
+      "proven_attempt": null,
+      "proven_diff": "",
+      "proven_rationale": "",
+      "proven_regression_check": "",
+      "request_ids": [
+        "7adb520301251965e3bd5359affd22c3",
+        "84d7a5b90a0707debe2d859a6a87aac6",
+        "642de308cac0923915ecdb7655543de5"
+      ],
+      "upstream_fix_commits": [
+        "bace14e344502fce5984ab4fd9177d8db60351f8"
+      ],
+      "upstream_repository": "https://github.com/randy408/libspng",
+      "wall_seconds": 169.4
+    }
+  ],
+  "temperature": 0,
+  "totals": {
+    "attempts_per_proven": [
+      3,
+      1
+    ],
+    "budget_stopped": 0,
+    "harness_failed": 0,
+    "input_tokens": 196571,
+    "model_calls": 28,
+    "model_cost_usd": 0.0913524,
+    "not_proven": 8,
+    "output_tokens": 35979,
+    "proven": 2,
+    "recorded": 10,
+    "tasks": 10,
+    "wall_seconds": 1195.269
+  }
+}

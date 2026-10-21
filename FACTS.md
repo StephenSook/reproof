@@ -51,6 +51,50 @@ The selection is registered in `eval/eval100_prereg.json` (seed 20261019, 10 his
 | Run 2 NEEDS_INFO causes | `6 of 7: 32-bit fuzz targets whose runtime slice carried a 64-bit libm.so.6 or librt.so.1 (exit 127, wrong ELF class: ELFCLASS64); 1 of 7: espeak-ng target exits 77 on both builds` | command: ELF class of every file in `reproof/app/slices/<id>-vul` and the stderr in `eval/results/eval100-run2-cards/<id>.json`, 2026-10-20 | MEASURED |
 | Tasks completed in both runs, and with the same verdict both times | `42; 42` | command: intersect `tasks[].arvo_id` of both reports and compare `verdict`, 2026-10-20 | MEASURED |
 
+## Offline patch evaluation, registered
+
+Nemotron writes exact-text edits for the 10 historical ARVO tasks and the bug's ARVO image proves them, offline. Run 1 is registered in `eval/PATCH-PREREG.md`, run 2 in `eval/PATCH-PREREG-RUN2.md`; both are published as recorded. Proven means the project rebuilt and the stored input stopped crashing (and the seed corpus ran clean when there is one), not that the edit is the upstream fix or safe to merge.
+
+| Claim | Exact value | Source | Tag |
+|---|---:|---|---|
+| Patch run 1 registration commit | `bc162af11ce0b9367db3fc4110e4cf35d0523cca` | `eval/results/patch-eval.json#prereg.commit` | MEASURED |
+| Patch run 1 registration push time (UTC) | `2026-10-21T15:20:29Z` | command: `gh api "repos/StephenSook/reproof/activity?per_page=100"`, the `branch_creation` of `refs/heads/patch-eval` at `bc162af`, read 2026-10-21 | MEASURED |
+| Patch run 1 started (UTC) | `2026-10-21T15:21:28+00:00` | `eval/results/patch-eval.json#started_at_utc` | MEASURED |
+| Patch run 1 finished (UTC) | `2026-10-21T15:42:49+00:00` | `eval/results/patch-eval.json#finished_at_utc` | MEASURED |
+| Patch run 1 tasks | `10` | `eval/results/patch-eval.json#totals.tasks` | MEASURED |
+| Patch run 1 proven | `2` | `eval/results/patch-eval.json#totals.proven` | MEASURED |
+| Patch run 1 not proven | `8` | `eval/results/patch-eval.json#totals.not_proven` | MEASURED |
+| Patch run 1 attempt on which each was proven | `[2, 3]` | `eval/results/patch-eval.json#totals.attempts_per_proven` | MEASURED |
+| Patch run 1 jq ARVO 42530604 outcome | `PROVEN` | `eval/results/patch-eval.json#tasks[0].outcome` | MEASURED |
+| Patch run 1 libplist ARVO 42508390 outcome | `PROVEN` | `eval/results/patch-eval.json#tasks[6].outcome` | MEASURED |
+| Patch run 1 Nemotron calls | `29` | `eval/results/patch-eval.json#totals.model_calls` | MEASURED |
+| Patch run 1 input tokens | `177343` | `eval/results/patch-eval.json#totals.input_tokens` | MEASURED |
+| Patch run 1 output tokens | `22159` | `eval/results/patch-eval.json#totals.output_tokens` | MEASURED |
+| Patch run 1 Token Factory cost in US dollars | `0.073146` | `eval/results/patch-eval.json#totals.model_cost_usd` | MEASURED |
+| Patch run 1 attempts a build script stopped before they tested the edit | `12` | `eval/results/patch-eval-notes.json#totals.blocked_attempts` | MEASURED |
+| Patch run 1 attempts that built an edit | `8` | `eval/results/patch-eval-notes.json#totals.attempts_that_built` | MEASURED |
+| No-model harness check before run 2: code commit | `94e4967499a7f4d96430d42faf35036222104d00` | `eval/results/patch-harness-check.json#code.head` | MEASURED |
+| No-model harness check: model calls | `0` | `eval/results/patch-harness-check.json#model_calls` | MEASURED |
+| No-model harness check: images that rebuilt twice after the control build with the PoC still crashing | `10` | `eval/results/patch-harness-check.json#totals.ok` | MEASURED |
+| No-model harness check: attempt compiles that exited 0 | `20` | `eval/results/patch-harness-check.json#totals.attempt_compiles_that_built` | MEASURED |
+| Patch run 2 registration commit | `bbe6e9a17942930215e1b5d44655d86b8b7539c1` | `eval/results/patch-eval-run2.json#prereg.commit` | MEASURED |
+| Patch run 2 registration push time (UTC) | `2026-10-21T16:32:06Z` | command: `gh api "repos/StephenSook/reproof/activity?per_page=10"`, the `branch_creation` of `refs/heads/patch-eval-run2` at `bbe6e9a`, read 2026-10-21 | MEASURED |
+| Patch run 2 started (UTC) | `2026-10-21T16:32:25+00:00` | `eval/results/patch-eval-run2.json#started_at_utc` | MEASURED |
+| Patch run 2 finished (UTC) | `2026-10-21T16:52:21+00:00` | `eval/results/patch-eval-run2.json#finished_at_utc` | MEASURED |
+| Patch run 2 tasks | `10` | `eval/results/patch-eval-run2.json#totals.tasks` | MEASURED |
+| Patch run 2 proven | `2` | `eval/results/patch-eval-run2.json#totals.proven` | MEASURED |
+| Patch run 2 not proven | `8` | `eval/results/patch-eval-run2.json#totals.not_proven` | MEASURED |
+| Patch run 2 attempt on which each was proven | `[3, 1]` | `eval/results/patch-eval-run2.json#totals.attempts_per_proven` | MEASURED |
+| Patch run 2 jq ARVO 42530604 outcome | `NOT_PROVEN` | `eval/results/patch-eval-run2.json#tasks[0].outcome` | MEASURED |
+| Patch run 2 libplist ARVO 42507851 outcome | `PROVEN` | `eval/results/patch-eval-run2.json#tasks[1].outcome` | MEASURED |
+| Patch run 2 libplist ARVO 42508390 outcome | `PROVEN` | `eval/results/patch-eval-run2.json#tasks[6].outcome` | MEASURED |
+| Patch run 2 Nemotron calls | `28` | `eval/results/patch-eval-run2.json#totals.model_calls` | MEASURED |
+| Patch run 2 input tokens | `196571` | `eval/results/patch-eval-run2.json#totals.input_tokens` | MEASURED |
+| Patch run 2 output tokens | `35979` | `eval/results/patch-eval-run2.json#totals.output_tokens` | MEASURED |
+| Patch run 2 Token Factory cost in US dollars | `0.0913524` | `eval/results/patch-eval-run2.json#totals.model_cost_usd` | MEASURED |
+| Patch run 2 attempts a build script stopped before they tested the edit | `0` | `eval/results/patch-eval-run2-notes.json#totals.blocked_attempts` | MEASURED |
+| Patch run 2 attempts that built an edit | `14` | `eval/results/patch-eval-run2-notes.json#totals.attempts_that_built` | MEASURED |
+
 ## Public status evaluation
 
 | Claim | Exact value | Source | Tag |

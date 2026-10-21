@@ -5,9 +5,11 @@ import run1Data from "@/content/eval100-run1.json";
 import run2Data from "@/content/eval100-run2.json";
 import patchData from "@/content/patch-eval.json";
 import patchNotesData from "@/content/patch-eval-notes.json";
+import patchRun2Data from "@/content/patch-eval-run2.json";
+import patchRun2NotesData from "@/content/patch-eval-run2-notes.json";
 import { dollars, proofRows, runAgreement, runHeadline, type Eval100Report, type ProofRow, type RunHeadline } from "@/lib/eval100";
 import { displayCrashType } from "@/lib/crashType";
-import type { PatchNotes, PatchReport } from "@/lib/patchEval";
+import type { PatchNotes, PatchReport, PatchRun } from "@/lib/patchEval";
 import { Mark } from "@/ui/Mark";
 import { PatchSection } from "@/ui/PatchSection";
 import { Stamp, VerdictStamp } from "@/ui/Stamp";
@@ -26,8 +28,20 @@ const PLAN_COMMIT = "0383504";
 
 const run1 = run1Data as Eval100Report;
 const run2 = run2Data as Eval100Report;
-const patches = patchData as unknown as PatchReport;
-const patchNotes = patchNotesData as unknown as PatchNotes;
+const patchRuns: PatchRun[] = [
+  {
+    key: "1",
+    title: "Run 1",
+    report: patchData as unknown as PatchReport,
+    notes: patchNotesData as unknown as PatchNotes,
+  },
+  {
+    key: "2",
+    title: "Run 2",
+    report: patchRun2Data as unknown as PatchReport,
+    notes: patchRun2NotesData as unknown as PatchNotes,
+  },
+];
 
 function Check({ ok, pass, fail }: { ok: boolean; pass: string; fail: string }) {
   return (
@@ -235,7 +249,7 @@ export default function ProofPage() {
           </details>
         </section>
 
-        <PatchSection notes={patchNotes} report={patches} repoUrl={REPO_URL} />
+        <PatchSection repoUrl={REPO_URL} runs={patchRuns} />
 
         <section aria-labelledby="every-task-title" className="section" id="every-task">
           <div className="section-heading">

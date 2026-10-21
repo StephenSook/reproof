@@ -1,0 +1,221 @@
+{
+  "arvo_id": 42536112,
+  "attempts": [
+    {
+      "apply_errors": [
+        "edit 1: old_text occurs 0 times in /src/miniz/miniz_zip.c; it must occur once"
+      ],
+      "attempt": 1,
+      "compile": null,
+      "detail": "edit 1: old_text occurs 0 times in /src/miniz/miniz_zip.c; it must occur once",
+      "diff": "",
+      "edits": [
+        {
+          "new_text": "static size_t mz_zip_mem_read_func(void *pOpaque, mz_uint64 file_ofs, void *pBuf, size_t n)\n{\n    mz_zip_archive *pZip = (mz_zip_archive *)pOpaque;\n    if (file_ofs > pZip->m_archive_size)\n        return 0;\n    size_t s = (size_t)MZ_MIN(pZip->m_archive_size - file_ofs, n);\n    memcpy(pBuf, (const mz_uint8 *)pZip->m_pState->m_pMem + file_ofs, s);\n    return s;\n}",
+          "old_text": "static size_t mz_zip_mem_read_func(void *pOpaque, mz_uint64 file_ofs, void *pBuf, size_t n)\n{\n    mz_zip_archive *pZip = (mz_zip_archive *)pOpaque;\n    size_t s = (file_ofs >= pZip->m_archive_size) ? 0 : (size_t)MZ_MIN(pZip->m_archive_size - file_ofs, n);\n    memcpy(pBuf, (const mz_uint8 *)pZip->m_pState->m_pMem + file_ofs, s);\n    return s;\n}",
+          "path": "/src/miniz/miniz_zip.c"
+        }
+      ],
+      "feedback": "Attempt 1 was not applied. The source is unchanged: edit 1: old_text occurs 0 times in /src/miniz/miniz_zip.c; it must occur once\nPropose new edits against the original source shown in the first message.",
+      "model_call": {
+        "cost_usd": 0.0017691,
+        "input_price_per_million": 0.3,
+        "input_tokens": 4460,
+        "latency_seconds": 4.368799,
+        "model": "nvidia/nemotron-3-super-120b-a12b",
+        "output_price_per_million": 0.9,
+        "output_tokens": 479,
+        "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+        "request_id": "9dc1a03806f246e0ab832b60dee01496",
+        "total_tokens": 4939
+      },
+      "model_cost_usd": 0.0017691,
+      "model_error": "",
+      "outcome": "APPLY_FAILED",
+      "poc": null,
+      "poc_crash_state": [],
+      "poc_crash_type": "",
+      "rationale": "The buffer overflow occurs because `mz_zip_mem_read_func` reads beyond the allocated memory when `file_ofs + s` exceeds `pZip->m_archive_size`. Although `s` is computed as `MZ_MIN(pZip->m_archive_size - file_ofs, n)`, an integer underflow can happen if `file_ofs > pZip->m_archive_size`, causing `pZip->m_archive_size - file_ofs` to wrap around to a large value due to unsigned arithmetic. The fix adds an explicit check to ensure `file_ofs <= pZip->m_archive_size` before computing `s`, preventing the underflow and ensuring no out-of-bounds read.",
+      "regression": null,
+      "regression_check": "",
+      "request_ids": [
+        "9dc1a03806f246e0ab832b60dee01496"
+      ]
+    },
+    {
+      "apply_errors": [],
+      "attempt": 2,
+      "compile": null,
+      "detail": "finish_reason=length",
+      "diff": "",
+      "edits": [],
+      "feedback": "Attempt 2 returned no usable edits: finish_reason=length\nPropose new edits against the original source shown in the first message.",
+      "model_call": {
+        "cost_usd": 0.005187,
+        "input_price_per_million": 0.3,
+        "input_tokens": 5002,
+        "latency_seconds": 39.048671,
+        "model": "nvidia/nemotron-3-super-120b-a12b",
+        "output_price_per_million": 0.9,
+        "output_tokens": 4096,
+        "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+        "request_id": "eaae2c73c2b5c996d18d6a199aaaffad",
+        "total_tokens": 9098
+      },
+      "model_cost_usd": 0.005187,
+      "model_error": "finish_reason=length",
+      "outcome": "MODEL_ERROR",
+      "poc": null,
+      "poc_crash_state": [],
+      "poc_crash_type": "",
+      "rationale": "",
+      "regression": null,
+      "regression_check": "",
+      "request_ids": [
+        "eaae2c73c2b5c996d18d6a199aaaffad"
+      ]
+    },
+    {
+      "apply_errors": [
+        "edit 1: old_text occurs 0 times in /src/miniz/miniz_zip.c; it must occur once"
+      ],
+      "attempt": 3,
+      "compile": null,
+      "detail": "edit 1: old_text occurs 0 times in /src/miniz/miniz_zip.c; it must occur once",
+      "diff": "",
+      "edits": [
+        {
+          "new_text": "static size_t mz_zip_mem_read_func(void *pOpaque, mz_uint64 file_ofs, void *pBuf, size_t n)\n{\n    mz_zip_archive *pZip = (mz_zip_archive *)pOpaque;\n    if (file_ofs > pZip->m_archive_size)\n        return 0;\n    size_t s = (size_t)MZ_MIN(pZip->m_archive_size - file_ofs, n);\n    memcpy(pBuf, (const mz_uint8 *)pZip->m_pState->m_pMem + file_ofs, s);\n    return s;\n}",
+          "old_text": "static size_t mz_zip_mem_read_func(void *pOpaque, mz_uint64 file_ofs, void *pBuf, size_t n)\n{\n    mz_zip_archive *pZip = (mz_zip_archive *)pOpaque;\n    size_t s = (file_ofs >= pZip->m_archive_size) ? 0 : (size_t)MZ_MIN(pZip->m_archive_size - file_ofs, n);\n    memcpy(pBuf, (const mz_uint8 *)pZip->m_pState->m_pMem + file_ofs, s);\n    return s;\n}",
+          "path": "/src/miniz/miniz_zip.c"
+        }
+      ],
+      "feedback": "Attempt 3 was not applied. The source is unchanged: edit 1: old_text occurs 0 times in /src/miniz/miniz_zip.c; it must occur once\nPropose new edits against the original source shown in the first message.",
+      "model_call": {
+        "cost_usd": 0.0032268,
+        "input_price_per_million": 0.3,
+        "input_tokens": 9139,
+        "latency_seconds": 5.213444,
+        "model": "nvidia/nemotron-3-super-120b-a12b",
+        "output_price_per_million": 0.9,
+        "output_tokens": 539,
+        "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+        "request_id": "db706e2a58b3bea1f587604191cdcf88",
+        "total_tokens": 9678
+      },
+      "model_cost_usd": 0.0032268,
+      "model_error": "",
+      "outcome": "APPLY_FAILED",
+      "poc": null,
+      "poc_crash_state": [],
+      "poc_crash_type": "",
+      "rationale": "The buffer overflow occurs in `mz_zip_mem_read_func` when reading beyond the allocated memory due to an integer underflow in the calculation of the remaining size. Although the code attempts to clamp the read size `s` using `(file_ofs >= pZip->m_archive_size) ? 0 : (size_t)MZ_MIN(pZip->m_archive_size - file_ofs, n)`, the subtraction `pZip->m_archive_size - file_ofs` can underflow when `file_ofs > pZip->m_archive_size` (due to unsigned integer wraparound), leading to a large value for `s` and subsequent out-of-bounds read. The fix adds an explicit check to ensure `file_ofs <= pZip->m_archive_size` before performing the subtraction, preventing the underflow. This is functionally equivalent to the original intent but avoids relying on the ternary condition alone, which may not prevent underflow in all cases due to how the condition is evaluated.",
+      "regression": null,
+      "regression_check": "",
+      "request_ids": [
+        "db706e2a58b3bea1f587604191cdcf88"
+      ]
+    }
+  ],
+  "baseline": {
+    "command": "arvo",
+    "exit_code": 1,
+    "output_bytes": 4359,
+    "output_sha256": "a714da01347ae32670d4aca92bedddfeb7eceb60bb4b4a92305c02e4ca71268d",
+    "output_tail": "Running: /tmp/poc\n=================================================================\n==21==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x5070000000d4 at pc 0x593448ba9ada bp 0x7fff10978bf0 sp 0x7fff109783b0\nREAD of size 17 at 0x5070000000d4 thread T0\nSCARINESS: 26 (multi-byte-read-heap-buffer-overflow)\n    #0 0x593448ba9ad9 in __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3\n    #1 0x593448c0748d in mz_zip_mem_read_func /src/miniz/build/amalgamation/miniz.c:4050:9\n    #2 0x593448c12478 in mz_zip_validate_file /src/miniz/build/amalgamation/miniz.c:5410:13\n    #3 0x593448beacbf in LLVMFuzzerTestOneInput /src/miniz/tests/zip_fuzzer.c:38:9\n    #4 0x593448a9d480 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:614:13\n    #5 0x593448a87c14 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6\n    #6 0x593448a8d6aa in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9\n    #7 0x593448ab9aa2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #8 0x754127d93082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082) (BuildId: 0702430aef5fa3dda43986563e9ffcc47efbd75e)\n    #9 0x593448a7e6ed in _start (/out/zip_fuzzer+0x506ed)\n\nDEDUP_TOKEN: __asan_memcpy--mz_zip_mem_read_func--mz_zip_validate_file\n0x5070000000d4 is located 0 bytes after 68-byte region [0x507000000090,0x5070000000d4)\nallocated by thread T0 here:\n    #0 0x593448baba1e in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:69:3\n    #1 0x593448abb256 in operator new(unsigned long) cxa_noexception.cpp\n    #2 0x593448a87c14 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6\n    #3 0x593448a8d6aa in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9\n    #4 0x593448ab9aa2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #5 0x754127d93082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082) (BuildId: 0702430aef5fa3dda43986563e9ffcc47efbd75e)\n\nDEDUP_TOKEN: __interceptor_malloc--operator new(unsigned long)--fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3 in __asan_memcpy\nShadow bytes around the buggy address:\n  0x506ffffffe00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x506ffffffe80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x506fffffff00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x506fffffff80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x507000000000: fa fa fa fa 00 00 00 00 00 00 00 00 04 fa fa fa\n=>0x507000000080: fa fa 00 00 00 00 00 00 00 00[04]fa fa fa fa fa\n  0x507000000100: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x507000000180: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x507000000200: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x507000000280: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x507000000300: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==21==ABORTING",
+    "timed_out": false,
+    "wall_seconds": 0.247
+  },
+  "baseline_crash_state": [
+    "mz_zip_mem_read_func",
+    "mz_zip_validate_file",
+    "zip_fuzzer.c"
+  ],
+  "baseline_crash_type": "Heap-buffer-overflow READ {*}",
+  "clean_containers": 1,
+  "control_compile": {
+    "command": "arvo compile",
+    "exit_code": 0,
+    "output_bytes": 45082,
+    "output_sha256": "8e1203ee1e280fa30c7e70ade28ceb599ba0d05dc54e666121015385f6c393f8",
+    "output_tail": "   55 | }\n      |  ^\n/src/miniz/tests/fuzz_main.c:55:2: warning: no newline at end of file [-Wnewline-eof]\n   55 | }\n      |  ^\n1 warning generated.\n1 warning generated.\n/src/miniz/tests/checksum_fuzzer.c:19:14: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]\n   19 |     uint32_t crc = crc32(0L, NULL, 0);\n      |              ^\n1 warning generated.\n/src/miniz/tests/fuzz_main.c:55:2: warning: no newline at end of file [-Wnewline-eof]\n   55 | }\n      |  ^\n1 warning generated.\n/src/miniz/tests/fuzz_main.c:55:2: warning: no newline at end of file [-Wnewline-eof]\n   55 | }\n      |  ^\n/src/miniz/tests/fuzz_main.c:55:2: warning: no newline at end of file [-Wnewline-eof]\n   55 | }\n      |  ^\n1 warning generated/src/miniz/tests/fuzz_main.c:55:2: warning: no newline at end of file [-Wnewline-eof]\n   55 | }\n      |  ^\n.\n1 warning generated.\n/src/miniz/tests/fuzz_main.c:55:2: warning: no newline at end of file [-Wnewline-eof]\n   55 | }\n      |  ^\n1 warning generated.\n/src/miniz/tests/fuzz_main.c:55:2: warning: no newline at end of file [-Wnewline-eof]\n   55 | }\n      |  ^\n1 warning generated.\n/src/miniz/tests/zip_fuzzer.c:45:17: warning: declaration shadows a local variable [-Wshadow]\n   45 |         mz_uint ret = mz_zip_reader_get_filename(&zip, i, filename, filename_max);\n      |                 ^\n/src/miniz/tests/zip_fuzzer.c:18:9: note: previous declaration is here\n   18 |     int ret = 0;\n      |         ^\n/src/miniz/tests/zip_fuzzer.c:45:17: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]\n   45 |         mz_uint ret = mz_zip_reader_get_filename(&zip, i, filename, filename_max);\n      |                 ^\n/src/miniz/tests/zip_fuzzer.c:45:17: warning: unused variable 'ret' [-Wunused-variable]\n   45 |         mz_uint ret = mz_zip_reader_get_filename(&zip, i, filename, filename_max);\n      |                 ^~~\n/src/miniz/tests/zip_fuzzer.c:51:17: warning: unused variable 'status' [-Wunused-variable]\n   51 |         mz_bool status = mz_zip_reader_file_stat(&zip, i, &file_stat) != 0;\n      |                 ^~~~~~\n/src/miniz/tests/zip_fuzzer.c:63:2: warning: no newline at end of file [-Wnewline-eof]\n   63 | }\n      |  ^\n/src/miniz/tests/zip_fuzzer.c:18:9: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]\n   18 |     int ret = 0;\n      |         ^\n/src/miniz/tests/zip_fuzzer.c:59:1: warning: unused label 'cleanup' [-Wunused-label]\n   59 | cleanup:\n      | ^~~~~~~~\n1 warning generated.\n7 warnings generated.",
+    "timed_out": false,
+    "wall_seconds": 5.982
+  },
+  "control_poc": {
+    "command": "arvo",
+    "exit_code": 1,
+    "output_bytes": 4361,
+    "output_sha256": "f3674a8cc43cc1125b01e6ec80c74bdceb839923cd18f1496bf9898631406769",
+    "output_tail": "Running: /tmp/poc\n=================================================================\n==413==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x5070000000d4 at pc 0x560af9cedada bp 0x7ffe56fb4c70 sp 0x7ffe56fb4430\nREAD of size 17 at 0x5070000000d4 thread T0\nSCARINESS: 26 (multi-byte-read-heap-buffer-overflow)\n    #0 0x560af9cedad9 in __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3\n    #1 0x560af9d4b48d in mz_zip_mem_read_func /src/miniz/build/amalgamation/miniz.c:4050:9\n    #2 0x560af9d56478 in mz_zip_validate_file /src/miniz/build/amalgamation/miniz.c:5410:13\n    #3 0x560af9d2ecbf in LLVMFuzzerTestOneInput /src/miniz/tests/zip_fuzzer.c:38:9\n    #4 0x560af9be1480 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:614:13\n    #5 0x560af9bcbc14 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6\n    #6 0x560af9bd16aa in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9\n    #7 0x560af9bfdaa2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #8 0x7fd93445c082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082) (BuildId: 0702430aef5fa3dda43986563e9ffcc47efbd75e)\n    #9 0x560af9bc26ed in _start (/out/zip_fuzzer+0x506ed)\n\nDEDUP_TOKEN: __asan_memcpy--mz_zip_mem_read_func--mz_zip_validate_file\n0x5070000000d4 is located 0 bytes after 68-byte region [0x507000000090,0x5070000000d4)\nallocated by thread T0 here:\n    #0 0x560af9cefa1e in malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:69:3\n    #1 0x560af9bff256 in operator new(unsigned long) cxa_noexception.cpp\n    #2 0x560af9bcbc14 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6\n    #3 0x560af9bd16aa in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9\n    #4 0x560af9bfdaa2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #5 0x7fd93445c082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082) (BuildId: 0702430aef5fa3dda43986563e9ffcc47efbd75e)\n\nDEDUP_TOKEN: __interceptor_malloc--operator new(unsigned long)--fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3 in __asan_memcpy\nShadow bytes around the buggy address:\n  0x506ffffffe00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x506ffffffe80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x506fffffff00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x506fffffff80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x507000000000: fa fa fa fa 00 00 00 00 00 00 00 00 04 fa fa fa\n=>0x507000000080: fa fa 00 00 00 00 00 00 00 00[04]fa fa fa fa fa\n  0x507000000100: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x507000000180: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x507000000200: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x507000000280: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x507000000300: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==413==ABORTING",
+    "timed_out": false,
+    "wall_seconds": 0.229
+  },
+  "control_seeds": {
+    "command": "fuzz target over the seed corpus",
+    "exit_code": 0,
+    "output_bytes": 490,
+    "output_sha256": "28b88d8a39266c2f4906f108f05c9a3c20c2bf90a40c970c63abab9e714e42db",
+    "output_tail": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1833866685\nINFO: Loaded 1 modules   (2992 inline 8-bit counters): 2992 [0x5b97eb8a9360, 0x5b97eb8a9f10), \nINFO: Loaded 1 PC tables (2992 PCs): 2992 [0x5b97eb8a9f10,0x5b97eb8b5a10), \n/out/zip_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: ./out/seed_corpus.zip\nExecuted ./out/seed_corpus.zip in 9 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***",
+    "timed_out": false,
+    "wall_seconds": 0.118
+  },
+  "detail": "3 attempts; last: APPLY_FAILED",
+  "frame_notes": [
+    "crash frame #1 mz_zip_mem_read_func at /src/miniz/build/amalgamation/miniz.c:4050: not in the source tree before the build; shown from /src/miniz/miniz_zip.c:1036",
+    "crash frame #2 mz_zip_validate_file at /src/miniz/build/amalgamation/miniz.c:5410: not in the source tree before the build; shown from /src/miniz/miniz_zip.c:2396"
+  ],
+  "frames": [
+    {
+      "function": "mz_zip_mem_read_func",
+      "generated_line": 4050,
+      "generated_path": "/src/miniz/build/amalgamation/miniz.c",
+      "index": 1,
+      "line": 1036,
+      "path": "/src/miniz/miniz_zip.c",
+      "section": "crash"
+    },
+    {
+      "function": "mz_zip_validate_file",
+      "generated_line": 5410,
+      "generated_path": "/src/miniz/build/amalgamation/miniz.c",
+      "index": 2,
+      "line": 2396,
+      "path": "/src/miniz/miniz_zip.c",
+      "section": "crash"
+    }
+  ],
+  "fuzz_target": "/out/zip_fuzzer",
+  "host_free_bytes_at_start": 3308740608,
+  "image": "n132/arvo:42536112-vul",
+  "image_bytes": 2631132507,
+  "image_digest": "n132/arvo@sha256:58c3b5c06305a526ef4db576f0506b7a52f707facbc65527696a5f7f1bce1c0a",
+  "image_removed": true,
+  "input_tokens": 18601,
+  "model_calls": 3,
+  "model_cost_usd": 0.0101829,
+  "outcome": "NOT_PROVEN",
+  "output_tokens": 5114,
+  "project": "miniz",
+  "proven_attempt": null,
+  "pull": {
+    "command": "docker pull n132/arvo:42536112-vul",
+    "exit_code": 0,
+    "output_bytes": 3754,
+    "output_sha256": "134d7133ab83f3f347ec946741c12725605681ef179ba60c1cb856a68b20d935",
+    "output_tail": "7608715873ec: Pull complete\nd2cbe67ea65c: Download complete\nb47011be5aa6: Download complete\n90f88f981135: Download complete\n5ac7f6480f32: Download complete\na521e8f7615c: Pull complete\nd028b1cbd238: Pull complete\n13bdff896388: Download complete\n8d0d1e11ce7e: Download complete\nd9590b56648a: Pull complete\nbe59a69d0b17: Pull complete\na43f160e9466: Pull complete\nd6d9726d5d18: Download complete\n964b89fd5fb1: Download complete\n97e1488bc8c0: Download complete\n1509ee0edf89: Download complete\n0df43636ba95: Download complete\n82b789f4c6ca: Download complete\ne4af9d231878: Download complete\n302d2cb65245: Download complete\nbd3ca845c839: Download complete\n17a6e60f0663: Download complete\n3ed70170c0a3: Download complete\n4dda55f0a285: Download complete\n4dda55f0a285: Pull complete\na286f9387ad3: Pull complete\nd6d5a96cb52f: Pull complete\n3ed70170c0a3: Pull complete\n424258d51fc5: Pull complete\n5c447032e095: Pull complete\n5ac7f6480f32: Pull complete\n0789218623d1: Pull complete\nf0c41b601ed3: Pull complete\n82b789f4c6ca: Pull complete\n17a6e60f0663: Pull complete\n8d0d1e11ce7e: Pull complete\n90f88f981135: Pull complete\n13bdff896388: Pull complete\nb89d148726fe: Pull complete\n302d2cb65245: Pull complete\nbd3ca845c839: Pull complete\n051fe8a89437: Pull complete\n0df43636ba95: Pull complete\n40c00d0a046e: Pull complete\na3371320fb97: Pull complete\n79f782065e34: Pull complete\n2e7b14ca54ec: Pull complete\nb47011be5aa6: Pull complete\n089f1bd3f831: Pull complete\nd6d9726d5d18: Pull complete\nd2cbe67ea65c: Pull complete\n4f4fb700ef54: Pull complete\n964b89fd5fb1: Pull complete\n97e1488bc8c0: Pull complete\ne4af9d231878: Pull complete\n1509ee0edf89: Pull complete\n130fa428b666: Pull complete\nDigest: sha256:58c3b5c06305a526ef4db576f0506b7a52f707facbc65527696a5f7f1bce1c0a\nStatus: Downloaded newer image for n132/arvo:42536112-vul\ndocker.io/n132/arvo:42536112-vul",
+    "timed_out": false,
+    "wall_seconds": 34.049
+  },
+  "schema_version": "1",
+  "seed_count": 1,
+  "seed_note": "1 files from /out/zip_fuzzer_seed_corpus.zip (at most 500)",
+  "snapshot_image": "sha256:ade330bbf25149edfc813fa7b2055f46260709611229466b6ee63aefcbf0cf09",
+  "source_chars": 9983,
+  "upstream_fix_commits": [
+    "8573fd7cd6f49b262a0ccc447f3c6acfc415e556"
+  ],
+  "upstream_repository": "https://github.com/richgel999/miniz",
+  "wall_seconds": 95.329,
+  "workdir": "/src/miniz"
+}

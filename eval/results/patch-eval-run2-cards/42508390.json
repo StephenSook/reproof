@@ -1,0 +1,166 @@
+{
+  "arvo_id": 42508390,
+  "attempts": [
+    {
+      "apply_errors": [],
+      "attempt": 1,
+      "compile": {
+        "command": "arvo compile",
+        "exit_code": 0,
+        "output_bytes": 17901,
+        "output_sha256": "e1d10ca6f477fbcd3b20cd5bb2b17f87e3243b1a65184ceab4a4060ce4c3063d",
+        "output_tail": "updating: dictref7bytes.bplist (deflated 45%)\nupdating: dictref8bytes.bplist (deflated 48%)\nupdating: malformed_dict.bplist (deflated 25%)\nupdating: off1byte.bplist (deflated 36%)\nupdating: off2bytes.bplist (deflated 34%)\nupdating: off3bytes.bplist (deflated 34%)\nupdating: off4bytes.bplist (deflated 36%)\nupdating: off5bytes.bplist (deflated 40%)\nupdating: off6bytes.bplist (deflated 43%)\nupdating: off7bytes.bplist (deflated 47%)\nupdating: off8bytes.bplist (deflated 51%)\nupdating: order.bplist (deflated 23%)\nupdating: recursion.bplist (deflated 23%)\nupdating: signed.bplist (deflated 50%)\nupdating: signedunsigned.bplist (deflated 54%)\nupdating: uid.bplist (deflated 44%)\nupdating: unsigned.bplist (deflated 53%)\nupdating: 1.plist (deflated 58%)\nupdating: 2.plist (deflated 79%)\nupdating: 3.plist (deflated 95%)\nupdating: 4.plist (deflated 99%)\nupdating: 5.plist (deflated 99%)\nupdating: 6.plist (deflated 89%)\nupdating: 7.plist (deflated 38%)\nupdating: amp.plist (deflated 19%)\nupdating: cdata.plist (deflated 14%)\nupdating: empty_keys.plist (deflated 42%)\nupdating: entities.plist (deflated 81%)\nupdating: hex.plist (deflated 18%)\nupdating: invalid_tag.plist (deflated 21%)\nupdating: offxml.plist (deflated 22%)\nupdating: order.plist (deflated 55%)\nupdating: signed.plist (deflated 18%)\nupdating: signedunsigned.plist (deflated 41%)\nupdating: unsigned.plist (deflated 18%)\nupdating: j1.json (deflated 59%)\nupdating: j2.json (deflated 13%)\n+ ./autogen.sh --without-cython --enable-debug\nconfigure.ac:28: installing './compile'\nconfigure.ac:41: installing './config.guess'\nconfigure.ac:41: installing './config.sub'\nconfigure.ac:6: installing './install-sh'\nconfigure.ac:6: installing './missing'\ncython/Makefile.am: installing './depcomp'\nparallel-tests: installing './test-driver'\n++ nproc\n+ make -j8 clean\n++ nproc\n+ make -j8 all\nclang-14: warning: argument unused during compilation: '-pthread' [-Wunused-command-line-argument]\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/bplist_fuzzer.cc -o /out/bplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/xplist_fuzzer.cc -o /out/xplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/jplist_fuzzer.cc -o /out/jplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ zip -j /out/bplist_fuzzer_seed_corpus.zip test/data/data.bplist test/data/dictref1byte.bplist test/data/dictref2bytes.bplist test/data/dictref3bytes.bplist test/data/dictref4bytes.bplist test/data/dictref5bytes.bplist test/data/dictref6bytes.bplist test/data/dictref7bytes.bplist test/data/dictref8bytes.bplist test/data/malformed_dict.bplist test/data/off1byte.bplist test/data/off2bytes.bplist test/data/off3bytes.bplist test/data/off4bytes.bplist test/data/off5bytes.bplist test/data/off6bytes.bplist test/data/off7bytes.bplist test/data/off8bytes.bplist test/data/order.bplist test/data/recursion.bplist test/data/signed.bplist test/data/signedunsigned.bplist test/data/uid.bplist test/data/unsigned.bplist\n+ zip -j /out/xplist_fuzzer_seed_corpus.zip test/data/1.plist test/data/2.plist test/data/3.plist test/data/4.plist test/data/5.plist test/data/6.plist test/data/7.plist test/data/amp.plist test/data/cdata.plist test/data/empty_keys.plist test/data/entities.plist test/data/hex.plist test/data/invalid_tag.plist test/data/offxml.plist test/data/order.plist test/data/signed.plist test/data/signedunsigned.plist test/data/unsigned.plist\n+ zip -j /out/jplist_fuzzer_seed_corpus.zip test/data/j1.json test/data/j2.json\n+ cp fuzz/bplist.dict fuzz/jplist.dict fuzz/xplist.dict fuzz/bplist_fuzzer.options fuzz/jplist_fuzzer.options fuzz/xplist_fuzzer.options /out/",
+        "timed_out": false,
+        "wall_seconds": 11.885
+      },
+      "detail": "the PoC and the seed corpus ran clean",
+      "diff": "--- a/src/libplist/src/jplist.c\n+++ b/src/libplist/src/jplist.c\n@@ -437,23 +437,31 @@\n         data->type = PLIST_NULL;\n         val = plist_new_node(data);\n     } else if (str_val[0] == '-' || isdigit(str_val[0])) {\n-        char* endp = NULL;\n-        long long intpart = strtol(str_val, &endp, 10);\n-        if (endp >= str_end) {\n-            /* integer */\n-            val = plist_new_uint((uint64_t)intpart);\n-        } else if (*endp == '.' && endp+1 < str_end && isdigit(*(endp+1))) {\n-            /* float */\n-            char* fendp = endp+1;\n-            while (isdigit(*fendp) && fendp < str_end) fendp++;\n-            if ((fendp > endp+1 && fendp >= str_end) || (fendp+2 < str_end && (*fendp == 'e' || *fendp == 'E') && (*(fendp+1) == '+' || *(fendp+1) == '-') && isdigit(*(fendp+2)))) {\n-                double dval = atof(str_val);\n-                val = plist_new_real(dval);\n+        /* Ensure we have at least one digit after optional minus sign */\n+        if (str_val[0] == '-' && (str_end - str_val < 2 || !isdigit(str_val[1])))\n+        {\n+            PLIST_JSON_ERR(\"%s: invalid primitive value '%.*s' encountered\\n\", __func__, (int)str_len, str_val);\n+        }\n+        else\n+        {\n+            char* endp = NULL;\n+            long long intpart = strtol(str_val, &endp, 10);\n+            if (endp >= str_end) {\n+                /* integer */\n+                val = plist_new_uint((uint64_t)intpart);\n+            } else if (*endp == '.' && endp+1 < str_end && isdigit(*(endp+1))) {\n+                /* float */\n+                char* fendp = endp+1;\n+                while (isdigit(*fendp) && fendp < str_end) fendp++;\n+                if ((fendp > endp+1 && fendp >= str_end) || (fendp+2 < str_end && (*fendp == 'e' || *fendp == 'E') && (*(fendp+1) == '+' || *(fendp+1) == '-') && isdigit(*(fendp+2)))) {\n+                    double dval = atof(str_val);\n+                    val = plist_new_real(dval);\n+                } else {\n+                    PLIST_JSON_ERR(\"%s: invalid character at offset %d when parsing floating point value\\n\", __func__, (int)(fendp - js));\n+                }\n             } else {\n-                PLIST_JSON_ERR(\"%s: invalid character at offset %d when parsing floating point value\\n\", __func__, (int)(fendp - js));\n-            }\n-        } else {\n-            PLIST_JSON_ERR(\"%s: invalid character at offset %d when parsing numerical value\\n\", __func__, (int)(endp - js));\n+                PLIST_JSON_ERR(\"%s: invalid character at offset %d when parsing numerical value\\n\", __func__, (int)(endp - js));\n+            }\n         }\n     } else {\n         PLIST_JSON_ERR(\"%s: invalid primitive value '%.*s' encountered\\n\", __func__, (int)str_len, str_val);\n",
+      "edits": [
+        {
+          "new_text": "    } else if (str_val[0] == '-' || isdigit(str_val[0])) {\n        /* Ensure we have at least one digit after optional minus sign */\n        if (str_val[0] == '-' && (str_end - str_val < 2 || !isdigit(str_val[1])))\n        {\n            PLIST_JSON_ERR(\"%s: invalid primitive value '%.*s' encountered\\n\", __func__, (int)str_len, str_val);\n        }\n        else\n        {\n            char* endp = NULL;\n            long long intpart = strtol(str_val, &endp, 10);\n            if (endp >= str_end) {\n                /* integer */\n                val = plist_new_uint((uint64_t)intpart);\n            } else if (*endp == '.' && endp+1 < str_end && isdigit(*(endp+1))) {\n                /* float */\n                char* fendp = endp+1;\n                while (isdigit(*fendp) && fendp < str_end) fendp++;\n                if ((fendp > endp+1 && fendp >= str_end) || (fendp+2 < str_end && (*fendp == 'e' || *fendp == 'E') && (*(fendp+1) == '+' || *(fendp+1) == '-') && isdigit(*(fendp+2)))) {\n                    double dval = atof(str_val);\n                    val = plist_new_real(dval);\n                } else {\n                    PLIST_JSON_ERR(\"%s: invalid character at offset %d when parsing floating point value\\n\", __func__, (int)(fendp - js));\n                }\n            } else {\n                PLIST_JSON_ERR(\"%s: invalid character at offset %d when parsing numerical value\\n\", __func__, (int)(endp - js));\n            }\n        }\n    } else {",
+          "old_text": "    } else if (str_val[0] == '-' || isdigit(str_val[0])) {\n        char* endp = NULL;\n        long long intpart = strtol(str_val, &endp, 10);\n        if (endp >= str_end) {\n            /* integer */\n            val = plist_new_uint((uint64_t)intpart);\n        } else if (*endp == '.' && endp+1 < str_end && isdigit(*(endp+1))) {\n            /* float */\n            char* fendp = endp+1;\n            while (isdigit(*fendp) && fendp < str_end) fendp++;\n            if ((fendp > endp+1 && fendp >= str_end) || (fendp+2 < str_end && (*fendp == 'e' || *fendp == 'E') && (*(fendp+1) == '+' || *(fendp+1) == '-') && isdigit(*(fendp+2)))) {\n                double dval = atof(str_val);\n                val = plist_new_real(dval);\n            } else {\n                PLIST_JSON_ERR(\"%s: invalid character at offset %d when parsing floating point value\\n\", __func__, (int)(fendp - js));\n            }\n        } else {\n            PLIST_JSON_ERR(\"%s: invalid character at offset %d when parsing numerical value\\n\", __func__, (int)(endp - js));\n        }\n    } else {",
+          "path": "/src/libplist/src/jplist.c"
+        }
+      ],
+      "feedback": "",
+      "model_call": {
+        "cost_usd": 0.0018429,
+        "input_price_per_million": 0.3,
+        "input_tokens": 3353,
+        "latency_seconds": 4.860191,
+        "model": "nvidia/nemotron-3-super-120b-a12b",
+        "output_price_per_million": 0.9,
+        "output_tokens": 930,
+        "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+        "request_id": "70995401e3e7527e52fd793b007c6b51",
+        "total_tokens": 4283
+      },
+      "model_cost_usd": 0.0018429,
+      "model_error": "",
+      "outcome": "PROVEN",
+      "poc": {
+        "command": "arvo",
+        "exit_code": 0,
+        "output_bytes": 443,
+        "output_sha256": "72c4cc4ad912b475c363247df5c9ee077b9ea7f8e2f4e8728f5e0f21bce9dda3",
+        "output_tail": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1953017475\nINFO: Loaded 1 modules   (2685 inline 8-bit counters): 2685 [0x5f7390, 0x5f7e0d), \nINFO: Loaded 1 PC tables (2685 PCs): 2685 [0x5f7e10,0x6025e0), \n/out/jplist_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nExecuted /tmp/poc in 0 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***",
+        "timed_out": false,
+        "wall_seconds": 0.107
+      },
+      "poc_crash_state": [],
+      "poc_crash_type": "",
+      "rationale": "The issue occurs because `strtol` reads beyond the bounds of the allocated string when processing numeric primitives. Specifically, when `strtol` parses a number like `-`, it may read past the null terminator into adjacent memory due to insufficient validation before calling `strtol`. The fix adds a check to ensure there is at least one digit following a minus sign before attempting conversion.",
+      "regression": {
+        "command": "fuzz target over the seed corpus",
+        "exit_code": 0,
+        "output_bytes": 491,
+        "output_sha256": "fd38c9b201f67fe6c5686c6c297484f7920a954dd533b8818115087f53bbeb38",
+        "output_tail": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1953119251\nINFO: Loaded 1 modules   (2685 inline 8-bit counters): 2685 [0x5f7390, 0x5f7e0d), \nINFO: Loaded 1 PC tables (2685 PCs): 2685 [0x5f7e10,0x6025e0), \n/out/jplist_fuzzer: Running 2 inputs 1 time(s) each.\nRunning: ./j1.json\nExecuted ./j1.json in 1 ms\nRunning: ./j2.json\nExecuted ./j2.json in 0 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***",
+        "timed_out": false,
+        "wall_seconds": 0.107
+      },
+      "regression_check": "seed corpus, 2 files",
+      "request_ids": [
+        "70995401e3e7527e52fd793b007c6b51"
+      ]
+    }
+  ],
+  "baseline": {
+    "command": "arvo",
+    "exit_code": 1,
+    "output_bytes": 4262,
+    "output_sha256": "b8cc6001f35d5c6ccf4143e671bc5d79c14e3ff38ca539abfd818def5ff23218",
+    "output_tail": "=================================================================\n==21==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000000b1 at pc 0x0000004d7436 bp 0x7ffc1ba058b0 sp 0x7ffc1ba05068\nREAD of size 2 at 0x6020000000b1 thread T0\nSCARINESS: 14 (2-byte-read-heap-buffer-overflow)\n    #0 0x4d7435 in StrtolFixAndCheck(void*, char const*, char**, char*, int) /src/llvm-project/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:3440:3\n    #1 0x510670 in strtol /src/llvm-project/compiler-rt/lib/asan/asan_interceptors.cpp:484:3\n    #2 0x560aca in parse_primitive /src/libplist/src/jplist.c:441:29\n    #3 0x560538 in plist_from_json /src/libplist/src/jplist.c:701:22\n    #4 0x55e3f2 in LLVMFuzzerTestOneInput /src/libplist/fuzz/jplist_fuzzer.cc:28:2\n    #5 0x4552b3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) cxa_noexception.cpp\n    #6 0x440ef2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #7 0x44674c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) cxa_noexception.cpp\n    #8 0x46f552 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #9 0x745f21d990b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)\n    #10 0x41f6ad in _start (/out/jplist_fuzzer+0x41f6ad)\n\nDEDUP_TOKEN: StrtolFixAndCheck(void*, char const*, char**, char*, int)--strtol--parse_primitive\n0x6020000000b1 is located 0 bytes to the right of 1-byte region [0x6020000000b0,0x6020000000b1)\nallocated by thread T0 here:\n    #0 0x52513d in __interceptor_malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:129:3\n    #1 0x436ec7 in operator new(unsigned long) cxa_noexception.cpp\n    #2 0x440ef2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #3 0x44674c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) cxa_noexception.cpp\n    #4 0x46f552 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #5 0x745f21d990b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)\n\nDEDUP_TOKEN: __interceptor_malloc--operator new(unsigned long)--fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/llvm-project/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:3440:3 in StrtolFixAndCheck(void*, char const*, char**, char*, int)\nShadow bytes around the buggy address:\n  0x0c047fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff8000: fa fa 00 00 fa fa 00 fa fa fa 00 fa fa fa 00 fa\n=>0x0c047fff8010: fa fa 01 fa fa fa[01]fa fa fa fa fa fa fa fa fa\n  0x0c047fff8020: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==21==ABORTING",
+    "timed_out": false,
+    "wall_seconds": 0.251
+  },
+  "baseline_crash_state": [
+    "strtol",
+    "parse_primitive",
+    "plist_from_json"
+  ],
+  "baseline_crash_type": "Heap-buffer-overflow READ 2",
+  "clean_containers": 1,
+  "control_compile": {
+    "command": "arvo compile",
+    "exit_code": 0,
+    "output_bytes": 17889,
+    "output_sha256": "0913d6c72b3dc1ae6e0e7cb223b0c17d6b2f656fb93d0e4745fd29fcc383aa4c",
+    "output_tail": "updating: dictref7bytes.bplist (deflated 45%)\nupdating: dictref8bytes.bplist (deflated 48%)\nupdating: malformed_dict.bplist (deflated 25%)\nupdating: off1byte.bplist (deflated 36%)\nupdating: off2bytes.bplist (deflated 34%)\nupdating: off3bytes.bplist (deflated 34%)\nupdating: off4bytes.bplist (deflated 36%)\nupdating: off5bytes.bplist (deflated 40%)\nupdating: off6bytes.bplist (deflated 43%)\nupdating: off7bytes.bplist (deflated 47%)\nupdating: off8bytes.bplist (deflated 51%)\nupdating: order.bplist (deflated 23%)\nupdating: recursion.bplist (deflated 23%)\nupdating: signed.bplist (deflated 50%)\nupdating: signedunsigned.bplist (deflated 54%)\nupdating: uid.bplist (deflated 44%)\nupdating: unsigned.bplist (deflated 53%)\nupdating: 1.plist (deflated 58%)\nupdating: 2.plist (deflated 79%)\nupdating: 3.plist (deflated 95%)\nupdating: 4.plist (deflated 99%)\nupdating: 5.plist (deflated 99%)\nupdating: 6.plist (deflated 89%)\nupdating: 7.plist (deflated 38%)\nupdating: amp.plist (deflated 19%)\nupdating: cdata.plist (deflated 14%)\nupdating: empty_keys.plist (deflated 42%)\nupdating: entities.plist (deflated 81%)\nupdating: hex.plist (deflated 18%)\nupdating: invalid_tag.plist (deflated 21%)\nupdating: offxml.plist (deflated 22%)\nupdating: order.plist (deflated 55%)\nupdating: signed.plist (deflated 18%)\nupdating: signedunsigned.plist (deflated 41%)\nupdating: unsigned.plist (deflated 18%)\nupdating: j1.json (deflated 59%)\nupdating: j2.json (deflated 13%)\n+ ./autogen.sh --without-cython --enable-debug\nconfigure.ac:28: installing './compile'\nconfigure.ac:41: installing './config.guess'\nconfigure.ac:41: installing './config.sub'\nconfigure.ac:6: installing './install-sh'\nconfigure.ac:6: installing './missing'\ncython/Makefile.am: installing './depcomp'\nparallel-tests: installing './test-driver'\n++ nproc\n+ make -j8 clean\n++ nproc\n+ make -j8 all\nclang-14: warning: argument unused during compilation: '-pthread' [-Wunused-command-line-argument]\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/bplist_fuzzer.cc -o /out/bplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/xplist_fuzzer.cc -o /out/xplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/jplist_fuzzer.cc -o /out/jplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ zip -j /out/bplist_fuzzer_seed_corpus.zip test/data/data.bplist test/data/dictref1byte.bplist test/data/dictref2bytes.bplist test/data/dictref3bytes.bplist test/data/dictref4bytes.bplist test/data/dictref5bytes.bplist test/data/dictref6bytes.bplist test/data/dictref7bytes.bplist test/data/dictref8bytes.bplist test/data/malformed_dict.bplist test/data/off1byte.bplist test/data/off2bytes.bplist test/data/off3bytes.bplist test/data/off4bytes.bplist test/data/off5bytes.bplist test/data/off6bytes.bplist test/data/off7bytes.bplist test/data/off8bytes.bplist test/data/order.bplist test/data/recursion.bplist test/data/signed.bplist test/data/signedunsigned.bplist test/data/uid.bplist test/data/unsigned.bplist\n+ zip -j /out/xplist_fuzzer_seed_corpus.zip test/data/1.plist test/data/2.plist test/data/3.plist test/data/4.plist test/data/5.plist test/data/6.plist test/data/7.plist test/data/amp.plist test/data/cdata.plist test/data/empty_keys.plist test/data/entities.plist test/data/hex.plist test/data/invalid_tag.plist test/data/offxml.plist test/data/order.plist test/data/signed.plist test/data/signedunsigned.plist test/data/unsigned.plist\n+ zip -j /out/jplist_fuzzer_seed_corpus.zip test/data/j1.json test/data/j2.json\n+ cp fuzz/bplist.dict fuzz/jplist.dict fuzz/xplist.dict fuzz/bplist_fuzzer.options fuzz/jplist_fuzzer.options fuzz/xplist_fuzzer.options /out/",
+    "timed_out": false,
+    "wall_seconds": 11.802
+  },
+  "control_poc": {
+    "command": "arvo",
+    "exit_code": 1,
+    "output_bytes": 4266,
+    "output_sha256": "96b09f11e4cc2af7ffb02895b853f7d2245841a5137103fa72a20f9aab0e89db",
+    "output_tail": "=================================================================\n==4827==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000000b1 at pc 0x0000004d7436 bp 0x7fff1372caf0 sp 0x7fff1372c2a8\nREAD of size 2 at 0x6020000000b1 thread T0\nSCARINESS: 14 (2-byte-read-heap-buffer-overflow)\n    #0 0x4d7435 in StrtolFixAndCheck(void*, char const*, char**, char*, int) /src/llvm-project/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:3440:3\n    #1 0x510670 in strtol /src/llvm-project/compiler-rt/lib/asan/asan_interceptors.cpp:484:3\n    #2 0x560aca in parse_primitive /src/libplist/src/jplist.c:441:29\n    #3 0x560538 in plist_from_json /src/libplist/src/jplist.c:701:22\n    #4 0x55e3f2 in LLVMFuzzerTestOneInput /src/libplist/fuzz/jplist_fuzzer.cc:28:2\n    #5 0x4552b3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) cxa_noexception.cpp\n    #6 0x440ef2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #7 0x44674c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) cxa_noexception.cpp\n    #8 0x46f552 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #9 0x75cfceda60b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)\n    #10 0x41f6ad in _start (/out/jplist_fuzzer+0x41f6ad)\n\nDEDUP_TOKEN: StrtolFixAndCheck(void*, char const*, char**, char*, int)--strtol--parse_primitive\n0x6020000000b1 is located 0 bytes to the right of 1-byte region [0x6020000000b0,0x6020000000b1)\nallocated by thread T0 here:\n    #0 0x52513d in __interceptor_malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:129:3\n    #1 0x436ec7 in operator new(unsigned long) cxa_noexception.cpp\n    #2 0x440ef2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #3 0x44674c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) cxa_noexception.cpp\n    #4 0x46f552 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #5 0x75cfceda60b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)\n\nDEDUP_TOKEN: __interceptor_malloc--operator new(unsigned long)--fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long)\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/llvm-project/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:3440:3 in StrtolFixAndCheck(void*, char const*, char**, char*, int)\nShadow bytes around the buggy address:\n  0x0c047fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff8000: fa fa 00 00 fa fa 00 fa fa fa 00 fa fa fa 00 fa\n=>0x0c047fff8010: fa fa 01 fa fa fa[01]fa fa fa fa fa fa fa fa fa\n  0x0c047fff8020: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==4827==ABORTING",
+    "timed_out": false,
+    "wall_seconds": 0.229
+  },
+  "control_seeds": {
+    "command": "fuzz target over the seed corpus",
+    "exit_code": 0,
+    "output_bytes": 491,
+    "output_sha256": "929253e842af446df26f989c4d6004794717bbfaa482ed67b0618ac5bc836765",
+    "output_tail": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1934646118\nINFO: Loaded 1 modules   (2679 inline 8-bit counters): 2679 [0x5f7390, 0x5f7e07), \nINFO: Loaded 1 PC tables (2679 PCs): 2679 [0x5f7e08,0x602578), \n/out/jplist_fuzzer: Running 2 inputs 1 time(s) each.\nRunning: ./j1.json\nExecuted ./j1.json in 0 ms\nRunning: ./j2.json\nExecuted ./j2.json in 0 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***",
+    "timed_out": false,
+    "wall_seconds": 0.136
+  },
+  "detail": "the PoC and the seed corpus ran clean",
+  "frame_notes": [],
+  "frames": [
+    {
+      "function": "parse_primitive",
+      "generated_line": 0,
+      "generated_path": "",
+      "index": 2,
+      "line": 441,
+      "path": "/src/libplist/src/jplist.c",
+      "section": "crash"
+    },
+    {
+      "function": "plist_from_json",
+      "generated_line": 0,
+      "generated_path": "",
+      "index": 3,
+      "line": 701,
+      "path": "/src/libplist/src/jplist.c",
+      "section": "crash"
+    }
+  ],
+  "fuzz_target": "/out/jplist_fuzzer",
+  "host_free_bytes_at_start": 3097288704,
+  "image": "n132/arvo:42508390-vul",
+  "image_bytes": 2648002122,
+  "image_digest": "n132/arvo@sha256:89fecf0e956cd185b3ff7d22f7a52256fb91c9248256ce607e7943dfebfd8d2b",
+  "image_removed": true,
+  "input_tokens": 3353,
+  "model_calls": 1,
+  "model_cost_usd": 0.0018429,
+  "outcome": "PROVEN",
+  "output_tokens": 930,
+  "project": "libplist",
+  "proven_attempt": 1,
+  "pull": {
+    "command": "docker pull n132/arvo:42508390-vul",
+    "exit_code": 0,
+    "output_bytes": 3026,
+    "output_sha256": "2a514af5f9a602db2b382e8b8372fe9bbcf0ed185e97987a2694d428adc4fd62",
+    "output_tail": "53fba8d4fd52: Download complete\n674bcd50905a: Download complete\n7a54922de890: Download complete\n01b54af05d76: Download complete\n2a16190c8651: Download complete\nb95480f14fa8: Download complete\n5da73ad9e41e: Download complete\nf26bb9fb2608: Download complete\n2a50adc1d0a3: Download complete\n732997d1badd: Download complete\nf9437859899d: Download complete\n59a5c2aa8020: Download complete\nd42060592b4c: Download complete\n25cb25324e55: Download complete\nea362f368469: Download complete\na6cd56b3acbc: Download complete\nea362f368469: Pull complete\n3948a6783d33: Download complete\nf83a021c29e2: Download complete\nd31c55490630: Download complete\nbecca0674b25: Download complete\nc7865ed15675: Download complete\nbecca0674b25: Pull complete\nee6f577f8fb9: Pull complete\n3501d331928a: Download complete\nfd99de1ef24f: Download complete\n9c35f74a209b: Download complete\na085ee7a70e6: Download complete\n8b5f097a8366: Download complete\n8b5f097a8366: Pull complete\nb95480f14fa8: Pull complete\n5da73ad9e41e: Pull complete\n3501d331928a: Pull complete\n9c35f74a209b: Pull complete\na085ee7a70e6: Pull complete\n732997d1badd: Pull complete\nd42060592b4c: Pull complete\na6cd56b3acbc: Pull complete\n53fba8d4fd52: Pull complete\nd31c55490630: Pull complete\nc7865ed15675: Pull complete\nf26bb9fb2608: Pull complete\nfd99de1ef24f: Pull complete\n2a16190c8651: Pull complete\n59a5c2aa8020: Pull complete\n25cb25324e55: Pull complete\n2a50adc1d0a3: Pull complete\n3948a6783d33: Pull complete\nf9437859899d: Pull complete\nf83a021c29e2: Pull complete\n7a54922de890: Pull complete\n4f4fb700ef54: Pull complete\n4459d7195e06: Pull complete\n674bcd50905a: Pull complete\nbd4c86c92a25: Pull complete\n304e35db7f02: Pull complete\n01b54af05d76: Pull complete\nDigest: sha256:89fecf0e956cd185b3ff7d22f7a52256fb91c9248256ce607e7943dfebfd8d2b\nStatus: Downloaded newer image for n132/arvo:42508390-vul\ndocker.io/n132/arvo:42508390-vul",
+    "timed_out": false,
+    "wall_seconds": 34.234
+  },
+  "schema_version": "1",
+  "seed_count": 2,
+  "seed_note": "2 files from /out/jplist_fuzzer_seed_corpus.zip (at most 500)",
+  "snapshot_image": "sha256:5cc4bc3fd41dfadd2611174206e175707f5e4620b3a307c058d0064b40f243b9",
+  "source_chars": 7282,
+  "upstream_fix_commits": [
+    "7d2cdc6f378f1d6d5631b7739398dd50bea62663"
+  ],
+  "upstream_repository": "https://github.com/libimobiledevice/libplist",
+  "wall_seconds": 69.239,
+  "workdir": "/src/libplist"
+}

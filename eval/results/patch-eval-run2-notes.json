@@ -1,0 +1,172 @@
+{
+  "method": "Registered before run 2 in eval/PATCH-PREREG-RUN2.md: the run-1 check applied unchanged to run 2's cards. An attempt is blocked by the build script when its compile failed, the control compile of the untouched tree exited 0, and the attempt's compile log has a line \"mkdir: cannot create directory '<path>': File exists\". In run 2 every attempt compiles in a fresh container started from a snapshot taken before the control compile, so this count measures whether that fix held.",
+  "schema_version": "1",
+  "source": {
+    "eval/results/patch-eval-run2.json": "470b15d9d5d1a2147af00dc3d1bdfee7a83672c6cc2cd748b6ec4d0dd56e2c5f"
+  },
+  "tasks": [
+    {
+      "arvo_id": 42530604,
+      "attempt_outcomes": [
+        "MODEL_ERROR",
+        "APPLY_FAILED",
+        "APPLY_FAILED"
+      ],
+      "blocked_attempts": [],
+      "blocking_line": "",
+      "built_attempts": [],
+      "outcome": "NOT_PROVEN",
+      "project": "jq"
+    },
+    {
+      "arvo_id": 42507851,
+      "attempt_outcomes": [
+        "STILL_CRASHES",
+        "REGRESSION",
+        "PROVEN"
+      ],
+      "blocked_attempts": [],
+      "blocking_line": "",
+      "built_attempts": [
+        1,
+        2,
+        3
+      ],
+      "outcome": "PROVEN",
+      "project": "libplist"
+    },
+    {
+      "arvo_id": 42496387,
+      "attempt_outcomes": [
+        "STILL_CRASHES",
+        "MODEL_ERROR",
+        "STILL_CRASHES"
+      ],
+      "blocked_attempts": [],
+      "blocking_line": "",
+      "built_attempts": [
+        1,
+        3
+      ],
+      "outcome": "NOT_PROVEN",
+      "project": "wasm3"
+    },
+    {
+      "arvo_id": 42508524,
+      "attempt_outcomes": [
+        "APPLY_FAILED",
+        "APPLY_FAILED",
+        "STILL_CRASHES"
+      ],
+      "blocked_attempts": [],
+      "blocking_line": "",
+      "built_attempts": [
+        3
+      ],
+      "outcome": "NOT_PROVEN",
+      "project": "libplist"
+    },
+    {
+      "arvo_id": 42536108,
+      "attempt_outcomes": [
+        "APPLY_FAILED",
+        "STILL_CRASHES",
+        "MODEL_ERROR"
+      ],
+      "blocked_attempts": [],
+      "blocking_line": "",
+      "built_attempts": [
+        2
+      ],
+      "outcome": "NOT_PROVEN",
+      "project": "miniz"
+    },
+    {
+      "arvo_id": 42536112,
+      "attempt_outcomes": [
+        "APPLY_FAILED",
+        "MODEL_ERROR",
+        "APPLY_FAILED"
+      ],
+      "blocked_attempts": [],
+      "blocking_line": "",
+      "built_attempts": [],
+      "outcome": "NOT_PROVEN",
+      "project": "miniz"
+    },
+    {
+      "arvo_id": 42508390,
+      "attempt_outcomes": [
+        "PROVEN"
+      ],
+      "blocked_attempts": [],
+      "blocking_line": "",
+      "built_attempts": [
+        1
+      ],
+      "outcome": "PROVEN",
+      "project": "libplist"
+    },
+    {
+      "arvo_id": 42531297,
+      "attempt_outcomes": [
+        "STILL_CRASHES",
+        "STILL_CRASHES",
+        "STILL_CRASHES"
+      ],
+      "blocked_attempts": [],
+      "blocking_line": "",
+      "built_attempts": [
+        1,
+        2,
+        3
+      ],
+      "outcome": "NOT_PROVEN",
+      "project": "jq"
+    },
+    {
+      "arvo_id": 42531223,
+      "attempt_outcomes": [
+        "APPLY_FAILED",
+        "APPLY_FAILED",
+        "APPLY_FAILED"
+      ],
+      "blocked_attempts": [],
+      "blocking_line": "",
+      "built_attempts": [],
+      "outcome": "NOT_PROVEN",
+      "project": "jq"
+    },
+    {
+      "arvo_id": 42476752,
+      "attempt_outcomes": [
+        "STILL_CRASHES",
+        "STILL_CRASHES",
+        "STILL_CRASHES"
+      ],
+      "blocked_attempts": [],
+      "blocking_line": "",
+      "built_attempts": [
+        1,
+        2,
+        3
+      ],
+      "outcome": "NOT_PROVEN",
+      "project": "libspng"
+    }
+  ],
+  "totals": {
+    "attempt_outcomes": {
+      "APPLY_FAILED": 10,
+      "MODEL_ERROR": 4,
+      "PROVEN": 2,
+      "REGRESSION": 1,
+      "STILL_CRASHES": 11
+    },
+    "attempts": 28,
+    "attempts_that_built": 14,
+    "blocked_attempts": 0,
+    "tasks_where_an_edit_built": 7,
+    "tasks_with_blocked_attempts": 0
+  }
+}
