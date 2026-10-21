@@ -11,6 +11,7 @@ import { CardBody, Disclosure, STEP_LABEL, StepItem, stepLabel, type ShownCard, 
 import { scrollToElement } from "@/ui/motion/motion";
 import { SquashButton } from "@/ui/SquashButton";
 import { Summary, type Progress, type TypicalRun } from "@/ui/Summary";
+import { useTriageChannel } from "@/ui/TriageContext";
 
 export type ReportTask = {
   arvo_id: number;
@@ -91,6 +92,20 @@ export function Door({
     ? { seconds: reference.client_elapsed_seconds, project: referenceProject ?? `ARVO ${receiptArvoId(reference)}` }
     : null;
 
+  // The hero's buttons reach the same two actions through the triage channel.
+  const channel = useTriageChannel();
+  useEffect(() => {
+    channel?.register({
+      run: (arvoId) => {
+        if (!busy) void runTriage(arvoId);
+      },
+      showRecorded: (arvoId) => {
+        if (!busy) showRecorded(arvoId);
+      },
+    });
+    return () => channel?.register(null);
+  });
+
   function bringResultIntoView() {
     const element = resultRef.current;
     if (!element) return;
@@ -98,16 +113,17 @@ export function Door({
     element.querySelector<HTMLElement>("#result-heading")?.focus({ preventScroll: true });
   }
 
-  function showRecorded() {
-    const task = recordedTasks.find((row) => row.arvo_id === selected);
-    const receipt = receipts.find((row) => receiptArvoId(row) === selected);
+  function showRecorded(arvoId: number) {
+    const task = recordedTasks.find((row) => row.arvo_id === arvoId);
+    const receipt = receipts.find((row) => receiptArvoId(row) === arvoId);
     let shown = false;
     flushSync(() => {
+      setSelected(arvoId);
       setNotice(null);
       setResult(null);
       setRecordedTask(null);
       setRecordedReceipt(null);
-      setRunArvo(selected);
+      setRunArvo(arvoId);
       setRun((value) => value + 1);
       setOpened({});
       if (receipt) {
@@ -151,9 +167,10 @@ export function Door({
     if (shown) bringResultIntoView();
   }
 
-  async function runTriage() {
+  async function runTriage(arvoId: number) {
     const clock = performance.now();
     flushSync(() => {
+      setSelected(arvoId);
       setBusy(true);
       setStartedAt(clock);
       setNow(clock);
@@ -163,7 +180,7 @@ export function Door({
       setRecordedReceipt(null);
       setSteps([]);
       setSource("LIVE");
-      setRunArvo(selected);
+      setRunArvo(arvoId);
       setRun((value) => value + 1);
       setOpened({});
     });
@@ -173,7 +190,7 @@ export function Door({
         method: "POST",
         headers: { "content-type": "application/json" },
         credentials: "same-origin",
-        body: JSON.stringify({ arvo_id: selected }),
+        body: JSON.stringify({ arvo_id: arvoId }),
       });
       if (!response.ok || !response.body) {
         setNotice(await readFailure(response));
@@ -243,7 +260,7 @@ export function Door({
         id="reports"
         onSubmit={(event) => {
           event.preventDefault();
-          void runTriage();
+          if (current) void runTriage(current.arvo_id);
         }}
       >
         <fieldset className="min-w-0 border-0 p-0">
@@ -285,7 +302,14 @@ export function Door({
             <SquashButton disabled={busy || !current} form="reports" icon={"▶"} type="submit">
               {busy ? "Triage running" : "Triage"}
             </SquashButton>
-            <SquashButton disabled={busy || !current} icon={"↺"} onClick={showRecorded} variant="secondary">
+            <SquashButton
+              disabled={busy || !current}
+              icon={"↺"}
+              onClick={() => {
+                if (current) showRecorded(current.arvo_id);
+              }}
+              variant="secondary"
+            >
               Show recorded result
             </SquashButton>
           </div>

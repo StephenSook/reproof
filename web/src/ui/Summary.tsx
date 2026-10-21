@@ -8,16 +8,7 @@ import { utcMinute } from "@/lib/receipt";
 import type { DoorSummary, FixedTile, PublicSummary, VulnerableTile } from "@/lib/summary";
 import { AncestryRibbon } from "@/ui/AncestryRibbon";
 import { plop, settle, useArrival } from "@/ui/motion/motion";
-import { Stamp, VerdictStamp, verdictTone, type Tone } from "@/ui/Stamp";
-
-const PUBLIC_TONE: Record<string, Tone> = {
-  PUBLICLY_KNOWN_FIXED: "proof",
-  PUBLICLY_KNOWN_OPEN: "info",
-  RELATED_VARIANTS_ONLY: "dup",
-  SOURCE_DISPUTE: "info",
-  NO_PUBLIC_FINDINGS: "slate",
-  LOOKUP_UNAVAILABLE: "slate",
-};
+import { publicTone, Stamp, VerdictStamp, verdictTone, type Tone } from "@/ui/Stamp";
 
 export type Progress = { key: string; label: string; done: boolean }[];
 
@@ -282,7 +273,7 @@ export function Summary({
             </Stamp>
           )}
           {publicState ? (
-            <Stamp className="stamp-public" data-public-stamp={publicState} tone={PUBLIC_TONE[publicState] ?? "slate"}>
+            <Stamp className="stamp-public" data-public-stamp={publicState} tone={publicTone(publicState)}>
               {publicState}
             </Stamp>
           ) : null}

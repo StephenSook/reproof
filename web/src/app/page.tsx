@@ -4,29 +4,21 @@ import catalog from "@/content/catalog.json";
 import jqReceipt from "@/content/door-42530604.json";
 import limits from "@/content/limits.json";
 import { limitsSentence } from "@/lib/measured";
-import type { DoorReceipt } from "@/lib/receipt";
+import { receiptArvoId, type DoorReceipt } from "@/lib/receipt";
 import { Door } from "@/ui/Door";
+import { HeroAnswer } from "@/ui/HeroAnswer";
 import { Mark } from "@/ui/Mark";
 import { Measured } from "@/ui/Measured";
-import { SquashButton } from "@/ui/SquashButton";
-import { VerdictStamp } from "@/ui/Stamp";
+import { TriageProvider } from "@/ui/TriageContext";
 
 const REPO_URL = "https://github.com/StephenSook/reproof";
 // The recorded live response for ARVO 42530604 (eval/results/door-42530604.json).
-const RECEIPTS: DoorReceipt[] = [jqReceipt as DoorReceipt];
-
-const LEGEND = [
-  {
-    verdict: "REPRODUCED",
-    text: "The vulnerable build produced a measured sanitizer crash and the fixed build was clean.",
-  },
-  { verdict: "DUPLICATE", text: "The measured crash state matched one or more public OSV records." },
-  { verdict: "NOT_REPRODUCED", text: "The vulnerable build completed cleanly without a sanitizer crash." },
-  { verdict: "NEEDS_INFO", text: "The run cannot support another verdict. The card says what is missing." },
-];
+const HERO_RECEIPT = jqReceipt as DoorReceipt;
+const RECEIPTS: DoorReceipt[] = [HERO_RECEIPT];
 
 export default function Page() {
   const count = catalog.tasks.length;
+  const heroTask = catalog.tasks.find((task) => task.arvo_id === receiptArvoId(HERO_RECEIPT));
   return (
     <div className="page">
       <a className="skip-link" href="#reports">
@@ -62,42 +54,25 @@ export default function Page() {
           </ul>
         </nav>
       </header>
+      <TriageProvider>
       <main className="grid min-w-0 gap-3" id="top">
         <section aria-labelledby="hero-title" className="section-card tone-ink-section">
           <div className="hero-grid">
             <div className="min-w-0">
-              <p className="hand hero-note">No login. No key.</p>
               <h1 className="hero-title" id="hero-title">
-                Reproof
+                Is this crash real, already reported, or already fixed?
               </h1>
-              <p className="hero-tagline">Is this crash real, already reported, or already fixed?</p>
               <p className="hero-lede">
-                Reproof reads a public security report and runs its input against the vulnerable and the fixed
-                build in disposable sandboxes. It searches OSV for the same crash and checks public pages. When a
-                page names a fixed version, it checks that the release&apos;s git tag contains the fix commit. A
-                person makes the decision. Reproof files nothing upstream.
+                Reproof runs a report&apos;s input against the vulnerable and the fixed build, searches OSV and public
+                pages for the same crash, and checks git ancestry before it says a release has the fix. A person makes
+                the decision. Reproof files nothing upstream.
               </p>
-              <div className="hero-actions">
-                <SquashButton href="#reports" onInk>
-                  Pick a report
-                </SquashButton>
-                <SquashButton href="#measured" icon={"↓"} onInk variant="secondary">
-                  See the saved evaluation
-                </SquashButton>
-              </div>
+              <p className="hero-more">
+                No login and no key. <a href="#reports">Pick one of the {count} reports</a> or{" "}
+                <a href="#measured">read the saved evaluation</a>.
+              </p>
             </div>
-            <aside aria-labelledby="legend-title" className="legend-card">
-              <h2 id="legend-title">What a verdict says</h2>
-              <ul className="legend-list">
-                {LEGEND.map((row) => (
-                  <li key={row.verdict}>
-                    <VerdictStamp className="stamp-small" verdict={row.verdict} />
-                    <p>{row.text}</p>
-                  </li>
-                ))}
-              </ul>
-              <p className="legend-foot">Public status is a separate line. It does not change the verdict.</p>
-            </aside>
+            {heroTask ? <HeroAnswer receipt={HERO_RECEIPT} task={heroTask} /> : null}
           </div>
         </section>
         <section aria-labelledby="door-title" className="section-card tone-sky-section">
@@ -118,6 +93,7 @@ export default function Page() {
         </section>
         <Measured evaluation={evaluation} />
       </main>
+      </TriageProvider>
       <footer className="site-foot">
         <p>
           Reproof is open source under Apache-2.0.{" "}

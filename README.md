@@ -461,6 +461,14 @@ from the report's own first line (for example `jq: heap-buffer-overflow in decTo
 ARVO and OSV ids under the name. The page shows that report's public text. The browser does not
 receive `NEBIUS_API_KEY` or the Nebius project id. Those values stay in the Python process.
 
+The first screen already holds a finished answer: the hero card shows the recorded live response
+for jq (`eval/results/door-42530604.json`) with its next step, the verdict and public-status
+stamps, the time, the cost, the Tavily credits, and the model line, all read from that file. Its
+"Run it live" button starts a real triage of the same report; the "about 15 s" on the button is the
+recorded run's own client time rounded to 5 seconds. "Open the evidence" replays the recording in
+the result panel with no model, sandbox, or search call. What each verdict means is a closed
+disclosure under the card.
+
 The result starts with the answer. Its first line is the maintainer's next step, built from the
 verdict, the public status, the fix row, and the duplicate ids of that result, for example
 `Already fixed in jq 1.7.1 (tag jq-1.7.1 contains 71c2ab5). Close it and point the reporter to the

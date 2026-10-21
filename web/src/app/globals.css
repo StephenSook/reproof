@@ -284,8 +284,102 @@ pre {
 }
 
 .hero-title {
-  font-size: clamp(3.6rem, 10vw, 8.5rem);
-  margin-top: 0.75rem;
+  font-size: clamp(2.1rem, 4.6vw, 4.2rem);
+  line-height: 1.02;
+  max-width: 16ch;
+}
+
+.hero-more {
+  font-weight: 700;
+  margin-top: 1.1rem;
+}
+
+.hero-more a {
+  color: var(--amber);
+}
+
+.hero-answer {
+  background: var(--card);
+  border: 3px solid var(--paper);
+  border-radius: 1.25rem;
+  color: var(--ink);
+  display: grid;
+  gap: 0.7rem;
+  min-width: 0;
+  padding: clamp(1rem, 2.2vw, 1.5rem);
+}
+
+.hero-answer-when,
+.hero-answer-ids {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.hero-answer-title {
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  line-height: 1.15;
+}
+
+.hero-answer-step {
+  font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.hero-answer-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.25rem;
+  margin: 0;
+}
+
+.hero-answer-facts dt {
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.hero-answer-facts dd {
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  margin: 0;
+}
+
+.hero-answer-model {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.hero-answer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.verdict-key summary {
+  cursor: pointer;
+  font-weight: 800;
+  min-height: 44px;
+  padding: 0.6rem 0;
+}
+
+.verdict-key ul {
+  display: grid;
+  gap: 0.6rem;
+  list-style: none;
+  margin: 0 0 0.6rem;
+  padding: 0;
+}
+
+.verdict-key li {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.verdict-key p {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
 }
 
 .hero-tagline {

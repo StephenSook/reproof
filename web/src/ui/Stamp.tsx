@@ -16,8 +16,21 @@ const VERDICT_ICON: Record<string, string> = {
   NEEDS_INFO: "?",
 };
 
+const PUBLIC_TONE: Record<string, Tone> = {
+  PUBLICLY_KNOWN_FIXED: "proof",
+  PUBLICLY_KNOWN_OPEN: "info",
+  RELATED_VARIANTS_ONLY: "dup",
+  SOURCE_DISPUTE: "info",
+  NO_PUBLIC_FINDINGS: "slate",
+  LOOKUP_UNAVAILABLE: "slate",
+};
+
 export function verdictTone(verdict: string): Tone {
   return VERDICT_TONE[verdict] ?? "slate";
+}
+
+export function publicTone(state: string): Tone {
+  return PUBLIC_TONE[state] ?? "slate";
 }
 
 /** A state word in a tilted ink box. The word always carries the meaning; the tone only repeats it. */

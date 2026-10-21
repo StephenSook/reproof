@@ -42,6 +42,15 @@ export function receiptSummary(receipt: DoorReceipt): DoorSummary {
   return { ...liveSummary(steps, result, { ended: true }), source: "RECORDED", recordedAt: receipt.recorded_at_utc };
 }
 
+/**
+ * A rounded "about N s" from one recorded run's time: whole seconds under 10, else the nearest 5.
+ * It is an estimate from that single run, so it says "about".
+ */
+export function aboutSeconds(seconds: number): string {
+  const rounded = seconds < 10 ? Math.max(1, Math.round(seconds)) : Math.round(seconds / 5) * 5;
+  return `about ${rounded} s`;
+}
+
 /** "2026-10-20T23:45:01+00:00" as "2026-10-20 23:45 UTC". Only a UTC stamp is shortened. */
 export function utcMinute(stamp: string): string {
   const match = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})(?::\d{2})?(?:\+00:00|Z)$/.exec(stamp);
