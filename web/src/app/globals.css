@@ -1695,13 +1695,65 @@ p.proof-run-causes {
   padding-left: 1.1rem;
 }
 
-/* The offline patch evaluation: one row per historical bug, the proven edit one click away. */
-.patch-row[data-patch-outcome="PROVEN"] {
+/* The offline patch evaluation: one row per historical bug, each run side by side, the proven
+   edit one click away. */
+.patch-row {
+  align-items: start;
+  grid-template-columns: minmax(9rem, 0.6fr) minmax(0, 3fr);
+}
+
+.patch-row[data-patch-best="PROVEN"] {
   border-left-color: var(--clean);
 }
 
-.patch-row[data-patch-outcome="NOT_PROVEN"] {
+.patch-row[data-patch-best="NOT_PROVEN"] {
   border-left-color: var(--crash);
+}
+
+.patch-row .proof-row-crash {
+  color: var(--ink-2);
+  font-size: 0.88rem;
+}
+
+.patch-run-cells {
+  display: grid;
+  gap: 0.6rem 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  min-width: 0;
+}
+
+.patch-run-cell {
+  align-content: start;
+  border-left: 3px solid var(--rule-soft);
+  display: grid;
+  gap: 0.3rem;
+  min-width: 0;
+  padding-left: 0.6rem;
+}
+
+.patch-run-cell[data-patch-outcome="PROVEN"] {
+  border-left-color: var(--clean);
+}
+
+.patch-run-cell[data-patch-outcome="NOT_PROVEN"] {
+  border-left-color: var(--crash);
+}
+
+.patch-run-cell > p {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.patch-run-cell-head {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.patch-run-label {
+  font-weight: 700;
 }
 
 .patch-attempts {
@@ -1772,5 +1824,9 @@ p.proof-run-causes {
   .proof-row-crash,
   .proof-row-why {
     grid-column: 1 / -1;
+  }
+
+  .patch-row {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

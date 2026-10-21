@@ -54,46 +54,65 @@ test("the task list names any-size crashes in words and says which rows have a c
   await expect(page.locator("#every-task")).toContainText("Every task that ran links to the card the run wrote.");
 });
 
-const patchReport = JSON.parse(
-  readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), "../../src/content/patch-eval.json"), "utf8"),
-) as {
-  prereg: { commit: string };
-  tasks: { arvo_id: number; outcome: string; proven_diff: string }[];
+type PatchFile = {
+  prereg: { commit: string; path: string };
+  tasks: { arvo_id: number; outcome: string; proven_diff: string; card_path: string }[];
   totals: { proven: number; tasks: number };
 };
 
-test("the patch section shows the registered offline run from its committed result", async ({ page }) => {
+function patchFile(name: string): PatchFile {
+  return JSON.parse(
+    readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), `../../src/content/${name}`), "utf8"),
+  ) as PatchFile;
+}
+
+const patchRuns = [
+  { key: "1", title: "Run 1", report: patchFile("patch-eval.json"), cards: "patch-cards" },
+  { key: "2", title: "Run 2", report: patchFile("patch-eval-run2.json"), cards: "patch-eval-run2-cards" },
+];
+
+test("the patch section shows both registered offline runs side by side from their committed results", async ({ page }) => {
   await page.goto("/proof");
   const section = page.locator("[data-patch-section]");
   await expect(section).toBeVisible();
-  await expect(section.locator("[data-patch-headline]")).toContainText(
-    `${patchReport.totals.proven} of ${patchReport.totals.tasks}`,
-  );
   await expect(section.locator("[data-patch-offline]")).toContainText(
     "Every patch here was proposed and proven offline, in a local Docker container",
   );
   await expect(section.locator("[data-patch-offline]")).toContainText("None was applied upstream");
-  await expect(section.locator("[data-patch-row]")).toHaveCount(patchReport.tasks.length);
-  for (const task of patchReport.tasks) {
-    const row = section.locator(`[data-patch-row="${task.arvo_id}"]`);
-    await expect(row).toHaveAttribute("data-patch-outcome", task.outcome);
-    await expect(row.getByRole("link", { name: "Card" })).toHaveAttribute(
-      "href",
-      `https://github.com/StephenSook/reproof/blob/main/eval/results/patch-cards/${task.arvo_id}.json`,
+  await expect(section.locator("[data-patch-row]")).toHaveCount(patchRuns[0].report.tasks.length);
+  for (const run of patchRuns) {
+    const card = section.locator(`[data-patch-run="${run.key}"]`);
+    await expect(card.locator("[data-patch-headline]")).toContainText(
+      `${run.report.totals.proven} of ${run.report.totals.tasks}`,
     );
-    const diff = row.locator("[data-patch-diff]");
-    if (task.outcome === "PROVEN") {
-      await diff.locator("summary").click();
-      const firstChange = task.proven_diff.split("\n").find((line) => line.startsWith("+") && !line.startsWith("+++")) ?? "";
-      await expect(diff.locator("pre")).toContainText(firstChange.slice(1).trim());
-    } else {
-      await expect(diff).toHaveCount(0);
+    await expect(card.getByRole("link", { name: /Rule committed in/ })).toHaveAttribute(
+      "href",
+      `https://github.com/StephenSook/reproof/commit/${run.report.prereg.commit}`,
+    );
+    await expect(card.getByRole("link", { name: "Read the rule" })).toHaveAttribute(
+      "href",
+      `https://github.com/StephenSook/reproof/blob/main/${run.report.prereg.path}`,
+    );
+    for (const task of run.report.tasks) {
+      const cell = section.locator(`[data-patch-row="${task.arvo_id}"] [data-patch-run-cell="${run.key}"]`);
+      await expect(cell).toHaveAttribute("data-patch-outcome", task.outcome);
+      await expect(cell.getByRole("link", { name: `${run.title} card` })).toHaveAttribute(
+        "href",
+        `https://github.com/StephenSook/reproof/blob/main/eval/results/${run.cards}/${task.arvo_id}.json`,
+      );
+      const diff = cell.locator("[data-patch-diff]");
+      if (task.outcome === "PROVEN") {
+        await diff.locator("summary").click();
+        const firstChange = task.proven_diff.split("\n").find((line) => line.startsWith("+") && !line.startsWith("+++")) ?? "";
+        await expect(diff.locator("pre")).toContainText(firstChange.slice(1).trim());
+        await expect(diff).toContainText("not that it is the upstream fix or safe to merge");
+        await expect(cell.locator("[data-patch-plain]")).toContainText("What the edit does: ");
+      } else {
+        await expect(diff).toHaveCount(0);
+        await expect(cell.locator("[data-patch-plain]")).toHaveCount(0);
+      }
     }
   }
-  await expect(section.getByRole("link", { name: /Rule committed in/ })).toHaveAttribute(
-    "href",
-    `https://github.com/StephenSook/reproof/commit/${patchReport.prereg.commit}`,
-  );
 });
 
 test("the patch section has no axe violations with every diff open", async ({ page }) => {

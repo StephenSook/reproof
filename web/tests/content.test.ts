@@ -49,6 +49,12 @@ describe("copied judge content", () => {
     expect(read(join(webRoot, "src/content/patch-eval-notes.json"))).toEqual(
       read(join(repoRoot, "eval/results/patch-eval-notes.json")),
     );
+    expect(read(join(webRoot, "src/content/patch-eval-run2.json"))).toEqual(
+      read(join(repoRoot, "eval/results/patch-eval-run2.json")),
+    );
+    expect(read(join(webRoot, "src/content/patch-eval-run2-notes.json"))).toEqual(
+      read(join(repoRoot, "eval/results/patch-eval-run2-notes.json")),
+    );
   });
 
   it("counts verdicts from the evaluation and keeps the dated note", () => {
