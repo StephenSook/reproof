@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, type ReactNode } from "react";
+import { displayCrashType } from "@/lib/crashType";
 import { money } from "@/lib/measured";
 import { nextStep } from "@/lib/nextStep";
 import { spendLines } from "@/lib/spend";
@@ -44,7 +45,7 @@ function VulnerableBuild({ tile, running }: { tile: VulnerableTile; running: boo
         </Stamp>
       )}
       <dl className="tile-rows">
-        {tile.crashType ? <TileRow label="Crash">{tile.crashType}</TileRow> : null}
+        {tile.crashType ? <TileRow label="Crash">{displayCrashType(tile.crashType)}</TileRow> : null}
         {tile.topFrame ? (
           <TileRow label="Top frame">
             <code>{tile.topFrame}</code>

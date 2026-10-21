@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import run1Data from "@/content/eval100-run1.json";
 import run2Data from "@/content/eval100-run2.json";
 import { dollars, proofRows, runAgreement, runHeadline, type Eval100Report, type ProofRow, type RunHeadline } from "@/lib/eval100";
+import { displayCrashType } from "@/lib/crashType";
 import { Mark } from "@/ui/Mark";
 import { Stamp, VerdictStamp } from "@/ui/Stamp";
 
@@ -96,7 +97,7 @@ function Row({ row }: { row: ProofRow }) {
         <Check fail="Fix not clean" ok={task.fix_clean} pass="Fix clean" />
         <Check fail="Claim differs" ok={task.claim_agreement} pass="Claim agrees" />
       </span>
-      <span className="proof-row-crash">{task.crash_type ?? "No crash type"}</span>
+      <span className="proof-row-crash">{task.crash_type ? displayCrashType(task.crash_type) : "No crash type"}</span>
       <span className="num">
         {dollars(task.cost_usd, 5)} · {task.wall_seconds.toFixed(1)} s · #{row.position}
       </span>
