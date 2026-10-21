@@ -103,6 +103,11 @@ test("the recorded result answers first and keeps the evidence one click away", 
     );
     await expect(spend.locator("[data-spend-model]")).toContainText(`${recorded.card.model_cost_usd.toFixed(8)} USD`);
     await expect(spend.locator("[data-spend-sandbox]")).toContainText(`${recorded.card.sandbox_cost_usd.toFixed(8)} USD`);
+    // The colour key stays on the first line of its text, to its left, even when the text wraps.
+    const keyBox = await spend.locator("[data-spend-model] .spend-key").boundingBox();
+    const textBox = await spend.locator("[data-spend-model] > span:nth-child(2)").boundingBox();
+    expect(keyBox && textBox && keyBox.x + keyBox.width <= textBox.x).toBe(true);
+    expect(keyBox && textBox && keyBox.y >= textBox.y - 2 && keyBox.y < textBox.y + 24).toBe(true);
 
     const evidenceTop = await page.locator("#evidence-heading").evaluate((node) => node.getBoundingClientRect().top);
     const summaryTop = await summary.evaluate((node) => node.getBoundingClientRect().top);

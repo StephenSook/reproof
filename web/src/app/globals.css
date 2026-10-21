@@ -977,12 +977,13 @@ mark[data-matched-frame] {
   padding: 0;
 }
 
+/* Key, line, cost: the key stays beside its line and the line wraps in its own column. */
 .spend-lines li {
   align-items: baseline;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   font-size: 0.9rem;
   gap: 0.2rem 0.5rem;
+  grid-template-columns: 0.7rem minmax(0, 1fr) auto;
 }
 
 .spend-key {
@@ -997,7 +998,7 @@ mark[data-matched-frame] {
   font-variant-numeric: tabular-nums;
   font-variation-settings: "MONO" 1;
   font-weight: 700;
-  margin-left: auto;
+  text-align: right;
 }
 
 .public-link a,
