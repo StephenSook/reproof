@@ -1,24 +1,29 @@
-"""The post-hoc notes on the patch evaluation are recomputed from the committed cards."""
+"""The notes on each patch evaluation run are recomputed from that run's committed cards."""
 
 from __future__ import annotations
 
 import json
 from pathlib import Path
 
-from reproof.patch_eval import REPORT_PATH
+import pytest
+
+from reproof.patch_eval import RUN1, RUN2, RunPaths
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_the_post_hoc_notes_are_recomputed_from_the_cards() -> None:
+@pytest.mark.parametrize("run", [RUN1, RUN2], ids=["run1", "run2"])
+def test_the_notes_are_recomputed_from_the_cards(run: RunPaths) -> None:
     from eval import annotate_patch_eval as notes
 
-    committed = json.loads((ROOT / notes.NOTES_PATH).read_text(encoding="utf-8"))
-    assert committed == notes.build_notes(ROOT)
+    notes_path, method = notes.NOTES[run]
+    committed = json.loads((ROOT / notes_path).read_text(encoding="utf-8"))
+    assert committed == notes.build_notes(ROOT, run)
+    assert committed["method"] == method
     totals = committed["totals"]
     assert (
         totals["attempts"]
-        == json.loads((ROOT / REPORT_PATH).read_text(encoding="utf-8"))["totals"]["model_calls"]
+        == json.loads((ROOT / run.report).read_text(encoding="utf-8"))["totals"]["model_calls"]
     )
     # Every blocked attempt is a COMPILE_FAILED whose control compile passed.
     for task in committed["tasks"]:

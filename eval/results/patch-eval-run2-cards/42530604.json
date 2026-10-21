@@ -1,0 +1,246 @@
+{
+  "arvo_id": 42530604,
+  "attempts": [
+    {
+      "apply_errors": [],
+      "attempt": 1,
+      "compile": null,
+      "detail": "finish_reason=length",
+      "diff": "",
+      "edits": [],
+      "feedback": "Attempt 1 returned no usable edits: finish_reason=length\nPropose new edits against the original source shown in the first message.",
+      "model_call": {
+        "cost_usd": 0.0062526,
+        "input_price_per_million": 0.3,
+        "input_tokens": 8554,
+        "latency_seconds": 24.630215,
+        "model": "nvidia/nemotron-3-super-120b-a12b",
+        "output_price_per_million": 0.9,
+        "output_tokens": 4096,
+        "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+        "request_id": "2a1dab09e37c2957c7fb713511475a45",
+        "total_tokens": 12650
+      },
+      "model_cost_usd": 0.0062526,
+      "model_error": "finish_reason=length",
+      "outcome": "MODEL_ERROR",
+      "poc": null,
+      "poc_crash_state": [],
+      "poc_crash_type": "",
+      "rationale": "",
+      "regression": null,
+      "regression_check": "",
+      "request_ids": [
+        "2a1dab09e37c2957c7fb713511475a45"
+      ]
+    },
+    {
+      "apply_errors": [
+        "edit 1: old_text occurs 0 times in /src/jq/src/jv.c; it must occur once"
+      ],
+      "attempt": 2,
+      "compile": null,
+      "detail": "edit 1: old_text occurs 0 times in /src/jq/src/jv.c; it must occur once",
+      "diff": "",
+      "edits": [
+        {
+          "new_text": "    if (plit->literal_data == NULL) {\n    int len = jvp_dec_number_ptr(n)->digits + 15;\n    plit->literal_data = jv_mem_alloc(len);\n\n    // Preserve the actual precision as we have parsed it\n    // don't do decNumberTrim(pdec);\n\n    decNumberToString(pdec, plit->literal_data);\n  }",
+          "old_text": "    if (plit->literal_data == NULL) {\n    int len = jvp_dec_number_ptr(n)->digits + 14;\n    plit->literal_data = jv_mem_alloc(len);\n\n    // Preserve the actual precision as we have parsed it\n    // don't do decNumberTrim(pdec);\n\n    decNumberToString(pdec, plit->literal_data);\n  }",
+          "path": "/src/jq/src/jv.c"
+        }
+      ],
+      "feedback": "Attempt 2 was not applied. The source is unchanged: edit 1: old_text occurs 0 times in /src/jq/src/jv.c; it must occur once\nPropose new edits against the original source shown in the first message.",
+      "model_call": {
+        "cost_usd": 0.0041133,
+        "input_price_per_million": 0.3,
+        "input_tokens": 12691,
+        "latency_seconds": 2.095417,
+        "model": "nvidia/nemotron-3-super-120b-a12b",
+        "output_price_per_million": 0.9,
+        "output_tokens": 340,
+        "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+        "request_id": "2fad3003eb9f49f2ee02cb5bf21135e4",
+        "total_tokens": 13031
+      },
+      "model_cost_usd": 0.0041133,
+      "model_error": "",
+      "outcome": "APPLY_FAILED",
+      "poc": null,
+      "poc_crash_state": [],
+      "poc_crash_type": "",
+      "rationale": "The heap buffer overflow occurs because the allocated buffer for `literal_data` in `jvp_literal_number_literal` is too small. The current allocation uses `digits + 14`, but the `decNumberToString` function may require up to `digits + 15` bytes to safely include the null terminator in edge cases (e.g., when formatting zero with engineering notation leads to an extra digit). To prevent overflow, we increase the buffer size by 1, ensuring sufficient space for the formatted string and null terminator.",
+      "regression": null,
+      "regression_check": "",
+      "request_ids": [
+        "2fad3003eb9f49f2ee02cb5bf21135e4"
+      ]
+    },
+    {
+      "apply_errors": [
+        "edit 1: old_text occurs 0 times in /src/jq/src/jv.c; it must occur once"
+      ],
+      "attempt": 3,
+      "compile": null,
+      "detail": "edit 1: old_text occurs 0 times in /src/jq/src/jv.c; it must occur once",
+      "diff": "",
+      "edits": [
+        {
+          "new_text": "    if (plit->literal_data == NULL) {\n    int len = jvp_dec_number_ptr(n)->digits + 15;\n    plit->literal_data = jv_mem_alloc(len);\n\n    // Preserve the actual precision as we have parsed it\n    // don't do decNumberTrim(pdec);\n\n    decNumberToString(pdec, plit->literal_data);\n  }",
+          "old_text": "    if (plit->literal_data == NULL) {\n    int len = jvp_dec_number_ptr(n)->digits + 14;\n    plit->literal_data = jv_mem_alloc(len);\n\n    // Preserve the actual precision as we have parsed it\n    // don't do decNumberTrim(pdec);\n\n    decNumberToString(pdec, plit->literal_data);\n  }",
+          "path": "/src/jq/src/jv.c"
+        }
+      ],
+      "feedback": "Attempt 3 was not applied. The source is unchanged: edit 1: old_text occurs 0 times in /src/jq/src/jv.c; it must occur once\nPropose new edits against the original source shown in the first message.",
+      "model_call": {
+        "cost_usd": 0.0042342,
+        "input_price_per_million": 0.3,
+        "input_tokens": 13094,
+        "latency_seconds": 2.263284,
+        "model": "nvidia/nemotron-3-super-120b-a12b",
+        "output_price_per_million": 0.9,
+        "output_tokens": 340,
+        "price_source": "https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference",
+        "request_id": "7359664261e84fe4ec92ba938170f8c0",
+        "total_tokens": 13434
+      },
+      "model_cost_usd": 0.0042342,
+      "model_error": "",
+      "outcome": "APPLY_FAILED",
+      "poc": null,
+      "poc_crash_state": [],
+      "poc_crash_type": "",
+      "rationale": "The heap buffer overflow occurs because the allocated buffer for `literal_data` in `jvp_literal_number_literal` is too small. The current allocation uses `digits + 14`, but the `decNumberToString` function may require up to `digits + 15` bytes to safely include the null terminator in edge cases (e.g., when formatting zero with engineering notation leads to an extra digit). To prevent overflow, we increase the buffer size by 1, ensuring sufficient space for the formatted string and null terminator.",
+      "regression": null,
+      "regression_check": "",
+      "request_ids": [
+        "7359664261e84fe4ec92ba938170f8c0"
+      ]
+    }
+  ],
+  "baseline": {
+    "command": "arvo",
+    "exit_code": 1,
+    "output_bytes": 4941,
+    "output_sha256": "d5a1b72275df8d93895571ea3f8b255dcd60243120baf9c3f21e74d7d36ac604",
+    "output_tail": "    #6 0x596eed in jv_dump /src/jq/src/jv_print.c:372:3\n    #7 0x56d8a0 in LLVMFuzzerTestOneInput /src/jq/tests/jq_fuzz_parse_extended.c:27:5\n    #8 0x43f1d3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #9 0x42a932 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #10 0x4301dc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #11 0x459712 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #12 0x7bd6d4a77082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082) (BuildId: e678fe54a5d2c2092f8e47eb0b33105e380f7340)\n    #13 0x420afd in _start (/out/jq_fuzz_parse_extended+0x420afd)\n\nDEDUP_TOKEN: decToString--decNumberToString--jvp_literal_number_literal\n0x6020000000c0 is located 0 bytes to the right of 16-byte region [0x6020000000b0,0x6020000000c0)\nallocated by thread T0 here:\n    #0 0x530366 in __interceptor_malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:69:3\n    #1 0x57aedf in jv_mem_alloc /src/jq/src/jv_alloc.c:141:13\n    #2 0x56e5bc in jvp_literal_number_literal /src/jq/src/jv.c:648:26\n    #3 0x56e5bc in jv_number_get_literal /src/jq/src/jv.c:668:12\n    #4 0x595428 in jv_dump_term /src/jq/src/jv_print.c:231:35\n    #5 0x596eed in jv_dumpf /src/jq/src/jv_print.c:368:3\n    #6 0x596eed in jv_dump /src/jq/src/jv_print.c:372:3\n    #7 0x56d8a0 in LLVMFuzzerTestOneInput /src/jq/tests/jq_fuzz_parse_extended.c:27:5\n    #8 0x43f1d3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #9 0x42a932 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #10 0x4301dc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #11 0x459712 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #12 0x7bd6d4a77082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082) (BuildId: e678fe54a5d2c2092f8e47eb0b33105e380f7340)\n\nDEDUP_TOKEN: __interceptor_malloc--jv_mem_alloc--jvp_literal_number_literal\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/jq/src/decNumber/decNumber.c:3764:5 in decToString\nShadow bytes around the buggy address:\n  0x0c047fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff8000: fa fa 00 00 fa fa 00 fa fa fa 00 fa fa fa 00 fa\n=>0x0c047fff8010: fa fa 00 00 fa fa 00 00[fa]fa fa fa fa fa fa fa\n  0x0c047fff8020: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==21==ABORTING",
+    "timed_out": false,
+    "wall_seconds": 0.252
+  },
+  "baseline_crash_state": [
+    "decToString",
+    "decNumberToString",
+    "jvp_literal_number_literal"
+  ],
+  "baseline_crash_type": "Heap-buffer-overflow WRITE 1",
+  "clean_containers": 1,
+  "control_compile": {
+    "command": "arvo compile",
+    "exit_code": 0,
+    "output_bytes": 73356,
+    "output_sha256": "aa5d6e7ccbd31ab9f0eefb2e3e896ad52a68414c8f139f10446482c8a8e72e59",
+    "output_tail": "  CC       src/jv_file.lo\n  CC       src/jv_parse.lo\n  CC       src/jv_print.lo\n  CC       src/jv_unicode.lo\n  CC       src/linker.lo\n  CC       src/locfile.lo\n  CC       src/util.lo\n  CC       src/decNumber/decContext.lo\n  CC       src/decNumber/decNumber.lo\n  CC       src/jv_dtoa_tsd.lo\n  CC       src/lexer.lo\n  CC       src/parser.lo\n  CC       src/main.o\n  CCLD     libjq.la\n  CCLD     jq\nmake[2]: Leaving directory '/src/jq'\nmake[1]: Leaving directory '/src/jq'\n+ git submodule init\n+ git submodule update\n+ autoreconf -fi\nconfigure.ac:55: installing './compile'\nconfigure.ac:6: installing './missing'\nsample/Makefile.am: installing './depcomp'\nconfigure.ac:11: installing 'config/ar-lib'\nconfigure.ac:8: installing 'config/compile'\nconfigure.ac:19: installing 'config/config.guess'\nconfigure.ac:19: installing 'config/config.sub'\nconfigure.ac:9: installing 'config/install-sh'\nconfigure.ac:9: installing 'config/missing'\nMakefile.am: installing 'config/depcomp'\nconfigure.ac: installing 'config/ylwrap'\nparallel-tests: installing 'config/test-driver'\n+ ./configure --with-oniguruma=builtin\nconfigure: WARNING: valgrind is required to test jq.\nconfigure: WARNING: Error checking python dependencies: \n*****************************************************************\n*  Python dependencies for building jq documentation not found. *\n*  You can still build, install and hack on jq, but the manpage *\n*  will not be rebuilt and new manpage tests will not be run.   *\n*  See docs/README.md for how to install the docs dependencies. *\n*****************************************************************\n++ nproc\n+ make -j8\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse.c -I./src -o ./jq_fuzz_parse.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_compile.c -I./src -o ./jq_fuzz_compile.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_compile.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_compile -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_load_file.c -I./src -o ./jq_fuzz_load_file.o\ntests/jq_fuzz_load_file.c:9:42: warning: implicit declaration of function 'getpid' is invalid in C99 [-Wimplicit-function-declaration]\n  sprintf(filename, \"/tmp/libfuzzer.%d\", getpid());\n                                         ^\ntests/jq_fuzz_load_file.c:24:3: warning: implicit declaration of function 'unlink' is invalid in C99 [-Wimplicit-function-declaration]\n  unlink(filename);\n  ^\n2 warnings generated.\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_load_file.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_load_file -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse_extended.c -I./src -o ./jq_fuzz_parse_extended.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse_extended.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse_extended -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse_stream.c -I./src -o ./jq_fuzz_parse_stream.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse_stream.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse_stream -I./src",
+    "timed_out": false,
+    "wall_seconds": 39.428
+  },
+  "control_poc": {
+    "command": "arvo",
+    "exit_code": 1,
+    "output_bytes": 4947,
+    "output_sha256": "ed566bc7ad623f0fe213d63dd2bd03063099af60466acab9fe1d7ffb08ffc240",
+    "output_tail": "    #6 0x596eed in jv_dump /src/jq/src/jv_print.c:372:3\n    #7 0x56d8a0 in LLVMFuzzerTestOneInput /src/jq/tests/jq_fuzz_parse_extended.c:27:5\n    #8 0x43f1d3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #9 0x42a932 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #10 0x4301dc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #11 0x459712 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #12 0x7d9231420082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082) (BuildId: e678fe54a5d2c2092f8e47eb0b33105e380f7340)\n    #13 0x420afd in _start (/out/jq_fuzz_parse_extended+0x420afd)\n\nDEDUP_TOKEN: decToString--decNumberToString--jvp_literal_number_literal\n0x6020000000c0 is located 0 bytes to the right of 16-byte region [0x6020000000b0,0x6020000000c0)\nallocated by thread T0 here:\n    #0 0x530366 in __interceptor_malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:69:3\n    #1 0x57aedf in jv_mem_alloc /src/jq/src/jv_alloc.c:141:13\n    #2 0x56e5bc in jvp_literal_number_literal /src/jq/src/jv.c:648:26\n    #3 0x56e5bc in jv_number_get_literal /src/jq/src/jv.c:668:12\n    #4 0x595428 in jv_dump_term /src/jq/src/jv_print.c:231:35\n    #5 0x596eed in jv_dumpf /src/jq/src/jv_print.c:368:3\n    #6 0x596eed in jv_dump /src/jq/src/jv_print.c:372:3\n    #7 0x56d8a0 in LLVMFuzzerTestOneInput /src/jq/tests/jq_fuzz_parse_extended.c:27:5\n    #8 0x43f1d3 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:15\n    #9 0x42a932 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:324:6\n    #10 0x4301dc in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:860:9\n    #11 0x459712 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\n    #12 0x7d9231420082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082) (BuildId: e678fe54a5d2c2092f8e47eb0b33105e380f7340)\n\nDEDUP_TOKEN: __interceptor_malloc--jv_mem_alloc--jvp_literal_number_literal\nSUMMARY: AddressSanitizer: heap-buffer-overflow /src/jq/src/decNumber/decNumber.c:3764:5 in decToString\nShadow bytes around the buggy address:\n  0x0c047fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n  0x0c047fff8000: fa fa 00 00 fa fa 00 fa fa fa 00 fa fa fa 00 fa\n=>0x0c047fff8010: fa fa 00 00 fa fa 00 00[fa]fa fa fa fa fa fa fa\n  0x0c047fff8020: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\n  0x0c047fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa\nShadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==11699==ABORTING",
+    "timed_out": false,
+    "wall_seconds": 0.24
+  },
+  "control_seeds": null,
+  "detail": "3 attempts; last: APPLY_FAILED",
+  "frame_notes": [],
+  "frames": [
+    {
+      "function": "decToString",
+      "generated_line": 0,
+      "generated_path": "",
+      "index": 0,
+      "line": 3764,
+      "path": "/src/jq/src/decNumber/decNumber.c",
+      "section": "crash"
+    },
+    {
+      "function": "decNumberToString",
+      "generated_line": 0,
+      "generated_path": "",
+      "index": 1,
+      "line": 449,
+      "path": "/src/jq/src/decNumber/decNumber.c",
+      "section": "crash"
+    },
+    {
+      "function": "jvp_literal_number_literal",
+      "generated_line": 0,
+      "generated_path": "",
+      "index": 2,
+      "line": 653,
+      "path": "/src/jq/src/jv.c",
+      "section": "crash"
+    },
+    {
+      "function": "jv_number_get_literal",
+      "generated_line": 0,
+      "generated_path": "",
+      "index": 3,
+      "line": 668,
+      "path": "/src/jq/src/jv.c",
+      "section": "crash"
+    },
+    {
+      "function": "jv_mem_alloc",
+      "generated_line": 0,
+      "generated_path": "",
+      "index": 1,
+      "line": 141,
+      "path": "/src/jq/src/jv_alloc.c",
+      "section": "allocated"
+    },
+    {
+      "function": "jv_dump_term",
+      "generated_line": 0,
+      "generated_path": "",
+      "index": 4,
+      "line": 231,
+      "path": "/src/jq/src/jv_print.c",
+      "section": "allocated"
+    }
+  ],
+  "fuzz_target": "/out/jq_fuzz_parse_extended",
+  "host_free_bytes_at_start": 4271247360,
+  "image": "n132/arvo:42530604-vul",
+  "image_bytes": 2430308017,
+  "image_digest": "n132/arvo@sha256:914d00d6a1956a8735983b4d649ebbea1b0d0e40b0b6c6ab1494f0dcef44e2a1",
+  "image_removed": true,
+  "input_tokens": 34339,
+  "model_calls": 3,
+  "model_cost_usd": 0.0146001,
+  "outcome": "NOT_PROVEN",
+  "output_tokens": 4776,
+  "project": "jq",
+  "proven_attempt": null,
+  "pull": {
+    "command": "docker pull n132/arvo:42530604-vul",
+    "exit_code": 0,
+    "output_bytes": 3754,
+    "output_sha256": "8706246c3e76721d89d03481d6d27b79222c1bd22f2acf3ed3e57332bd36607b",
+    "output_tail": "d3100bf4ae2a: Download complete\n50856b30b531: Download complete\n32f2a7b6e9bb: Download complete\n8c30d0bc9ccf: Download complete\ne8d5eae29175: Download complete\n464528c7917d: Download complete\na2baa10d0a1b: Download complete\ndb570345802f: Download complete\ne8d5eae29175: Pull complete\n53817e31377d: Download complete\nb0bb72c01a62: Download complete\na2baa10d0a1b: Pull complete\na02be53bc58c: Download complete\n95c50ced9248: Download complete\nefa010a213d6: Download complete\n2b1f11cb1143: Download complete\n2b1f11cb1143: Pull complete\nc609cbcfdc6c: Download complete\n37df2ef7d4a3: Download complete\n94ac610ee458: Download complete\nad5c37269aca: Download complete\n5097adfc4d2f: Download complete\n9c8e354f13d9: Download complete\nf8bd781a9b74: Download complete\nc609cbcfdc6c: Pull complete\n390c85c557be: Pull complete\n75aa22b3971f: Pull complete\n5097adfc4d2f: Pull complete\n198f311f6fa2: Pull complete\n00ccdf441437: Pull complete\n48d003cfdeec: Pull complete\n95c50ced9248: Pull complete\n1a3b9fde6242: Pull complete\na02be53bc58c: Pull complete\n37df2ef7d4a3: Pull complete\ndb570345802f: Pull complete\n464528c7917d: Pull complete\nd5e1f7ad7dc8: Pull complete\n94ac610ee458: Pull complete\n53817e31377d: Pull complete\nb0bb72c01a62: Pull complete\n43ac5226340a: Pull complete\n44d0cd4cc2e3: Pull complete\n32f2a7b6e9bb: Pull complete\nad5c37269aca: Pull complete\n9d8f7874abf4: Pull complete\n4a869b1c716f: Pull complete\n50856b30b531: Pull complete\nd3100bf4ae2a: Pull complete\nf8bd781a9b74: Pull complete\nefa010a213d6: Pull complete\na143b9bac52a: Pull complete\n47965821d284: Pull complete\n4f4fb700ef54: Pull complete\n8c30d0bc9ccf: Pull complete\n47fec323d572: Pull complete\n9c8e354f13d9: Pull complete\nDigest: sha256:914d00d6a1956a8735983b4d649ebbea1b0d0e40b0b6c6ab1494f0dcef44e2a1\nStatus: Downloaded newer image for n132/arvo:42530604-vul\ndocker.io/n132/arvo:42530604-vul",
+    "timed_out": false,
+    "wall_seconds": 32.141
+  },
+  "schema_version": "1",
+  "seed_count": 0,
+  "seed_note": "no seed corpus: /out/jq_fuzz_parse_extended_seed_corpus.zip is not in the image",
+  "snapshot_image": "sha256:ccb754a585f83c0f63cdb305d3593e137af29ca25d2f84f5034bb5c1c19c4897",
+  "source_chars": 22487,
+  "upstream_fix_commits": [
+    "71c2ab509a8628dbbad4bc7b3f98a64aa90d3297"
+  ],
+  "upstream_repository": "https://github.com/jqlang/jq",
+  "wall_seconds": 107.545,
+  "workdir": "/src/jq"
+}
