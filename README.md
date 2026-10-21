@@ -165,6 +165,36 @@ would be no run 3, was committed in `0383504` (`eval/EVAL100-RUN2.md`) before it
 - 42 tasks completed in both runs, and all 42 got the same verdict both times.
 - Run 2 cost $0.31978747 (Nemotron $0.0150294, ConTree $0.30475807).
 
+## Offline patch evaluation
+
+Can Nemotron 3 Super write the fix, with the ARVO image as the judge? `uv run reproof
+patch-eval` gives it the report, the sanitizer output and the source around the top frames,
+asks for exact-text edits (path, old text, new text) under a strict JSON schema at temperature 0,
+applies them inside the bug's `n132/arvo:<id>-vul` image, runs `arvo compile`, reruns the stored
+PoC, runs the fuzz target over its seed corpus when the image has one, puts the files back, and
+sends the failure back for up to 3 attempts. Code decides the outcome. It needs Docker and runs
+offline only: the judge door's runtime slices carry no compiler or `/src`, so the door cannot
+rebuild. Patches are proposed and proven in local containers that are deleted afterwards; none is
+applied upstream, filed, or sent to a project.
+
+The protocol was committed in `bc162af` (`eval/PATCH-PREREG.md`) before the one scored run on
+2026-10-21 (15:21 to 15:42 UTC). Result, `eval/results/patch-eval.json` and
+`eval/results/patch-cards/`:
+
+- 2 of 10 proven: jq ARVO 42530604 on attempt 2 (`digits + 14` raised to `digits + 25`; the
+  upstream fix is `+ 15`) and libplist ARVO 42508390 on attempt 3 (the number parser rewritten;
+  its 2-file seed corpus also ran clean). Proven means it rebuilt and stopped the crash, not that
+  it is the upstream fix or safe to merge.
+- 29 Nemotron calls, 177,343 input and 22,159 output tokens, $0.073146.
+- Of the 29 attempts: 7 edits did not apply, 13 builds failed, 6 still crashed, 1 reply was cut
+  off at the token limit, 2 were proven.
+- Found during the run and written down after it (`eval/results/patch-eval-notes.json`): 12 of
+  the 13 failed builds never tested the edit. In 5 images the build script makes a directory with
+  plain `mkdir`, so its second run in one container stops with `mkdir: cannot create directory
+  '...': File exists`, and the harness's control compile was always the first run. Those tasks
+  stay not proven under the registered rule, and the run was not repeated. Only 8 attempts, in 4
+  tasks, built an edit: 2 were proven and 6 still crashed.
+
 ## Public status evaluation
 
 Registered on 2026-10-05, before any Tavily or Nemotron call for this stage. The frozen inputs are

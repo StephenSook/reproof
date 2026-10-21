@@ -3,9 +3,13 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import run1Data from "@/content/eval100-run1.json";
 import run2Data from "@/content/eval100-run2.json";
+import patchData from "@/content/patch-eval.json";
+import patchNotesData from "@/content/patch-eval-notes.json";
 import { dollars, proofRows, runAgreement, runHeadline, type Eval100Report, type ProofRow, type RunHeadline } from "@/lib/eval100";
 import { displayCrashType } from "@/lib/crashType";
+import type { PatchNotes, PatchReport } from "@/lib/patchEval";
 import { Mark } from "@/ui/Mark";
+import { PatchSection } from "@/ui/PatchSection";
 import { Stamp, VerdictStamp } from "@/ui/Stamp";
 
 export const metadata: Metadata = {
@@ -22,6 +26,8 @@ const PLAN_COMMIT = "0383504";
 
 const run1 = run1Data as Eval100Report;
 const run2 = run2Data as Eval100Report;
+const patches = patchData as unknown as PatchReport;
+const patchNotes = patchNotesData as unknown as PatchNotes;
 
 function Check({ ok, pass, fail }: { ok: boolean; pass: string; fail: string }) {
   return (
@@ -228,6 +234,8 @@ export default function ProofPage() {
             ) : null}
           </details>
         </section>
+
+        <PatchSection notes={patchNotes} report={patches} repoUrl={REPO_URL} />
 
         <section aria-labelledby="every-task-title" className="section" id="every-task">
           <div className="section-heading">

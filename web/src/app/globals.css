@@ -1695,6 +1695,72 @@ p.proof-run-causes {
   padding-left: 1.1rem;
 }
 
+/* The offline patch evaluation: one row per historical bug, the proven edit one click away. */
+.patch-row[data-patch-outcome="PROVEN"] {
+  border-left-color: var(--clean);
+}
+
+.patch-row[data-patch-outcome="NOT_PROVEN"] {
+  border-left-color: var(--crash);
+}
+
+.patch-attempts {
+  font-size: 0.9rem;
+}
+
+.patch-diff {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+.patch-diff summary {
+  cursor: pointer;
+  font-weight: 600;
+  min-height: 44px;
+  padding: 0.55rem 0;
+  width: fit-content;
+}
+
+.patch-diff pre {
+  background: var(--canvas);
+  border: 1px solid var(--rule-soft);
+  border-radius: 6px;
+  font-family: var(--font-recursive), ui-monospace, monospace;
+  font-size: 0.8rem;
+  font-variation-settings: "MONO" 1;
+  margin: 0.4rem 0;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 0.7rem;
+  white-space: pre;
+}
+
+.patch-diff pre:focus-visible {
+  outline: 3px solid var(--signal);
+  outline-offset: 2px;
+}
+
+.patch-blocked {
+  border-left: 3px solid var(--neutral);
+  color: var(--ink-2);
+  font-size: 0.88rem;
+  grid-column: 1 / -1;
+  margin: 0;
+  padding-left: 0.6rem;
+}
+
+.patch-harness-note {
+  border-left: 3px solid var(--caution);
+  padding-left: 0.7rem;
+}
+
+.patch-rationale,
+.patch-check,
+.patch-upstream {
+  margin: 0.35rem 0;
+  max-width: 70ch;
+}
+
 @media (max-width: 52rem) {
   .proof-row,
   .proof-row-failed {
@@ -1702,6 +1768,7 @@ p.proof-run-causes {
   }
 
   .proof-row-checks,
+  .patch-attempts,
   .proof-row-crash,
   .proof-row-why {
     grid-column: 1 / -1;
