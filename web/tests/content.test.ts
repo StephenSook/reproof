@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import evaluation from "../src/content/arvo10.json";
 import catalog from "../src/content/catalog.json";
 import copiedLimits from "../src/content/limits.json";
-import { limitsSentence, measuredSummary, money, PHASE1_NOTE, verdictCounts } from "../src/lib/measured";
+import { costComparison, limitsSentence, measuredSummary, money, PHASE1_NOTE, verdictCounts } from "../src/lib/measured";
 
 const webRoot = resolve(fileURLToPath(new URL(".", import.meta.url)), "..");
 const repoRoot = resolve(webRoot, "..");
@@ -54,11 +54,24 @@ describe("copied judge content", () => {
     const summary = measuredSummary(evaluation);
     expect(summary).toContain("6 REPRODUCED");
     expect(summary).toContain("4 DUPLICATE");
-    expect(summary).toContain(`${money(evaluation.totals.total_model_cost_usd)} model USD`);
-    expect(summary).toContain("0.00141720 model USD");
-    expect(summary).toContain("0.00775084 sandbox USD");
-    expect(summary).toContain("0.00916804 combined USD");
+    expect(summary).toContain("10 of 10 tasks completed");
     expect(summary).toContain(PHASE1_NOTE);
+    const cost = costComparison(evaluation.totals);
+    expect(cost.bars.map((bar) => [bar.key, bar.text])).toEqual([
+      ["model", `${money(evaluation.totals.total_model_cost_usd)} USD`],
+      ["sandbox", `${money(evaluation.totals.total_sandbox_cost_usd)} USD`],
+    ]);
+    expect(cost.bars.map((bar) => bar.text)).toEqual(["0.00141720 USD", "0.00775084 USD"]);
+    expect(cost.bars[1]?.width).toBe(1);
+    expect(cost.bars[0]?.width).toBeCloseTo(0.0014172 / 0.00775084, 10);
+    expect(cost.lead).toBe(
+      `The sandboxes cost ${(evaluation.totals.total_sandbox_cost_usd / evaluation.totals.total_model_cost_usd).toFixed(1)} times the model calls.`,
+    );
+    expect(cost.lead).toBe("The sandboxes cost 5.5 times the model calls.");
+    expect(cost.combined).toBe("0.00916804 USD for all 10 tasks together");
+    expect(cost.tokens).toBe("1349 input and 1125 output tokens");
+    const flipped = costComparison({ ...evaluation.totals, total_model_cost_usd: 0.3, total_sandbox_cost_usd: 0.1 });
+    expect(flipped.lead).toBe("The model calls cost 3.0 times the sandboxes.");
     expect(limitsSentence(copiedLimits)).toContain("1 triage");
     expect(limitsSentence(copiedLimits)).toContain("8 triages per hour");
     expect(limitsSentence(copiedLimits)).toContain("60 triages per day");

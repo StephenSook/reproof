@@ -94,9 +94,14 @@ test("the Measured section renders the saved evaluation", async ({ page }) => {
   await expect(measured).toContainText("These numbers are the saved ARVO 10 evaluation. They are not a new run.");
   await expect(measured).toContainText("6 REPRODUCED");
   await expect(measured).toContainText("4 DUPLICATE");
-  await expect(measured).toContainText("0.00141720 model USD");
-  await expect(measured).toContainText("0.00775084 sandbox USD");
-  await expect(measured).toContainText("0.00916804 combined USD");
+  const cost = measured.locator("[data-cost-compare]");
+  await expect(cost).toContainText("The sandboxes cost 5.5 times the model calls.");
+  await expect(cost.locator('[data-cost="model"]')).toContainText("0.00141720 USD");
+  await expect(cost.locator('[data-cost="sandbox"]')).toContainText("0.00775084 USD");
+  await expect(cost).toContainText("0.00916804 USD for all 10 tasks together");
+  // The bars are drawn from the two totals: the sandbox bar is full and the model bar is to scale.
+  const widths = await cost.locator(".cost-fill").evaluateAll((bars) => bars.map((bar) => bar.getBoundingClientRect().width));
+  expect(widths[0]! / widths[1]!).toBeCloseTo(0.0014172 / 0.00775084, 2);
   await expect(measured).toContainText("40.709021 seconds");
   await expect(measured).toContainText(PHASE1_NOTE);
   await expect(page.locator("[data-measured-task]")).toHaveCount(10);

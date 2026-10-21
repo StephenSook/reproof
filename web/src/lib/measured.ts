@@ -57,6 +57,7 @@ export function limitsSentence(limits: Limits): string {
   ].join(" ");
 }
 
+/** What the saved evaluation found, one line per count. Costs are in costComparison. */
 export function measuredSummary(evaluation: MeasuredEvaluation): string[] {
   const counts = verdictCounts(evaluation.tasks);
   const totals = evaluation.totals;
@@ -65,16 +66,44 @@ export function measuredSummary(evaluation: MeasuredEvaluation): string[] {
       .sort()
       .map((verdict) => `${counts[verdict]} ${verdict}`),
     `${totals.tasks_completed} of ${totals.tasks_requested} tasks completed`,
-    `${totals.crash_state_agreements} crash states agreed`,
     `${totals.fixes_clean} fixes clean`,
     `${totals.claims_agree} claims agreed`,
+    `${totals.crash_state_agreements} crash states agreed`,
     `${totals.total_duplicate_candidates} duplicate candidates`,
-    `${totals.total_input_tokens} input tokens`,
-    `${totals.total_output_tokens} output tokens`,
-    `${money(totals.total_model_cost_usd)} model USD`,
-    `${money(totals.total_sandbox_cost_usd)} sandbox USD`,
-    `${money(totals.total_cost_usd)} combined USD`,
     `${seconds(totals.total_wall_seconds)} seconds`,
     PHASE1_NOTE,
   ];
+}
+
+export type CostBar = { key: "model" | "sandbox"; label: string; usd: number; text: string; width: number };
+
+export type CostComparison = {
+  bars: CostBar[];
+  /** One sentence saying which side cost more and by how much, from the two totals. */
+  lead: string;
+  combined: string;
+  tokens: string;
+};
+
+/** Model calls against sandbox checkpoints and runs, from the evaluation's own totals. */
+export function costComparison(totals: MeasuredEvaluation["totals"]): CostComparison {
+  const model = totals.total_model_cost_usd;
+  const sandbox = totals.total_sandbox_cost_usd;
+  const top = Math.max(model, sandbox);
+  const bar = (key: CostBar["key"], label: string, usd: number): CostBar => ({
+    key,
+    label,
+    usd,
+    text: `${money(usd)} USD`,
+    width: top > 0 ? usd / top : 0,
+  });
+  let lead = "The model calls and the sandboxes cost the same.";
+  if (model > 0 && sandbox > model) lead = `The sandboxes cost ${(sandbox / model).toFixed(1)} times the model calls.`;
+  if (sandbox > 0 && model > sandbox) lead = `The model calls cost ${(model / sandbox).toFixed(1)} times the sandboxes.`;
+  return {
+    bars: [bar("model", "Model calls", model), bar("sandbox", "Sandbox checkpoints and runs", sandbox)],
+    lead,
+    combined: `${money(totals.total_cost_usd)} USD for all ${totals.tasks_completed} tasks together`,
+    tokens: `${totals.total_input_tokens} input and ${totals.total_output_tokens} output tokens`,
+  };
 }

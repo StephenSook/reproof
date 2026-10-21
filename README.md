@@ -496,8 +496,10 @@ the public-status lookup, the Tavily credits, and the triage card. The raw respo
 `eval/results/door-42530604.ndjson`, and `tests/test_door_receipt.py` checks that the two files
 agree byte for byte. For the other nine reports it fills the summary and the same steps from
 `eval/results/arvo10.json`, which holds no public-status lookup, and the summary says so. The
-Measured section is rendered from `eval/results/arvo10.json`. It shows 6 `REPRODUCED`,
-4 `DUPLICATE`, the saved costs, and the 2026-10-05 note that the phase 1 table counted four
+Measured section is rendered from `eval/results/arvo10.json`. It leads with the cost split as two
+bars drawn from the totals: model calls 0.00141720 USD against sandbox checkpoints and runs
+0.00775084 USD, so the sandboxes cost 5.5 times the model calls. It then shows 6 `REPRODUCED`,
+4 `DUPLICATE`, the other counts, and the 2026-10-05 note that the phase 1 table counted four
 self-matches.
 
 The page uses GSAP and Lenis for motion. When the browser asks for reduced motion, nothing moves.

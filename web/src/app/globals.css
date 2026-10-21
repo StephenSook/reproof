@@ -729,6 +729,78 @@ pre {
 }
 
 /* Measured */
+.cost-compare {
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  margin: 2rem 0 0;
+  max-width: 60rem;
+  padding: 1rem 1.15rem;
+}
+
+.cost-lead {
+  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.cost-bars {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0;
+}
+
+.cost-row {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.cost-row dt {
+  font-weight: 700;
+}
+
+.cost-row dd {
+  align-items: center;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  margin: 0;
+}
+
+.cost-track {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 0.4rem;
+  display: block;
+  height: 1.4rem;
+  overflow: hidden;
+}
+
+.cost-fill {
+  display: block;
+  height: 100%;
+}
+
+.cost-row-model .cost-fill {
+  background: var(--dup);
+}
+
+.cost-row-sandbox .cost-fill {
+  background: var(--amber);
+}
+
+.cost-usd {
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+}
+
+.cost-foot {
+  color: var(--ink-soft);
+  font-weight: 650;
+}
+
 .measured-tiles {
   display: grid;
   gap: 0.75rem;

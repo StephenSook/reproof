@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { money, measuredSummary, PHASE1_NOTE, seconds, type MeasuredEvaluation } from "@/lib/measured";
+import { costComparison, money, measuredSummary, PHASE1_NOTE, seconds, type MeasuredEvaluation } from "@/lib/measured";
 import { verdictTone, Stamp } from "@/ui/Stamp";
 
 type MeasuredTask = {
@@ -19,16 +19,35 @@ export function Measured({ evaluation }: { evaluation: MeasuredFile }) {
   const lines = measuredSummary(evaluation);
   const tiles = lines.filter((line) => line !== PHASE1_NOTE);
   const verdictLines = new Set(tiles.filter((line) => /^\d+ [A-Z_]+$/.test(line)));
+  const cost = costComparison(evaluation.totals);
   return (
     <section aria-labelledby="measured-heading" className="section-card tone-sage-section" id="measured">
       <div className="section-heading">
-        <p className="hand">the saved run, not a new one</p>
         <h2 id="measured-heading">Measured</h2>
         <p className="section-lede">These numbers are the saved ARVO 10 evaluation. They are not a new run.</p>
         <p className="section-lede">
           <Link href="/proof">See the registered run on 100 bugs, every task listed, misses first.</Link>
         </p>
       </div>
+      <figure className="cost-compare" data-cost-compare>
+        <figcaption className="cost-lead">{cost.lead}</figcaption>
+        <dl className="cost-bars">
+          {cost.bars.map((bar) => (
+            <div className={`cost-row cost-row-${bar.key}`} data-cost={bar.key} key={bar.key}>
+              <dt>{bar.label}</dt>
+              <dd>
+                <span aria-hidden="true" className="cost-track">
+                  <span className="cost-fill" style={{ width: `${(bar.width * 100).toFixed(1)}%` }} />
+                </span>
+                <span className="cost-usd">{bar.text}</span>
+              </dd>
+            </div>
+          ))}
+        </dl>
+        <p className="cost-foot">
+          {cost.combined}, from {cost.tokens}.
+        </p>
+      </figure>
       <ul className="measured-tiles">
         {tiles.map((line) => (
           <li className={`measured-tile ${verdictLines.has(line) ? "measured-tile-lead" : ""}`} key={line}>
