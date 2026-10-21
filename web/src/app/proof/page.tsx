@@ -234,7 +234,7 @@ export default function ProofPage() {
             <h2 id="every-task-title">Every task</h2>
             <p className="section-lede">
               All {rows.length} from run 2. The {misses} that did not run or missed a check come first, each with the
-              reason. Every row links to the card the run wrote.
+              reason. Every task that ran links to the card the run wrote.
             </p>
           </div>
           <ol className="proof-rows">

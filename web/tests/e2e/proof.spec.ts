@@ -43,3 +43,12 @@ test("the door links to the proof page", async ({ page }) => {
   await page.getByRole("link", { name: "100 bugs", exact: true }).click();
   await expect(page).toHaveURL(/\/proof$/);
 });
+
+test("the task list names any-size crashes in words and says which rows have a card", async ({ page }) => {
+  await page.goto("/proof");
+  const crashes = await page.locator(".proof-row-crash").allTextContents();
+  expect(crashes.length).toBeGreaterThan(0);
+  expect(crashes.filter((text) => text.includes("{*}"))).toEqual([]);
+  expect(crashes.some((text) => text.includes("(any size)"))).toBe(true);
+  await expect(page.locator("#every-task")).toContainText("Every task that ran links to the card the run wrote.");
+});
