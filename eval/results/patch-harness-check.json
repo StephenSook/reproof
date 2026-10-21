@@ -1,0 +1,1596 @@
+{
+  "code": {
+    "head": "94e4967499a7f4d96430d42faf35036222104d00",
+    "source_sha256": "5e4934ae99133eed1eb503501fba2914e27ce70b1bce97672ec4369755bcadad",
+    "uncommitted": ""
+  },
+  "finished_at_utc": "2026-10-21T16:30:29+00:00",
+  "method": "No model call. Per image: the run-2 harness up to the first model call (baseline PoC, seed corpus unpacked, docker commit as the snapshot, control compile, PoC and seeds in that container, source read from a fresh container), then the attempt path (apply_and_prove) twice with a no-op edit whose new text equals its old text in the first chosen frame's file. Each attempt starts from a fresh container from the snapshot. OK means both attempt compiles exited 0 and the stored PoC still crashed with the baseline's crash type.",
+  "model_calls": 0,
+  "schema_version": "1",
+  "started_at_utc": "2026-10-21T16:12:17+00:00",
+  "tasks": [
+    {
+      "arvo_id": 42530604,
+      "attempt_seeds": null,
+      "attempt_seeds_clean": null,
+      "attempts": [
+        {
+          "compile": {
+            "command": "arvo compile",
+            "exit_code": 0,
+            "output_bytes": 73356,
+            "output_sha256": "56afebc8f7801bccef359b7295a1cc38628569e499c6ede9b20c04adf6bed1db",
+            "output_tail": "*****************************************************************\n++ nproc\n+ make -j8\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse.c -I./src -o ./jq_fuzz_parse.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_compile.c -I./src -o ./jq_fuzz_compile.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_compile.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_compile -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_load_file.c -I./src -o ./jq_fuzz_load_file.o\ntests/jq_fuzz_load_file.c:9:42: warning: implicit declaration of function 'getpid' is invalid in C99 [-Wimplicit-function-declaration]\n  sprintf(filename, \"/tmp/libfuzzer.%d\", getpid());\n                                         ^\ntests/jq_fuzz_load_file.c:24:3: warning: implicit declaration of function 'unlink' is invalid in C99 [-Wimplicit-function-declaration]\n  unlink(filename);\n  ^\n2 warnings generated.\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_load_file.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_load_file -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse_extended.c -I./src -o ./jq_fuzz_parse_extended.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse_extended.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse_extended -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse_stream.c -I./src -o ./jq_fuzz_parse_stream.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse_stream.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse_stream -I./src",
+            "timed_out": false,
+            "wall_seconds": 38.376
+          },
+          "detail": "==11714==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000000c0 at pc 0x0000005a0a7c bp 0x7ffce81ba430 sp 0x7ffce81ba428\nWRITE of size 1 at 0x6020000000c0 thread T0\nSCARINESS: 31 (1-byte-write-heap-buffer-overflow)\n    #0 0x5a0a7b in decToString /src/jq/src/decNumber/decNumber.c:3764:5\n    #1 0x59f3c9 in decNumberToString /src/jq/src/decNumber/decNumber.c:449:3\n    #2 0x56e5d7 in jvp_literal_number_literal /src/jq/src/jv.c:653:5\n    #3 0x56e5d7 in jv_number_get_literal /src/jq/src/jv.c:668:12\n    #4 0x595428 in jv_dump_term /src/jq/src/jv_print.c:231:35\n    #5 0x596eed in jv_d",
+          "diff": "",
+          "outcome": "STILL_CRASHES",
+          "poc": {
+            "command": "arvo",
+            "exit_code": 1,
+            "output_bytes": 4946,
+            "output_sha256": "29447f52c18d8528967275caa501c199079589d225ea79490c58dfa240d05fb3",
+            "output_tail": "Shadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==11714==ABORTING",
+            "timed_out": false,
+            "wall_seconds": 0.234
+          },
+          "poc_crash_type": "Heap-buffer-overflow WRITE 1"
+        },
+        {
+          "compile": {
+            "command": "arvo compile",
+            "exit_code": 0,
+            "output_bytes": 73356,
+            "output_sha256": "f98b9474c1e97a4d9ee7276bdc5e8cdfc59e7b5a937c5ed1c81bc2e6d1452a67",
+            "output_tail": "*****************************************************************\n++ nproc\n+ make -j8\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse.c -I./src -o ./jq_fuzz_parse.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_compile.c -I./src -o ./jq_fuzz_compile.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_compile.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_compile -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_load_file.c -I./src -o ./jq_fuzz_load_file.o\ntests/jq_fuzz_load_file.c:9:42: warning: implicit declaration of function 'getpid' is invalid in C99 [-Wimplicit-function-declaration]\n  sprintf(filename, \"/tmp/libfuzzer.%d\", getpid());\n                                         ^\ntests/jq_fuzz_load_file.c:24:3: warning: implicit declaration of function 'unlink' is invalid in C99 [-Wimplicit-function-declaration]\n  unlink(filename);\n  ^\n2 warnings generated.\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_load_file.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_load_file -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse_extended.c -I./src -o ./jq_fuzz_parse_extended.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse_extended.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse_extended -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse_stream.c -I./src -o ./jq_fuzz_parse_stream.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse_stream.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse_stream -I./src",
+            "timed_out": false,
+            "wall_seconds": 38.699
+          },
+          "detail": "==11686==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000000c0 at pc 0x0000005a0a7c bp 0x7fff399b84f0 sp 0x7fff399b84e8\nWRITE of size 1 at 0x6020000000c0 thread T0\nSCARINESS: 31 (1-byte-write-heap-buffer-overflow)\n    #0 0x5a0a7b in decToString /src/jq/src/decNumber/decNumber.c:3764:5\n    #1 0x59f3c9 in decNumberToString /src/jq/src/decNumber/decNumber.c:449:3\n    #2 0x56e5d7 in jvp_literal_number_literal /src/jq/src/jv.c:653:5\n    #3 0x56e5d7 in jv_number_get_literal /src/jq/src/jv.c:668:12\n    #4 0x595428 in jv_dump_term /src/jq/src/jv_print.c:231:35\n    #5 0x596eed in jv_d",
+          "diff": "",
+          "outcome": "STILL_CRASHES",
+          "poc": {
+            "command": "arvo",
+            "exit_code": 1,
+            "output_bytes": 4946,
+            "output_sha256": "0cc3ea56ffeae97faa7c2895968de19338b48c0b1fc0f8602679d2321ea65b1b",
+            "output_tail": "Shadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==11686==ABORTING",
+            "timed_out": false,
+            "wall_seconds": 0.23
+          },
+          "poc_crash_type": "Heap-buffer-overflow WRITE 1"
+        }
+      ],
+      "baseline_crash_type": "Heap-buffer-overflow WRITE 1",
+      "clean_containers": 2,
+      "control_compile": {
+        "command": "arvo compile",
+        "exit_code": 0,
+        "output_bytes": 73356,
+        "output_sha256": "85257b799e5a36f470f17f915d77aef4585f167a40f574fded52e38f46588c90",
+        "output_tail": "*****************************************************************\n++ nproc\n+ make -j8\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse.c -I./src -o ./jq_fuzz_parse.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_compile.c -I./src -o ./jq_fuzz_compile.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_compile.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_compile -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_load_file.c -I./src -o ./jq_fuzz_load_file.o\ntests/jq_fuzz_load_file.c:9:42: warning: implicit declaration of function 'getpid' is invalid in C99 [-Wimplicit-function-declaration]\n  sprintf(filename, \"/tmp/libfuzzer.%d\", getpid());\n                                         ^\ntests/jq_fuzz_load_file.c:24:3: warning: implicit declaration of function 'unlink' is invalid in C99 [-Wimplicit-function-declaration]\n  unlink(filename);\n  ^\n2 warnings generated.\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_load_file.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_load_file -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse_extended.c -I./src -o ./jq_fuzz_parse_extended.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse_extended.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse_extended -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse_stream.c -I./src -o ./jq_fuzz_parse_stream.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse_stream.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse_stream -I./src",
+        "timed_out": false,
+        "wall_seconds": 40.664
+      },
+      "control_poc_crash_type": "Heap-buffer-overflow WRITE 1",
+      "control_seeds": null,
+      "control_seeds_clean": false,
+      "frame_notes": [],
+      "frames": [
+        {
+          "function": "decToString",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 0,
+          "line": 3764,
+          "path": "/src/jq/src/decNumber/decNumber.c",
+          "section": "crash"
+        },
+        {
+          "function": "decNumberToString",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 1,
+          "line": 449,
+          "path": "/src/jq/src/decNumber/decNumber.c",
+          "section": "crash"
+        },
+        {
+          "function": "jvp_literal_number_literal",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 2,
+          "line": 653,
+          "path": "/src/jq/src/jv.c",
+          "section": "crash"
+        },
+        {
+          "function": "jv_number_get_literal",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 3,
+          "line": 668,
+          "path": "/src/jq/src/jv.c",
+          "section": "crash"
+        },
+        {
+          "function": "jv_mem_alloc",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 1,
+          "line": 141,
+          "path": "/src/jq/src/jv_alloc.c",
+          "section": "allocated"
+        },
+        {
+          "function": "jv_dump_term",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 4,
+          "line": 231,
+          "path": "/src/jq/src/jv_print.c",
+          "section": "allocated"
+        }
+      ],
+      "fuzz_target": "/out/jq_fuzz_parse_extended",
+      "host_free_bytes_at_start": 5577596928,
+      "image": "n132/arvo:42530604-vul",
+      "image_digest": "n132/arvo@sha256:914d00d6a1956a8735983b4d649ebbea1b0d0e40b0b6c6ab1494f0dcef44e2a1",
+      "image_removed": true,
+      "noop_edit": {
+        "lines": [
+          3764,
+          3764
+        ],
+        "path": "/src/jq/src/decNumber/decNumber.c"
+      },
+      "project": "jq",
+      "result": "OK",
+      "run1_attempt_outcomes": [
+        "APPLY_FAILED",
+        "PROVEN"
+      ],
+      "run1_blocked_attempts": [],
+      "run1_frames": [
+        [
+          "/src/jq/src/decNumber/decNumber.c",
+          3764
+        ],
+        [
+          "/src/jq/src/decNumber/decNumber.c",
+          449
+        ],
+        [
+          "/src/jq/src/jv.c",
+          653
+        ],
+        [
+          "/src/jq/src/jv.c",
+          668
+        ],
+        [
+          "/src/jq/src/jv_alloc.c",
+          141
+        ],
+        [
+          "/src/jq/src/jv_print.c",
+          231
+        ]
+      ],
+      "run1_seed_count": 0,
+      "seed_count": 0,
+      "seed_note": "no seed corpus: /out/jq_fuzz_parse_extended_seed_corpus.zip is not in the image",
+      "snapshot_image": "sha256:69ae6095d3c817076ef34aa2ff5dcb5f3c35a9418220b9b1e00a3cbf7b6a2e19",
+      "source_chars": 22487,
+      "wall_seconds": 165.849,
+      "workdir": "/src/jq"
+    },
+    {
+      "arvo_id": 42507851,
+      "attempt_seeds": {
+        "command": "fuzz target over the seed corpus",
+        "exit_code": 0,
+        "output_bytes": 490,
+        "output_sha256": "94ee657f25f60d610ac886748d5d9ab46c842e005a867601d264755e17349410",
+        "output_tail": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 293892385\nINFO: Loaded 1 modules   (2679 inline 8-bit counters): 2679 [0x5f7390, 0x5f7e07), \nINFO: Loaded 1 PC tables (2679 PCs): 2679 [0x5f7e08,0x602578), \n/out/jplist_fuzzer: Running 2 inputs 1 time(s) each.\nRunning: ./j1.json\nExecuted ./j1.json in 0 ms\nRunning: ./j2.json\nExecuted ./j2.json in 0 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***",
+        "timed_out": false,
+        "wall_seconds": 0.11
+      },
+      "attempt_seeds_clean": true,
+      "attempts": [
+        {
+          "compile": {
+            "command": "arvo compile",
+            "exit_code": 0,
+            "output_bytes": 17889,
+            "output_sha256": "a8c9cfe048675639b50398681877d893701da3a48a604f5c0609d18d72b2b938",
+            "output_tail": "configure.ac:41: installing './config.sub'\nconfigure.ac:6: installing './install-sh'\nconfigure.ac:6: installing './missing'\ncython/Makefile.am: installing './depcomp'\nparallel-tests: installing './test-driver'\n++ nproc\n+ make -j8 clean\n++ nproc\n+ make -j8 all\nclang-14: warning: argument unused during compilation: '-pthread' [-Wunused-command-line-argument]\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/bplist_fuzzer.cc -o /out/bplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/xplist_fuzzer.cc -o /out/xplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/jplist_fuzzer.cc -o /out/jplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ zip -j /out/bplist_fuzzer_seed_corpus.zip test/data/data.bplist test/data/dictref1byte.bplist test/data/dictref2bytes.bplist test/data/dictref3bytes.bplist test/data/dictref4bytes.bplist test/data/dictref5bytes.bplist test/data/dictref6bytes.bplist test/data/dictref7bytes.bplist test/data/dictref8bytes.bplist test/data/malformed_dict.bplist test/data/off1byte.bplist test/data/off2bytes.bplist test/data/off3bytes.bplist test/data/off4bytes.bplist test/data/off5bytes.bplist test/data/off6bytes.bplist test/data/off7bytes.bplist test/data/off8bytes.bplist test/data/order.bplist test/data/recursion.bplist test/data/signed.bplist test/data/signedunsigned.bplist test/data/uid.bplist test/data/unsigned.bplist\n+ zip -j /out/xplist_fuzzer_seed_corpus.zip test/data/1.plist test/data/2.plist test/data/3.plist test/data/4.plist test/data/5.plist test/data/6.plist test/data/7.plist test/data/amp.plist test/data/cdata.plist test/data/empty_keys.plist test/data/entities.plist test/data/hex.plist test/data/invalid_tag.plist test/data/offxml.plist test/data/order.plist test/data/signed.plist test/data/signedunsigned.plist test/data/unsigned.plist\n+ zip -j /out/jplist_fuzzer_seed_corpus.zip test/data/j1.json test/data/j2.json\n+ cp fuzz/bplist.dict fuzz/jplist.dict fuzz/xplist.dict fuzz/bplist_fuzzer.options fuzz/jplist_fuzzer.options fuzz/xplist_fuzzer.options /out/",
+            "timed_out": false,
+            "wall_seconds": 12.142
+          },
+          "detail": "==4816==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000000b1 at pc 0x0000004d7436 bp 0x7ffc5cef1e50 sp 0x7ffc5cef1608\nREAD of size 2 at 0x6020000000b1 thread T0\nSCARINESS: 14 (2-byte-read-heap-buffer-overflow)\n    #0 0x4d7435 in StrtolFixAndCheck(void*, char const*, char**, char*, int) /src/llvm-project/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:3440:3\n    #1 0x510670 in strtol /src/llvm-project/compiler-rt/lib/asan/asan_interceptors.cpp:484:3\n    #2 0x560aca in parse_primitive /src/libplist/src/jplist.c:441:29\n    #3 0x560538 in plist_from_js",
+          "diff": "",
+          "outcome": "STILL_CRASHES",
+          "poc": {
+            "command": "arvo",
+            "exit_code": 1,
+            "output_bytes": 4265,
+            "output_sha256": "de726b8f75260f880de69f9c514ded63d022d0a766c78811cc4e722c83e22afc",
+            "output_tail": "Shadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==4816==ABORTING",
+            "timed_out": false,
+            "wall_seconds": 0.232
+          },
+          "poc_crash_type": "Heap-buffer-overflow READ 2"
+        },
+        {
+          "compile": {
+            "command": "arvo compile",
+            "exit_code": 0,
+            "output_bytes": 17889,
+            "output_sha256": "d87274f5b729c01818ce315102e8740db649b8c51ce493945b72a89689f2d4b1",
+            "output_tail": "configure.ac:41: installing './config.sub'\nconfigure.ac:6: installing './install-sh'\nconfigure.ac:6: installing './missing'\ncython/Makefile.am: installing './depcomp'\nparallel-tests: installing './test-driver'\n++ nproc\n+ make -j8 clean\n++ nproc\n+ make -j8 all\nclang-14: warning: argument unused during compilation: '-pthread' [-Wunused-command-line-argument]\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/bplist_fuzzer.cc -o /out/bplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/xplist_fuzzer.cc -o /out/xplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/jplist_fuzzer.cc -o /out/jplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ zip -j /out/bplist_fuzzer_seed_corpus.zip test/data/data.bplist test/data/dictref1byte.bplist test/data/dictref2bytes.bplist test/data/dictref3bytes.bplist test/data/dictref4bytes.bplist test/data/dictref5bytes.bplist test/data/dictref6bytes.bplist test/data/dictref7bytes.bplist test/data/dictref8bytes.bplist test/data/malformed_dict.bplist test/data/off1byte.bplist test/data/off2bytes.bplist test/data/off3bytes.bplist test/data/off4bytes.bplist test/data/off5bytes.bplist test/data/off6bytes.bplist test/data/off7bytes.bplist test/data/off8bytes.bplist test/data/order.bplist test/data/recursion.bplist test/data/signed.bplist test/data/signedunsigned.bplist test/data/uid.bplist test/data/unsigned.bplist\n+ zip -j /out/xplist_fuzzer_seed_corpus.zip test/data/1.plist test/data/2.plist test/data/3.plist test/data/4.plist test/data/5.plist test/data/6.plist test/data/7.plist test/data/amp.plist test/data/cdata.plist test/data/empty_keys.plist test/data/entities.plist test/data/hex.plist test/data/invalid_tag.plist test/data/offxml.plist test/data/order.plist test/data/signed.plist test/data/signedunsigned.plist test/data/unsigned.plist\n+ zip -j /out/jplist_fuzzer_seed_corpus.zip test/data/j1.json test/data/j2.json\n+ cp fuzz/bplist.dict fuzz/jplist.dict fuzz/xplist.dict fuzz/bplist_fuzzer.options fuzz/jplist_fuzzer.options fuzz/xplist_fuzzer.options /out/",
+            "timed_out": false,
+            "wall_seconds": 11.993
+          },
+          "detail": "==4807==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000000b1 at pc 0x0000004d7436 bp 0x7fff9a7d4510 sp 0x7fff9a7d3cc8\nREAD of size 2 at 0x6020000000b1 thread T0\nSCARINESS: 14 (2-byte-read-heap-buffer-overflow)\n    #0 0x4d7435 in StrtolFixAndCheck(void*, char const*, char**, char*, int) /src/llvm-project/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:3440:3\n    #1 0x510670 in strtol /src/llvm-project/compiler-rt/lib/asan/asan_interceptors.cpp:484:3\n    #2 0x560aca in parse_primitive /src/libplist/src/jplist.c:441:29\n    #3 0x560538 in plist_from_js",
+          "diff": "",
+          "outcome": "STILL_CRASHES",
+          "poc": {
+            "command": "arvo",
+            "exit_code": 1,
+            "output_bytes": 4265,
+            "output_sha256": "c117c71a1fa8cc585943d06c2af65f6c316f041f351506fd5cf0d2b1f899033c",
+            "output_tail": "Shadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==4807==ABORTING",
+            "timed_out": false,
+            "wall_seconds": 0.244
+          },
+          "poc_crash_type": "Heap-buffer-overflow READ 2"
+        }
+      ],
+      "baseline_crash_type": "Heap-buffer-overflow READ 2",
+      "clean_containers": 2,
+      "control_compile": {
+        "command": "arvo compile",
+        "exit_code": 0,
+        "output_bytes": 17889,
+        "output_sha256": "9889ebbcabe193afa845cb2a3db2aeaeb6e6e315746bcc042968aa033793ec19",
+        "output_tail": "configure.ac:41: installing './config.sub'\nconfigure.ac:6: installing './install-sh'\nconfigure.ac:6: installing './missing'\ncython/Makefile.am: installing './depcomp'\nparallel-tests: installing './test-driver'\n++ nproc\n+ make -j8 clean\n++ nproc\n+ make -j8 all\nclang-14: warning: argument unused during compilation: '-pthread' [-Wunused-command-line-argument]\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/bplist_fuzzer.cc -o /out/bplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/xplist_fuzzer.cc -o /out/xplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/jplist_fuzzer.cc -o /out/jplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ zip -j /out/bplist_fuzzer_seed_corpus.zip test/data/data.bplist test/data/dictref1byte.bplist test/data/dictref2bytes.bplist test/data/dictref3bytes.bplist test/data/dictref4bytes.bplist test/data/dictref5bytes.bplist test/data/dictref6bytes.bplist test/data/dictref7bytes.bplist test/data/dictref8bytes.bplist test/data/malformed_dict.bplist test/data/off1byte.bplist test/data/off2bytes.bplist test/data/off3bytes.bplist test/data/off4bytes.bplist test/data/off5bytes.bplist test/data/off6bytes.bplist test/data/off7bytes.bplist test/data/off8bytes.bplist test/data/order.bplist test/data/recursion.bplist test/data/signed.bplist test/data/signedunsigned.bplist test/data/uid.bplist test/data/unsigned.bplist\n+ zip -j /out/xplist_fuzzer_seed_corpus.zip test/data/1.plist test/data/2.plist test/data/3.plist test/data/4.plist test/data/5.plist test/data/6.plist test/data/7.plist test/data/amp.plist test/data/cdata.plist test/data/empty_keys.plist test/data/entities.plist test/data/hex.plist test/data/invalid_tag.plist test/data/offxml.plist test/data/order.plist test/data/signed.plist test/data/signedunsigned.plist test/data/unsigned.plist\n+ zip -j /out/jplist_fuzzer_seed_corpus.zip test/data/j1.json test/data/j2.json\n+ cp fuzz/bplist.dict fuzz/jplist.dict fuzz/xplist.dict fuzz/bplist_fuzzer.options fuzz/jplist_fuzzer.options fuzz/xplist_fuzzer.options /out/",
+        "timed_out": false,
+        "wall_seconds": 11.998
+      },
+      "control_poc_crash_type": "Heap-buffer-overflow READ 2",
+      "control_seeds": {
+        "command": "fuzz target over the seed corpus",
+        "exit_code": 0,
+        "output_bytes": 490,
+        "output_sha256": "859f41d03041672a9c898a940f73ca27b949f42340cd4d4c23c7d5543c48c238",
+        "output_tail": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 267175500\nINFO: Loaded 1 modules   (2679 inline 8-bit counters): 2679 [0x5f7390, 0x5f7e07), \nINFO: Loaded 1 PC tables (2679 PCs): 2679 [0x5f7e08,0x602578), \n/out/jplist_fuzzer: Running 2 inputs 1 time(s) each.\nRunning: ./j1.json\nExecuted ./j1.json in 0 ms\nRunning: ./j2.json\nExecuted ./j2.json in 0 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***",
+        "timed_out": false,
+        "wall_seconds": 0.106
+      },
+      "control_seeds_clean": true,
+      "frame_notes": [],
+      "frames": [
+        {
+          "function": "parse_primitive",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 2,
+          "line": 441,
+          "path": "/src/libplist/src/jplist.c",
+          "section": "crash"
+        },
+        {
+          "function": "plist_from_json",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 3,
+          "line": 701,
+          "path": "/src/libplist/src/jplist.c",
+          "section": "crash"
+        }
+      ],
+      "fuzz_target": "/out/jplist_fuzzer",
+      "host_free_bytes_at_start": 3177635840,
+      "image": "n132/arvo:42507851-vul",
+      "image_digest": "n132/arvo@sha256:23becbff6c9134ba89b792858310a8049e2cfa48d9d3ef59762b8d221b164960",
+      "image_removed": true,
+      "noop_edit": {
+        "lines": [
+          441,
+          441
+        ],
+        "path": "/src/libplist/src/jplist.c"
+      },
+      "project": "libplist",
+      "result": "OK",
+      "run1_attempt_outcomes": [
+        "STILL_CRASHES",
+        "STILL_CRASHES",
+        "APPLY_FAILED"
+      ],
+      "run1_blocked_attempts": [],
+      "run1_frames": [
+        [
+          "/src/libplist/src/jplist.c",
+          441
+        ],
+        [
+          "/src/libplist/src/jplist.c",
+          701
+        ]
+      ],
+      "run1_seed_count": 2,
+      "seed_count": 2,
+      "seed_note": "2 files from /out/jplist_fuzzer_seed_corpus.zip (at most 500)",
+      "snapshot_image": "sha256:6228bfc9b126615338f30891ac768d5bb673b90eef9cfc38548737b150d1524f",
+      "source_chars": 7282,
+      "wall_seconds": 81.693,
+      "workdir": "/src/libplist"
+    },
+    {
+      "arvo_id": 42496387,
+      "attempt_seeds": null,
+      "attempt_seeds_clean": null,
+      "attempts": [
+        {
+          "compile": {
+            "command": "arvo compile",
+            "exit_code": 0,
+            "output_bytes": 3798,
+            "output_sha256": "aa8d1252f69773e8d2842cf27bc462ed6280c976c971bc58f3950eb53f5b6625",
+            "output_tail": "Scanning dependencies of target wasm3\n[ 94%] Building C object CMakeFiles/wasm3.dir/platforms/app/main.c.o\n[100%] Linking C executable wasm3\n[100%] Built target wasm3\n+ mkdir build\n+ cd build\n+ cmake -DBUILD_WASI=none ..\n----\nGenerator:  Unix Makefiles\nCompiler:   Clang\nBuild Type: Release\nLTO:        ON\nFlags:         -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -Dd_m3HasTracer -Wall -Wextra -Wparentheses -Wundef -Wpointer-arith -Wstrict-aliasing=2 -Werror=implicit-function-declaration -Wno-unused-function -Wno-unused-variable -Wno-unused-parameter -Wno-missing-field-initializers\nDebug flags:   -g -DDEBUG=1 -ggdb -O0\nRelease flags: -O3 -Wfatal-errors -fomit-frame-pointer -fno-stack-check -fno-stack-protector -march=native\n----\n++ nproc\n+ make -j8\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c /src/wasm3/platforms/app_fuzz/fuzzer.c -o fuzzer.o -I/src/wasm3/source\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer -o /out/fuzzer fuzzer.o /src/wasm3/build/source/libm3.a",
+            "timed_out": false,
+            "wall_seconds": 4.286
+          },
+          "detail": "==289==ERROR: AddressSanitizer: heap-use-after-free on address 0x60e0000001b8 at pc 0x0000005589b1 bp 0x7ffcc0feb3c0 sp 0x7ffcc0feb3b8\nREAD of size 8 at 0x60e0000001b8 thread T0\nSCARINESS: 51 (8-byte-read-heap-use-after-free)\n    #0 0x5589b0 in ForEachModule /src/wasm3/source/m3_env.c:205:34\n    #1 0x5589b0 in Runtime_Release /src/wasm3/source/m3_env.c:226:5\n    #2 0x5589b0 in m3_FreeRuntime /src/wasm3/source/m3_env.c:242:9\n    #3 0x556e47 in LLVMFuzzerTestOneInput /src/wasm3/platforms/app_fuzz/fuzzer.c:43:13\n    #4 0x459c43 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned lon",
+          "diff": "",
+          "outcome": "STILL_CRASHES",
+          "poc": {
+            "command": "arvo",
+            "exit_code": 1,
+            "output_bytes": 5844,
+            "output_sha256": "d9eefd2952f81c800638382f2f8009a7d4e37e11ebaec832b353477a6aa13f74",
+            "output_tail": "  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n  Shadow gap:              cc\n==289==ABORTING",
+            "timed_out": false,
+            "wall_seconds": 0.238
+          },
+          "poc_crash_type": "Heap-use-after-free READ 8"
+        },
+        {
+          "compile": {
+            "command": "arvo compile",
+            "exit_code": 0,
+            "output_bytes": 3798,
+            "output_sha256": "9917d541581319fc3035cdb250556ee1e25150bdc71f36073e26639b43a25bc8",
+            "output_tail": "Scanning dependencies of target wasm3\n[ 94%] Building C object CMakeFiles/wasm3.dir/platforms/app/main.c.o\n[100%] Linking C executable wasm3\n[100%] Built target wasm3\n+ mkdir build\n+ cd build\n+ cmake -DBUILD_WASI=none ..\n----\nGenerator:  Unix Makefiles\nCompiler:   Clang\nBuild Type: Release\nLTO:        ON\nFlags:         -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -Dd_m3HasTracer -Wall -Wextra -Wparentheses -Wundef -Wpointer-arith -Wstrict-aliasing=2 -Werror=implicit-function-declaration -Wno-unused-function -Wno-unused-variable -Wno-unused-parameter -Wno-missing-field-initializers\nDebug flags:   -g -DDEBUG=1 -ggdb -O0\nRelease flags: -O3 -Wfatal-errors -fomit-frame-pointer -fno-stack-check -fno-stack-protector -march=native\n----\n++ nproc\n+ make -j8\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c /src/wasm3/platforms/app_fuzz/fuzzer.c -o fuzzer.o -I/src/wasm3/source\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer -o /out/fuzzer fuzzer.o /src/wasm3/build/source/libm3.a",
+            "timed_out": false,
+            "wall_seconds": 4.243
+          },
+          "detail": "==261==ERROR: AddressSanitizer: heap-use-after-free on address 0x60e0000001b8 at pc 0x0000005589b1 bp 0x7ffe3eff2300 sp 0x7ffe3eff22f8\nREAD of size 8 at 0x60e0000001b8 thread T0\nSCARINESS: 51 (8-byte-read-heap-use-after-free)\n    #0 0x5589b0 in ForEachModule /src/wasm3/source/m3_env.c:205:34\n    #1 0x5589b0 in Runtime_Release /src/wasm3/source/m3_env.c:226:5\n    #2 0x5589b0 in m3_FreeRuntime /src/wasm3/source/m3_env.c:242:9\n    #3 0x556e47 in LLVMFuzzerTestOneInput /src/wasm3/platforms/app_fuzz/fuzzer.c:43:13\n    #4 0x459c43 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned lon",
+          "diff": "",
+          "outcome": "STILL_CRASHES",
+          "poc": {
+            "command": "arvo",
+            "exit_code": 1,
+            "output_bytes": 5844,
+            "output_sha256": "c24fa1bb8a4ca725359ba3c249ae0e6ef366af7ef115ae7725e3e2d32cc16e4d",
+            "output_tail": "  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n  Shadow gap:              cc\n==261==ABORTING",
+            "timed_out": false,
+            "wall_seconds": 0.241
+          },
+          "poc_crash_type": "Heap-use-after-free READ 8"
+        }
+      ],
+      "baseline_crash_type": "Heap-use-after-free READ 8",
+      "clean_containers": 2,
+      "control_compile": {
+        "command": "arvo compile",
+        "exit_code": 0,
+        "output_bytes": 3798,
+        "output_sha256": "68cb42371a5be95a4667f27775f891c8639ebea7ba95f92c02c056b8e3ea2bed",
+        "output_tail": "Scanning dependencies of target wasm3\n[ 94%] Building C object CMakeFiles/wasm3.dir/platforms/app/main.c.o\n[100%] Linking C executable wasm3\n[100%] Built target wasm3\n+ mkdir build\n+ cd build\n+ cmake -DBUILD_WASI=none ..\n----\nGenerator:  Unix Makefiles\nCompiler:   Clang\nBuild Type: Release\nLTO:        ON\nFlags:         -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -Dd_m3HasTracer -Wall -Wextra -Wparentheses -Wundef -Wpointer-arith -Wstrict-aliasing=2 -Werror=implicit-function-declaration -Wno-unused-function -Wno-unused-variable -Wno-unused-parameter -Wno-missing-field-initializers\nDebug flags:   -g -DDEBUG=1 -ggdb -O0\nRelease flags: -O3 -Wfatal-errors -fomit-frame-pointer -fno-stack-check -fno-stack-protector -march=native\n----\n++ nproc\n+ make -j8\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c /src/wasm3/platforms/app_fuzz/fuzzer.c -o fuzzer.o -I/src/wasm3/source\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer -o /out/fuzzer fuzzer.o /src/wasm3/build/source/libm3.a",
+        "timed_out": false,
+        "wall_seconds": 4.552
+      },
+      "control_poc_crash_type": "Heap-use-after-free READ 8",
+      "control_seeds": null,
+      "control_seeds_clean": false,
+      "frame_notes": [],
+      "frames": [
+        {
+          "function": "ForEachModule",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 0,
+          "line": 205,
+          "path": "/src/wasm3/source/m3_env.c",
+          "section": "crash"
+        },
+        {
+          "function": "Runtime_Release",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 1,
+          "line": 226,
+          "path": "/src/wasm3/source/m3_env.c",
+          "section": "crash"
+        },
+        {
+          "function": "m3_FreeRuntime",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 2,
+          "line": 242,
+          "path": "/src/wasm3/source/m3_env.c",
+          "section": "crash"
+        },
+        {
+          "function": "_FreeModule",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 1,
+          "line": 219,
+          "path": "/src/wasm3/source/m3_env.c",
+          "section": "freed"
+        },
+        {
+          "function": "Compile_ExtendedOpcode",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 4,
+          "line": 1120,
+          "path": "/src/wasm3/source/m3_compile.c",
+          "section": "freed"
+        },
+        {
+          "function": "m3_ParseModule",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 1,
+          "line": 581,
+          "path": "/src/wasm3/source/m3_parse.c",
+          "section": "allocated"
+        }
+      ],
+      "fuzz_target": "/out/fuzzer",
+      "host_free_bytes_at_start": 3018567680,
+      "image": "n132/arvo:42496387-vul",
+      "image_digest": "n132/arvo@sha256:b23fa4c7fc8160a8b9a7479883be8751b6015bc48c5d89505a85468bf97ebccb",
+      "image_removed": true,
+      "noop_edit": {
+        "lines": [
+          205,
+          205
+        ],
+        "path": "/src/wasm3/source/m3_env.c"
+      },
+      "project": "wasm3",
+      "result": "OK",
+      "run1_attempt_outcomes": [
+        "COMPILE_FAILED",
+        "COMPILE_FAILED",
+        "COMPILE_FAILED"
+      ],
+      "run1_blocked_attempts": [
+        1,
+        2,
+        3
+      ],
+      "run1_frames": [
+        [
+          "/src/wasm3/source/m3_env.c",
+          205
+        ],
+        [
+          "/src/wasm3/source/m3_env.c",
+          226
+        ],
+        [
+          "/src/wasm3/source/m3_env.c",
+          242
+        ],
+        [
+          "/src/wasm3/source/m3_env.c",
+          219
+        ],
+        [
+          "/src/wasm3/source/m3_compile.c",
+          1120
+        ],
+        [
+          "/src/wasm3/source/m3_parse.c",
+          581
+        ]
+      ],
+      "run1_seed_count": 0,
+      "seed_count": 0,
+      "seed_note": "no seed corpus: /out/fuzzer_seed_corpus.zip is not in the image",
+      "snapshot_image": "sha256:0798ca4d6a6e3cdc327768dc57de1726087dc79761891b6ee1f5fb9c9caafc18",
+      "source_chars": 10874,
+      "wall_seconds": 74.391,
+      "workdir": "/src/wasm3"
+    },
+    {
+      "arvo_id": 42508524,
+      "attempt_seeds": {
+        "command": "fuzz target over the seed corpus",
+        "exit_code": 0,
+        "output_bytes": 490,
+        "output_sha256": "3e51ed25a55698a0842b2b0e28205c3fbfda6518d6e1501f3a7964649842d402",
+        "output_tail": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 444002195\nINFO: Loaded 1 modules   (2719 inline 8-bit counters): 2719 [0x5f5450, 0x5f5eef), \nINFO: Loaded 1 PC tables (2719 PCs): 2719 [0x5f5ef0,0x6008e0), \n/out/jplist_fuzzer: Running 2 inputs 1 time(s) each.\nRunning: ./j1.json\nExecuted ./j1.json in 0 ms\nRunning: ./j2.json\nExecuted ./j2.json in 0 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***",
+        "timed_out": false,
+        "wall_seconds": 0.119
+      },
+      "attempt_seeds_clean": true,
+      "attempts": [
+        {
+          "compile": {
+            "command": "arvo compile",
+            "exit_code": 0,
+            "output_bytes": 17889,
+            "output_sha256": "be0b2d88dfba6a500064d45daa3c28b0c595e0d0ed67fbe02fb97252cf444409",
+            "output_tail": "configure.ac:41: installing './config.sub'\nconfigure.ac:6: installing './install-sh'\nconfigure.ac:6: installing './missing'\ncython/Makefile.am: installing './depcomp'\nparallel-tests: installing './test-driver'\n++ nproc\n+ make -j8 clean\n++ nproc\n+ make -j8 all\nclang-14: warning: argument unused during compilation: '-pthread' [-Wunused-command-line-argument]\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/bplist_fuzzer.cc -o /out/bplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/xplist_fuzzer.cc -o /out/xplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/jplist_fuzzer.cc -o /out/jplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ zip -j /out/bplist_fuzzer_seed_corpus.zip test/data/data.bplist test/data/dictref1byte.bplist test/data/dictref2bytes.bplist test/data/dictref3bytes.bplist test/data/dictref4bytes.bplist test/data/dictref5bytes.bplist test/data/dictref6bytes.bplist test/data/dictref7bytes.bplist test/data/dictref8bytes.bplist test/data/malformed_dict.bplist test/data/off1byte.bplist test/data/off2bytes.bplist test/data/off3bytes.bplist test/data/off4bytes.bplist test/data/off5bytes.bplist test/data/off6bytes.bplist test/data/off7bytes.bplist test/data/off8bytes.bplist test/data/order.bplist test/data/recursion.bplist test/data/signed.bplist test/data/signedunsigned.bplist test/data/uid.bplist test/data/unsigned.bplist\n+ zip -j /out/xplist_fuzzer_seed_corpus.zip test/data/1.plist test/data/2.plist test/data/3.plist test/data/4.plist test/data/5.plist test/data/6.plist test/data/7.plist test/data/amp.plist test/data/cdata.plist test/data/empty_keys.plist test/data/entities.plist test/data/hex.plist test/data/invalid_tag.plist test/data/offxml.plist test/data/order.plist test/data/signed.plist test/data/signedunsigned.plist test/data/unsigned.plist\n+ zip -j /out/jplist_fuzzer_seed_corpus.zip test/data/j1.json test/data/j2.json\n+ cp fuzz/bplist.dict fuzz/jplist.dict fuzz/xplist.dict fuzz/bplist_fuzzer.options fuzz/jplist_fuzzer.options fuzz/xplist_fuzzer.options /out/",
+            "timed_out": false,
+            "wall_seconds": 12.096
+          },
+          "detail": "==4824==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000000b2 at pc 0x0000005601db bp 0x7ffec71226d0 sp 0x7ffec71226c8\nREAD of size 1 at 0x6020000000b2 thread T0\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\n    #0 0x5601da in parse_primitive /src/libplist/src/jplist.c:470:134\n    #1 0x55f147 in plist_from_json /src/libplist/src/jplist.c:786:22\n    #2 0x55cf92 in LLVMFuzzerTestOneInput /src/libplist/fuzz/jplist_fuzzer.cc:28:2\n    #3 0x455203 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:1",
+          "diff": "",
+          "outcome": "STILL_CRASHES",
+          "poc": {
+            "command": "arvo",
+            "exit_code": 1,
+            "output_bytes": 3993,
+            "output_sha256": "870a7bc99d4ba05d08669f23d10b4bc0ab269203fae168a86d50b02a943347df",
+            "output_tail": "Shadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==4824==ABORTING",
+            "timed_out": false,
+            "wall_seconds": 0.233
+          },
+          "poc_crash_type": "Heap-buffer-overflow READ 1"
+        },
+        {
+          "compile": {
+            "command": "arvo compile",
+            "exit_code": 0,
+            "output_bytes": 17889,
+            "output_sha256": "be0b2d88dfba6a500064d45daa3c28b0c595e0d0ed67fbe02fb97252cf444409",
+            "output_tail": "configure.ac:41: installing './config.sub'\nconfigure.ac:6: installing './install-sh'\nconfigure.ac:6: installing './missing'\ncython/Makefile.am: installing './depcomp'\nparallel-tests: installing './test-driver'\n++ nproc\n+ make -j8 clean\n++ nproc\n+ make -j8 all\nclang-14: warning: argument unused during compilation: '-pthread' [-Wunused-command-line-argument]\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/bplist_fuzzer.cc -o /out/bplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/xplist_fuzzer.cc -o /out/xplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/jplist_fuzzer.cc -o /out/jplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ zip -j /out/bplist_fuzzer_seed_corpus.zip test/data/data.bplist test/data/dictref1byte.bplist test/data/dictref2bytes.bplist test/data/dictref3bytes.bplist test/data/dictref4bytes.bplist test/data/dictref5bytes.bplist test/data/dictref6bytes.bplist test/data/dictref7bytes.bplist test/data/dictref8bytes.bplist test/data/malformed_dict.bplist test/data/off1byte.bplist test/data/off2bytes.bplist test/data/off3bytes.bplist test/data/off4bytes.bplist test/data/off5bytes.bplist test/data/off6bytes.bplist test/data/off7bytes.bplist test/data/off8bytes.bplist test/data/order.bplist test/data/recursion.bplist test/data/signed.bplist test/data/signedunsigned.bplist test/data/uid.bplist test/data/unsigned.bplist\n+ zip -j /out/xplist_fuzzer_seed_corpus.zip test/data/1.plist test/data/2.plist test/data/3.plist test/data/4.plist test/data/5.plist test/data/6.plist test/data/7.plist test/data/amp.plist test/data/cdata.plist test/data/empty_keys.plist test/data/entities.plist test/data/hex.plist test/data/invalid_tag.plist test/data/offxml.plist test/data/order.plist test/data/signed.plist test/data/signedunsigned.plist test/data/unsigned.plist\n+ zip -j /out/jplist_fuzzer_seed_corpus.zip test/data/j1.json test/data/j2.json\n+ cp fuzz/bplist.dict fuzz/jplist.dict fuzz/xplist.dict fuzz/bplist_fuzzer.options fuzz/jplist_fuzzer.options fuzz/xplist_fuzzer.options /out/",
+            "timed_out": false,
+            "wall_seconds": 12.02
+          },
+          "detail": "==4804==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000000b2 at pc 0x0000005601db bp 0x7ffd62be0a90 sp 0x7ffd62be0a88\nREAD of size 1 at 0x6020000000b2 thread T0\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\n    #0 0x5601da in parse_primitive /src/libplist/src/jplist.c:470:134\n    #1 0x55f147 in plist_from_json /src/libplist/src/jplist.c:786:22\n    #2 0x55cf92 in LLVMFuzzerTestOneInput /src/libplist/fuzz/jplist_fuzzer.cc:28:2\n    #3 0x455203 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:611:1",
+          "diff": "",
+          "outcome": "STILL_CRASHES",
+          "poc": {
+            "command": "arvo",
+            "exit_code": 1,
+            "output_bytes": 3993,
+            "output_sha256": "2e03b3be482010481ada55768ab15e405b373bb497fc417cef02769795033ea4",
+            "output_tail": "Shadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==4804==ABORTING",
+            "timed_out": false,
+            "wall_seconds": 0.228
+          },
+          "poc_crash_type": "Heap-buffer-overflow READ 1"
+        }
+      ],
+      "baseline_crash_type": "Heap-buffer-overflow READ 1",
+      "clean_containers": 2,
+      "control_compile": {
+        "command": "arvo compile",
+        "exit_code": 0,
+        "output_bytes": 17889,
+        "output_sha256": "f0b0e567acca9f0396970c9d960f521c35ba86c394916290aeaca6e509522725",
+        "output_tail": "configure.ac:41: installing './config.sub'\nconfigure.ac:6: installing './install-sh'\nconfigure.ac:6: installing './missing'\ncython/Makefile.am: installing './depcomp'\nparallel-tests: installing './test-driver'\n++ nproc\n+ make -j8 clean\n++ nproc\n+ make -j8 all\nclang-14: warning: argument unused during compilation: '-pthread' [-Wunused-command-line-argument]\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/bplist_fuzzer.cc -o /out/bplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/xplist_fuzzer.cc -o /out/xplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/jplist_fuzzer.cc -o /out/jplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ zip -j /out/bplist_fuzzer_seed_corpus.zip test/data/data.bplist test/data/dictref1byte.bplist test/data/dictref2bytes.bplist test/data/dictref3bytes.bplist test/data/dictref4bytes.bplist test/data/dictref5bytes.bplist test/data/dictref6bytes.bplist test/data/dictref7bytes.bplist test/data/dictref8bytes.bplist test/data/malformed_dict.bplist test/data/off1byte.bplist test/data/off2bytes.bplist test/data/off3bytes.bplist test/data/off4bytes.bplist test/data/off5bytes.bplist test/data/off6bytes.bplist test/data/off7bytes.bplist test/data/off8bytes.bplist test/data/order.bplist test/data/recursion.bplist test/data/signed.bplist test/data/signedunsigned.bplist test/data/uid.bplist test/data/unsigned.bplist\n+ zip -j /out/xplist_fuzzer_seed_corpus.zip test/data/1.plist test/data/2.plist test/data/3.plist test/data/4.plist test/data/5.plist test/data/6.plist test/data/7.plist test/data/amp.plist test/data/cdata.plist test/data/empty_keys.plist test/data/entities.plist test/data/hex.plist test/data/invalid_tag.plist test/data/offxml.plist test/data/order.plist test/data/signed.plist test/data/signedunsigned.plist test/data/unsigned.plist\n+ zip -j /out/jplist_fuzzer_seed_corpus.zip test/data/j1.json test/data/j2.json\n+ cp fuzz/bplist.dict fuzz/jplist.dict fuzz/xplist.dict fuzz/bplist_fuzzer.options fuzz/jplist_fuzzer.options fuzz/xplist_fuzzer.options /out/",
+        "timed_out": false,
+        "wall_seconds": 12.711
+      },
+      "control_poc_crash_type": "Heap-buffer-overflow READ 1",
+      "control_seeds": {
+        "command": "fuzz target over the seed corpus",
+        "exit_code": 0,
+        "output_bytes": 490,
+        "output_sha256": "e9bf1edf2eb5ca9141c94212cb39b4113dae84e4adef36d8dcac58731f3f6597",
+        "output_tail": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 418564003\nINFO: Loaded 1 modules   (2719 inline 8-bit counters): 2719 [0x5f5450, 0x5f5eef), \nINFO: Loaded 1 PC tables (2719 PCs): 2719 [0x5f5ef0,0x6008e0), \n/out/jplist_fuzzer: Running 2 inputs 1 time(s) each.\nRunning: ./j1.json\nExecuted ./j1.json in 0 ms\nRunning: ./j2.json\nExecuted ./j2.json in 0 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***",
+        "timed_out": false,
+        "wall_seconds": 0.128
+      },
+      "control_seeds_clean": true,
+      "frame_notes": [],
+      "frames": [
+        {
+          "function": "parse_primitive",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 0,
+          "line": 470,
+          "path": "/src/libplist/src/jplist.c",
+          "section": "crash"
+        },
+        {
+          "function": "plist_from_json",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 1,
+          "line": 786,
+          "path": "/src/libplist/src/jplist.c",
+          "section": "crash"
+        }
+      ],
+      "fuzz_target": "/out/jplist_fuzzer",
+      "host_free_bytes_at_start": 1591050240,
+      "image": "n132/arvo:42508524-vul",
+      "image_digest": "n132/arvo@sha256:b83ff65cdda198135c75254a922c8b83f973c74638a0a533f6136859aef5435d",
+      "image_removed": true,
+      "noop_edit": {
+        "lines": [
+          470,
+          470
+        ],
+        "path": "/src/libplist/src/jplist.c"
+      },
+      "project": "libplist",
+      "result": "OK",
+      "run1_attempt_outcomes": [
+        "STILL_CRASHES",
+        "STILL_CRASHES",
+        "STILL_CRASHES"
+      ],
+      "run1_blocked_attempts": [],
+      "run1_frames": [
+        [
+          "/src/libplist/src/jplist.c",
+          470
+        ],
+        [
+          "/src/libplist/src/jplist.c",
+          786
+        ]
+      ],
+      "run1_seed_count": 2,
+      "seed_count": 2,
+      "seed_note": "2 files from /out/jplist_fuzzer_seed_corpus.zip (at most 500)",
+      "snapshot_image": "sha256:45a290caa8b7a34e6b75a3080808b3ec24b219a81864b63336c3585260ad2c7a",
+      "source_chars": 7091,
+      "wall_seconds": 76.668,
+      "workdir": "/src/libplist"
+    },
+    {
+      "arvo_id": 42536108,
+      "attempt_seeds": {
+        "command": "fuzz target over the seed corpus",
+        "exit_code": 0,
+        "output_bytes": 489,
+        "output_sha256": "55f82460436a369f4481292eeb5905a4a5ed22a78067ac69e0883d9b4d89629b",
+        "output_tail": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 512957643\nINFO: Loaded 1 modules   (2992 inline 8-bit counters): 2992 [0x5ab43e34a360, 0x5ab43e34af10), \nINFO: Loaded 1 PC tables (2992 PCs): 2992 [0x5ab43e34af10,0x5ab43e356a10), \n/out/zip_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: ./out/seed_corpus.zip\nExecuted ./out/seed_corpus.zip in 9 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***",
+        "timed_out": false,
+        "wall_seconds": 0.115
+      },
+      "attempt_seeds_clean": true,
+      "attempts": [
+        {
+          "compile": {
+            "command": "arvo compile",
+            "exit_code": 0,
+            "output_bytes": 45082,
+            "output_sha256": "33f7edbf35d81ad6b7df404df4883de47814ca92f209c5c0e0b18743f7c8a400",
+            "output_tail": "   45 |         mz_uint ret = mz_zip_reader_get_filename(&zip, i, filename, filename_max);\n      |                 ^~~\n/src/miniz/tests/zip_fuzzer.c:51:17: warning: unused variable 'status' [-Wunused-variable]\n   51 |         mz_bool status = mz_zip_reader_file_stat(&zip, i, &file_stat) != 0;\n      |                 ^~~~~~\n/src/miniz/tests/zip_fuzzer.c:63:2: warning: no newline at end of file [-Wnewline-eof]\n   63 | }\n      |  ^\n/src/miniz/tests/zip_fuzzer.c:18:9: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]\n   18 |     int ret = 0;\n      |         ^\n/src/miniz/tests/zip_fuzzer.c:59:1: warning: unused label 'cleanup' [-Wunused-label]\n   59 | cleanup:\n      | ^~~~~~~~\n/src/miniz/tests/fuzz_main.c:55:2: warning: no newline at end of file [-Wnewline-eof]\n   55 | }\n      |  ^\n1 warning generated.\n7 warnings generated.\n1 warning generated.",
+            "timed_out": false,
+            "wall_seconds": 6.415
+          },
+          "detail": "==440==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x5040000000fe at pc 0x55fa4b35fada bp 0x7ffc08486a50 sp 0x7ffc08486210\nREAD of size 39 at 0x5040000000fe thread T0\nSCARINESS: 26 (multi-byte-read-heap-buffer-overflow)\n    #0 0x55fa4b35fad9 in __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3\n    #1 0x55fa4b3bd48d in mz_zip_mem_read_func /src/miniz/build/amalgamation/miniz.c:4050:9\n    #2 0x55fa4b3bb873 in mz_zip_reader_read_central_dir /src/miniz/build/amalgamation/miniz.c:3885:33\n    #3 0x55fa4b3bce04 in mz_zip_reader_init_mem /src/mi",
+          "diff": "",
+          "outcome": "STILL_CRASHES",
+          "poc": {
+            "command": "arvo",
+            "exit_code": 1,
+            "output_bytes": 4477,
+            "output_sha256": "e9a57f570bad64ba1eedcb3c165fbf3db754a31ead6b92c275a78cd4d3c85f50",
+            "output_tail": "Shadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==440==ABORTING",
+            "timed_out": false,
+            "wall_seconds": 0.235
+          },
+          "poc_crash_type": "Heap-buffer-overflow READ {*}"
+        },
+        {
+          "compile": {
+            "command": "arvo compile",
+            "exit_code": 0,
+            "output_bytes": 45082,
+            "output_sha256": "4e0b2350ae981f7120b6c9e8a7b5d38d6190840e58f63312a01599fd64b0cd90",
+            "output_tail": "      |         ^\n/src/miniz/tests/zip_fuzzer.c:45:17: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]\n   45 |         mz_uint ret = mz_zip_reader_get_filename(&zip, i, filename, filename_max);\n      |                 ^\n/src/miniz/tests/zip_fuzzer.c:45:17: warning: unused variable 'ret' [-Wunused-variable]\n   45 |         mz_uint ret = mz_zip_reader_get_filename(&zip, i, filename, filename_max);\n      |                 ^~~\n/src/miniz/tests/zip_fuzzer.c:51:17: warning: unused variable 'status' [-Wunused-variable]\n   51 |         mz_bool status = mz_zip_reader_file_stat(&zip, i, &file_stat) != 0;\n      |                 ^~~~~~\n/src/miniz/tests/zip_fuzzer.c:63:2: warning: no newline at end of file [-Wnewline-eof]\n   63 | }\n      |  ^\n/src/miniz/tests/zip_fuzzer.c:18:9: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]\n   18 |     int ret = 0;\n      |         ^\n/src/miniz/tests/zip_fuzzer.c:59:1: warning: unused label 'cleanup' [-Wunused-label]\n   59 | cleanup:\n      | ^~~~~~~~\n7 warnings generated.",
+            "timed_out": false,
+            "wall_seconds": 6.561
+          },
+          "detail": "==389==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x5040000000fe at pc 0x5a1d468e5ada bp 0x7ffcaf715e10 sp 0x7ffcaf7155d0\nREAD of size 39 at 0x5040000000fe thread T0\nSCARINESS: 26 (multi-byte-read-heap-buffer-overflow)\n    #0 0x5a1d468e5ad9 in __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3\n    #1 0x5a1d4694348d in mz_zip_mem_read_func /src/miniz/build/amalgamation/miniz.c:4050:9\n    #2 0x5a1d46941873 in mz_zip_reader_read_central_dir /src/miniz/build/amalgamation/miniz.c:3885:33\n    #3 0x5a1d46942e04 in mz_zip_reader_init_mem /src/mi",
+          "diff": "",
+          "outcome": "STILL_CRASHES",
+          "poc": {
+            "command": "arvo",
+            "exit_code": 1,
+            "output_bytes": 4477,
+            "output_sha256": "dee8a3d581f9838e97d6da1bda6c5a73dd11039f154529dfaccca3a4051aec94",
+            "output_tail": "Shadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==389==ABORTING",
+            "timed_out": false,
+            "wall_seconds": 0.236
+          },
+          "poc_crash_type": "Heap-buffer-overflow READ {*}"
+        }
+      ],
+      "baseline_crash_type": "Heap-buffer-overflow READ {*}",
+      "clean_containers": 2,
+      "control_compile": {
+        "command": "arvo compile",
+        "exit_code": 0,
+        "output_bytes": 45082,
+        "output_sha256": "0c66fed931e9a334a137bc7cb13e1ec078bf14e5fc9824324d8f0763e0f0a151",
+        "output_tail": "      |         ^\n/src/miniz/tests/zip_fuzzer.c:45:17: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]\n   45 |         mz_uint ret = mz_zip_reader_get_filename(&zip, i, filename, filename_max);\n      |                 ^\n/src/miniz/tests/zip_fuzzer.c:45:17: warning: unused variable 'ret' [-Wunused-variable]\n   45 |         mz_uint ret = mz_zip_reader_get_filename(&zip, i, filename, filename_max);\n      |                 ^~~\n/src/miniz/tests/zip_fuzzer.c:51:17: warning: unused variable 'status' [-Wunused-variable]\n   51 |         mz_bool status = mz_zip_reader_file_stat(&zip, i, &file_stat) != 0;\n      |                 ^~~~~~\n/src/miniz/tests/zip_fuzzer.c:63:2: warning: no newline at end of file [-Wnewline-eof]\n   63 | }\n      |  ^\n/src/miniz/tests/zip_fuzzer.c:18:9: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]\n   18 |     int ret = 0;\n      |         ^\n/src/miniz/tests/zip_fuzzer.c:59:1: warning: unused label 'cleanup' [-Wunused-label]\n   59 | cleanup:\n      | ^~~~~~~~\n7 warnings generated.",
+        "timed_out": false,
+        "wall_seconds": 7.94
+      },
+      "control_poc_crash_type": "Heap-buffer-overflow READ {*}",
+      "control_seeds": {
+        "command": "fuzz target over the seed corpus",
+        "exit_code": 0,
+        "output_bytes": 490,
+        "output_sha256": "2ad424ce45b4415115a5688c2aa8733ecfc9d0567819657a031b55ab41eff790",
+        "output_tail": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 495669478\nINFO: Loaded 1 modules   (2992 inline 8-bit counters): 2992 [0x6362e7c87360, 0x6362e7c87f10), \nINFO: Loaded 1 PC tables (2992 PCs): 2992 [0x6362e7c87f10,0x6362e7c93a10), \n/out/zip_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: ./out/seed_corpus.zip\nExecuted ./out/seed_corpus.zip in 18 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***",
+        "timed_out": false,
+        "wall_seconds": 0.314
+      },
+      "control_seeds_clean": true,
+      "frame_notes": [
+        "crash frame #1 mz_zip_mem_read_func at /src/miniz/build/amalgamation/miniz.c:4050: not in the source tree before the build; shown from /src/miniz/miniz_zip.c:1036",
+        "crash frame #2 mz_zip_reader_read_central_dir at /src/miniz/build/amalgamation/miniz.c:3885: not in the source tree before the build; shown from /src/miniz/miniz_zip.c:871",
+        "crash frame #3 mz_zip_reader_init_mem at /src/miniz/build/amalgamation/miniz.c:4079: not in the source tree before the build; shown from /src/miniz/miniz_zip.c:1065"
+      ],
+      "frames": [
+        {
+          "function": "mz_zip_mem_read_func",
+          "generated_line": 4050,
+          "generated_path": "/src/miniz/build/amalgamation/miniz.c",
+          "index": 1,
+          "line": 1036,
+          "path": "/src/miniz/miniz_zip.c",
+          "section": "crash"
+        },
+        {
+          "function": "mz_zip_reader_read_central_dir",
+          "generated_line": 3885,
+          "generated_path": "/src/miniz/build/amalgamation/miniz.c",
+          "index": 2,
+          "line": 871,
+          "path": "/src/miniz/miniz_zip.c",
+          "section": "crash"
+        },
+        {
+          "function": "mz_zip_reader_init_mem",
+          "generated_line": 4079,
+          "generated_path": "/src/miniz/build/amalgamation/miniz.c",
+          "index": 3,
+          "line": 1065,
+          "path": "/src/miniz/miniz_zip.c",
+          "section": "crash"
+        }
+      ],
+      "fuzz_target": "/out/zip_fuzzer",
+      "host_free_bytes_at_start": 3109371904,
+      "image": "n132/arvo:42536108-vul",
+      "image_digest": "n132/arvo@sha256:d29337e3f755aa33c3df1f6e5248cc30f9225318041cc50ffccaa2032d73852b",
+      "image_removed": true,
+      "noop_edit": {
+        "lines": [
+          1036,
+          1036
+        ],
+        "path": "/src/miniz/miniz_zip.c"
+      },
+      "project": "miniz",
+      "result": "OK",
+      "run1_attempt_outcomes": [
+        "APPLY_FAILED",
+        "COMPILE_FAILED",
+        "COMPILE_FAILED"
+      ],
+      "run1_blocked_attempts": [
+        2,
+        3
+      ],
+      "run1_frames": [
+        [
+          "/src/miniz/build/amalgamation/miniz.c",
+          4050
+        ],
+        [
+          "/src/miniz/build/amalgamation/miniz.c",
+          3885
+        ],
+        [
+          "/src/miniz/build/amalgamation/miniz.c",
+          4079
+        ]
+      ],
+      "run1_seed_count": 1,
+      "seed_count": 1,
+      "seed_note": "1 files from /out/zip_fuzzer_seed_corpus.zip (at most 500)",
+      "snapshot_image": "sha256:beb8581d918cedd791c141af393c6d149972ab0ce3f5f4a24bdad496a598ef79",
+      "source_chars": 11901,
+      "wall_seconds": 67.949,
+      "workdir": "/src/miniz"
+    },
+    {
+      "arvo_id": 42536112,
+      "attempt_seeds": {
+        "command": "fuzz target over the seed corpus",
+        "exit_code": 0,
+        "output_bytes": 489,
+        "output_sha256": "8a021f45f9356a100e29b13513d5d68a3b29e7bfb736835563dac80bfff60b17",
+        "output_tail": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 591521545\nINFO: Loaded 1 modules   (2992 inline 8-bit counters): 2992 [0x5ae908196360, 0x5ae908196f10), \nINFO: Loaded 1 PC tables (2992 PCs): 2992 [0x5ae908196f10,0x5ae9081a2a10), \n/out/zip_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: ./out/seed_corpus.zip\nExecuted ./out/seed_corpus.zip in 9 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***",
+        "timed_out": false,
+        "wall_seconds": 0.115
+      },
+      "attempt_seeds_clean": true,
+      "attempts": [
+        {
+          "compile": {
+            "command": "arvo compile",
+            "exit_code": 0,
+            "output_bytes": 45082,
+            "output_sha256": "459e61319affa6c8965ee4af6395cc30de5953e6afb705e1486debc76d03f09f",
+            "output_tail": "/src/miniz/tests/zip_fuzzer.c:45:17: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]\n   45 |         mz_uint ret = mz_zip_reader_get_filename(&zip, i, filename, filename_max);\n      |                 ^\n/src/miniz/tests/zip_fuzzer.c:45:17: warning: unused variable 'ret' [-Wunused-variable]\n   45 |         mz_uint ret = mz_zip_reader_get_filename(&zip, i, filename, filename_max);\n      |                 ^~~\n/src/miniz/tests/zip_fuzzer.c:51:17: warning: unused variable 'status' [-Wunused-variable]\n   51 |         mz_bool status = mz_zip_reader_file_stat(&zip, i, &file_stat) != 0;\n      |                 ^~~~~~\n/src/miniz/tests/zip_fuzzer.c:63:2: warning: no newline at end of file [-Wnewline-eof]\n   63 | }\n      |  ^\n/src/miniz/tests/zip_fuzzer.c:18:9: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]\n   18 |     int ret = 0;\n      |         ^\n/src/miniz/tests/zip_fuzzer.c:59:1: warning: unused label 'cleanup' [-Wunused-label]\n   59 | cleanup:\n      | ^~~~~~~~\n1 warning generated.\n7 warnings generated.",
+            "timed_out": false,
+            "wall_seconds": 7.116
+          },
+          "detail": "==430==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x5070000000d4 at pc 0x5d88db391ada bp 0x7ffc564205d0 sp 0x7ffc5641fd90\nREAD of size 17 at 0x5070000000d4 thread T0\nSCARINESS: 26 (multi-byte-read-heap-buffer-overflow)\n    #0 0x5d88db391ad9 in __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3\n    #1 0x5d88db3ef48d in mz_zip_mem_read_func /src/miniz/build/amalgamation/miniz.c:4050:9\n    #2 0x5d88db3fa478 in mz_zip_validate_file /src/miniz/build/amalgamation/miniz.c:5410:13\n    #3 0x5d88db3d2cbf in LLVMFuzzerTestOneInput /src/miniz/tests/",
+          "diff": "",
+          "outcome": "STILL_CRASHES",
+          "poc": {
+            "command": "arvo",
+            "exit_code": 1,
+            "output_bytes": 4360,
+            "output_sha256": "27371c23e81d78729ac8e84cbd059dd72f8b9eb0e5aa3119fd8f416a13425919",
+            "output_tail": "Shadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==430==ABORTING",
+            "timed_out": false,
+            "wall_seconds": 0.248
+          },
+          "poc_crash_type": "Heap-buffer-overflow READ {*}"
+        },
+        {
+          "compile": {
+            "command": "arvo compile",
+            "exit_code": 0,
+            "output_bytes": 45082,
+            "output_sha256": "ec0e77d9f08f5a34a98c1efd83f4a92457c12406dea026708e55e1d614afa0c3",
+            "output_tail": "/src/miniz/tests/zip_fuzzer.c:45:17: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]\n   45 |         mz_uint ret = mz_zip_reader_get_filename(&zip, i, filename, filename_max);\n      |                 ^\n/src/miniz/tests/zip_fuzzer.c:45:17: warning: unused variable 'ret' [-Wunused-variable]\n   451 warning generated.\n |         mz_uint ret = mz_zip_reader_get_filename(&zip, i, filename, filename_max);\n      |                 ^~~\n/src/miniz/tests/zip_fuzzer.c:51:17: warning: unused variable 'status' [-Wunused-variable]\n   51 |         mz_bool status = mz_zip_reader_file_stat(&zip, i, &file_stat) != 0;\n      |                 ^~~~~~\n/src/miniz/tests/zip_fuzzer.c:63:2: warning: no newline at end of file [-Wnewline-eof]\n   63 | }\n      |  ^\n/src/miniz/tests/zip_fuzzer.c:18:9: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]\n   18 |     int ret = 0;\n      |         ^\n/src/miniz/tests/zip_fuzzer.c:59:1: warning: unused label 'cleanup' [-Wunused-label]\n   59 | cleanup:\n      | ^~~~~~~~\n7 warnings generated.",
+            "timed_out": false,
+            "wall_seconds": 6.721
+          },
+          "detail": "==389==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x5070000000d4 at pc 0x57d3ddde6ada bp 0x7fff37bbf550 sp 0x7fff37bbed10\nREAD of size 17 at 0x5070000000d4 thread T0\nSCARINESS: 26 (multi-byte-read-heap-buffer-overflow)\n    #0 0x57d3ddde6ad9 in __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3\n    #1 0x57d3dde4448d in mz_zip_mem_read_func /src/miniz/build/amalgamation/miniz.c:4050:9\n    #2 0x57d3dde4f478 in mz_zip_validate_file /src/miniz/build/amalgamation/miniz.c:5410:13\n    #3 0x57d3dde27cbf in LLVMFuzzerTestOneInput /src/miniz/tests/",
+          "diff": "",
+          "outcome": "STILL_CRASHES",
+          "poc": {
+            "command": "arvo",
+            "exit_code": 1,
+            "output_bytes": 4360,
+            "output_sha256": "9d2a9665e749c7d5251da996f76ddfe96ee2ca36d24adbd6aab2bff639287cc3",
+            "output_tail": "Shadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==389==ABORTING",
+            "timed_out": false,
+            "wall_seconds": 0.241
+          },
+          "poc_crash_type": "Heap-buffer-overflow READ {*}"
+        }
+      ],
+      "baseline_crash_type": "Heap-buffer-overflow READ {*}",
+      "clean_containers": 2,
+      "control_compile": {
+        "command": "arvo compile",
+        "exit_code": 0,
+        "output_bytes": 45082,
+        "output_sha256": "358c9cc7cce4d8bc2ffc0090a5e559b84a5597b9aab16836e84b88897dfdf15e",
+        "output_tail": "      |         ^\n/src/miniz/tests/zip_fuzzer.c:45:17: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]\n   45 |         mz_uint ret = mz_zip_reader_get_filename(&zip, i, filename, filename_max);\n      |                 ^\n/src/miniz/tests/zip_fuzzer.c:45:17: warning: unused variable 'ret' [-Wunused-variable]\n   45 |         mz_uint ret = mz_zip_reader_get_filename(&zip, i, filename, filename_max);\n      |                 ^~~\n/src/miniz/tests/zip_fuzzer.c:51:17: warning: unused variable 'status' [-Wunused-variable]\n   51 |         mz_bool status = mz_zip_reader_file_stat(&zip, i, &file_stat) != 0;\n      |                 ^~~~~~\n/src/miniz/tests/zip_fuzzer.c:63:2: warning: no newline at end of file [-Wnewline-eof]\n   63 | }\n      |  ^\n/src/miniz/tests/zip_fuzzer.c:18:9: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]\n   18 |     int ret = 0;\n      |         ^\n/src/miniz/tests/zip_fuzzer.c:59:1: warning: unused label 'cleanup' [-Wunused-label]\n   59 | cleanup:\n      | ^~~~~~~~\n7 warnings generated.",
+        "timed_out": false,
+        "wall_seconds": 7.753
+      },
+      "control_poc_crash_type": "Heap-buffer-overflow READ {*}",
+      "control_seeds": {
+        "command": "fuzz target over the seed corpus",
+        "exit_code": 0,
+        "output_bytes": 489,
+        "output_sha256": "fe011677835a819ba2791c4ab80370e0cb4ec39fdacec46b7cd783746d9077d9",
+        "output_tail": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 564866172\nINFO: Loaded 1 modules   (2992 inline 8-bit counters): 2992 [0x5fad139ab360, 0x5fad139abf10), \nINFO: Loaded 1 PC tables (2992 PCs): 2992 [0x5fad139abf10,0x5fad139b7a10), \n/out/zip_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: ./out/seed_corpus.zip\nExecuted ./out/seed_corpus.zip in 9 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***",
+        "timed_out": false,
+        "wall_seconds": 0.122
+      },
+      "control_seeds_clean": true,
+      "frame_notes": [
+        "crash frame #1 mz_zip_mem_read_func at /src/miniz/build/amalgamation/miniz.c:4050: not in the source tree before the build; shown from /src/miniz/miniz_zip.c:1036",
+        "crash frame #2 mz_zip_validate_file at /src/miniz/build/amalgamation/miniz.c:5410: not in the source tree before the build; shown from /src/miniz/miniz_zip.c:2396"
+      ],
+      "frames": [
+        {
+          "function": "mz_zip_mem_read_func",
+          "generated_line": 4050,
+          "generated_path": "/src/miniz/build/amalgamation/miniz.c",
+          "index": 1,
+          "line": 1036,
+          "path": "/src/miniz/miniz_zip.c",
+          "section": "crash"
+        },
+        {
+          "function": "mz_zip_validate_file",
+          "generated_line": 5410,
+          "generated_path": "/src/miniz/build/amalgamation/miniz.c",
+          "index": 2,
+          "line": 2396,
+          "path": "/src/miniz/miniz_zip.c",
+          "section": "crash"
+        }
+      ],
+      "fuzz_target": "/out/zip_fuzzer",
+      "host_free_bytes_at_start": 2298572800,
+      "image": "n132/arvo:42536112-vul",
+      "image_digest": "n132/arvo@sha256:58c3b5c06305a526ef4db576f0506b7a52f707facbc65527696a5f7f1bce1c0a",
+      "image_removed": true,
+      "noop_edit": {
+        "lines": [
+          1036,
+          1036
+        ],
+        "path": "/src/miniz/miniz_zip.c"
+      },
+      "project": "miniz",
+      "result": "OK",
+      "run1_attempt_outcomes": [
+        "COMPILE_FAILED",
+        "MODEL_ERROR",
+        "COMPILE_FAILED"
+      ],
+      "run1_blocked_attempts": [
+        1,
+        3
+      ],
+      "run1_frames": [
+        [
+          "/src/miniz/build/amalgamation/miniz.c",
+          4050
+        ],
+        [
+          "/src/miniz/build/amalgamation/miniz.c",
+          5410
+        ]
+      ],
+      "run1_seed_count": 1,
+      "seed_count": 1,
+      "seed_note": "1 files from /out/zip_fuzzer_seed_corpus.zip (at most 500)",
+      "snapshot_image": "sha256:d3deba8a529d751ff512484278a84a30e5b11d22d79ddb3ae44d72b2e7c82134",
+      "source_chars": 9983,
+      "wall_seconds": 88.699,
+      "workdir": "/src/miniz"
+    },
+    {
+      "arvo_id": 42508390,
+      "attempt_seeds": {
+        "command": "fuzz target over the seed corpus",
+        "exit_code": 0,
+        "output_bytes": 490,
+        "output_sha256": "f0c05eb2df9c18c05992fdf7754d4a8442818b649c4ec3bbec56633e171211a5",
+        "output_tail": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 686643722\nINFO: Loaded 1 modules   (2679 inline 8-bit counters): 2679 [0x5f7390, 0x5f7e07), \nINFO: Loaded 1 PC tables (2679 PCs): 2679 [0x5f7e08,0x602578), \n/out/jplist_fuzzer: Running 2 inputs 1 time(s) each.\nRunning: ./j1.json\nExecuted ./j1.json in 1 ms\nRunning: ./j2.json\nExecuted ./j2.json in 0 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***",
+        "timed_out": false,
+        "wall_seconds": 0.118
+      },
+      "attempt_seeds_clean": true,
+      "attempts": [
+        {
+          "compile": {
+            "command": "arvo compile",
+            "exit_code": 0,
+            "output_bytes": 17889,
+            "output_sha256": "ed2cfb019369a7e7500d968a44eaf04cebe9122c40dd5a3be0c9c8b47ce99154",
+            "output_tail": "configure.ac:41: installing './config.sub'\nconfigure.ac:6: installing './install-sh'\nconfigure.ac:6: installing './missing'\ncython/Makefile.am: installing './depcomp'\nparallel-tests: installing './test-driver'\n++ nproc\n+ make -j8 clean\n++ nproc\n+ make -j8 all\nclang-14: warning: argument unused during compilation: '-pthread' [-Wunused-command-line-argument]\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/bplist_fuzzer.cc -o /out/bplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/xplist_fuzzer.cc -o /out/xplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/jplist_fuzzer.cc -o /out/jplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ zip -j /out/bplist_fuzzer_seed_corpus.zip test/data/data.bplist test/data/dictref1byte.bplist test/data/dictref2bytes.bplist test/data/dictref3bytes.bplist test/data/dictref4bytes.bplist test/data/dictref5bytes.bplist test/data/dictref6bytes.bplist test/data/dictref7bytes.bplist test/data/dictref8bytes.bplist test/data/malformed_dict.bplist test/data/off1byte.bplist test/data/off2bytes.bplist test/data/off3bytes.bplist test/data/off4bytes.bplist test/data/off5bytes.bplist test/data/off6bytes.bplist test/data/off7bytes.bplist test/data/off8bytes.bplist test/data/order.bplist test/data/recursion.bplist test/data/signed.bplist test/data/signedunsigned.bplist test/data/uid.bplist test/data/unsigned.bplist\n+ zip -j /out/xplist_fuzzer_seed_corpus.zip test/data/1.plist test/data/2.plist test/data/3.plist test/data/4.plist test/data/5.plist test/data/6.plist test/data/7.plist test/data/amp.plist test/data/cdata.plist test/data/empty_keys.plist test/data/entities.plist test/data/hex.plist test/data/invalid_tag.plist test/data/offxml.plist test/data/order.plist test/data/signed.plist test/data/signedunsigned.plist test/data/unsigned.plist\n+ zip -j /out/jplist_fuzzer_seed_corpus.zip test/data/j1.json test/data/j2.json\n+ cp fuzz/bplist.dict fuzz/jplist.dict fuzz/xplist.dict fuzz/bplist_fuzzer.options fuzz/jplist_fuzzer.options fuzz/xplist_fuzzer.options /out/",
+            "timed_out": false,
+            "wall_seconds": 12.042
+          },
+          "detail": "==4819==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000000b1 at pc 0x0000004d7436 bp 0x7ffd955858d0 sp 0x7ffd95585088\nREAD of size 2 at 0x6020000000b1 thread T0\nSCARINESS: 14 (2-byte-read-heap-buffer-overflow)\n    #0 0x4d7435 in StrtolFixAndCheck(void*, char const*, char**, char*, int) /src/llvm-project/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:3440:3\n    #1 0x510670 in strtol /src/llvm-project/compiler-rt/lib/asan/asan_interceptors.cpp:484:3\n    #2 0x560aca in parse_primitive /src/libplist/src/jplist.c:441:29\n    #3 0x560538 in plist_from_js",
+          "diff": "",
+          "outcome": "STILL_CRASHES",
+          "poc": {
+            "command": "arvo",
+            "exit_code": 1,
+            "output_bytes": 4265,
+            "output_sha256": "884379bed16a64fcea2a0ff0228319c238cc4eacf8f67c98a303ab42dc7af152",
+            "output_tail": "Shadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==4819==ABORTING",
+            "timed_out": false,
+            "wall_seconds": 0.234
+          },
+          "poc_crash_type": "Heap-buffer-overflow READ 2"
+        },
+        {
+          "compile": {
+            "command": "arvo compile",
+            "exit_code": 0,
+            "output_bytes": 17889,
+            "output_sha256": "db63369cbdb9b57e4960bc05f86a6677c0ac7afdb47bb23d8b88b7d2ea27dd37",
+            "output_tail": "configure.ac:41: installing './config.sub'\nconfigure.ac:6: installing './install-sh'\nconfigure.ac:6: installing './missing'\ncython/Makefile.am: installing './depcomp'\nparallel-tests: installing './test-driver'\n++ nproc\n+ make -j8 clean\n++ nproc\n+ make -j8 all\nclang-14: warning: argument unused during compilation: '-pthread' [-Wunused-command-line-argument]\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/bplist_fuzzer.cc -o /out/bplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/xplist_fuzzer.cc -o /out/xplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/jplist_fuzzer.cc -o /out/jplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ zip -j /out/bplist_fuzzer_seed_corpus.zip test/data/data.bplist test/data/dictref1byte.bplist test/data/dictref2bytes.bplist test/data/dictref3bytes.bplist test/data/dictref4bytes.bplist test/data/dictref5bytes.bplist test/data/dictref6bytes.bplist test/data/dictref7bytes.bplist test/data/dictref8bytes.bplist test/data/malformed_dict.bplist test/data/off1byte.bplist test/data/off2bytes.bplist test/data/off3bytes.bplist test/data/off4bytes.bplist test/data/off5bytes.bplist test/data/off6bytes.bplist test/data/off7bytes.bplist test/data/off8bytes.bplist test/data/order.bplist test/data/recursion.bplist test/data/signed.bplist test/data/signedunsigned.bplist test/data/uid.bplist test/data/unsigned.bplist\n+ zip -j /out/xplist_fuzzer_seed_corpus.zip test/data/1.plist test/data/2.plist test/data/3.plist test/data/4.plist test/data/5.plist test/data/6.plist test/data/7.plist test/data/amp.plist test/data/cdata.plist test/data/empty_keys.plist test/data/entities.plist test/data/hex.plist test/data/invalid_tag.plist test/data/offxml.plist test/data/order.plist test/data/signed.plist test/data/signedunsigned.plist test/data/unsigned.plist\n+ zip -j /out/jplist_fuzzer_seed_corpus.zip test/data/j1.json test/data/j2.json\n+ cp fuzz/bplist.dict fuzz/jplist.dict fuzz/xplist.dict fuzz/bplist_fuzzer.options fuzz/jplist_fuzzer.options fuzz/xplist_fuzzer.options /out/",
+            "timed_out": false,
+            "wall_seconds": 11.893
+          },
+          "detail": "==4806==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000000b1 at pc 0x0000004d7436 bp 0x7fff60eb79f0 sp 0x7fff60eb71a8\nREAD of size 2 at 0x6020000000b1 thread T0\nSCARINESS: 14 (2-byte-read-heap-buffer-overflow)\n    #0 0x4d7435 in StrtolFixAndCheck(void*, char const*, char**, char*, int) /src/llvm-project/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:3440:3\n    #1 0x510670 in strtol /src/llvm-project/compiler-rt/lib/asan/asan_interceptors.cpp:484:3\n    #2 0x560aca in parse_primitive /src/libplist/src/jplist.c:441:29\n    #3 0x560538 in plist_from_js",
+          "diff": "",
+          "outcome": "STILL_CRASHES",
+          "poc": {
+            "command": "arvo",
+            "exit_code": 1,
+            "output_bytes": 4265,
+            "output_sha256": "a66e69f5e87b9acdfd5e451ba332c505f41ce75a231bb79dfc879b32cc49646d",
+            "output_tail": "Shadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==4806==ABORTING",
+            "timed_out": false,
+            "wall_seconds": 0.226
+          },
+          "poc_crash_type": "Heap-buffer-overflow READ 2"
+        }
+      ],
+      "baseline_crash_type": "Heap-buffer-overflow READ 2",
+      "clean_containers": 2,
+      "control_compile": {
+        "command": "arvo compile",
+        "exit_code": 0,
+        "output_bytes": 17889,
+        "output_sha256": "ca539dde8a76e17a277ca5ab25681c13534efa1a1818bd912b1b46d5e56b7874",
+        "output_tail": "configure.ac:41: installing './config.sub'\nconfigure.ac:6: installing './install-sh'\nconfigure.ac:6: installing './missing'\ncython/Makefile.am: installing './depcomp'\nparallel-tests: installing './test-driver'\n++ nproc\n+ make -j8 clean\n++ nproc\n+ make -j8 all\nclang-14: warning: argument unused during compilation: '-pthread' [-Wunused-command-line-argument]\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/bplist_fuzzer.cc -o /out/bplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/xplist_fuzzer.cc -o /out/xplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ for fuzzer in bplist_fuzzer xplist_fuzzer jplist_fuzzer\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -Iinclude/ fuzz/jplist_fuzzer.cc -o /out/jplist_fuzzer -fsanitize=fuzzer src/.libs/libplist-2.0.a\n+ zip -j /out/bplist_fuzzer_seed_corpus.zip test/data/data.bplist test/data/dictref1byte.bplist test/data/dictref2bytes.bplist test/data/dictref3bytes.bplist test/data/dictref4bytes.bplist test/data/dictref5bytes.bplist test/data/dictref6bytes.bplist test/data/dictref7bytes.bplist test/data/dictref8bytes.bplist test/data/malformed_dict.bplist test/data/off1byte.bplist test/data/off2bytes.bplist test/data/off3bytes.bplist test/data/off4bytes.bplist test/data/off5bytes.bplist test/data/off6bytes.bplist test/data/off7bytes.bplist test/data/off8bytes.bplist test/data/order.bplist test/data/recursion.bplist test/data/signed.bplist test/data/signedunsigned.bplist test/data/uid.bplist test/data/unsigned.bplist\n+ zip -j /out/xplist_fuzzer_seed_corpus.zip test/data/1.plist test/data/2.plist test/data/3.plist test/data/4.plist test/data/5.plist test/data/6.plist test/data/7.plist test/data/amp.plist test/data/cdata.plist test/data/empty_keys.plist test/data/entities.plist test/data/hex.plist test/data/invalid_tag.plist test/data/offxml.plist test/data/order.plist test/data/signed.plist test/data/signedunsigned.plist test/data/unsigned.plist\n+ zip -j /out/jplist_fuzzer_seed_corpus.zip test/data/j1.json test/data/j2.json\n+ cp fuzz/bplist.dict fuzz/jplist.dict fuzz/xplist.dict fuzz/bplist_fuzzer.options fuzz/jplist_fuzzer.options fuzz/xplist_fuzzer.options /out/",
+        "timed_out": false,
+        "wall_seconds": 11.936
+      },
+      "control_poc_crash_type": "Heap-buffer-overflow READ 2",
+      "control_seeds": {
+        "command": "fuzz target over the seed corpus",
+        "exit_code": 0,
+        "output_bytes": 490,
+        "output_sha256": "7bb4ae3cdadc158c8c9ce018a87ab9eff0f4465211c9fd05d746b50b8cc91ed4",
+        "output_tail": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 660171155\nINFO: Loaded 1 modules   (2679 inline 8-bit counters): 2679 [0x5f7390, 0x5f7e07), \nINFO: Loaded 1 PC tables (2679 PCs): 2679 [0x5f7e08,0x602578), \n/out/jplist_fuzzer: Running 2 inputs 1 time(s) each.\nRunning: ./j1.json\nExecuted ./j1.json in 0 ms\nRunning: ./j2.json\nExecuted ./j2.json in 0 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***",
+        "timed_out": false,
+        "wall_seconds": 0.112
+      },
+      "control_seeds_clean": true,
+      "frame_notes": [],
+      "frames": [
+        {
+          "function": "parse_primitive",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 2,
+          "line": 441,
+          "path": "/src/libplist/src/jplist.c",
+          "section": "crash"
+        },
+        {
+          "function": "plist_from_json",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 3,
+          "line": 701,
+          "path": "/src/libplist/src/jplist.c",
+          "section": "crash"
+        }
+      ],
+      "fuzz_target": "/out/jplist_fuzzer",
+      "host_free_bytes_at_start": 3137388544,
+      "image": "n132/arvo:42508390-vul",
+      "image_digest": "n132/arvo@sha256:89fecf0e956cd185b3ff7d22f7a52256fb91c9248256ce607e7943dfebfd8d2b",
+      "image_removed": true,
+      "noop_edit": {
+        "lines": [
+          441,
+          441
+        ],
+        "path": "/src/libplist/src/jplist.c"
+      },
+      "project": "libplist",
+      "result": "OK",
+      "run1_attempt_outcomes": [
+        "STILL_CRASHES",
+        "COMPILE_FAILED",
+        "PROVEN"
+      ],
+      "run1_blocked_attempts": [],
+      "run1_frames": [
+        [
+          "/src/libplist/src/jplist.c",
+          441
+        ],
+        [
+          "/src/libplist/src/jplist.c",
+          701
+        ]
+      ],
+      "run1_seed_count": 2,
+      "seed_count": 2,
+      "seed_note": "2 files from /out/jplist_fuzzer_seed_corpus.zip (at most 500)",
+      "snapshot_image": "sha256:2beb178776c8acd79b3228b3115731b4885c6a1f43c4aba1e8358c3380675df5",
+      "source_chars": 7282,
+      "wall_seconds": 85.645,
+      "workdir": "/src/libplist"
+    },
+    {
+      "arvo_id": 42531297,
+      "attempt_seeds": {
+        "command": "fuzz target over the seed corpus",
+        "exit_code": 0,
+        "output_bytes": 2807,
+        "output_sha256": "5c498daf91991a4a470b249dabd62a6f25c47ee811b105f63c49de90e6fed95b",
+        "output_tail": "Running: ./test_bind_order0.jq\njq: error: Top-level program not given (try \".\")\njq: 1 compile error\nExecuted ./test_bind_order0.jq in 0 ms\nRunning: ./test_bind_order1.jq\njq: error: Top-level program not given (try \".\")\njq: 1 compile error\nExecuted ./test_bind_order1.jq in 0 ms\nRunning: ./test_bind_order2.jq\njq: error: Top-level program not given (try \".\")\njq: 1 compile error\nExecuted ./test_bind_order2.jq in 0 ms\nRunning: ./utf8-truncate.jq\nExecuted ./utf8-truncate.jq in 13 ms\nRunning: ./yes-main-program.jq\nExecuted ./yes-main-program.jq in 10 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***",
+        "timed_out": false,
+        "wall_seconds": 0.145
+      },
+      "attempt_seeds_clean": true,
+      "attempts": [
+        {
+          "compile": {
+            "command": "arvo compile",
+            "exit_code": 0,
+            "output_bytes": 74602,
+            "output_sha256": "50c1602aa19bba2079712a06803eb8e7b0f1f47eb8ba6f037eea4883f6a0ab7f",
+            "output_tail": "+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_compile.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_compile -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_load_file.c -I./src -o ./jq_fuzz_load_file.o\ntests/jq_fuzz_load_file.c:9:42: warning: implicit declaration of function 'getpid' is invalid in C99 [-Wimplicit-function-declaration]\n  sprintf(filename, \"/tmp/libfuzzer.%d\", getpid());\n                                         ^\ntests/jq_fuzz_load_file.c:24:3: warning: implicit declaration of function 'unlink' is invalid in C99 [-Wimplicit-function-declaration]\n  unlink(filename);\n  ^\n2 warnings generated.\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_load_file.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_load_file -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse_extended.c -I./src -o ./jq_fuzz_parse_extended.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse_extended.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse_extended -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse_stream.c -I./src -o ./jq_fuzz_parse_stream.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse_stream.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse_stream -I./src\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./tests/jq_fuzz_execute.cpp -I./src ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_execute -I./src\n+ mkdir /src/seeds\n+ find . -name '*.jq' -exec cp '{}' /src/seeds/ ';'\ncp: -r not specified; omitting directory './tests/modules/home2/.jq'\n+ zip -rj /out/jq_fuzz_execute_seed_corpus.zip /src/seeds/\n+ cp /src/jq.dict /out/jq_fuzz_execute.dict",
+            "timed_out": false,
+            "wall_seconds": 39.24
+          },
+          "detail": "==11747==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6030000001a1 at pc 0x0000004d091d bp 0x7ffe22f7efc0 sp 0x7ffe22f7e748\nREAD of size 2 at 0x6030000001a1 thread T0\nSCARINESS: 14 (2-byte-read-heap-buffer-overflow)\n    #0 0x4d091c in printf_common(void*, char const*, __va_list_tag*) /src/llvm-project/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors_format.inc:553:9\n    #1 0x58a676 in jv_string_vfmt /src/jq/src/jv.c:1453:13\n    #2 0x58aa39 in jv_string_fmt /src/jq/src/jv.c:1473:12\n    #3 0x58fe21 in jv_get /src/jq/src/jv_aux.c\n    #4 0x57883c in jq_next /src",
+          "diff": "",
+          "outcome": "STILL_CRASHES",
+          "poc": {
+            "command": "arvo",
+            "exit_code": 1,
+            "output_bytes": 5326,
+            "output_sha256": "f1c969b044428c47f3d2643c22cc2bca65cf9de57c87f482e520730eaaaa2b81",
+            "output_tail": "Shadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==11747==ABORTING",
+            "timed_out": false,
+            "wall_seconds": 0.246
+          },
+          "poc_crash_type": "Heap-buffer-overflow READ 2"
+        },
+        {
+          "compile": {
+            "command": "arvo compile",
+            "exit_code": 0,
+            "output_bytes": 74602,
+            "output_sha256": "fdbfa7706ba3d9b85c667eca7cb01d9cf622053208c9b520980233fb211ba868",
+            "output_tail": "+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_compile.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_compile -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_load_file.c -I./src -o ./jq_fuzz_load_file.o\ntests/jq_fuzz_load_file.c:9:42: warning: implicit declaration of function 'getpid' is invalid in C99 [-Wimplicit-function-declaration]\n  sprintf(filename, \"/tmp/libfuzzer.%d\", getpid());\n                                         ^\ntests/jq_fuzz_load_file.c:24:3: warning: implicit declaration of function 'unlink' is invalid in C99 [-Wimplicit-function-declaration]\n  unlink(filename);\n  ^\n2 warnings generated.\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_load_file.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_load_file -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse_extended.c -I./src -o ./jq_fuzz_parse_extended.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse_extended.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse_extended -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse_stream.c -I./src -o ./jq_fuzz_parse_stream.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse_stream.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse_stream -I./src\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./tests/jq_fuzz_execute.cpp -I./src ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_execute -I./src\n+ mkdir /src/seeds\n+ find . -name '*.jq' -exec cp '{}' /src/seeds/ ';'\ncp: -r not specified; omitting directory './tests/modules/home2/.jq'\n+ zip -rj /out/jq_fuzz_execute_seed_corpus.zip /src/seeds/\n+ cp /src/jq.dict /out/jq_fuzz_execute.dict",
+            "timed_out": false,
+            "wall_seconds": 38.071
+          },
+          "detail": "==11703==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6030000001a1 at pc 0x0000004d091d bp 0x7ffc82bcba00 sp 0x7ffc82bcb188\nREAD of size 2 at 0x6030000001a1 thread T0\nSCARINESS: 14 (2-byte-read-heap-buffer-overflow)\n    #0 0x4d091c in printf_common(void*, char const*, __va_list_tag*) /src/llvm-project/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors_format.inc:553:9\n    #1 0x58a676 in jv_string_vfmt /src/jq/src/jv.c:1453:13\n    #2 0x58aa39 in jv_string_fmt /src/jq/src/jv.c:1473:12\n    #3 0x58fe21 in jv_get /src/jq/src/jv_aux.c\n    #4 0x57883c in jq_next /src",
+          "diff": "",
+          "outcome": "STILL_CRASHES",
+          "poc": {
+            "command": "arvo",
+            "exit_code": 1,
+            "output_bytes": 5326,
+            "output_sha256": "5062a72ef2c1ed195cc1e1fad5113441ea0ba4bee6616f25da0fe76a6ab949a4",
+            "output_tail": "Shadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==11703==ABORTING",
+            "timed_out": false,
+            "wall_seconds": 0.247
+          },
+          "poc_crash_type": "Heap-buffer-overflow READ 2"
+        }
+      ],
+      "baseline_crash_type": "Heap-buffer-overflow READ 2",
+      "clean_containers": 2,
+      "control_compile": {
+        "command": "arvo compile",
+        "exit_code": 0,
+        "output_bytes": 74602,
+        "output_sha256": "975f57e565d0c658c1c0513f118984da8a7030f52dd71eb0b03ed60a9ce8f2bb",
+        "output_tail": "+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_compile.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_compile -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_load_file.c -I./src -o ./jq_fuzz_load_file.o\ntests/jq_fuzz_load_file.c:9:42: warning: implicit declaration of function 'getpid' is invalid in C99 [-Wimplicit-function-declaration]\n  sprintf(filename, \"/tmp/libfuzzer.%d\", getpid());\n                                         ^\ntests/jq_fuzz_load_file.c:24:3: warning: implicit declaration of function 'unlink' is invalid in C99 [-Wimplicit-function-declaration]\n  unlink(filename);\n  ^\n2 warnings generated.\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_load_file.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_load_file -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse_extended.c -I./src -o ./jq_fuzz_parse_extended.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse_extended.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse_extended -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse_stream.c -I./src -o ./jq_fuzz_parse_stream.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse_stream.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse_stream -I./src\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./tests/jq_fuzz_execute.cpp -I./src ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_execute -I./src\n+ mkdir /src/seeds\n+ find . -name '*.jq' -exec cp '{}' /src/seeds/ ';'\ncp: -r not specified; omitting directory './tests/modules/home2/.jq'\n+ zip -rj /out/jq_fuzz_execute_seed_corpus.zip /src/seeds/\n+ cp /src/jq.dict /out/jq_fuzz_execute.dict",
+        "timed_out": false,
+        "wall_seconds": 39.049
+      },
+      "control_poc_crash_type": "Heap-buffer-overflow READ 2",
+      "control_seeds": {
+        "command": "fuzz target over the seed corpus",
+        "exit_code": 0,
+        "output_bytes": 2807,
+        "output_sha256": "172f8feda22876bc11451cd3b1c6e97962f7c3e64073dfa9a1addbd8268dc5a0",
+        "output_tail": "Running: ./test_bind_order0.jq\njq: error: Top-level program not given (try \".\")\njq: 1 compile error\nExecuted ./test_bind_order0.jq in 0 ms\nRunning: ./test_bind_order1.jq\njq: error: Top-level program not given (try \".\")\njq: 1 compile error\nExecuted ./test_bind_order1.jq in 0 ms\nRunning: ./test_bind_order2.jq\njq: error: Top-level program not given (try \".\")\njq: 1 compile error\nExecuted ./test_bind_order2.jq in 0 ms\nRunning: ./utf8-truncate.jq\nExecuted ./utf8-truncate.jq in 13 ms\nRunning: ./yes-main-program.jq\nExecuted ./yes-main-program.jq in 10 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***",
+        "timed_out": false,
+        "wall_seconds": 0.147
+      },
+      "control_seeds_clean": true,
+      "frame_notes": [],
+      "frames": [
+        {
+          "function": "jv_string_vfmt",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 1,
+          "line": 1453,
+          "path": "/src/jq/src/jv.c",
+          "section": "crash"
+        },
+        {
+          "function": "jv_string_fmt",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 2,
+          "line": 1473,
+          "path": "/src/jq/src/jv.c",
+          "section": "crash"
+        },
+        {
+          "function": "jq_next",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 4,
+          "line": 697,
+          "path": "/src/jq/src/execute.c",
+          "section": "crash"
+        },
+        {
+          "function": "jv_mem_alloc",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 1,
+          "line": 141,
+          "path": "/src/jq/src/jv_alloc.c",
+          "section": "allocated"
+        },
+        {
+          "function": "jvp_string_alloc",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 2,
+          "line": 1064,
+          "path": "/src/jq/src/jv.c",
+          "section": "allocated"
+        }
+      ],
+      "fuzz_target": "/out/jq_fuzz_execute",
+      "host_free_bytes_at_start": 3261845504,
+      "image": "n132/arvo:42531297-vul",
+      "image_digest": "n132/arvo@sha256:e0a6c9777ad41a6ab89c7bbb31bfadbbffd9b62de5a70883f7be2a7052c8268e",
+      "image_removed": true,
+      "noop_edit": {
+        "lines": [
+          1453,
+          1453
+        ],
+        "path": "/src/jq/src/jv.c"
+      },
+      "project": "jq",
+      "result": "OK",
+      "run1_attempt_outcomes": [
+        "APPLY_FAILED",
+        "COMPILE_FAILED",
+        "COMPILE_FAILED"
+      ],
+      "run1_blocked_attempts": [
+        2,
+        3
+      ],
+      "run1_frames": [
+        [
+          "/src/jq/src/jv.c",
+          1453
+        ],
+        [
+          "/src/jq/src/jv.c",
+          1473
+        ],
+        [
+          "/src/jq/src/execute.c",
+          697
+        ],
+        [
+          "/src/jq/src/jv_alloc.c",
+          141
+        ],
+        [
+          "/src/jq/src/jv.c",
+          1064
+        ]
+      ],
+      "run1_seed_count": 19,
+      "seed_count": 19,
+      "seed_note": "19 files from /out/jq_fuzz_execute_seed_corpus.zip (at most 500)",
+      "snapshot_image": "sha256:bb9d08fff1c0654e80c8115d0b21e5331f7a08703e12eb2dc21ebb973ed1b0f4",
+      "source_chars": 13187,
+      "wall_seconds": 159.1,
+      "workdir": "/src/jq"
+    },
+    {
+      "arvo_id": 42531223,
+      "attempt_seeds": null,
+      "attempt_seeds_clean": null,
+      "attempts": [
+        {
+          "compile": {
+            "command": "arvo compile",
+            "exit_code": 0,
+            "output_bytes": 74935,
+            "output_sha256": "5e3c7cb9b8c3aa7c425ccaa17801d8e836541a7c97c19df9f8baeece39172650",
+            "output_tail": "+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_load_file.c -I./src -o ./jq_fuzz_load_file.o\ntests/jq_fuzz_load_file.c:9:42: warning: implicit declaration of function 'getpid' is invalid in C99 [-Wimplicit-function-declaration]\n  sprintf(filename, \"/tmp/libfuzzer.%d\", getpid());\n                                         ^\ntests/jq_fuzz_load_file.c:24:3: warning: implicit declaration of function 'unlink' is invalid in C99 [-Wimplicit-function-declaration]\n  unlink(filename);\n  ^\n2 warnings generated.\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_load_file.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_load_file -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse_extended.c -I./src -o ./jq_fuzz_parse_extended.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse_extended.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse_extended -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse_stream.c -I./src -o ./jq_fuzz_parse_stream.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse_stream.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse_stream -I./src\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./tests/jq_fuzz_execute.cpp -I./src ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_execute -I./src\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./tests/jq_fuzz_fixed.cpp -I./src ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_fixed -I./src\n+ mkdir /src/seeds\n+ find . -name '*.jq' -exec cp '{}' /src/seeds/ ';'\ncp: -r not specified; omitting directory './tests/modules/home2/.jq'\n+ zip -rj /out/jq_fuzz_execute_seed_corpus.zip /src/seeds/\n+ cp /src/jq.dict /out/jq_fuzz_execute.dict",
+            "timed_out": false,
+            "wall_seconds": 39.126
+          },
+          "detail": "==11718==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x70a557f51d30 at pc 0x0000005d559d bp 0x7ffdd8340d40 sp 0x7ffdd8340d38\nWRITE of size 2 at 0x70a557f51d30 thread T0\nSCARINESS: 48 (2-byte-write-stack-buffer-overflow)\n    #0 0x5d559c in decNumberCopy /src/jq/src/decNumber/decNumber.c:3375:45\n    #1 0x5d559c in decNaNs /src/jq/src/decNumber/decNumber.c:7706:33\n    #2 0x5c5030 in decCompareOp /src/jq/src/decNumber/decNumber.c:6085:7\n    #3 0x5c4bb2 in decNumberCompare /src/jq/src/decNumber/decNumber.c:858:3\n    #4 0x5836f7 in jvp_number_cmp /src/jq/src/jv.c:748:5\n    #5 0x585ee8 ",
+          "diff": "",
+          "outcome": "STILL_CRASHES",
+          "poc": {
+            "command": "arvo",
+            "exit_code": 1,
+            "output_bytes": 4192,
+            "output_sha256": "e893f7313c435880ef388536a32008589aed1b01d1dd48f035e3b34d1683364a",
+            "output_tail": "Shadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==11718==ABORTING",
+            "timed_out": false,
+            "wall_seconds": 0.245
+          },
+          "poc_crash_type": "Stack-buffer-overflow WRITE 2"
+        },
+        {
+          "compile": {
+            "command": "arvo compile",
+            "exit_code": 0,
+            "output_bytes": 74935,
+            "output_sha256": "97677f31bd04a4db823e148ea7f74ee715bcb60a86707bfd9c57a9fd6e371a4a",
+            "output_tail": "+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_load_file.c -I./src -o ./jq_fuzz_load_file.o\ntests/jq_fuzz_load_file.c:9:42: warning: implicit declaration of function 'getpid' is invalid in C99 [-Wimplicit-function-declaration]\n  sprintf(filename, \"/tmp/libfuzzer.%d\", getpid());\n                                         ^\ntests/jq_fuzz_load_file.c:24:3: warning: implicit declaration of function 'unlink' is invalid in C99 [-Wimplicit-function-declaration]\n  unlink(filename);\n  ^\n2 warnings generated.\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_load_file.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_load_file -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse_extended.c -I./src -o ./jq_fuzz_parse_extended.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse_extended.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse_extended -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse_stream.c -I./src -o ./jq_fuzz_parse_stream.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse_stream.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse_stream -I./src\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./tests/jq_fuzz_execute.cpp -I./src ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_execute -I./src\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./tests/jq_fuzz_fixed.cpp -I./src ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_fixed -I./src\n+ mkdir /src/seeds\n+ find . -name '*.jq' -exec cp '{}' /src/seeds/ ';'\ncp: -r not specified; omitting directory './tests/modules/home2/.jq'\n+ zip -rj /out/jq_fuzz_execute_seed_corpus.zip /src/seeds/\n+ cp /src/jq.dict /out/jq_fuzz_execute.dict",
+            "timed_out": false,
+            "wall_seconds": 39.216
+          },
+          "detail": "==11708==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7600a9151d30 at pc 0x0000005d559d bp 0x7ffc285e1a20 sp 0x7ffc285e1a18\nWRITE of size 2 at 0x7600a9151d30 thread T0\nSCARINESS: 48 (2-byte-write-stack-buffer-overflow)\n    #0 0x5d559c in decNumberCopy /src/jq/src/decNumber/decNumber.c:3375:45\n    #1 0x5d559c in decNaNs /src/jq/src/decNumber/decNumber.c:7706:33\n    #2 0x5c5030 in decCompareOp /src/jq/src/decNumber/decNumber.c:6085:7\n    #3 0x5c4bb2 in decNumberCompare /src/jq/src/decNumber/decNumber.c:858:3\n    #4 0x5836f7 in jvp_number_cmp /src/jq/src/jv.c:748:5\n    #5 0x585ee8 ",
+          "diff": "",
+          "outcome": "STILL_CRASHES",
+          "poc": {
+            "command": "arvo",
+            "exit_code": 1,
+            "output_bytes": 4193,
+            "output_sha256": "c4cd76537403bb3bd0b55931c6a427508632801ef11eb5d10bec8e5f6e4fd32e",
+            "output_tail": "Shadow byte legend (one shadow byte represents 8 application bytes):\n  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n==11708==ABORTING",
+            "timed_out": false,
+            "wall_seconds": 0.242
+          },
+          "poc_crash_type": "Stack-buffer-overflow WRITE 2"
+        }
+      ],
+      "baseline_crash_type": "Stack-buffer-overflow WRITE 2",
+      "clean_containers": 2,
+      "control_compile": {
+        "command": "arvo compile",
+        "exit_code": 0,
+        "output_bytes": 74935,
+        "output_sha256": "7a71d41b27f41e1449186fe12bf79eb34bc7bac360bf4364e10289750d999913",
+        "output_tail": "+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_load_file.c -I./src -o ./jq_fuzz_load_file.o\ntests/jq_fuzz_load_file.c:9:42: warning: implicit declaration of function 'getpid' is invalid in C99 [-Wimplicit-function-declaration]\n  sprintf(filename, \"/tmp/libfuzzer.%d\", getpid());\n                                         ^\ntests/jq_fuzz_load_file.c:24:3: warning: implicit declaration of function 'unlink' is invalid in C99 [-Wimplicit-function-declaration]\n  unlink(filename);\n  ^\n2 warnings generated.\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_load_file.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_load_file -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse_extended.c -I./src -o ./jq_fuzz_parse_extended.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse_extended.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse_extended -I./src\n+ clang -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -c tests/jq_fuzz_parse_stream.c -I./src -o ./jq_fuzz_parse_stream.o\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./jq_fuzz_parse_stream.o ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_parse_stream -I./src\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./tests/jq_fuzz_execute.cpp -I./src ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_execute -I./src\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -fsanitize=fuzzer ./tests/jq_fuzz_fixed.cpp -I./src ./.libs/libjq.a ./modules/oniguruma/src/.libs/libonig.a -o /out/jq_fuzz_fixed -I./src\n+ mkdir /src/seeds\n+ find . -name '*.jq' -exec cp '{}' /src/seeds/ ';'\ncp: -r not specified; omitting directory './tests/modules/home2/.jq'\n+ zip -rj /out/jq_fuzz_execute_seed_corpus.zip /src/seeds/\n+ cp /src/jq.dict /out/jq_fuzz_execute.dict",
+        "timed_out": false,
+        "wall_seconds": 38.971
+      },
+      "control_poc_crash_type": "Stack-buffer-overflow WRITE 2",
+      "control_seeds": null,
+      "control_seeds_clean": false,
+      "frame_notes": [],
+      "frames": [
+        {
+          "function": "decNumberCopy",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 0,
+          "line": 3375,
+          "path": "/src/jq/src/decNumber/decNumber.c",
+          "section": "crash"
+        },
+        {
+          "function": "decNaNs",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 1,
+          "line": 7706,
+          "path": "/src/jq/src/decNumber/decNumber.c",
+          "section": "crash"
+        },
+        {
+          "function": "decCompareOp",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 2,
+          "line": 6085,
+          "path": "/src/jq/src/decNumber/decNumber.c",
+          "section": "crash"
+        },
+        {
+          "function": "decNumberCompare",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 3,
+          "line": 858,
+          "path": "/src/jq/src/decNumber/decNumber.c",
+          "section": "crash"
+        }
+      ],
+      "fuzz_target": "/out/jq_fuzz_fixed",
+      "host_free_bytes_at_start": 3269181440,
+      "image": "n132/arvo:42531223-vul",
+      "image_digest": "n132/arvo@sha256:a41316667dd80642267ad12fdf14574b051841696b80bea8d60558facdee3815",
+      "image_removed": true,
+      "noop_edit": {
+        "lines": [
+          3375,
+          3375
+        ],
+        "path": "/src/jq/src/decNumber/decNumber.c"
+      },
+      "project": "jq",
+      "result": "OK",
+      "run1_attempt_outcomes": [
+        "APPLY_FAILED",
+        "APPLY_FAILED",
+        "APPLY_FAILED"
+      ],
+      "run1_blocked_attempts": [],
+      "run1_frames": [
+        [
+          "/src/jq/src/decNumber/decNumber.c",
+          3375
+        ],
+        [
+          "/src/jq/src/decNumber/decNumber.c",
+          7706
+        ],
+        [
+          "/src/jq/src/decNumber/decNumber.c",
+          6085
+        ],
+        [
+          "/src/jq/src/decNumber/decNumber.c",
+          858
+        ]
+      ],
+      "run1_seed_count": 0,
+      "seed_count": 0,
+      "seed_note": "no seed corpus: /out/jq_fuzz_fixed_seed_corpus.zip is not in the image",
+      "snapshot_image": "sha256:02e2522710a4c1ecb7871555b9a7ddca9a495a7a769ac9e7f4c262f434439df0",
+      "source_chars": 24908,
+      "wall_seconds": 156.407,
+      "workdir": "/src/jq"
+    },
+    {
+      "arvo_id": 42476752,
+      "attempt_seeds": {
+        "command": "fuzz target over the seed corpus",
+        "exit_code": 0,
+        "output_bytes": 19245,
+        "output_sha256": "3751f852b6166d6c90d816eb1905350bb73884d2259882ec060a9fd76b513353",
+        "output_tail": "Running: ./src/libspng/tests/images/xs1n0g01.png\nExecuted ./src/libspng/tests/images/xs1n0g01.png in 0 ms\nRunning: ./src/libspng/tests/images/xs2n0g01.png\nExecuted ./src/libspng/tests/images/xs2n0g01.png in 0 ms\nRunning: ./src/libspng/tests/images/xs4n0g01.png\nExecuted ./src/libspng/tests/images/xs4n0g01.png in 0 ms\nRunning: ./src/libspng/tests/images/xs7n0g01.png\nExecuted ./src/libspng/tests/images/xs7n0g01.png in 0 ms\nRunning: ./src/libspng/tests/images/z00n2c08.png\nExecuted ./src/libspng/tests/images/z00n2c08.png in 0 ms\nRunning: ./src/libspng/tests/images/z03n2c08.png\nExecuted ./src/libspng/tests/images/z03n2c08.png in 0 ms\nRunning: ./src/libspng/tests/images/z06n2c08.png\nExecuted ./src/libspng/tests/images/z06n2c08.png in 0 ms\nRunning: ./src/libspng/tests/images/z09n2c08.png\nExecuted ./src/libspng/tests/images/z09n2c08.png in 0 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***",
+        "timed_out": false,
+        "wall_seconds": 0.132
+      },
+      "attempt_seeds_clean": true,
+      "attempts": [
+        {
+          "compile": {
+            "command": "arvo compile",
+            "exit_code": 0,
+            "output_bytes": 13500,
+            "output_sha256": "51aad8ef4fa73078d88c7f8cf46eb7c370c56323f1cc3e915649add50c19fb52",
+            "output_tail": "updating: src/libspng/tests/images/s08n3p02.png (deflated 5%)\nupdating: src/libspng/tests/images/s37n3p04.png (deflated 3%)\nupdating: src/libspng/tests/images/ctzn0g04.png (deflated 1%)\nupdating: src/libspng/tests/images/cs3n3p08.png (deflated 9%)\nupdating: src/libspng/tests/images/g05n2c08.png (stored 0%)\nupdating: src/libspng/tests/images/xs2n0g01.png (deflated 3%)\nupdating: src/libspng/tests/images/ps2n2c16.png (deflated 68%)\nupdating: src/libspng/tests/images/tbbn3p08.png (deflated 1%)\nupdating: src/libspng/tests/images/ps1n0g08.png (deflated 61%)\nupdating: src/libspng/tests/images/s33i3p04.png (deflated 2%)\nupdating: src/libspng/tests/images/s35i3p04.png (deflated 2%)\nar: creating /usr/lib/libFuzzingEngine.a\n+ mkdir build\n+ meson --buildtype=plain --default-library static build\n+ ninja -C build\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -I. /src/libspng/tests/spng_read_fuzzer.cc -o /out/spng_read_fuzzer -fsanitize=fuzzer /src/libspng/build/libspng.a -lz\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -I. /src/libspng/tests/spng_read_fuzzer.cc -o /out/spng_read_fuzzer_structure_aware -include ../fuzzer-test-suite/libpng-1.2.56/png_mutator.h -D PNG_MUTATOR_DEFINE_LIBFUZZER_CUSTOM_MUTATOR -fsanitize=fuzzer /src/libspng/build/libspng.a -lz\n+ find /src/libspng/tests/images -name '*.png'\n+ xargs zip /out/spng_read_fuzzer_seed_corpus.zip\n+ cp /src/libspng/tests/spng.dict /src/libspng/tests/spng_read_fuzzer.options /out/",
+            "timed_out": false,
+            "wall_seconds": 27.363
+          },
+          "detail": "==123==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x607000000061 at pc 0x00000053882a bp 0x7ffd4bd73e10 sp 0x7ffd4bd735d8\nREAD of size 128 at 0x607000000061 thread T0\nSCARINESS: 26 (multi-byte-read-heap-buffer-overflow)\n    #0 0x538829 in __asan_memcpy /src/llvm/projects/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cc:22:3\n    #1 0x56ed0a in spng_decode_image /src/libspng/build/../spng.c:2094:29\n    #2 0x56b78f in LLVMFuzzerTestOneInput /src/libspng/tests/spng_read_fuzzer.cc:65:8\n    #3 0x4736d1 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/",
+          "diff": "",
+          "outcome": "STILL_CRASHES",
+          "poc": {
+            "command": "arvo",
+            "exit_code": 1,
+            "output_bytes": 4246,
+            "output_sha256": "62e1bbd0e183b929730304e1e5fbeb7e295a92b3565a57fff0187c116bfae1fe",
+            "output_tail": "  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n  Shadow gap:              cc\n==123==ABORTING",
+            "timed_out": false,
+            "wall_seconds": 0.234
+          },
+          "poc_crash_type": "Heap-buffer-overflow READ {*}"
+        },
+        {
+          "compile": {
+            "command": "arvo compile",
+            "exit_code": 0,
+            "output_bytes": 13500,
+            "output_sha256": "51aad8ef4fa73078d88c7f8cf46eb7c370c56323f1cc3e915649add50c19fb52",
+            "output_tail": "updating: src/libspng/tests/images/s08n3p02.png (deflated 5%)\nupdating: src/libspng/tests/images/s37n3p04.png (deflated 3%)\nupdating: src/libspng/tests/images/ctzn0g04.png (deflated 1%)\nupdating: src/libspng/tests/images/cs3n3p08.png (deflated 9%)\nupdating: src/libspng/tests/images/g05n2c08.png (stored 0%)\nupdating: src/libspng/tests/images/xs2n0g01.png (deflated 3%)\nupdating: src/libspng/tests/images/ps2n2c16.png (deflated 68%)\nupdating: src/libspng/tests/images/tbbn3p08.png (deflated 1%)\nupdating: src/libspng/tests/images/ps1n0g08.png (deflated 61%)\nupdating: src/libspng/tests/images/s33i3p04.png (deflated 2%)\nupdating: src/libspng/tests/images/s35i3p04.png (deflated 2%)\nar: creating /usr/lib/libFuzzingEngine.a\n+ mkdir build\n+ meson --buildtype=plain --default-library static build\n+ ninja -C build\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -I. /src/libspng/tests/spng_read_fuzzer.cc -o /out/spng_read_fuzzer -fsanitize=fuzzer /src/libspng/build/libspng.a -lz\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -I. /src/libspng/tests/spng_read_fuzzer.cc -o /out/spng_read_fuzzer_structure_aware -include ../fuzzer-test-suite/libpng-1.2.56/png_mutator.h -D PNG_MUTATOR_DEFINE_LIBFUZZER_CUSTOM_MUTATOR -fsanitize=fuzzer /src/libspng/build/libspng.a -lz\n+ find /src/libspng/tests/images -name '*.png'\n+ xargs zip /out/spng_read_fuzzer_seed_corpus.zip\n+ cp /src/libspng/tests/spng.dict /src/libspng/tests/spng_read_fuzzer.options /out/",
+            "timed_out": false,
+            "wall_seconds": 27.474
+          },
+          "detail": "==109==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x607000000061 at pc 0x00000053882a bp 0x7ffcd3f54970 sp 0x7ffcd3f54138\nREAD of size 128 at 0x607000000061 thread T0\nSCARINESS: 26 (multi-byte-read-heap-buffer-overflow)\n    #0 0x538829 in __asan_memcpy /src/llvm/projects/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cc:22:3\n    #1 0x56ed0a in spng_decode_image /src/libspng/build/../spng.c:2094:29\n    #2 0x56b78f in LLVMFuzzerTestOneInput /src/libspng/tests/spng_read_fuzzer.cc:65:8\n    #3 0x4736d1 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/",
+          "diff": "",
+          "outcome": "STILL_CRASHES",
+          "poc": {
+            "command": "arvo",
+            "exit_code": 1,
+            "output_bytes": 4246,
+            "output_sha256": "fc3942885590a591760838a841a06c6cfe6b070ed19111c981cda576e5643a28",
+            "output_tail": "  Addressable:           00\n  Partially addressable: 01 02 03 04 05 06 07 \n  Heap left redzone:       fa\n  Freed heap region:       fd\n  Stack left redzone:      f1\n  Stack mid redzone:       f2\n  Stack right redzone:     f3\n  Stack after return:      f5\n  Stack use after scope:   f8\n  Global redzone:          f9\n  Global init order:       f6\n  Poisoned by user:        f7\n  Container overflow:      fc\n  Array cookie:            ac\n  Intra object redzone:    bb\n  ASan internal:           fe\n  Left alloca redzone:     ca\n  Right alloca redzone:    cb\n  Shadow gap:              cc\n==109==ABORTING",
+            "timed_out": false,
+            "wall_seconds": 0.231
+          },
+          "poc_crash_type": "Heap-buffer-overflow READ {*}"
+        }
+      ],
+      "baseline_crash_type": "Heap-buffer-overflow READ {*}",
+      "clean_containers": 2,
+      "control_compile": {
+        "command": "arvo compile",
+        "exit_code": 0,
+        "output_bytes": 13500,
+        "output_sha256": "51aad8ef4fa73078d88c7f8cf46eb7c370c56323f1cc3e915649add50c19fb52",
+        "output_tail": "updating: src/libspng/tests/images/s08n3p02.png (deflated 5%)\nupdating: src/libspng/tests/images/s37n3p04.png (deflated 3%)\nupdating: src/libspng/tests/images/ctzn0g04.png (deflated 1%)\nupdating: src/libspng/tests/images/cs3n3p08.png (deflated 9%)\nupdating: src/libspng/tests/images/g05n2c08.png (stored 0%)\nupdating: src/libspng/tests/images/xs2n0g01.png (deflated 3%)\nupdating: src/libspng/tests/images/ps2n2c16.png (deflated 68%)\nupdating: src/libspng/tests/images/tbbn3p08.png (deflated 1%)\nupdating: src/libspng/tests/images/ps1n0g08.png (deflated 61%)\nupdating: src/libspng/tests/images/s33i3p04.png (deflated 2%)\nupdating: src/libspng/tests/images/s35i3p04.png (deflated 2%)\nar: creating /usr/lib/libFuzzingEngine.a\n+ mkdir build\n+ meson --buildtype=plain --default-library static build\n+ ninja -C build\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -I. /src/libspng/tests/spng_read_fuzzer.cc -o /out/spng_read_fuzzer -fsanitize=fuzzer /src/libspng/build/libspng.a -lz\n+ clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -I. /src/libspng/tests/spng_read_fuzzer.cc -o /out/spng_read_fuzzer_structure_aware -include ../fuzzer-test-suite/libpng-1.2.56/png_mutator.h -D PNG_MUTATOR_DEFINE_LIBFUZZER_CUSTOM_MUTATOR -fsanitize=fuzzer /src/libspng/build/libspng.a -lz\n+ find /src/libspng/tests/images -name '*.png'\n+ xargs zip /out/spng_read_fuzzer_seed_corpus.zip\n+ cp /src/libspng/tests/spng.dict /src/libspng/tests/spng_read_fuzzer.options /out/",
+        "timed_out": false,
+        "wall_seconds": 27.654
+      },
+      "control_poc_crash_type": "Heap-buffer-overflow READ {*}",
+      "control_seeds": {
+        "command": "fuzz target over the seed corpus",
+        "exit_code": 0,
+        "output_bytes": 19245,
+        "output_sha256": "29e47a14bfd49bbb58bed87f84cbc565fba648cdc8456c776f482a39148038ed",
+        "output_tail": "Running: ./src/libspng/tests/images/xs1n0g01.png\nExecuted ./src/libspng/tests/images/xs1n0g01.png in 0 ms\nRunning: ./src/libspng/tests/images/xs2n0g01.png\nExecuted ./src/libspng/tests/images/xs2n0g01.png in 0 ms\nRunning: ./src/libspng/tests/images/xs4n0g01.png\nExecuted ./src/libspng/tests/images/xs4n0g01.png in 0 ms\nRunning: ./src/libspng/tests/images/xs7n0g01.png\nExecuted ./src/libspng/tests/images/xs7n0g01.png in 0 ms\nRunning: ./src/libspng/tests/images/z00n2c08.png\nExecuted ./src/libspng/tests/images/z00n2c08.png in 0 ms\nRunning: ./src/libspng/tests/images/z03n2c08.png\nExecuted ./src/libspng/tests/images/z03n2c08.png in 0 ms\nRunning: ./src/libspng/tests/images/z06n2c08.png\nExecuted ./src/libspng/tests/images/z06n2c08.png in 0 ms\nRunning: ./src/libspng/tests/images/z09n2c08.png\nExecuted ./src/libspng/tests/images/z09n2c08.png in 0 ms\n***\n*** NOTE: fuzzing was not performed, you have only\n***       executed the target code on a fixed set of inputs.\n***",
+        "timed_out": false,
+        "wall_seconds": 0.142
+      },
+      "control_seeds_clean": true,
+      "frame_notes": [],
+      "frames": [
+        {
+          "function": "spng_decode_image",
+          "generated_line": 0,
+          "generated_path": "",
+          "index": 1,
+          "line": 2094,
+          "path": "/src/libspng/spng.c",
+          "section": "crash"
+        }
+      ],
+      "fuzz_target": "/out/spng_read_fuzzer",
+      "host_free_bytes_at_start": 3274289152,
+      "image": "n132/arvo:42476752-vul",
+      "image_digest": "n132/arvo@sha256:c19f83789314f431055d5b26a693e479c141c5f5799cb11350fcf70c754c6fa9",
+      "image_removed": true,
+      "noop_edit": {
+        "lines": [
+          2094,
+          2094
+        ],
+        "path": "/src/libspng/spng.c"
+      },
+      "project": "libspng",
+      "result": "OK",
+      "run1_attempt_outcomes": [
+        "COMPILE_FAILED",
+        "COMPILE_FAILED",
+        "COMPILE_FAILED"
+      ],
+      "run1_blocked_attempts": [
+        1,
+        2,
+        3
+      ],
+      "run1_frames": [
+        [
+          "/src/libspng/spng.c",
+          2094
+        ]
+      ],
+      "run1_seed_count": 175,
+      "seed_count": 175,
+      "seed_note": "175 files from /out/spng_read_fuzzer_seed_corpus.zip (at most 500)",
+      "snapshot_image": "sha256:d9e3bb2b0a684eaa83288e57b39b97075cc5142cb47915438658bd72e79bb5a8",
+      "source_chars": 5019,
+      "wall_seconds": 136.115,
+      "workdir": "/src/libspng"
+    }
+  ],
+  "totals": {
+    "attempt_compiles": 20,
+    "attempt_compiles_that_built": 20,
+    "checked": 10,
+    "images": 10,
+    "images_removed": 10,
+    "ok": 10
+  }
+}

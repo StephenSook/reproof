@@ -7,6 +7,11 @@ same container exited 0, and the attempt's compile log has a line
 directory with plain ``mkdir``, so the second run of the script in one container stops there,
 whatever the edit was. The harness's control compile was always the first run.
 
+Run 2 (eval/PATCH-PREREG-RUN2.md) registered in advance that the same check is applied to its
+cards and published as eval/results/patch-eval-run2-notes.json; there every attempt compiles in a
+fresh container from a snapshot taken before the control compile, so the count measures whether
+that fix held.
+
 Usage: uv run python eval/annotate_patch_eval.py
 """
 
@@ -18,11 +23,12 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
-from reproof.patch_eval import CARDS_DIR, REPORT_PATH, TASK_IDS, TaskRecord
+from reproof.patch_eval import RUN1, RUN2, TASK_IDS, RunPaths, TaskRecord
 from reproof.provenance import file_sha256
 
 ROOT = Path(__file__).resolve().parents[1]
 NOTES_PATH = "eval/results/patch-eval-notes.json"
+RUN2_NOTES_PATH = "eval/results/patch-eval-run2-notes.json"
 BLOCKING = re.compile(r"^mkdir: cannot create directory '[^']+': File exists$", re.MULTILINE)
 METHOD = (
     "Post-hoc, written after the run and not part of the registration. An attempt is blocked by "
@@ -31,6 +37,15 @@ METHOD = (
     "directory '<path>': File exists\". The build script makes that directory with plain mkdir, "
     "so its second run in one container stops there whatever the edit was."
 )
+RUN2_METHOD = (
+    "Registered before run 2 in eval/PATCH-PREREG-RUN2.md: the run-1 check applied unchanged to "
+    "run 2's cards. An attempt is blocked by the build script when its compile failed, the "
+    "control compile of the untouched tree exited 0, and the attempt's compile log has a line "
+    "\"mkdir: cannot create directory '<path>': File exists\". In run 2 every attempt compiles in "
+    "a fresh container started from a snapshot taken before the control compile, so this count "
+    "measures whether that fix held."
+)
+NOTES = {RUN1: (NOTES_PATH, METHOD), RUN2: (RUN2_NOTES_PATH, RUN2_METHOD)}
 
 
 def blocking_line(card: TaskRecord, attempt_index: int) -> str:
@@ -63,10 +78,10 @@ def task_note(card: TaskRecord) -> dict[str, Any]:
     }
 
 
-def build_notes(root: Path = ROOT) -> dict[str, Any]:
+def build_notes(root: Path = ROOT, run: RunPaths = RUN1) -> dict[str, Any]:
     cards = [
         TaskRecord.model_validate_json(
-            (root / CARDS_DIR / f"{task_id}.json").read_text(encoding="utf-8")
+            (root / run.cards / f"{task_id}.json").read_text(encoding="utf-8")
         )
         for task_id in TASK_IDS
     ]
@@ -74,8 +89,8 @@ def build_notes(root: Path = ROOT) -> dict[str, Any]:
     outcomes = Counter(outcome for task in tasks for outcome in task["attempt_outcomes"])
     return {
         "schema_version": "1",
-        "method": METHOD,
-        "source": {REPORT_PATH: file_sha256(root / REPORT_PATH)},
+        "method": NOTES[run][1],
+        "source": {run.report: file_sha256(root / run.report)},
         "tasks": tasks,
         "totals": {
             "attempts": sum(outcomes.values()),
@@ -89,12 +104,14 @@ def build_notes(root: Path = ROOT) -> dict[str, Any]:
 
 
 def main() -> int:
-    notes = build_notes()
-    path = ROOT / NOTES_PATH
-    path.write_text(
-        json.dumps(notes, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n"
-    )
-    print(json.dumps(notes["totals"], indent=2, sort_keys=True))
+    for run, (notes_path, _) in NOTES.items():
+        if not (ROOT / run.report).exists():
+            continue
+        notes = build_notes(ROOT, run)
+        (ROOT / notes_path).write_text(
+            json.dumps(notes, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n"
+        )
+        print(notes_path, json.dumps(notes["totals"], indent=2, sort_keys=True))
     return 0
 
 
