@@ -315,3 +315,38 @@ def test_a_run_failure_note_names_its_step() -> None:
         "run 2: checkpoint creation failed with HTTP 500 from ConTree"
     )
     assert _failure_note(None, "run 1") == "run 1 did not attempt it"
+
+
+PREVIEW_STEM = ROOT / "eval/results/door-preview-42475195"
+
+
+def test_the_live_preview_triage_of_a_prepared_task_matches_its_eval_row() -> None:
+    """One paid triage of a newly offered report through the deployed preview, byte for byte."""
+
+    from hashlib import sha256
+
+    from reproof.door import DoorResult, DoorStep
+
+    receipt = json.loads(PREVIEW_STEM.with_suffix(".json").read_text(encoding="utf-8"))
+    raw = PREVIEW_STEM.with_suffix(".ndjson").read_bytes()
+    assert receipt["ndjson_sha256"] == sha256(raw).hexdigest()
+    assert receipt["http_status"] == 200
+    lines = [json.loads(line) for line in raw.decode("utf-8").split("\n") if line.strip()]
+    assert receipt["events"] == lines
+    for name in ("NEBIUS_API_KEY", "NEBIUS_PROJECT_ID", "TAVILY_API_KEY", "_vercel_share"):
+        assert name not in raw.decode("utf-8")
+        assert name not in json.dumps(receipt)
+    for event in lines[:-1]:
+        DoorStep.model_validate(event["step"])
+    result = DoorResult.model_validate(lines[-1]["result"])
+    row = next(task for task in load_prepared_catalog()["tasks"] if task["arvo_id"] == 42475195)
+    assert receipt["request_body"] == {"arvo_id": row["arvo_id"]}
+    assert result.card is not None
+    assert result.verdict.value == row["recorded"]["verdict"]
+    assert [item.id for item in result.card.evidence.duplicate_candidates] == (
+        row["recorded"]["duplicate_candidates"]
+    )
+    expected = load_door_manifest()["tasks"][str(row["arvo_id"])]
+    assert {op.kind: op.checkpoint_uuid for op in result.card.sandbox_operations} == {
+        kind: expected[kind]["checkpoint_uuid"] for kind in ("vul", "fix")
+    }
