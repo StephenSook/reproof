@@ -5,9 +5,9 @@ import type Lenis from "lenis";
 import { useEffect, type RefObject } from "react";
 
 /**
- * Motion for the door, after the Lullabuy reference: things arrive small and tilted, then settle on an
- * elastic. Tuned calmer here, and nothing ever animates opacity, so a frame caught mid-motion still has
- * full contrast. Under prefers-reduced-motion nothing moves.
+ * Motion for the door. Only arrivals move: a verdict stamp presses in, a build state settles, and the
+ * ancestry ribbon draws from the tag to the commit. Nothing tilts and nothing animates opacity, so a frame
+ * caught mid-motion still has full contrast. Under prefers-reduced-motion nothing moves.
  */
 
 let lenis: Lenis | null = null;
@@ -51,17 +51,13 @@ export function useArrival(ref: RefObject<HTMLElement | null>, key: string | nul
 export const plop: Animate = (element) => {
   gsap.fromTo(
     element,
-    { scale: 0.35, rotate: -12 },
-    { scale: 1, rotate: 0, duration: 0.9, ease: "elastic.out(1, 0.72)", clearProps: "transform" },
+    { scale: 1.12 },
+    { scale: 1, duration: 0.45, ease: "power3.out", clearProps: "transform" },
   );
 };
 
 export const settle: Animate = (element) => {
-  gsap.fromTo(
-    element,
-    { y: 10, rotate: -3, scale: 0.92 },
-    { y: 0, rotate: 0, scale: 1, duration: 0.8, ease: "elastic.out(1, 0.75)", clearProps: "transform" },
-  );
+  gsap.fromTo(element, { y: 6 }, { y: 0, duration: 0.4, ease: "power2.out", clearProps: "transform" });
 };
 
 export const drawRibbon: Animate = (element) => {
@@ -74,24 +70,14 @@ export const drawRibbon: Animate = (element) => {
   );
   timeline.fromTo(
     element.querySelector(".ribbon-word"),
-    { scale: 0.4, rotate: -10 },
-    { scale: 1, rotate: 0, duration: 0.7, ease: "elastic.out(1, 0.6)", clearProps: "transform" },
-    "-=0.25",
+    { scale: 0.8 },
+    { scale: 1, duration: 0.3, ease: "power2.out", clearProps: "transform" },
+    "-=0.15",
   );
   timeline.fromTo(
     element.querySelector(".ribbon-commit"),
-    { scale: 0.6, rotate: 6 },
-    { scale: 1, rotate: 0, duration: 0.8, ease: "elastic.out(1, 0.72)", clearProps: "transform" },
-    "-=0.5",
+    { x: -8 },
+    { x: 0, duration: 0.35, ease: "power2.out", clearProps: "transform" },
+    "-=0.2",
   );
 };
-
-/** The squash button's icon wobbles back on an elastic when the pointer or focus arrives. */
-export function wobble(element: HTMLElement | null) {
-  if (!element || reducedMotion()) return;
-  gsap.fromTo(
-    element,
-    { rotate: -28, scale: 0.8 },
-    { rotate: 0, scale: 1, duration: 0.7, ease: "elastic.out(1, 0.4)", overwrite: true, clearProps: "transform" },
-  );
-}

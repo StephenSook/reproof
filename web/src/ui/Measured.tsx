@@ -21,7 +21,7 @@ export function Measured({ evaluation }: { evaluation: MeasuredFile }) {
   const verdictLines = new Set(tiles.filter((line) => /^\d+ [A-Z_]+$/.test(line)));
   const cost = costComparison(evaluation.totals);
   return (
-    <section aria-labelledby="measured-heading" className="section-card tone-sage-section" id="measured">
+    <section aria-labelledby="measured-heading" className="section" id="measured">
       <div className="section-heading">
         <h2 id="measured-heading">Measured</h2>
         <p className="section-lede">These numbers are the saved ARVO 10 evaluation. They are not a new run.</p>

@@ -5,8 +5,8 @@ import { nextStep } from "@/lib/nextStep";
 import { aboutSeconds, receiptArvoId, receiptSummary, utcMinute, type DoorReceipt } from "@/lib/receipt";
 import { reportIds, reportLabel, type ReportNames } from "@/lib/reports";
 import { spendLines } from "@/lib/spend";
-import { SquashButton } from "@/ui/SquashButton";
-import { publicTone, Stamp, VerdictStamp } from "@/ui/Stamp";
+import { Button } from "@/ui/Button";
+import { publicTone, Stamp, VerdictStamp, verdictTone } from "@/ui/Stamp";
 import { useTriageChannel } from "@/ui/TriageContext";
 
 const VERDICTS = [
@@ -31,8 +31,10 @@ export function HeroAnswer({ receipt, task }: { receipt: DoorReceipt; task: Repo
   const spend = spendLines(summary.spend, summary.totals.modelCalls);
   const publicState = summary.publicStatus.kind === "STATUS" ? summary.publicStatus.state : null;
   const estimate = aboutSeconds(receipt.client_elapsed_seconds);
+  // The card's left edge takes the public state's tone, or the verdict's when there is no public state.
+  const tone = publicState ? publicTone(publicState) : summary.verdict ? verdictTone(summary.verdict) : "slate";
   return (
-    <aside aria-labelledby="hero-answer-title" className="hero-answer" data-hero-answer>
+    <aside aria-labelledby="hero-answer-title" className={`hero-answer tone-${tone}`} data-hero-answer>
       <p className="hero-answer-when" data-hero-recorded-at={receipt.recorded_at_utc}>
         Recorded from the live door, {utcMinute(receipt.recorded_at_utc)}
       </p>
@@ -74,19 +76,26 @@ export function HeroAnswer({ receipt, task }: { receipt: DoorReceipt; task: Repo
         ) : null}
       </dl>
       {spend.model ? (
-        <p className="hero-answer-model" data-hero-model>
-          {spend.model}
-          {spend.modelUsd ? `: ${spend.modelUsd}` : ""}.{" "}
-          {spend.sandbox ? `${spend.sandbox}${spend.sandboxUsd ? `: ${spend.sandboxUsd}` : ""}.` : ""}
-        </p>
+        <ul className="hero-answer-model" data-hero-model>
+          <li>
+            {spend.model}
+            {spend.modelUsd ? `: ${spend.modelUsd}` : ""}
+          </li>
+          {spend.sandbox ? (
+            <li>
+              {spend.sandbox}
+              {spend.sandboxUsd ? `: ${spend.sandboxUsd}` : ""}
+            </li>
+          ) : null}
+        </ul>
       ) : null}
       <div className="hero-answer-actions">
-        <SquashButton icon={"▶"} onClick={() => channel?.run(arvoId)}>
+        <Button icon={"▶"} onClick={() => channel?.run(arvoId)}>
           Run it live ({estimate})
-        </SquashButton>
-        <SquashButton onClick={() => channel?.showRecorded(arvoId)} variant="secondary">
+        </Button>
+        <Button onClick={() => channel?.showRecorded(arvoId)} variant="secondary">
           Open the evidence
-        </SquashButton>
+        </Button>
       </div>
       <details className="verdict-key" data-verdict-key>
         <summary>What each verdict means</summary>

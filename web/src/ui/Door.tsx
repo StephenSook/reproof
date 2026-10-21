@@ -9,7 +9,7 @@ import { reportIds, reportLabel } from "@/lib/reports";
 import { liveResultFrom, liveSummary, recordedSummary, type DoorSummary } from "@/lib/summary";
 import { CardBody, Disclosure, STEP_LABEL, StepItem, stepLabel, type ShownCard, type ShownResult } from "@/ui/Evidence";
 import { scrollToElement } from "@/ui/motion/motion";
-import { SquashButton } from "@/ui/SquashButton";
+import { Button } from "@/ui/Button";
 import { Summary, type Progress, type TypicalRun } from "@/ui/Summary";
 import { useTriageChannel } from "@/ui/TriageContext";
 
@@ -299,19 +299,18 @@ export function Door({
             </>
           ) : null}
           <div className="actions">
-            <SquashButton disabled={busy || !current} form="reports" icon={"▶"} type="submit">
+            <Button disabled={busy || !current} form="reports" icon={"▶"} type="submit">
               {busy ? "Triage running" : "Triage"}
-            </SquashButton>
-            <SquashButton
+            </Button>
+            <Button
               disabled={busy || !current}
-              icon={"↺"}
               onClick={() => {
                 if (current) showRecorded(current.arvo_id);
               }}
               variant="secondary"
             >
               Show recorded result
-            </SquashButton>
+            </Button>
           </div>
           <p className="action-note">
             Triage makes real model, sandbox, and search calls now. Show recorded result makes none.
@@ -350,7 +349,7 @@ export function Door({
             <section aria-labelledby="evidence-heading" className="evidence">
               <div className="evidence-head">
                 <h3 id="evidence-heading">Evidence</h3>
-                <p className="hand">{verdictArrived ? "every id and cost, one click away" : "open while it runs"}</p>
+                <p className="evidence-hint">{verdictArrived ? "Every id and cost, one click away." : "Open while it runs."}</p>
               </div>
               <ol className="evidence-list">
                 {steps.map((step, index) => {

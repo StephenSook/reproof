@@ -515,7 +515,13 @@ bars drawn from the totals: model calls 0.00141720 USD against sandbox checkpoin
 4 `DUPLICATE`, the other counts, and the 2026-10-05 note that the phase 1 table counted four
 self-matches.
 
-The page uses GSAP and Lenis for motion. When the browser asks for reduced motion, nothing moves.
+The page is set in one typeface, Recursive (SIL Open Font License, self-hosted in
+`web/src/app/fonts/`): its sans for sentences and its monospace axis for machine values such as
+ids, frames, commits, states, and costs. Lists are banded like printout paper, the answer card's
+left edge takes the colour of its result, and colour only repeats a state that is also written as
+a word. It follows the system light or dark setting. The page uses GSAP and Lenis for motion: a
+verdict stamp presses in, a build state settles, and the ancestry ribbon draws from the tag to the
+commit. When the browser asks for reduced motion, nothing moves.
 
 This browser can run 1 triage at a time. This address can start 8 triages per hour. Everyone
 shares 60 triages per day. The Python service keeps the counts. On Vercel, each function instance
@@ -574,9 +580,10 @@ pnpm build
 pnpm e2e
 ```
 
-`pnpm e2e` checks the picker, the recorded result, the summary and the evidence disclosures, the
-ancestry ribbon, reduced motion, the Measured section, horizontal overflow at 390, 768, 1024, and
-1440 px, and axe. The live summary tests replay `web/tests/fixtures/door-stream.ndjson`, which a
+`pnpm e2e` checks the hero answer and its buttons, the picker, the recorded result, the summary and
+the evidence disclosures, the elapsed counter, the ancestry ribbon, reduced motion, the Limits
+disclosure, the Measured section, horizontal overflow at 390, 768, 1024, and 1440 px, the typeface
+and background, and axe in light and dark. The live summary tests replay `web/tests/fixtures/door-stream.ndjson`, which a
 test in `tests/test_door.py` writes from `reproof/door.py` and the door's NDJSON serializer with
 stubbed services; that Python test fails when the stored file no longer matches. Regenerate it with
 `REPROOF_WRITE_WEB_FIXTURE=1 uv run pytest tests/test_door.py -k web_stream`. The e2e suite skips

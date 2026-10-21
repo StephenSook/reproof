@@ -5,24 +5,11 @@ import { SmoothScroll } from "@/ui/motion/SmoothScroll";
 import "lenis/dist/lenis.css";
 import "./globals.css";
 
-const display = localFont({
-  src: "./fonts/bricolage-grotesque-latin.woff2",
-  variable: "--font-display",
-  weight: "700 800",
-  display: "swap",
-});
-
-const body = localFont({
-  src: "./fonts/figtree-latin.woff2",
-  variable: "--font-body",
-  weight: "500 800",
-  display: "swap",
-});
-
-const hand = localFont({
-  src: "./fonts/caveat-latin.woff2",
-  variable: "--font-hand",
-  weight: "500 700",
+// Recursive, one variable family: its MONO axis sets machine values, its sans sets prose.
+const recursive = localFont({
+  src: "./fonts/recursive-latin.woff2",
+  variable: "--font-recursive",
+  weight: "300 1000",
   display: "swap",
 });
 
@@ -32,13 +19,16 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f3f1ea",
-  colorScheme: "light",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#e8edea" },
+    { media: "(prefers-color-scheme: dark)", color: "#11171a" },
+  ],
+  colorScheme: "light dark",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html className={`${display.variable} ${body.variable} ${hand.variable}`} lang="en">
+    <html className={recursive.variable} lang="en">
       <body>
         <SmoothScroll />
         {children}

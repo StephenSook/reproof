@@ -136,24 +136,24 @@ export default function ProofPage() {
         Skip to every task
       </a>
       <header className="site-head">
-        <Link aria-label="Reproof, home" className="brand-pill" href="/">
+        <Link aria-label="Reproof, home" className="brand" href="/">
           <Mark size={34} />
-          <span className="display">Reproof</span>
+          <span className="brand-name">Reproof</span>
         </Link>
         <nav aria-label="Pages">
-          <ul className="nav-pills">
+          <ul className="nav-links">
             <li>
-              <Link className="nav-pill" href="/">
+              <Link className="nav-link" href="/">
                 Try a report
               </Link>
             </li>
             <li>
-              <Link aria-current="page" className="nav-pill" href="/proof">
+              <Link aria-current="page" className="nav-link" href="/proof">
                 100 bugs
               </Link>
             </li>
             <li>
-              <a className="nav-pill" href={REPO_URL}>
+              <a className="nav-link" href={REPO_URL}>
                 Code
               </a>
             </li>
@@ -161,8 +161,7 @@ export default function ProofPage() {
         </nav>
       </header>
       <main className="grid min-w-0 gap-3" id="top">
-        <section aria-labelledby="proof-title" className="section-card tone-ink-section">
-          <p className="hand hero-note">picked before the run, every one shown</p>
+        <section aria-labelledby="proof-title" className="section section-lead">
           <h1 className="hero-title proof-title" id="proof-title">
             {headline.requested} public bugs
           </h1>
@@ -189,9 +188,8 @@ export default function ProofPage() {
           </p>
         </section>
 
-        <section aria-labelledby="runs-title" className="section-card tone-sky-section">
+        <section aria-labelledby="runs-title" className="section">
           <div className="section-heading">
-            <p className="hand">both runs broke in places, both stay up</p>
             <h2 id="runs-title">Two runs</h2>
             <p className="section-lede">
               Run 1 lost its last tasks to a dropped model connection. Before run 2 started, a plan was committed saying
@@ -230,9 +228,8 @@ export default function ProofPage() {
           </details>
         </section>
 
-        <section aria-labelledby="every-task-title" className="section-card tone-sage-section" id="every-task">
+        <section aria-labelledby="every-task-title" className="section" id="every-task">
           <div className="section-heading">
-            <p className="hand">misses first</p>
             <h2 id="every-task-title">Every task</h2>
             <p className="section-lede">
               All {rows.length} from run 2. The {misses} that did not run or missed a check come first, each with the
@@ -251,7 +248,7 @@ export default function ProofPage() {
           Reproof is open source under Apache-2.0. <a href={REPO_URL}>Source on GitHub</a>
         </p>
         <p>
-          Fonts are Bricolage Grotesque, Figtree, and Caveat, used under the SIL Open Font License.{" "}
+          The typeface is Recursive, used under the SIL Open Font License.{" "}
           <a href="/fonts-LICENSE.txt">Font license</a>
         </p>
       </footer>

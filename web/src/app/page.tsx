@@ -25,29 +25,29 @@ export default function Page() {
         Skip to reports
       </a>
       <header className="site-head">
-        <a aria-label="Reproof, top of page" className="brand-pill" href="#top">
+        <a aria-label="Reproof, top of page" className="brand" href="#top">
           <Mark size={34} />
-          <span className="display">Reproof</span>
+          <span className="brand-name">Reproof</span>
         </a>
         <nav aria-label="Page sections">
-          <ul className="nav-pills">
+          <ul className="nav-links">
             <li>
-              <a className="nav-pill" href="#reports">
+              <a className="nav-link" href="#reports">
                 Reports
               </a>
             </li>
             <li>
-              <a className="nav-pill" href="#measured">
+              <a className="nav-link" href="#measured">
                 Measured
               </a>
             </li>
             <li>
-              <Link className="nav-pill" href="/proof">
+              <Link className="nav-link" href="/proof">
                 100 bugs
               </Link>
             </li>
             <li>
-              <a className="nav-pill" href={REPO_URL}>
+              <a className="nav-link" href={REPO_URL}>
                 Code
               </a>
             </li>
@@ -56,7 +56,7 @@ export default function Page() {
       </header>
       <TriageProvider>
       <main className="grid min-w-0 gap-3" id="top">
-        <section aria-labelledby="hero-title" className="section-card tone-ink-section">
+        <section aria-labelledby="hero-title" className="section section-lead">
           <div className="hero-grid">
             <div className="min-w-0">
               <h1 className="hero-title" id="hero-title">
@@ -75,9 +75,8 @@ export default function Page() {
             {heroTask ? <HeroAnswer receipt={HERO_RECEIPT} task={heroTask} /> : null}
           </div>
         </section>
-        <section aria-labelledby="door-title" className="section-card tone-sky-section">
+        <section aria-labelledby="door-title" className="section">
           <div className="section-heading door-intro">
-            <p className="hand">pick one, then run it</p>
             <h2 id="door-title">{count} public reports</h2>
             <p className="section-lede">
               Pick one of the {count} public ARVO reports. Triage runs the claim, both builds, the crash parse, the
@@ -100,7 +99,7 @@ export default function Page() {
           <a href={REPO_URL}>Source on GitHub</a>
         </p>
         <p>
-          Fonts are Bricolage Grotesque, Figtree, and Caveat, used under the SIL Open Font License.{" "}
+          The typeface is Recursive, used under the SIL Open Font License.{" "}
           <a href="/fonts-LICENSE.txt">Font license</a>
         </p>
       </footer>

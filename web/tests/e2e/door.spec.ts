@@ -432,3 +432,40 @@ test("axe reports zero violations", async ({ page }) => {
     expect(results.violations, `${width}px`).toEqual([]);
   }
 });
+
+test("axe reports zero violations in dark mode, evidence open, on both pages", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "dark" });
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe("rgb(17, 23, 26)");
+    await page.getByRole("button", { name: "Show recorded result" }).click();
+    await expect(page.locator('[data-source="RECORDED"]')).toBeVisible();
+    const closed = page.locator(".evidence details:not([open]) > summary");
+    while ((await closed.count()) > 0) await closed.first().click();
+    await page.locator("details[data-verdict-key] > summary").click();
+    const results = await new AxeBuilder({ page }).analyze();
+    expect(results.violations, `${width}px dark`).toEqual([]);
+    await page.goto("/proof");
+    const proof = await new AxeBuilder({ page }).analyze();
+    expect(proof.violations, `${width}px dark proof`).toEqual([]);
+  }
+});
+
+test("the page has its own type and palette, and no label is uppercased by CSS", async ({ page }) => {
+  for (const path of ["/", "/proof"]) {
+    await page.goto(path);
+    if (path === "/") await page.getByRole("button", { name: "Show recorded result" }).click();
+    const style = await page.evaluate(() => ({
+      font: getComputedStyle(document.body).fontFamily,
+      background: getComputedStyle(document.body).backgroundColor,
+      uppercased: [...document.querySelectorAll("body *")]
+        .filter((element) => getComputedStyle(element).textTransform === "uppercase")
+        .map((element) => element.className),
+    }));
+    expect(style.font.split(",")[0]?.trim(), path).toBe("recursive");
+    // Not the shared cream (#f3f1ea) the page used to sit on.
+    expect(style.background, path).toBe("rgb(232, 237, 234)");
+    expect(style.uppercased, path).toEqual([]);
+  }
+});

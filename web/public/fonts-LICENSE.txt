@@ -1,12 +1,10 @@
-The font files used by Reproof are self-hosted copies of these families:
+The font file used by Reproof is a self-hosted copy of the Latin subset of this family, as served by Google Fonts with the MONO and wght axes:
 
-- Bricolage Grotesque
-- Figtree
-- Caveat
+- Recursive (https://github.com/arrowtype/recursive)
 
-Each family is licensed under the SIL Open Font License, Version 1.1.
+Copyright 2019 The Recursive Project Authors (github.com/arrowtype/recursive).
 
-Copyright remains with each font family's authors and contributors. The font files may be used, studied, modified, and redistributed under the terms below.
+It is licensed under the SIL Open Font License, Version 1.1. The font file may be used, studied, modified, and redistributed under the terms below.
 
 SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
 
